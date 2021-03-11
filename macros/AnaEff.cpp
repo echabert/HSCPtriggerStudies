@@ -142,6 +142,13 @@ void AnaEff::Loop()
         	nb = fChain->GetEntry(jentry);   nbytes += nb;
 		cout << track_pt[hscp_track_idx[0]] << endl; // test PT
 		cout << "Entry number " << jentry << endl;
+		
+		//convert array into vector
+		vector<Bool_t> vtrigger (passTrigger, passTrigger+sizeof(passTrigger)/sizeof(Bool_t));
+		//Fill info about the trigger
+	        trigEff_presel.Fill(vtrigger);
+		cout<<vtrigger.size()<<endl;
+
 		//number_candidates(passTrigger,ntrigger,m_countortrig,m_countbothtrig);
 		//number_spectwo(passTrigger,m_countorspectwotrig,m_countandspectwotrig,a,b); //355 355 : 100% / 661 235 : 33.3 %
 	}
@@ -215,10 +222,7 @@ m_computed_eff=NULL;
  //ajouter une fonction qui retourne ntrigger? Ou comment peut-on appeler ntrigger d'ici ?
 int main(){
 
-
-	//Computing c;
-	//c.Init(ntrigger,passTrigger);
-	//AnaEff a;
-	//a.Loop();
+	AnaEff ana;
+	ana.Loop();
 	
 }
