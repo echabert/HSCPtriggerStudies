@@ -10,6 +10,9 @@
 #include <TChain.h>
 #include <TFile.h>
 #include <iostream>
+#include <fstream>
+//include our classes
+#include "inc/TrigEff.h"
 
 
 
@@ -26,6 +29,17 @@ using namespace std;
 class AnaEff
 {
 public :
+  
+   //--------------------------------------
+   //Data members
+   //--------------------------------------
+
+   //User variables
+   TrigEff   trigEff_presel;
+
+
+   //List of variables with ROOT dependancies
+   
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
 
@@ -39,7 +53,6 @@ public :
    Int_t           ntrigger;
 
    Bool_t *passTrigger;
-   
    
  
    //Bool_t          passTrigger[665];
@@ -56,6 +69,9 @@ public :
    TBranch        *b_track_pt;   //!
    TBranch        *b_hscp_track_idx;   //!
 
+   //--------------------------------------
+   // Methods
+   //--------------------------------------
 
    AnaEff(TTree *tree=0);
    virtual ~AnaEff();
@@ -94,6 +110,16 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
    passTrigger = new bool[ntrigger];
    Init(tree);
 
+   //read trigger list from a file
+   ifstream ifile("data/triggerNames.txt");
+   vector<string> triggerNames;
+   string tmp;
+   while(getline(ifile,tmp)){
+	   cout<<tmp<<endl;
+	   triggerNames.push_back(tmp);
+   }
+   cout<<"#triggers: "<<triggerNames.size()<<endl;
+   trigEff_presel.Load(triggerNames,"Preselection");
 }
 
 
