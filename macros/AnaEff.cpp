@@ -144,10 +144,17 @@ void AnaEff::Loop()
 		cout << "Entry number " << jentry << endl;
 		
 		//convert array into vector
-		vector<Bool_t> vtrigger (passTrigger, passTrigger+sizeof(passTrigger)/sizeof(Bool_t));
+		
+		
+		vector<Bool_t> vtrigger;
+		for(int i=0;i<ntrigger;i++){
+			vtrigger.push_back(passTrigger[i]);
+			cout << "bool[" << i << "] = "  << vtrigger[i] << endl;
+		}
+		
 		//Fill info about the trigger
-	        trigEff_presel.Fill(vtrigger);
-		cout<<vtrigger.size()<<endl;
+	        //trigEff_presel.Fill(vtrigger);
+		
 
 		//number_candidates(passTrigger,ntrigger,m_countortrig,m_countbothtrig);
 		//number_spectwo(passTrigger,m_countorspectwotrig,m_countandspectwotrig,a,b); //355 355 : 100% / 661 235 : 33.3 %
@@ -160,7 +167,11 @@ void AnaEff::Loop()
 
 cout << " JUST END" << endl; 
 cout << "countortrig right after JUST END: " <<m_countortrig << endl;
+
+
 //Freeing all calloc/malloc
+
+
 /*if(m_countortrig!=0){
 	free(m_countortrig);
 	m_countortrig=NULL;
@@ -190,6 +201,8 @@ if(m_computed_eff!=0){
 	delete[] OutputHisto;
 }*/
 //delete[] OutputHisto;
+
+
 delete[] m_countortrig;
 cout << "countortrig right after delete: " <<m_countortrig << endl; 
 delete[] m_countbothtrig;
@@ -198,25 +211,7 @@ delete[] m_countorspectwotrig;
 delete[] m_countandspectwotrig;
 delete[] m_computed_eff;
 
-/*
-free(m_countortrig);
-m_countortrig=NULL;
 
-free(m_countbothtrig);
-m_countbothtrig=NULL;
-
-free(m_efficiencyspectwotrig);
-m_efficiencyspectwotrig=NULL;
-
-free(m_countorspectwotrig);
-m_countorspectwotrig=NULL;
-
-free(m_countandspectwotrig);
-m_countandspectwotrig=NULL;
-
-free(m_computed_eff);
-m_computed_eff=NULL;
-*/
 }
 
  //ajouter une fonction qui retourne ntrigger? Ou comment peut-on appeler ntrigger d'ici ?

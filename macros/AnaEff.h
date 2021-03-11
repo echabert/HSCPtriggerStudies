@@ -52,9 +52,9 @@ public :
    Int_t           ngoodpv;
    Int_t           ntrigger;
 
-   Bool_t *passTrigger;
+   //Bool_t *passTrigger;
    
- 
+   Bool_t	passTrigger[665];
    //Bool_t          passTrigger[665];
    Float_t         track_pt[33];   //[ntracks] augmenter la taille pour pas de overflow, it was 33
    Int_t           hscp_track_idx[9];   //[nhscp] it was 9
@@ -107,10 +107,12 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
       dir->GetObject("ttree",tree);
 
    }
-   passTrigger = new bool[ntrigger];
+   //passTrigger = new bool[ntrigger];
    Init(tree);
 
    //read trigger list from a file
+
+
    ifstream ifile("data/triggerNames.txt");
    vector<string> triggerNames;
    string tmp;
@@ -127,7 +129,7 @@ AnaEff::~AnaEff() //deconstructeur
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
-   delete[] passTrigger;
+   //delete[] passTrigger;
 }
 
 
