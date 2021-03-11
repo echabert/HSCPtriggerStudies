@@ -23,9 +23,9 @@ public:
    void Init(int ntrigger,bool *passtrig); // Recupère le tableau de booleens et le met dans un vecteur
 
 
-   void	Load(vector<string> triggernames,string selection,int error_type);
+   void	Load(vector<string> triggernames,string selection="",int error_type=1);
 
-   void	Fill(vector<bool> triggerpass, double obs, double weight = 1); // fill avec les valeurs de booléens 
+   void	Fill(vector<bool> triggerpass, double obs = 0, double weight = 1); // fill avec les valeurs de booléens 
 
    
    // *********Correlations methods***********************
