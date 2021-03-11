@@ -14,6 +14,17 @@
 
 using namespace std;
 
+void TrigEff::Initvectors(int ntrigger){
+
+	num_corr.resize(ntrigger, vector<double>(ntrigger, 0.0));
+	denom_corr.resize(ntrigger, vector<double>(ntrigger, 0.0));
+	correlation.resize(ntrigger, vector<double>(ntrigger, 0.0));
+
+}
+
+
+
+
 void TrigEff::Init(int ntrigger,bool *passtrig){
 	for(int i=0;i<ntrigger; i++){ 
 		triggerpass.push_back(passtrig[i]);
@@ -58,9 +69,7 @@ void TrigEff::noc_corr(){
 }
 
 
-void TrigEff::compute_corr()
-{
-}
+
 
 void TrigEff::noc_eff()
 {
@@ -107,46 +116,78 @@ void TrigEff::Load(vector<string> triggerNames,string selection,int error_type){
 void TrigEff::Fill(vector<bool> passtrig, double obs,double weight){
 	//obtient les vecteurs de passtrig
 	bool trig1,trig2;
-	for(int i=0;i<passtrig.size();i++){
-		for(int j=0;j<passtrig.size();j++){
-			num_corr[i].push_back(0);
-		}
-	denom_corr[i].push_back(0);
-	}
-	
-
-
-	for(int i=0;i<passtrig.size();i++){
-		trig1 = passtrig[i];
-
-		for(int j=0;j<passtrig.size();j++){
-			trig2 = passtrig[j];
+	//num_corr.resize(passtrig.size(), vector<double>(passtrig.size()));
+	//cout << "size columns : " << num_corr[].size() << " rows : " << num_corr.size() << endl;
+	//cout << "passtrig.size : " << passtrig.size() << endl;
+	for(int i=0;i< passtrig.size();i++){
+		trig1 = passtrig.at(i);
+		//if(i> 660) cout << "i : " << i << endl;
+		for(int j=0;j< passtrig.size();j++){
+			//cout << "j : " << j << endl;
+			trig2 = passtrig.at(j);
 			if(trig1 || trig2){
-				 // not good syntax, mais vecteur de vecteurs 
-				num_corr[i][j]+=1;
-			}
-			if(trig1 && trig2){
 				denom_corr[i][j]+=1;
 			}
+			if(trig1 && trig2){
+				num_corr[i][j]+=1;
+			}
 
 		}
 	}
-
 
 	
 	
 }
 
+
+void TrigEff::compute_corr(){
+
+	for(int i=0;i< correlation.size();i++){
+		for(int j=0;j< correlation[i].size();j++){
+			if(denom_corr[i][j]==0){
+				correlation[i][j]=0;
+			}
+			else{	
+			correlation[i][j] = ((num_corr[i][j]*1.0) / denom_corr[i][j]);
+			}
+		}
+	}
+}
+	
+
+
+
+void TrigEff::get_num_corr(){
+	
+	for ( int i = 0; i < num_corr.size(); i++ ){
+   		for ( int j = 0; j < num_corr[i].size(); j++ ){
+      			cout << num_corr[i][j] << ' ';
+   		}
+   	cout << endl;
+	}
+	
+}
+
+void TrigEff::get_denom_corr(){
+
+	for ( int i = 0; i < denom_corr.size(); i++ ){
+   		for ( int j = 0; j < denom_corr[i].size(); j++ ){
+      			cout << denom_corr[i][j] << ' ';
+   		}
+   	cout << endl;
+	}
+}
 
 void TrigEff::get_corr(){
-	for(int i=0;i<num_corr.size();i++){
-		for(int j=0;j<denom_corr.size();j++){
-		cout << "numerateur : " << num_corr[i][j] << endl;
-		}
+
+	for ( int i = 0; i < correlation.size(); i++ ){
+   		for ( int j = 0; j < correlation[i].size(); j++ ){
+      			cout << correlation[i][j] * 100  << "% ";
+   		}
+   	cout << endl;
 	}
-
-
 }
+
 
 
 

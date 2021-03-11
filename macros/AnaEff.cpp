@@ -135,6 +135,20 @@ void AnaEff::Loop()
 	cout << "Choose two specific triggers to compute the efficiency" << endl;
 	cin >> a >> b; // Specific number of triggers to estimate the efficiency, the list of triggers is available and the corresponding is line i = passTrigger[i] in file triggerNames
 	
+	//vector<Bool_t> vtrigger(ntrigger);
+
+
+	/*for(int i=0;i<ntrigger;i++){
+			vtrigger.push_back(passTrigger[i]);
+			//cout << "bool[" << i << "] = "  << vtrigger[i] << endl;
+		}*/
+	
+
+	trigEff_presel.Initvectors(ntrigger);
+
+	/*trigEff_presel.get_num_corr();
+	trigEff_presel.get_denom_corr();*/ // verification of vectors (all 0s)
+
 
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { // looping on all entries
 		Long64_t ientry = LoadTree(jentry);
@@ -142,30 +156,38 @@ void AnaEff::Loop()
         	nb = fChain->GetEntry(jentry);   nbytes += nb;
 		cout << track_pt[hscp_track_idx[0]] << endl; // test PT
 		cout << "Entry number " << jentry << endl;
-		
-		//convert array into vector
-		
-		
 		vector<Bool_t> vtrigger;
-
 		
 		for(int i=0;i<ntrigger;i++){
 			vtrigger.push_back(passTrigger[i]);
 			//cout << "bool[" << i << "] = "  << vtrigger[i] << endl;
 		}
-		
+		cout << " after first push back" << endl; 
 
+		//convert array into vector
+		
+		
+		//vector<Bool_t> vtrigger;
+
+		
+		
 
 		//Fill info about the trigger
 	        trigEff_presel.Fill(vtrigger);
 		//trigEff_presel.get_corr();
-
 		
-
 		//number_candidates(passTrigger,ntrigger,m_countortrig,m_countbothtrig);
 		//number_spectwo(passTrigger,m_countorspectwotrig,m_countandspectwotrig,a,b); //355 355 : 100% / 661 235 : 33.3 %
 	}
+	//trigEff_presel.get_num_corr();
+	//trigEff_presel.get_denom_corr();
 	
+	trigEff_presel.compute_corr();
+	trigEff_presel.get_corr();
+
+
+
+
 	//compute_efficiency(ntrigger,m_countortrig,m_countbothtrig,m_computed_eff);
 	//compute_spectwo_efficiency(m_countorspectwotrig,m_countandspectwotrig,m_efficiencyspectwotrig,a,b);
 

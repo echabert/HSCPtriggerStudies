@@ -27,7 +27,7 @@ public:
 
    void	Fill(vector<bool> triggerpass, double obs = 0, double weight = 1); // fill avec les valeurs de booléens 
 
-   
+   void Initvectors(int ntrigger);
    // *********Correlations methods***********************
 // private : 
 
@@ -36,6 +36,10 @@ public:
    void compute_corr(); //return nothing, just computes the 2D array of correlations
 
    void get_corr();
+   
+   void get_num_corr();
+
+   void get_denom_corr();
 
    void Get2DPlot(); // 
    
@@ -60,7 +64,7 @@ public:
 
 
 private:
-
+   int ntrig=665;
    //mettre ici compute_eff, compute correlation
    int error_type;
    
@@ -81,7 +85,9 @@ private:
 
    vector<bool> triggerpass; //creer une paire std::pair<int,string> ou un vecteur de paires : vector<std::pair<int,string>>
    
-   vector<vector<double> > correlation;
+
+   vector<vector<double> > correlation; 
+
 
    vector<vector<double> > num_corr;
    vector<vector<double> > denom_corr;
