@@ -35,7 +35,7 @@ public:
 
    void compute_corr(); //return nothing, just computes the 2D array of correlations
 
-   double get_corr();
+   void get_corr();
 
    void Get2DPlot(); // 
    

@@ -105,12 +105,48 @@ void TrigEff::Load(vector<string> triggerNames,string selection,int error_type){
 
 
 void TrigEff::Fill(vector<bool> passtrig, double obs,double weight){
+	//obtient les vecteurs de passtrig
+	bool trig1,trig2;
+	for(int i=0;i<passtrig.size();i++){
+		for(int j=0;j<passtrig.size();j++){
+			num_corr[i].push_back(0);
+		}
+	denom_corr[i].push_back(0);
+	}
+	
+
+
+	for(int i=0;i<passtrig.size();i++){
+		trig1 = passtrig[i];
+
+		for(int j=0;j<passtrig.size();j++){
+			trig2 = passtrig[j];
+			if(trig1 || trig2){
+				 // not good syntax, mais vecteur de vecteurs 
+				num_corr[i][j]+=1;
+			}
+			if(trig1 && trig2){
+				denom_corr[i][j]+=1;
+			}
+
+		}
+	}
+
+
 	
 	
 }
 
 
+void TrigEff::get_corr(){
+	for(int i=0;i<num_corr.size();i++){
+		for(int j=0;j<denom_corr.size();j++){
+		cout << "numerateur : " << num_corr[i][j] << endl;
+		}
+	}
 
+
+}
 
 
 

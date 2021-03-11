@@ -147,13 +147,19 @@ void AnaEff::Loop()
 		
 		
 		vector<Bool_t> vtrigger;
+
+		
 		for(int i=0;i<ntrigger;i++){
 			vtrigger.push_back(passTrigger[i]);
-			cout << "bool[" << i << "] = "  << vtrigger[i] << endl;
+			//cout << "bool[" << i << "] = "  << vtrigger[i] << endl;
 		}
 		
+
+
 		//Fill info about the trigger
-	        //trigEff_presel.Fill(vtrigger);
+	        trigEff_presel.Fill(vtrigger);
+		//trigEff_presel.get_corr();
+
 		
 
 		//number_candidates(passTrigger,ntrigger,m_countortrig,m_countbothtrig);
