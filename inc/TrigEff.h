@@ -16,7 +16,7 @@ class TrigEff //
 public:
 
 
-   TrigEff(int size = 0); // supprimer le int size
+   TrigEff(); // supprimer le int size
    ~TrigEff();
    
 
@@ -35,15 +35,14 @@ public:
 // private : 
 
 
-  // void Search_trig(vector<string> triggerNames, string selection ="" ); // triggerNames
 
-   void Compute_corr(); //return nothing, just computes the 2D array of correlations
+   void ComputeCorr(); //return nothing, just computes the 2D array of correlations
 
-   void Print_corr();
+   void PrintCorr();
    
-   void Print_num_corr();
+   void PrintNumCorr();
 
-   void Print_denom_corr();
+   void PrintDenomCorr();
 
    void Get2DPlot(); // 
    
@@ -51,19 +50,19 @@ public:
 
 
 
-   void Compute_eff(); // int a : string selection
+   void ComputeEff(); // int a : string selection
    
-   void Print_eff(); //specific trigger efficiency au lieu de int a : string selection
+   void PrintEff(); //specific trigger efficiency au lieu de int a : string selection
 
-   void Print_spec_eff(int curline);
+   void PrintSpecEff(int curline);
 
-   void Print_num_eff();
+   void PrintNumEff();
 
-   void Print_denom_eff();
+   void PrintDenomEff();
 	
-   void Fill_error();
+   void FillError();
 
-   double get_all_eff(); //all trigger efficiencies
+   double GetAllEff(); //all trigger efficiencies
 
 
    // ******************* 
@@ -75,10 +74,12 @@ public:
 
 
    int column;
+   string selection;
+
 private:
   // int ntrig=665;
 	
-   //mettre ici compute_eff, compute correlation
+   //mettre ici ComputeEff, compute correlation
    int error_type;
    
    float * data;
@@ -90,7 +91,6 @@ private:
  //  TH1* efficiency = new TH1F("efficiency of triggers","hist of efficiencies", 100,0,1);
 
    string obs; // observable 
-   string selection;
 
 
    vector<string> triggernames;
@@ -116,13 +116,5 @@ private:
    vector<double> eff_err;
 };
   
-
-
-
-
-
-
-
-
 
 #endif

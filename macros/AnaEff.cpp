@@ -44,11 +44,11 @@ void AnaEff::Loop()
 	// Choosing one trigger manually to estimate the efficiency 
 	
 
-	/*trigEff_presel.Print_num_corr();
-	trigEff_presel.Print_denom_corr();*/ // verification of vectors (all 0s)
+	/*trigEff_presel.PrintNumCorr();
+	trigEff_presel.PrintDenomCorr();*/ // verification of vectors (all 0s)
 
 
-	
+	cout << "ntrigger : " << ntrigger << endl;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { // looping on all entries
 		Long64_t ientry = LoadTree(jentry);
 		if (ientry < 0) break;
@@ -60,37 +60,40 @@ void AnaEff::Loop()
 		
 		for(int i=0;i<ntrigger;i++){
 			vtrigger.push_back(passTrigger[i]);
-		}	
-		
-	        trigEff_presel.Fill(vtrigger); //Fill info about the trigger
+		}
+	        trigEff_presel.Fill(vtrigger); //Fill vtrigger with the bool values
 		//trigEff_presel.get_corr();
-
 	}
 	
 	//trigEff_presel.get_num_corr();
 	//trigEff_presel.get_denom_corr();
 	
-	//trigEff_presel.Compute_corr();
-	//trigEff_presel.Print_corr();
+	//trigEff_presel.ComputeCorr();
+	//trigEff_presel.PrintCorr();
 	
 
-	trigEff_presel.Compute_eff();
-	//trigEff_presel.Print_denom_eff();
-	trigEff_presel.Fill_error();
-	//trigEff_presel.Print_eff();
-	trigEff_presel.Print_spec_eff(trigEff_presel.column);
-	//trigEff_presel.Print_denom_eff();
+	trigEff_presel.ComputeEff();
+	trigEff_presel.FillError();
+
+	//trigEff_presel.PrintDenomEff();
+
+	
+	//trigEff_presel.PrintEff();
+	trigEff_presel.PrintSpecEff(trigEff_presel.column);
+	//trigEff_presel.GetPlot(trigEff_presel.selection);
+	//trigEff_presel.PrintDenomEff();
 
 
 
 
-cout << " JUST END" << endl; 
+//cout << " JUST END" << endl; 
 
 //Freeing all calloc/malloc //355 355 : 100% / 661 235 : 33.3 %
 
 }
 
- //ajouter une fonction qui retourne ntrigger? Ou comment peut-on appeler ntrigger d'ici ?
+
+
 int main(){
 
 	AnaEff ana;

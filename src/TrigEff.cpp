@@ -17,8 +17,9 @@ using namespace std;
 
 
 
-TrigEff::TrigEff(int size){
-	int ntrig;
+TrigEff::TrigEff(){
+	/*
+int ntrig;
 	
 	if(size>0){
 		ntrig = size;
@@ -28,15 +29,15 @@ TrigEff::TrigEff(int size){
 		ntrig = 0;
 		data = 0;
 	}
-	//cout << "n = " << ntrig << endl;
+	//cout << "n = " << ntrig << endl;*/
 }
 
 
 
 TrigEff::~TrigEff(){ 
 	//cout << "data : " << data << endl;
-	if(data!=0)
-		delete[] data; // supprimer tous les malloc/calloc
+	/*if(data!=0)
+		delete[] data; */// supprimer tous les malloc/calloc
 
 }
 
@@ -72,9 +73,8 @@ void TrigEff::Load(vector<string> triggerNames,string selection,int error_type){
 
 	// if selection is not given, then 
 	for(unsigned int curline=0; curline < triggerNames.size();curline++){
-		
 		if(triggerNames[curline] == selection){
-			cout << "Found  " << selection << " in line  " << curline << endl;
+			cout << "Found  " << selection << " in line  " << curline+1 << endl;
 			column = curline;
 			break;
 		}
@@ -91,8 +91,8 @@ void TrigEff::Load(vector<string> triggerNames,string selection,int error_type){
 
 
 
-void TrigEff::Fill(vector<bool> passtrig, double obs,double weight){
-	bool trig1,trig2,trig3;
+void TrigEff::Fill(vector<bool> passtrig, double obs, double weight){
+	bool trig1,trig2;
 	for(int i=0;i< passtrig.size();i++){
 		trig1 = passtrig.at(i);
 		denom_efficiency[i]+=1;
@@ -112,7 +112,7 @@ void TrigEff::Fill(vector<bool> passtrig, double obs,double weight){
 	}
 }
 
-void TrigEff::Compute_corr(){
+void TrigEff::ComputeCorr(){
 
 	for(int i=0;i< correlation.size();i++){
 		for(int j=0;j< correlation[i].size();j++){
@@ -126,7 +126,7 @@ void TrigEff::Compute_corr(){
 	}
 }
 
-void TrigEff::Print_corr(){
+void TrigEff::PrintCorr(){
 
 	for ( int i = 0; i < correlation.size(); i++ ){
    		for ( int j = 0; j < correlation[i].size(); j++ ){
@@ -136,7 +136,7 @@ void TrigEff::Print_corr(){
 	}
 }
 
-void TrigEff::Print_num_corr(){
+void TrigEff::PrintNumCorr(){
 	
 	for ( int i = 0; i < num_corr.size(); i++ ){
    		for ( int j = 0; j < num_corr[i].size(); j++ ){
@@ -146,7 +146,7 @@ void TrigEff::Print_num_corr(){
 	}	
 }
 
-void TrigEff::Print_denom_corr(){
+void TrigEff::PrintDenomCorr(){
 
 	for ( int i = 0; i < denom_corr.size(); i++ ){
    		for ( int j = 0; j < denom_corr[i].size(); j++ ){
@@ -158,7 +158,7 @@ void TrigEff::Print_denom_corr(){
 
 
 
-void TrigEff::Compute_eff()
+void TrigEff::ComputeEff()
 {
 	for(int i=0;i< efficiency.size();i++){
 		if(denom_efficiency[i]==0){
@@ -171,35 +171,35 @@ void TrigEff::Compute_eff()
 	}
 }
 
-void TrigEff::Print_eff(){
+void TrigEff::PrintEff(){
 
 	for(int i=0;i< efficiency.size();i++){
 		cout << efficiency[i] *100 << "% " << "denom : " << denom_efficiency[i] <<" error : " << eff_err[i] << endl;
 	}
 }
 
-void TrigEff::Print_spec_eff(int curline){
-		cout << "Its efficiency is : " << efficiency[curline] *100 << "% " << " +/- [error]: " << eff_err[curline] << endl;
+void TrigEff::PrintSpecEff(int curline){
+		cout << "Its efficiency is : " << efficiency[curline] *100 << "% " << " +/- [error]: " << eff_err[curline]*100 << "% " << endl;
 	
 }
 
 
 
-void TrigEff::Print_num_eff(){
+void TrigEff::PrintNumEff(){
 	for ( int i = 0; i < num_efficiency.size(); i++ ){
       		cout << num_efficiency[i] << endl ;
 	}	
 }
 
 
-void TrigEff::Print_denom_eff(){
+void TrigEff::PrintDenomEff(){
 	for ( int i = 0; i < denom_efficiency.size(); i++ ){
       		cout << num_efficiency[i] << " " << denom_efficiency[i] << " " <<eff_err[i] << endl ;
 	}
 }
 
 
-void TrigEff::Fill_error(){
+void TrigEff::FillError(){
 
 	for(int i=0;i< eff_err.size();i++){
 		//cout << num_efficiency[i] << " " << denom_efficiency[i] << endl ;
@@ -208,5 +208,9 @@ void TrigEff::Fill_error(){
 	}
 }
 
+void TrigEff::GetPlot(string selection){
+	cout << "Its efficiency is : " << efficiency[column] *100 << "% " << " +/- [error]: " << eff_err[column] << endl;
+	
 
+}
 
