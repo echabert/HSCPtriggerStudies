@@ -69,10 +69,12 @@ void TrigEff::Load(vector<string> triggerNames,string selection,int error_type){
 
 	//find(triggerNames.begin(), triggerNames.end(), selection) != triggerNames.end();
 	//triggerNames.find(selection);
+
+	// if selection is not given, then 
 	for(unsigned int curline=0; curline < triggerNames.size();curline++){
 		
 		if(triggerNames[curline] == selection){
-			cout << "Found trigger :" << selection << " in line  " << curline << endl;
+			cout << "Found  " << selection << " in line  " << curline << endl;
 			column = curline;
 			break;
 		}
@@ -177,7 +179,7 @@ void TrigEff::Print_eff(){
 }
 
 void TrigEff::Print_spec_eff(int curline){
-		cout << "efficiency of this trigger : " << efficiency[curline] *100 << "% " << " error associated : " << eff_err[curline] << endl;
+		cout << "Its efficiency is : " << efficiency[curline] *100 << "% " << " +/- [error]: " << eff_err[curline] << endl;
 	
 }
 
@@ -192,7 +194,7 @@ void TrigEff::Print_num_eff(){
 
 void TrigEff::Print_denom_eff(){
 	for ( int i = 0; i < denom_efficiency.size(); i++ ){
-      		cout << denom_efficiency[i] << endl ;
+      		cout << num_efficiency[i] << " " << denom_efficiency[i] << " " <<eff_err[i] << endl ;
 	}
 }
 
@@ -200,7 +202,9 @@ void TrigEff::Print_denom_eff(){
 void TrigEff::Fill_error(){
 
 	for(int i=0;i< eff_err.size();i++){
-		eff_err[i]=sqrt((1.0*efficiency[i]*(1.0-efficiency[i]))/1.0*denom_efficiency[i]);	
+		//cout << num_efficiency[i] << " " << denom_efficiency[i] << endl ;
+		eff_err[i]=sqrt((efficiency[i]*(1.0-efficiency[i]))/denom_efficiency[i]);
+		//cout << "error:" << eff_err[i] << endl;
 	}
 }
 
