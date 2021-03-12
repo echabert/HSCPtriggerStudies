@@ -11,29 +11,34 @@ using namespace std;
 
 
 
-class TrigEff // 
+class TrigEff 
 {
 public:
 
 
-   TrigEff(); // supprimer le int size
+   TrigEff(); 
    ~TrigEff();
    
 
-   void Init(int ntrigger,bool *passtrig); // Recupère le tableau de booleens et le met dans un vecteur
+   //void Init(int ntrigger,bool *passtrig); // Recupère le tableau de booleens et le met dans un vecteur
 
 
    void	Load(vector<string> triggernames,string selection="",int error_type=1);
 
-   
-
-   
-   
    void	Fill(vector<bool> triggerpass, double obs = 0, double weight = 1); // fill avec les valeurs de booléens  renvoie true et false si difference de taille 
 
-   // *********Correlations methods***********************
-// private : 
+   void Compute();
+  
+   void InterestingTriggers(vector<string> triggerofinterest);
+   
 
+
+
+   int column;
+   string selection;
+
+ private :
+	// *********Correlations methods***********************
 
 
    void ComputeCorr(); //return nothing, just computes the 2D array of correlations
@@ -52,15 +57,15 @@ public:
 
    void ComputeEff(); // int a : string selection
    
-   void PrintEff(); //specific trigger efficiency au lieu de int a : string selection
+   void PrintEff(); //Show all efficiencies 
 
-   void PrintSpecEff(int curline);
+   void PrintSpecEff(int curline); // 
 
    void PrintNumEff();
 
    void PrintDenomEff();
 	
-   void FillError();
+   void ComputeError(); // computes the error on the efficiencies
 
    double GetAllEff(); //all trigger efficiencies
 
@@ -73,12 +78,10 @@ public:
    void SavePlots(); // en png/hist ou whatever
 
 
-   int column;
-   string selection;
+   
 
-private:
   // int ntrig=665;
-	
+   
    //mettre ici ComputeEff, compute correlation
    int error_type;
    
@@ -94,7 +97,7 @@ private:
 
 
    vector<string> triggernames;
-
+   vector<string> triggerofinterest;
 
    vector<bool> triggerpass; //creer une paire std::pair<int,string> ou un vecteur de paires : vector<std::pair<int,string>>
    
@@ -115,6 +118,5 @@ private:
    vector<double> denom_efficiency;
    vector<double> eff_err;
 };
-  
 
 #endif

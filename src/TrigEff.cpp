@@ -42,13 +42,13 @@ TrigEff::~TrigEff(){
 }
 
 
-void TrigEff::Init(int ntrigger,bool *passtrig){
+/*void TrigEff::Init(int ntrigger,bool *passtrig){
 	for(int i=0;i<ntrigger; i++){ 
 		triggerpass.push_back(passtrig[i]);
 		cout << "bool[" << i << "] = "  << triggerpass[i] << endl;
 	}
 
-}
+}*/
 
 void TrigEff::Load(vector<string> triggerNames,string selection,int error_type){ 
 	
@@ -110,6 +110,15 @@ void TrigEff::Fill(vector<bool> passtrig, double obs, double weight){
 			}
 		}
 	}
+}
+void TrigEff::Compute(){
+	ComputeEff();
+	ComputeError();
+	//PrintEff();
+	PrintSpecEff(column);
+	ComputeCorr();
+	//PrintCorr();
+	
 }
 
 void TrigEff::ComputeCorr(){
@@ -199,7 +208,7 @@ void TrigEff::PrintDenomEff(){
 }
 
 
-void TrigEff::FillError(){
+void TrigEff::ComputeError(){
 
 	for(int i=0;i< eff_err.size();i++){
 		//cout << num_efficiency[i] << " " << denom_efficiency[i] << endl ;
@@ -209,6 +218,9 @@ void TrigEff::FillError(){
 }
 
 void TrigEff::GetPlot(string selection){
+	//utiliser cette fonction pour plot l'efficacité en fonction de la masse : entrer le trigger (nom), il obtient son efficacité et à chaque fois il la met dans un TGRAPH avec la masse ( calculée à base de Ih et des deux coefficients dans la publication 1 envoyée), on peut donc avoir l'efficacité en fonction de la masse 
+
+	
 	cout << "Its efficiency is : " << efficiency[column] *100 << "% " << " +/- [error]: " << eff_err[column] << endl;
 	
 

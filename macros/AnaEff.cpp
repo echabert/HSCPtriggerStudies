@@ -65,21 +65,22 @@ void AnaEff::Loop()
 		//trigEff_presel.get_corr();
 	}
 	
-	//trigEff_presel.get_num_corr();
-	//trigEff_presel.get_denom_corr();
+	
 	
 	//trigEff_presel.ComputeCorr();
+
 	//trigEff_presel.PrintCorr();
 	
+	trigEff_presel.Compute();
 
-	trigEff_presel.ComputeEff();
-	trigEff_presel.FillError();
+	/*trigEff_presel.ComputeEff(); // comme méthodes privées, appellées par une seule méthode
+	trigEff_presel.ComputeError();
+	trigEff_presel.PrintSpecEff(trigEff_presel.column);*/
 
 	//trigEff_presel.PrintDenomEff();
 
 	
 	//trigEff_presel.PrintEff();
-	trigEff_presel.PrintSpecEff(trigEff_presel.column);
 	//trigEff_presel.GetPlot(trigEff_presel.selection);
 	//trigEff_presel.PrintDenomEff();
 
@@ -87,9 +88,6 @@ void AnaEff::Loop()
 
 
 //cout << " JUST END" << endl; 
-
-//Freeing all calloc/malloc //355 355 : 100% / 661 235 : 33.3 %
-
 }
 
 
@@ -100,3 +98,5 @@ int main(){
 	ana.Loop();
 	
 }
+
+ //355 355 : 100% / 661 235 : 33.3 %
