@@ -79,12 +79,8 @@ public :
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
    virtual void     Loop();
-   virtual void     compute_efficiency(int,int*,int*,double*);
-   virtual void     number_candidates(bool*,int,int*,int*);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
-   virtual void     compute_spectwo_efficiency(int*,int*,double*,int,int);
-   virtual void     number_spectwo(bool*,int*,int*,int,int);
 
 
 };
@@ -108,8 +104,8 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 
    }
    //passTrigger = new bool[ntrigger];
+   
    Init(tree);
-
    //read trigger list from a file
 
 
@@ -117,11 +113,11 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
    vector<string> triggerNames;
    string tmp;
    while(getline(ifile,tmp)){
-	   cout<<tmp<<endl;
-	   triggerNames.push_back(tmp);
+	   //cout<<tmp<<endl;
+   	triggerNames.push_back(tmp);
    }
-   cout<<"#triggers: "<<triggerNames.size()<<endl;
-   trigEff_presel.Load(triggerNames,"Preselection");
+   cout<<"#triggers: "<< triggerNames.size() <<endl;
+   trigEff_presel.Load(triggerNames,"AlCa_EcalPi0EEonly_v8");
 }
 
 

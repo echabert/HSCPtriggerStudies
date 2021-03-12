@@ -25,46 +25,59 @@ public:
 
    void	Load(vector<string> triggernames,string selection="",int error_type=1);
 
-   void	Fill(vector<bool> triggerpass, double obs = 0, double weight = 1); // fill avec les valeurs de booléens 
+   
 
-   void Initvectors(int ntrigger);
+   
+   
+   void	Fill(vector<bool> triggerpass, double obs = 0, double weight = 1); // fill avec les valeurs de booléens  renvoie true et false si difference de taille 
+
    // *********Correlations methods***********************
 // private : 
 
-   void noc_corr();
 
-   void compute_corr(); //return nothing, just computes the 2D array of correlations
+  // void Search_trig(vector<string> triggerNames, string selection ="" ); // triggerNames
 
-   void get_corr();
+   void Compute_corr(); //return nothing, just computes the 2D array of correlations
+
+   void Print_corr();
    
-   void get_num_corr();
+   void Print_num_corr();
 
-   void get_denom_corr();
+   void Print_denom_corr();
 
    void Get2DPlot(); // 
    
    // ************** Efficiency for a given trigger **************
 
 
-   void noc_eff();
 
-   void compute_eff(int a); // int a : string selection
+   void Compute_eff(); // int a : string selection
    
-   double get_eff(int a); //specific trigger efficiency au lieu de int a : string selection
+   void Print_eff(); //specific trigger efficiency au lieu de int a : string selection
+
+   void Print_spec_eff(int curline);
+
+   void Print_num_eff();
+
+   void Print_denom_eff();
+	
+   void Fill_error();
 
    double get_all_eff(); //all trigger efficiencies
 
 
    // ******************* 
 
-   void GetPlot(string selection); // 
+   void GetPlot(string selection); // format latex 
 
 
    void SavePlots(); // en png/hist ou whatever
 
 
+   int column;
 private:
-   int ntrig=665;
+  // int ntrig=665;
+	
    //mettre ici compute_eff, compute correlation
    int error_type;
    
@@ -92,7 +105,7 @@ private:
    vector<vector<double> > num_corr;
    vector<vector<double> > denom_corr;
 
-   vector<vector<double> > f_err;
+   vector<vector<double> > corr_err;
 
    //vector<int> numerator;
    //vector<int> denominator;
@@ -100,6 +113,7 @@ private:
    vector<double> efficiency;
    vector<double> num_efficiency;
    vector<double> denom_efficiency;
+   vector<double> eff_err;
 };
   
 

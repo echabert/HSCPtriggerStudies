@@ -10,76 +10,11 @@
 #include <ctime>
 #include <cmath>
 #include <fstream>
+#include <algorithm>
 
 
 using namespace std;
 
-void TrigEff::Initvectors(int ntrigger){
-
-	num_corr.resize(ntrigger, vector<double>(ntrigger, 0.0));
-	denom_corr.resize(ntrigger, vector<double>(ntrigger, 0.0));
-	correlation.resize(ntrigger, vector<double>(ntrigger, 0.0));
-
-}
-
-
-
-
-void TrigEff::Init(int ntrigger,bool *passtrig){
-	for(int i=0;i<ntrigger; i++){ 
-		triggerpass.push_back(passtrig[i]);
-		cout << "bool[" << i << "] = "  << triggerpass[i] << endl;
-	}
-
-}
-
-/*
-void TrigEff::Init(int ntrigger,vector<bool> passtrig){
-	for(int i=0;i<ntrigger; i++){ 
-		triggerpass.push_back(passtrig[i]);
-		cout << "bool[" << i << "] = "  << triggerpass[i] << endl;
-	}
-
-}
-
-*/
-
-void TrigEff::noc_corr(){
-/*	
-	bool trig1,trig2;
-	for(int i=0;i<ntrigger;i++){
-		trig1 = triggerpass[i];
-
-		for(int j=0;j<ntrigger;j++){
-			trig2 = triggerpass[j];
-			if(trig1 || trig2){
-
-				numerator[i].push_back(0); // not good syntax, mais vecteur de vecteurs 
-				numerator[i][j]+=1;
-			}
-			if(trig1 && trig2){
-				denominator[i].push_back(0);
-				denominator[i][j]+=1;
-			}
-
-		}
-	}
-
-*/
-}
-
-
-
-
-void TrigEff::noc_eff()
-{
-}
-
-
-
-void TrigEff::compute_eff(int a)
-{
-}
 
 
 TrigEff::TrigEff(int size){
@@ -93,7 +28,7 @@ TrigEff::TrigEff(int size){
 		ntrig = 0;
 		data = 0;
 	}
-	cout << "n = " << ntrig << endl;
+	//cout << "n = " << ntrig << endl;
 }
 
 
@@ -106,24 +41,64 @@ TrigEff::~TrigEff(){
 }
 
 
+void TrigEff::Init(int ntrigger,bool *passtrig){
+	for(int i=0;i<ntrigger; i++){ 
+		triggerpass.push_back(passtrig[i]);
+		cout << "bool[" << i << "] = "  << triggerpass[i] << endl;
+	}
+
+}
 
 void TrigEff::Load(vector<string> triggerNames,string selection,int error_type){ 
+	
+	num_corr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
+	denom_corr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
+	correlation.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
+	
+	num_efficiency.resize(triggerNames.size(), 0.0);
+	denom_efficiency.resize(triggerNames.size(), 0.0);
+	efficiency.resize(triggerNames.size(), 0.0);
+	
+	eff_err.resize(triggerNames.size(), 0.0);
+
+	if(error_type == 1 ){
+		//cout << " We will use the most general error estimator " << endl;
+	}
+
 	this->triggernames = triggerNames;
+
+	//find(triggerNames.begin(), triggerNames.end(), selection) != triggerNames.end();
+	//triggerNames.find(selection);
+	for(unsigned int curline=0; curline < triggerNames.size();curline++){
+		
+		if(triggerNames[curline] == selection){
+			cout << "Found trigger :" << selection << " in line  " << curline << endl;
+			column = curline;
+			break;
+		}
+
+		
+		else if(triggerNames[curline]!=selection && curline==triggerNames.size()-1) {
+			cout<<"That name is not an element in this vector"<<'\n';
+        	}
+	}
+	
+
 }
 
 
 
+
 void TrigEff::Fill(vector<bool> passtrig, double obs,double weight){
-	//obtient les vecteurs de passtrig
-	bool trig1,trig2;
-	//num_corr.resize(passtrig.size(), vector<double>(passtrig.size()));
-	//cout << "size columns : " << num_corr[].size() << " rows : " << num_corr.size() << endl;
-	//cout << "passtrig.size : " << passtrig.size() << endl;
+	bool trig1,trig2,trig3;
 	for(int i=0;i< passtrig.size();i++){
 		trig1 = passtrig.at(i);
-		//if(i> 660) cout << "i : " << i << endl;
+		denom_efficiency[i]+=1;
+		if (trig1){
+			num_efficiency[i]+=1;
+		}
+	
 		for(int j=0;j< passtrig.size();j++){
-			//cout << "j : " << j << endl;
 			trig2 = passtrig.at(j);
 			if(trig1 || trig2){
 				denom_corr[i][j]+=1;
@@ -131,16 +106,11 @@ void TrigEff::Fill(vector<bool> passtrig, double obs,double weight){
 			if(trig1 && trig2){
 				num_corr[i][j]+=1;
 			}
-
 		}
 	}
-
-	
-	
 }
 
-
-void TrigEff::compute_corr(){
+void TrigEff::Compute_corr(){
 
 	for(int i=0;i< correlation.size();i++){
 		for(int j=0;j< correlation[i].size();j++){
@@ -153,32 +123,8 @@ void TrigEff::compute_corr(){
 		}
 	}
 }
-	
 
-
-
-void TrigEff::get_num_corr(){
-	
-	for ( int i = 0; i < num_corr.size(); i++ ){
-   		for ( int j = 0; j < num_corr[i].size(); j++ ){
-      			cout << num_corr[i][j] << ' ';
-   		}
-   	cout << endl;
-	}
-	
-}
-
-void TrigEff::get_denom_corr(){
-
-	for ( int i = 0; i < denom_corr.size(); i++ ){
-   		for ( int j = 0; j < denom_corr[i].size(); j++ ){
-      			cout << denom_corr[i][j] << ' ';
-   		}
-   	cout << endl;
-	}
-}
-
-void TrigEff::get_corr(){
+void TrigEff::Print_corr(){
 
 	for ( int i = 0; i < correlation.size(); i++ ){
    		for ( int j = 0; j < correlation[i].size(); j++ ){
@@ -188,44 +134,75 @@ void TrigEff::get_corr(){
 	}
 }
 
-
-
-
-
-
-
-/*
-int dataArray[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-unsigned dataArraySize = sizeof(dataArray) / sizeof(int);
-
-// Method 1: Copy the array to the vector using back_inserter.
-{
-    copy(&dataArray[0], &dataArray[dataArraySize], back_inserter(dataVec));
-}
-*/
-
-/*
-void TrigEff::compute_spectwo_efficiency(int ntrigger,int *m_countorspectwotrig,int *m_countandspectwotrig,double *m_efficiencyspectwotrig,int a,int b) //computes the efficiency between two specific triggers
-{
-	double m = (*(m_countandspectwotrig + a*ntrigger +b));
-	double k = (*(m_countorspectwotrig + a*ntrigger +b));
-	*(m_efficiencyspectwotrig + a*ntrigger +b)=m/k; // triggers "counts" (ratio trig1 OR trig2 / trig1 AND trig2
-	cout << "Entre " << a << " et " << b << ": " << *(m_efficiencyspectwotrig + a*ntrigger +b) *100 << "% ";
+void TrigEff::Print_num_corr(){
+	
+	for ( int i = 0; i < num_corr.size(); i++ ){
+   		for ( int j = 0; j < num_corr[i].size(); j++ ){
+      			cout << num_corr[i][j] << ' ';
+   		}
+   	cout << endl;
+	}	
 }
 
-void TrigEff::compute_efficiency(int ntrigger,int *m_countortrig,int *m_countbothtrig,double *m_computed_eff)
-{
-    for(int i=0;i<ntrigger;i++){
-		for(int j=0;j<ntrigger;j++){
-			if((*(m_countortrig + i*ntrigger +j))==0){
-				*(m_computed_eff + i*ntrigger +j)=0;
-			}
-			else{
-				*(m_computed_eff + i*ntrigger +j)=((*(m_countbothtrig + i*ntrigger +j)*1.0)/(*(m_countortrig + i*ntrigger +j)));
-			}
-			cout << *(m_computed_eff + i*ntrigger +j) *100 << "% ";
-		}
-	cout << "\n";
+void TrigEff::Print_denom_corr(){
+
+	for ( int i = 0; i < denom_corr.size(); i++ ){
+   		for ( int j = 0; j < denom_corr[i].size(); j++ ){
+      			cout << denom_corr[i][j] << ' ';
+   		}
+   	cout << endl;
 	}
 }
-*/ //liste des fonctions dans computing.cpp
+
+
+
+void TrigEff::Compute_eff()
+{
+	for(int i=0;i< efficiency.size();i++){
+		if(denom_efficiency[i]==0){
+			efficiency[i]=0;
+		}
+		else{	
+			efficiency[i] = ((num_efficiency[i]*1.0) / denom_efficiency[i]*1.0);
+		}
+		
+	}
+}
+
+void TrigEff::Print_eff(){
+
+	for(int i=0;i< efficiency.size();i++){
+		cout << efficiency[i] *100 << "% " << "denom : " << denom_efficiency[i] <<" error : " << eff_err[i] << endl;
+	}
+}
+
+void TrigEff::Print_spec_eff(int curline){
+		cout << "efficiency of this trigger : " << efficiency[curline] *100 << "% " << " error associated : " << eff_err[curline] << endl;
+	
+}
+
+
+
+void TrigEff::Print_num_eff(){
+	for ( int i = 0; i < num_efficiency.size(); i++ ){
+      		cout << num_efficiency[i] << endl ;
+	}	
+}
+
+
+void TrigEff::Print_denom_eff(){
+	for ( int i = 0; i < denom_efficiency.size(); i++ ){
+      		cout << denom_efficiency[i] << endl ;
+	}
+}
+
+
+void TrigEff::Fill_error(){
+
+	for(int i=0;i< eff_err.size();i++){
+		eff_err[i]=sqrt((1.0*efficiency[i]*(1.0-efficiency[i]))/1.0*denom_efficiency[i]);	
+	}
+}
+
+
+
