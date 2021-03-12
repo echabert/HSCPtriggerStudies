@@ -117,7 +117,10 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
    	triggerNames.push_back(tmp);
    }
    //cout<<"#triggers: "<< triggerNames.size() <<endl;
-   trigEff_presel.Load(triggerNames,"AlCa_EcalPi0EEonly_v8");
+   string str;
+   cout << "What trigger are you looking for ? " << endl;
+   cin >> str;
+   trigEff_presel.Load(triggerNames,str);
 }
 
 

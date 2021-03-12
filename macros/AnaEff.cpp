@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	trigEff_presel.Fill_error();
 	//trigEff_presel.Print_eff();
 	trigEff_presel.Print_spec_eff(trigEff_presel.column);
-	trigEff_presel.Print_denom_eff();
+	//trigEff_presel.Print_denom_eff();
 
 
 
