@@ -50,7 +50,7 @@ TrigEff::~TrigEff(){
 
 }*/
 
-void TrigEff::Load(vector<string> triggerNames,string selection,int error_type){ 
+void TrigEff::Load(vector<string> triggerNames,vector<string> selection,int error_type){ 
 	
 	num_corr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	denom_corr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
@@ -72,17 +72,19 @@ void TrigEff::Load(vector<string> triggerNames,string selection,int error_type){
 	//triggerNames.find(selection);
 
 	// if selection is not given, then 
+
 	for(unsigned int curline=0; curline < triggerNames.size();curline++){
-		if(triggerNames[curline] == selection){
-			cout << "Found  " << selection << " in line  " << curline+1 << endl;
-			column = curline;
-			break;
-		}
+		for(unsigned int j=0; j < selection.size();j++){
+			if(triggerNames[curline] == selection[j]){
+				cout << "Found  " << selection[j] << " in line  " << curline+1 << endl;
+				column.push_back(curline);
+			}
 
 		
-		else if(triggerNames[curline]!=selection && curline==triggerNames.size()-1) {
-			cout<<"That name is not an element in this vector"<<'\n';
-        	}
+			/*else if(triggerNames[curline]!=selection && curline==triggerNames.size()-1) {
+				cout<<"That name is not an element in this vector"<<'\n';
+        		}*/
+		}
 	}
 	
 
@@ -187,9 +189,11 @@ void TrigEff::PrintEff(){
 	}
 }
 
-void TrigEff::PrintSpecEff(int curline){
-		cout << "Its efficiency is : " << efficiency[curline] *100 << "% " << " +/- [error]: " << eff_err[curline]*100 << "% " << endl;
-	
+void TrigEff::PrintSpecEff(vector<int> column){
+		for(int i=0;i<column.size();i++){
+
+			cout << "Trigger # "<< column[i]+1 << " has e = " << efficiency[column[i]] *100 << "% " << "+/- " << eff_err[column[i]]*100 << "% " << endl;
+		}
 }
 
 
@@ -221,7 +225,7 @@ void TrigEff::GetPlot(string selection){
 	//utiliser cette fonction pour plot l'efficacité en fonction de la masse : entrer le trigger (nom), il obtient son efficacité et à chaque fois il la met dans un TGRAPH avec la masse ( calculée à base de Ih et des deux coefficients dans la publication 1 envoyée), on peut donc avoir l'efficacité en fonction de la masse 
 
 	
-	cout << "Its efficiency is : " << efficiency[column] *100 << "% " << " +/- [error]: " << eff_err[column] << endl;
+	//cout << "Its efficiency is : " << efficiency[column] *100 << "% " << " +/- [error]: " << eff_err[column] << endl;
 	
 
 }

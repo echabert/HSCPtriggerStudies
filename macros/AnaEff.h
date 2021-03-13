@@ -117,9 +117,16 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
    	triggerNames.push_back(tmp);
    }
    cout<<"#triggers: "<< triggerNames.size() <<endl;
-   string str;
-   cout << "What trigger are you looking for ? " << endl;
-   cin >> str;
+   vector<string> str;
+   string interfstr;
+   int studytrig;
+   cout << "How many triggers do you want to study? "  << endl;
+   cin >> studytrig;
+   cout <<"Name the triggers : " << endl;
+   for (int i = 0; i< studytrig;i++){
+   	cin >> interfstr;
+	str.push_back(interfstr);
+   }
    trigEff_presel.selection=str;
    trigEff_presel.Load(triggerNames,str);
 }

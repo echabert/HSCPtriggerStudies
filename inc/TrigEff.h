@@ -23,7 +23,7 @@ public:
    //void Init(int ntrigger,bool *passtrig); // Recupère le tableau de booleens et le met dans un vecteur
 
 
-   void	Load(vector<string> triggernames,string selection="",int error_type=1);
+   void	Load(vector<string> triggernames,vector<string> selection,int error_type=1);
 
    void	Fill(vector<bool> triggerpass, double obs = 0, double weight = 1); // fill avec les valeurs de booléens  renvoie true et false si difference de taille 
 
@@ -34,8 +34,8 @@ public:
 
 
 
-   int column;
-   string selection;
+   vector<int> column;
+   vector<string> selection;
 
  private :
 	// *********Correlations methods***********************
@@ -59,7 +59,7 @@ public:
    
    void PrintEff(); //Show all efficiencies 
 
-   void PrintSpecEff(int curline); // 
+   void PrintSpecEff(vector<int>curline); // 
 
    void PrintNumEff();
 
