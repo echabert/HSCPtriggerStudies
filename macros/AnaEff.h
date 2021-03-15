@@ -106,7 +106,9 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
    //passTrigger = new bool[ntrigger];
    
    Init(tree);
-   //read trigger list from a file
+
+
+   //read trigger list from the file
 
 
    ifstream ifile("data/triggerNames.txt");
