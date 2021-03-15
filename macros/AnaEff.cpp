@@ -24,8 +24,8 @@ using namespace std;
 
 void AnaEff::Loop()
 {
-	TString outputfilename="results.root";
-	TFile* OutputHisto = new TFile(outputfilename,"RECREATE");
+	/*TString outputfilename="results.root";
+	TFile* OutputHisto = new TFile(outputfilename,"RECREATE");*/
 	
 
 
