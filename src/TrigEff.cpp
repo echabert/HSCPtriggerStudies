@@ -3,6 +3,7 @@
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
+#include <TPad.h>
 #include <stdio.h>
 #include <array>
 #include <cstdlib>
@@ -19,7 +20,7 @@ using namespace std;
 
 
 TrigEff::TrigEff(){
-	//EFF_TRIG=NULL;
+	
 }
 
 
@@ -43,6 +44,8 @@ TrigEff::~TrigEff(){
 
 	efflist.clear();
 	currentlines.clear();
+	delete EFF_TRIG;
+	//delete[] OutputHisto;
 }
 
 
@@ -56,6 +59,8 @@ TrigEff::~TrigEff(){
 
 void TrigEff::Load(vector<string> triggerNames,vector<string> selection,int error_type){ 
 	
+
+
 	num_corr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	denom_corr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	correlation.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
@@ -66,20 +71,16 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> selection,int erro
 	
 	eff_err.resize(triggerNames.size(), 0.0);
 
-
-	/*EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1);
-	EFF_TRIG->Sumw2();*/
+	this->triggernames = triggerNames;
+	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1);
+	EFF_TRIG->Sumw2();
 
 	if(error_type == 1 ){
 		//cout << " We will use the most general error estimator " << endl;
 	}
 
-	this->triggernames = triggerNames;
-
-
 	// if selection is not given, then 
 	
-
 	int count=0;
 
 	for(unsigned int curline=0; curline < triggerNames.size();curline++){
@@ -173,16 +174,17 @@ void TrigEff::ComputeEff()
 	for(int i=0;i< efficiency.size();i++){
 		if(denom_efficiency[i]==0){
 			efficiency[i]=0;
-			//EFF_TRIG->Fill(efficiency[i]);
+			EFF_TRIG->Fill(efficiency[i]);
 		}
 		else{	
 			efficiency[i] = ((num_efficiency[i]*1.0) / denom_efficiency[i]*1.0);
-			//EFF_TRIG->Fill(efficiency[i]);
+			EFF_TRIG->Fill(efficiency[i]);
 		}
 		
 	}
-
-	//EFF_TRIG->Write();
+	//OutputHisto->cd();
+	EFF_TRIG->Write();
+	//OutputHisto->Close();
 }
 
 

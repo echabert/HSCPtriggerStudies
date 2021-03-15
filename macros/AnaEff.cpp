@@ -7,6 +7,7 @@
 #include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
+#include <TPad.h>
 #include <stdio.h>
 #include <array>
 #include <cstdlib>
@@ -24,10 +25,7 @@ using namespace std;
 
 void AnaEff::Loop()
 {
-	/*TString outputfilename="results.root";
-	TFile* OutputHisto = new TFile(outputfilename,"RECREATE");*/
 	
-
 
 	Long64_t nentries = fChain->GetEntriesFast();
 	Long64_t nbytes = 0, nb = 0, nbi = 0;
