@@ -84,6 +84,8 @@ public:
 
    void SavePlots(); // en png/hist ou whatever
 
+   void SaveIntTrigs();
+
    int error_type;
 
    TH1D* EFF_TRIG;

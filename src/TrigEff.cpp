@@ -11,14 +11,15 @@
 #include <cmath>
 #include <fstream>
 #include <algorithm>
-
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 
 
 
 TrigEff::TrigEff(){
-	EFF_TRIG=NULL;
+	//EFF_TRIG=NULL;
 }
 
 
@@ -207,13 +208,21 @@ void TrigEff::SortEffVec(){
 	cout << "Efficiency " << "\t" << "Error" << "\t" << "Trigger name" << endl; 
     	for (int i = 0; i < efficiency.size(); i++) { 
         	cout << efflist[i].first << "\t" << efflist[i].second.first << "\t" << efflist[i].second.second << endl; 
-    }
-
+		}
+    
 }
 
+void TrigEff::SaveIntTrigs(){
+	ofstream TriggersOfInterest;
+	TriggersOfInterest.open ("TriggersOfInterest.txt");
+	for (int i = 0; i < efficiency.size(); i++) { 
+		if(efflist[i].first >= 0.6 ){ 
+		TriggersOfInterest << efflist[i].first << " " << efflist[i].second.first << " " << efflist[i].second.second << "\n";
+		}
+    }
+	TriggersOfInterest.close();
 
-
-
+}
 
 void TrigEff::PrintSpecEff(vector<int> column){
 		for(int i=0;i<column.size();i++){
@@ -258,9 +267,13 @@ void TrigEff::GetPlot(string selection){
 void TrigEff::Compute(){
 	ComputeEff();
 	ComputeError();
+	
 	SortEffVec();
 	//PrintEff();
+	
 	PrintSpecEff(column);
+	SaveIntTrigs();
+	
 	ComputeCorr();
 	//PrintCorr();
 	
