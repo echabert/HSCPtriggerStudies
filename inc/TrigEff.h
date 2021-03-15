@@ -42,20 +42,21 @@ public:
    void SortEffVec();
 
 
-   vector<int> column;
-   vector<string> selection;
+   vector<int> currentlines; // 
+   vector<string> selection; // Input by the user if looking for specific triggers efficiencies 
 
  private :
-	// *********Correlations methods***********************
+	
+// ********************Methods***********************
 
 
-   void ComputeCorr(); //return nothing, just computes the 2D array of correlations
+   void ComputeCorr(); //Computes the 2D array of correlations
 
-   void PrintCorr();
+   void PrintCorr(); // Shows the 2D array of correlations
    
-   void PrintNumCorr();
+   void PrintNumCorr(); // Shows the numerator (# candidates that passed either one of the other trigger)
 
-   void PrintDenomCorr();
+   void PrintDenomCorr(); // Show the denominator (# candidates that passed both triggers)
 
    void Get2DPlot(); // 
    
@@ -63,19 +64,17 @@ public:
 
 
 
-   void ComputeEff(); // int a : string selection
+   void ComputeEff(); // Computes the efficiency for every given trigger 
    
    void PrintEff(); //Show all efficiencies 
 
-   void PrintSpecEff(vector<int>curline); // 
+   void PrintSpecEff(vector<int> curline); //Show the efficiencies of entered triggers 
 
-   void PrintNumEff();
+   void PrintNumEff(); // Show the numerator (# candidates that passed the trigger)
 
-   void PrintDenomEff();
+   void PrintDenomEff(); // Show the denominator (# candidates)
 	
    void ComputeError(); // computes the error on the efficiencies
-
-   double GetAllEff(); //all trigger efficiencies
 
 
    // *******************  PLOTTING ********************************
@@ -84,9 +83,9 @@ public:
 
    void SavePlots(); // en png/hist ou whatever
 
-   void SaveIntTrigs();
+   void SaveIntTrigs(); // Saves the list of interesting triggers (efficiency > threshold)
 
-   int error_type;
+   int error_type; // Int that corresponds to a way of calculating the error
 
    TH1D* EFF_TRIG;
 

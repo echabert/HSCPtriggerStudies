@@ -39,7 +39,10 @@ TrigEff::~TrigEff(){
 	eff_err.clear();
 
 	triggernames.clear();
-	
+	triggerpass.clear();
+
+	efflist.clear();
+	currentlines.clear();
 }
 
 
@@ -73,16 +76,9 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> selection,int erro
 
 	this->triggernames = triggerNames;
 
-	//find(triggerNames.begin(), triggerNames.end(), selection) != triggerNames.end();
-	//triggerNames.find(selection);
 
 	// if selection is not given, then 
 	
-	/*for(unsigned int j=0; j < selection.size();j++){
-		if (find(triggerNames.begin(),triggerNames.end(), selection[j]) != triggerNames.end())
-			cout << "Found  " << selection[j] << endl;
-			
-	}*/
 
 	int count=0;
 
@@ -91,14 +87,14 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> selection,int erro
 			if(triggerNames[curline] == selection[j]){
 				cout << "Found  " << selection[j] << " in line  " << curline+1 << endl;
 				count+=1;
-				column.push_back(curline);
+				currentlines.push_back(curline);
 			}	
 		}
 	}
-
-	if(count!= selection.size()) cout <<  "Not all triggers were found  " << endl;
-	
-
+	if(selection.size()==1){
+		if(count!= selection.size()) cout <<  "Trigger was not found  " << endl;
+	}
+	else if(count!= selection.size()) cout <<  "Triggers were not found  " << endl;
 }
 
 
@@ -224,9 +220,9 @@ void TrigEff::SaveIntTrigs(){
 
 }
 
-void TrigEff::PrintSpecEff(vector<int> column){
-		for(int i=0;i<column.size();i++){
-			cout << "Trigger # "<< column[i]+1 << " has e = " << efficiency[column[i]] *100 << "% " << "+/- " << eff_err[column[i]]*100 << "% " << endl;
+void TrigEff::PrintSpecEff(vector<int> currentlines){
+		for(int i=0;i<currentlines.size();i++){
+			cout << "Trigger # "<< currentlines[i]+1 << " has e = " << efficiency[currentlines[i]] *100 << "% " << "+/- " << eff_err[currentlines[i]]*100 << "% " << endl;
 		}
 }
 
@@ -259,7 +255,7 @@ void TrigEff::GetPlot(string selection){
 	//utiliser cette fonction pour plot l'efficacité en fonction de la masse : entrer le trigger (nom), il obtient son efficacité et à chaque fois il la met dans un TGRAPH avec la masse ( calculée à base de Ih et des deux coefficients dans la publication 1 envoyée), on peut donc avoir l'efficacité en fonction de la masse 
 
 	
-	//cout << "Its efficiency is : " << efficiency[column] *100 << "% " << " +/- [error]: " << eff_err[column] << endl;
+	//cout << "Its efficiency is : " << efficiency[currentlines] *100 << "% " << " +/- [error]: " << eff_err[currentlines] << endl;
 	
 
 }
@@ -271,7 +267,7 @@ void TrigEff::Compute(){
 	SortEffVec();
 	//PrintEff();
 	
-	PrintSpecEff(column);
+	PrintSpecEff(currentlines);
 	SaveIntTrigs();
 	
 	ComputeCorr();

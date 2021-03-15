@@ -54,7 +54,7 @@ public :
 
    //Bool_t *passTrigger;
    
-   Bool_t	passTrigger[665];
+   Bool_t	passTrigger[1000];
    //Bool_t          passTrigger[665];
    Float_t         track_pt[33];   //[ntracks] augmenter la taille pour pas de overflow, it was 33
    Int_t           hscp_track_idx[9];   //[nhscp] it was 9
