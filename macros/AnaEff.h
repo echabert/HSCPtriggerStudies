@@ -36,7 +36,7 @@ public :
 
    //User variables
    TrigEff   trigEff_presel;
-
+   TrigEff   trigEff_preseltwo;
 
    //List of variables with ROOT dependancies
    
@@ -53,9 +53,9 @@ public :
    Int_t           ntrigger;
 
    //Bool_t *passTrigger;
-   
+   Int_t	prescaleTrigger[1000];
    Bool_t	passTrigger[1000];
-   //Bool_t          passTrigger[665];
+   
    Float_t         track_pt[33];   //[ntracks] augmenter la taille pour pas de overflow, it was 33
    Int_t           hscp_track_idx[9];   //[nhscp] it was 9
 
@@ -65,10 +65,11 @@ public :
    TBranch        *b_npv;   //!
    TBranch        *b_ngoodpv;   //!
    TBranch        *b_ntrigger; //!
+   TBranch        *b_prescaleTrigger;
    TBranch        *b_passTrigger; //!
    TBranch        *b_track_pt;   //!
    TBranch        *b_hscp_track_idx;   //!
-
+   
    //--------------------------------------
    // Methods
    //--------------------------------------
@@ -81,6 +82,7 @@ public :
    virtual void     Loop();
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
+   
 
 
 };
@@ -95,11 +97,11 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/TEST/ntupleRaphael_MC16_AOD_Gluino1600_5ev.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root"); // /home/raph/CMS/TEST/ntupleRaphael_MC16_AOD_Gluino1600_5ev.root
       if (!f || !f->IsOpen()) {
-	f = new TFile("/home/raph/CMS/TEST/ntupleRaphael_MC16_AOD_Gluino1600_5ev.root");
+	f = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root"); // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
       }
-      TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/TEST/ntupleRaphael_MC16_AOD_Gluino1600_5ev.root:/stage");
+      TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root:/stage");
       dir->GetObject("ttree",tree);
 
    }
@@ -115,21 +117,22 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
    vector<string> triggerNames;
    string tmp;
    while(getline(ifile,tmp)){
-	   //cout<<tmp<<endl;
    	triggerNames.push_back(tmp);
    }
    cout<<"#triggers: "<< triggerNames.size() <<endl;
    vector<string> str;
    string interfstr;
    int studytrig;
-   cout << "How many triggers do you want to study? "  << endl;
+   /*cout << "How many triggers do you want to study? "  << endl;
    cin >> studytrig;
    cout <<"Name the triggers : " << endl;
    for (int i = 0; i< studytrig;i++){
    	cin >> interfstr;
 	str.push_back(interfstr);
-   }
+   }*/
+   
    trigEff_presel.selection=str;
+   trigEff_presel.selectedtriggernames=triggerNames;
    trigEff_presel.Load(triggerNames,str);
 }
 
@@ -172,6 +175,7 @@ void AnaEff::Init(TTree *tree)
 
 
    fChain->SetBranchAddress("ntrigger", &ntrigger, &b_ntrigger);
+   fChain->SetBranchAddress("prescaleTrigger", prescaleTrigger, &b_prescaleTrigger);
    fChain->SetBranchAddress("passTrigger", passTrigger, &b_passTrigger); // & devant PT 1
    fChain->SetBranchAddress("runNumber", &runNumber, &b_runNumber);
    fChain->SetBranchAddress("event", &event, &b_event);

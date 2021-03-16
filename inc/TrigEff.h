@@ -37,7 +37,7 @@ public:
 
    void	Load(vector<string> triggernames,vector<string> selection,int error_type=1);
 
-   void	Fill(vector<bool> triggerpass, string obs ="", double weight = 1); 
+   void	Fill(const vector<bool> &triggerpass, string obs ="", double weight = 1); 
 
    void Compute();
      
@@ -46,6 +46,13 @@ public:
 
    vector<int> currentlines; // 
    vector<string> selection; // Input by the user if looking for specific triggers efficiencies 
+
+
+
+
+
+
+   vector<string> selectedtriggernames;
 
  private :
 	
@@ -112,6 +119,7 @@ public:
 
    string obs; // observable 
 
+   
 
    vector<string> triggernames;
 
