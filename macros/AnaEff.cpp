@@ -37,7 +37,7 @@ void AnaEff::Loop()
 	nbi = fChain->GetEntry(initializing);   nbytes += nbi;
 	int nbtrig=ntrigger; 
 
-	cout << "ntrigger : " << ntrigger << endl;
+	//cout << "ntrigger : " << ntrigger << endl;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { // looping on all entries
 		Long64_t ientry = LoadTree(jentry);
 		if (ientry < 0) break;
@@ -56,17 +56,6 @@ void AnaEff::Loop()
 	
 	//OutputHisto->cd();
 	trigEff_presel.Compute();
-	
-
-	//trigEff_presel.PrintDenomEff();
-
-	
-	//trigEff_presel.PrintEff();
-	//trigEff_presel.GetPlot(trigEff_presel.selection);
-	//trigEff_presel.PrintDenomEff();
-
-
-
 
 //cout << " JUST END" << endl; 
 }

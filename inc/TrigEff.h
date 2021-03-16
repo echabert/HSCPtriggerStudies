@@ -5,9 +5,11 @@
 #include <iostream>
 #include <string>
 #include <TH2.h>
+#include <TH1.h>
 #include <TStyle.h>
 #include <TCanvas.h>
 #include <TPad.h>
+#include <TFile.h>
 
 /*
 How to compile this file : if using root : .L AnaEff.cpp 
@@ -35,7 +37,7 @@ public:
 
    void	Load(vector<string> triggernames,vector<string> selection,int error_type=1);
 
-   void	Fill(vector<bool> triggerpass, double obs = 0, double weight = 1); 
+   void	Fill(vector<bool> triggerpass, string obs ="", double weight = 1); 
 
    void Compute();
      
@@ -98,10 +100,12 @@ public:
 
    int error_type; // Int that corresponds to a way of calculating the error
 
-   TH1D* EFF_TRIG;
 
-   TString outputfilename="results.root";
-   TFile* OutputHisto = new TFile(outputfilename,"RECREATE");
+   TFile* OutputHisto;
+   TH1D* EFF_TRIG;
+   TH1D* EFF_DISTRIB;
+
+   TH2D* CORR; 
 
    
    vector< pair<double, pair<double,string> > > efflist; 

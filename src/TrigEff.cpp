@@ -20,6 +20,10 @@ using namespace std;
 
 
 TrigEff::TrigEff(){
+	EFF_TRIG=0;
+	EFF_DISTRIB=0;
+	CORR=0;
+	OutputHisto=0;
 	
 }
 
@@ -44,8 +48,11 @@ TrigEff::~TrigEff(){
 
 	efflist.clear();
 	currentlines.clear();
-	delete EFF_TRIG;
-	//delete[] OutputHisto;
+
+	if(!EFF_TRIG) delete EFF_TRIG;
+	if(!OutputHisto) delete OutputHisto;
+	if(!CORR) delete CORR;
+	if(!EFF_DISTRIB) delete EFF_DISTRIB;
 }
 
 
@@ -59,8 +66,6 @@ TrigEff::~TrigEff(){
 
 void TrigEff::Load(vector<string> triggerNames,vector<string> selection,int error_type){ 
 	
-
-
 	num_corr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	denom_corr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	correlation.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
@@ -72,9 +77,23 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> selection,int erro
 	eff_err.resize(triggerNames.size(), 0.0);
 
 	this->triggernames = triggerNames;
-	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1);
-	EFF_TRIG->Sumw2();
 
+	TString outputfilename="results.root";
+	OutputHisto= new TFile(outputfilename,"RECREATE");
+
+	//************* Init of histograms ****************
+
+
+
+	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
+	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", 100,0,100);
+
+	TH2D* CORR = new TH2D("Correlation", " Correlation plot",  665 ,0 , 665 ,665, 0 , 665 ); 
+	
+	EFF_TRIG->Sumw2();
+	EFF_DISTRIB->Sumw2();
+	CORR->Sumw2();
+	
 	if(error_type == 1 ){
 		//cout << " We will use the most general error estimator " << endl;
 	}
@@ -101,7 +120,7 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> selection,int erro
 
 
 
-void TrigEff::Fill(vector<bool> passtrig, double obs, double weight){
+void TrigEff::Fill(vector<bool> passtrig, string obs, double weight){
 	bool trig1,trig2;
 	for(int i=0;i< passtrig.size();i++){
 		trig1 = passtrig.at(i);
@@ -133,6 +152,8 @@ void TrigEff::ComputeCorr(){
 			else{	
 			correlation[i][j] = ((num_corr[i][j]*1.0) / denom_corr[i][j]);
 			}
+			
+			//CORR->Fill(
 		}
 	}
 }
@@ -182,9 +203,8 @@ void TrigEff::ComputeEff()
 		}
 		
 	}
-	//OutputHisto->cd();
+	OutputHisto->cd();
 	EFF_TRIG->Write();
-	//OutputHisto->Close();
 }
 
 
@@ -211,15 +231,28 @@ void TrigEff::SortEffVec(){
 }
 
 void TrigEff::SaveIntTrigs(){
+	int j=0;
 	ofstream TriggersOfInterest;
 	TriggersOfInterest.open ("TriggersOfInterest.txt");
-	for (int i = 0; i < efficiency.size(); i++) { 
-		if(efflist[i].first >= 0.6 ){ 
-		TriggersOfInterest << efflist[i].first << " " << efflist[i].second.first << " " << efflist[i].second.second << "\n";
-		}
-    }
+	if (TriggersOfInterest.good()){
+	
+		for (int i = 0; i < efficiency.size(); i++) { 
+			if(efflist[i].first >= 0.6 ){
+			TriggersOfInterest << efflist[i].first << " " << efflist[i].second.first << " " << efflist[i].second.second << "\n";
+			double effem=efflist[i].first;
+			EFF_DISTRIB->SetBinContent(j,effem);
+			j++;
+			}
+    		}
 	TriggersOfInterest.close();
+	
 
+	EFF_DISTRIB->Write();
+	OutputHisto->Close();
+	}
+	else{
+		cout << "File .txt was not opened, aborting" << endl;
+	}
 }
 
 void TrigEff::PrintSpecEff(vector<int> currentlines){
@@ -249,7 +282,6 @@ void TrigEff::ComputeError(){
 	for(int i=0;i< eff_err.size();i++){
 		//cout << num_efficiency[i] << " " << denom_efficiency[i] << endl ;
 		eff_err[i]=sqrt((efficiency[i]*(1.0-efficiency[i]))/denom_efficiency[i]);
-		//cout << "error:" << eff_err[i] << endl;
 	}
 }
 
