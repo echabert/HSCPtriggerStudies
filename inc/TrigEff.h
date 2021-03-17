@@ -40,7 +40,9 @@ public:
 
    //void	Fill(const vector<bool> &triggerpass, string obs ="", double weight = 1); 
 
-   void	Fill(map<int,int> ListTriggers, string obs ="", double weight = 1); 
+  // void	Fill(map<int,int> ListTriggers, string obs ="", double weight = 1); 
+
+   void Fill(const vector<bool> &passtrig, string obs="", double weight = 1);
 
    void Compute();
      

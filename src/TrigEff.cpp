@@ -155,8 +155,8 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> selection,int erro
 
 
 
-
-void TrigEff::Fill(map<int,int> ListTriggers, string obs, double weight){ 
+/*
+void TrigEff::Fill(map<int,int> ListTriggers, string obs, double weight){  
 	bool trig1,trig2,transf=0;
 	auto iter = ListTriggers.begin();
    	while (iter != ListTriggers.end()) {
@@ -193,7 +193,46 @@ void TrigEff::Fill(map<int,int> ListTriggers, string obs, double weight){
 			}
 		}*/
 	
+//}
+
+
+//***************************************************************************
+
+void TrigEff::Fill(const vector<bool> &passtrig, string obs, double weight){  
+	bool trig1,trig2;
+	auto iter = ListTriggers.begin();
+   	while (iter != ListTriggers.end()) {
+		trig1 = passtrig[iter->second];
+		//cout << "[" << iter->first << "," << iter->second <<"]" << endl;
+		//cout << "bool is " << transf << endl;
+		denom_efficiency[iter->second]+=1;
+		//cout << "Trigger :" << iter->first << " num : " << num_efficiency[iter->first] <<" , denom : " << denom_efficiency[iter->first] << endl;
+		if (trig1){
+			num_efficiency[iter->second]+=1;
+		}
+		++iter;
+	}
+		
+		/*trig1 = ListTriggers[i].second;
+		denom_efficiency[ListTriggers[i].first]+=1;
+		if (trig1){
+			num_efficiency[ListTriggers[i].first]+=1;
+		}*/
+	
+		/*for(int j=0;j< passtrig.size();j++){
+			trig2 = passtrig.at(j);
+			if(trig1 || trig2){
+				denom_corr[i][j]+=1;
+			}
+			if(trig1 && trig2){
+				num_corr[i][j]+=1;
+			}
+		}*/
+	
 }
+
+
+
 
 
 //***************************************************************************

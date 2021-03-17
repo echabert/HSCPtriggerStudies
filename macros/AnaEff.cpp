@@ -56,17 +56,22 @@ void AnaEff::Loop()
 		str.push_back(interfstr);
 	}
 
-
 	trigEff_presel.selection=str;
 	trigEff_presel.selectedtriggernames=triggerNames;
 	trigEff_presel.Load(triggerNames,str);
 
-
-
-
 	ofstream prescaledtriggers;
 	prescaledtriggers.open ("PrescaledTriggers.txt");
 	
+	for(int j = 0; j < trigEff_presel.selection.size(); j++){
+		//if(prescaleTrigger[j]==1){
+			auto it = find(triggerNames.begin(), triggerNames.end(), trigEff_presel.selection[j]);
+			auto index = distance(triggerNames.begin(), it);
+			trigEff_presel.ListTriggers[j] = index;
+			cout << "[" << j<< "," << index << "]" << endl; 
+		//}
+	}
+		
 	
 	//nentries=100;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
@@ -78,16 +83,7 @@ void AnaEff::Loop()
 		for(int i=0;i<ntrigger;i++){
 			vtrigger.push_back(passTrigger[i]); //Fill vtrigger with bool values
 		}
-
-		for(int j = 0; j <trigEff_presel.selection.size(); j++){
-			//if(prescaleTrigger[j]==1){
-			
-				auto it = find(triggerNames.begin(), triggerNames.end(), trigEff_presel.selection[j]);
-				auto index = distance(triggerNames.begin(), it);
-				trigEff_presel.ListTriggers[index] = (passTrigger[index]);
-			//}
-		}
-		trigEff_presel.Fill(trigEff_presel.ListTriggers); 
+		trigEff_presel.Fill(vtrigger); 
 		//trigEff_presel.Fill(vtrigger); 
 	}
 
@@ -107,3 +103,20 @@ int main(){
 	ana.Loop();
 	
 }
+
+
+
+
+
+/*PREVIOUSLY IN LOOP :
+
+/*for(int j = 0; j <trigEff_presel.selection.size(); j++){
+			//if(prescaleTrigger[j]==1){
+			
+				auto it = find(triggerNames.begin(), triggerNames.end(), trigEff_presel.selection[j]);
+				auto index = distance(triggerNames.begin(), it);
+				//trigEff_presel.ListTriggers[index] = (passTrigger[index]);
+
+			//}
+		}*/
+
