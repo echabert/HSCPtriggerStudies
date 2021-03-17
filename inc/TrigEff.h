@@ -10,6 +10,7 @@
 #include <TCanvas.h>
 #include <TPad.h>
 #include <TFile.h>
+#include <map>
 
 /*
 How to compile this file : if using root : .L AnaEff.cpp 
@@ -37,28 +38,26 @@ public:
 
    void	Load(vector<string> triggernames,vector<string> selection,int error_type=1);
 
-   void	Fill(const vector<bool> &triggerpass, string obs ="", double weight = 1); 
+   //void	Fill(const vector<bool> &triggerpass, string obs ="", double weight = 1); 
+
+   void	Fill(map<int,int> ListTriggers, string obs ="", double weight = 1); 
 
    void Compute();
      
    void SortEffVec();
 
 
-   vector<int> currentlines; // 
-   vector<string> selection; // Input by the user if looking for specific triggers efficiencies 
+   
+   vector<string> selection; // Input by the user for specific triggers efficiencies 
+   vector<string> selectedtriggernames; // Takes only triggers with prescale == 1;
+   map<int,int> ListTriggers;
 
-
-
-
-
-
-   vector<string> selectedtriggernames;
 
  private :
 	
 //*************************************METHODS********************************************
 
-
+   void PrescaleSelection(vector<string> selection);
 
    // ****************** Correlation between triggers ******************
    void ComputeCorr(); //Computes the 2D array of correlations
@@ -108,18 +107,19 @@ public:
    int error_type; // Int that corresponds to a way of calculating the error
 
 
+
+   
+
    TFile* OutputHisto;
    TH1D* EFF_TRIG;
    TH1D* EFF_DISTRIB;
 
    TH2D* CORR; 
 
-   
+   vector<int> currentlines; // 
    vector< pair<double, pair<double,string> > > efflist; 
 
    string obs; // observable 
-
-   
 
    vector<string> triggernames;
 

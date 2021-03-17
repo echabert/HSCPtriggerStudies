@@ -11,8 +11,11 @@
 #include <TFile.h>
 #include <iostream>
 #include <fstream>
+#include <map>
+#include <iterator>
 //include our classes
 #include "inc/TrigEff.h"
+
 
 
 
@@ -113,27 +116,36 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
    //read trigger list from the file
 
 
-   ifstream ifile("data/triggerNames.txt");
-   vector<string> triggerNames;
-   string tmp;
-   while(getline(ifile,tmp)){
-   	triggerNames.push_back(tmp);
-   }
-   cout<<"#triggers: "<< triggerNames.size() <<endl;
-   vector<string> str;
-   string interfstr;
-   int studytrig;
-   /*cout << "How many triggers do you want to study? "  << endl;
-   cin >> studytrig;
-   cout <<"Name the triggers : " << endl;
-   for (int i = 0; i< studytrig;i++){
-   	cin >> interfstr;
-	str.push_back(interfstr);
-   }*/
    
+//************ pas accès au prescaleTrigger ici, autre méthode dans le main : Load peut pas envoyer ça  *************
+/*
+   ofstream prescaledtriggers;
+   prescaledtriggers.open ("PrescaledTriggers.txt");
+	
+   cout << triggerNames.size() << endl;
+
+   for(int j = 0; j <triggerNames.size(); j++){
+   	//if(prescaleTrigger[j]==0){
+		trigEff_presel.presel.insert(make_pair(j,trigEff_presel.selectedtriggernames[j]));	
+		prescaledtriggers << j << " " << trigEff_presel.selectedtriggernames[j] << " " << prescaleTrigger[j] << endl;
+	//}
+   }
+   prescaledtriggers.close();
+   map<int, string>::iterator it = trigEff_presel.presel.begin();
+   while(it != trigEff_presel.presel.end())
+   {
+        cout << it->first << " :: " << it->second << endl;
+        it++;
+   }
+*/
+  //**************** 
+   
+
+
+/*
    trigEff_presel.selection=str;
    trigEff_presel.selectedtriggernames=triggerNames;
-   trigEff_presel.Load(triggerNames,str);
+   trigEff_presel.Load(triggerNames,str); */  //
 }
 
 
@@ -141,6 +153,8 @@ AnaEff::~AnaEff() //deconstructeur
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
+
+   
    //delete[] passTrigger;
 }
 
