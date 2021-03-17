@@ -49,15 +49,13 @@ public:
    void SortEffVec();
 
 
-   
-   vector<string> selection; // Input by the user for specific triggers efficiencies 
-   vector<string> selectedtriggernames; // Takes only triggers with prescale == 1;
-   map<int,int> ListTriggers;
+ 
 
 
  private :
 	
 //*************************************METHODS********************************************
+   
 
    void PrescaleSelection(vector<string> selection);
 
@@ -107,7 +105,10 @@ public:
 
 
    int error_type; // Int that corresponds to a way of calculating the error
-
+   
+   vector<string> selection; // Input by the user for specific triggers efficiencies 
+   vector<string> selectedtriggernames; // Takes only triggers with prescale == 1;
+   map<int,int> ListTriggers;
 
 
    
