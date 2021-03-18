@@ -87,6 +87,7 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> SelectedTriggerNam
 			//}
 		}
 	}
+/*		 Corrélation, fichier .txt commence ligne 1 et passtrig[] commence à 0	*/
 	else if(Selection=="sel1"){
 		for(int j = 0; j < 10; j++){
 			ListTriggers[j] = (j);
@@ -94,11 +95,12 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> SelectedTriggerNam
 	}
 	else if(Selection=="sel2"){
 		for(int j = 10; j < 20; j++){
-			ListTriggers[j] = (j);
+			ListTriggers[j-10] = (j);
+			cout << "pos in map " << j-10 << " pos of trigger " << j << endl; 
 		}
 	}
 	else if(Selection=="all"){
-		for(int j = 0; j < trigerNames.size(); j++){
+		for(int j = 0; j < triggerNames.size(); j++){
 			ListTriggers[j] = (j);
 		}
 	}
@@ -139,7 +141,15 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> SelectedTriggerNam
 	}
 	
 }
+//*************************************************************
 
+/*
+Differentes méthodes fill (en fonction du string donné, est-ce que je peux pas simplement remplir la map dans des if/else if ?
+
+
+
+
+*/
 
 //*************************************************************
 

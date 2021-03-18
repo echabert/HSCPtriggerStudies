@@ -64,10 +64,11 @@ void AnaEff::Loop()
 		str.push_back(interfstr);
 	}
 
-	trigEff_presel.Load(triggerNames,str,1,"sel2"); // if enter a string : sel 1 = 10 first triggers, sel2 = 20 first triggers etc..
+	trigEff_presel.Load(triggerNames,str,1,"entered"); // if enter a string : sel 1 = 10 first triggers, sel2 = 20 first triggers etc..
 
 
 	
+
 	//nentries=100;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
