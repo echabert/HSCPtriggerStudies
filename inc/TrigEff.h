@@ -57,8 +57,6 @@ public:
 //*************************************METHODS********************************************
    
 
-   void PrescaleSelection(vector<string> selection);
-
    // ****************** Correlation between triggers ******************
    void ComputeCorr(); //Computes the 2D array of correlations
 
@@ -108,7 +106,7 @@ public:
    
    vector<string> selection; // Input by the user for specific triggers efficiencies 
    vector<string> selectedtriggernames; // Takes only triggers with prescale == 1;
-   map<int,int> ListTriggers;
+   map<int,int> ListTriggers; // map linking position of given trigger in the .txt file and an index
 
 
    

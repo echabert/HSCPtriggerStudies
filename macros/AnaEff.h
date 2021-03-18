@@ -112,40 +112,6 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
    
    Init(tree);
 
-
-   //read trigger list from the file
-
-
-   
-//************ pas accès au prescaleTrigger ici, autre méthode dans le main : Load peut pas envoyer ça  *************
-/*
-   ofstream prescaledtriggers;
-   prescaledtriggers.open ("PrescaledTriggers.txt");
-	
-   cout << triggerNames.size() << endl;
-
-   for(int j = 0; j <triggerNames.size(); j++){
-   	//if(prescaleTrigger[j]==0){
-		trigEff_presel.presel.insert(make_pair(j,trigEff_presel.selectedtriggernames[j]));	
-		prescaledtriggers << j << " " << trigEff_presel.selectedtriggernames[j] << " " << prescaleTrigger[j] << endl;
-	//}
-   }
-   prescaledtriggers.close();
-   map<int, string>::iterator it = trigEff_presel.presel.begin();
-   while(it != trigEff_presel.presel.end())
-   {
-        cout << it->first << " :: " << it->second << endl;
-        it++;
-   }
-*/
-  //**************** 
-   
-
-
-/*
-   trigEff_presel.selection=str;
-   trigEff_presel.selectedtriggernames=triggerNames;
-   trigEff_presel.Load(triggerNames,str); */  //
 }
 
 
@@ -153,7 +119,6 @@ AnaEff::~AnaEff() //deconstructeur
 {
    if (!fChain) return;
    delete fChain->GetCurrentFile();
-
    
    //delete[] passTrigger;
 }
