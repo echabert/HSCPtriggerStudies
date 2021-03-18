@@ -64,7 +64,7 @@ void AnaEff::Loop()
 		str.push_back(interfstr);
 	}
 
-	trigEff_presel.Load(triggerNames,str);
+	trigEff_presel.Load(triggerNames,str,1,"sel2"); // if enter a string : sel 1 = 10 first triggers, sel2 = 20 first triggers etc..
 
 
 	
@@ -92,7 +92,6 @@ void AnaEff::Loop()
 int main(){
 
 	AnaEff ana;
-	
 	ana.Loop();
 	
 }
@@ -103,10 +102,10 @@ int main(){
 
 /*PREVIOUSLY IN LOOP :
 
-/*for(int j = 0; j <trigEff_presel.selection.size(); j++){
+/*for(int j = 0; j <trigEff_presel.SelectedTriggerNames.size(); j++){
 			//if(prescaleTrigger[j]==1){
 			
-				auto it = find(triggerNames.begin(), triggerNames.end(), trigEff_presel.selection[j]);
+				auto it = find(triggerNames.begin(), triggerNames.end(), trigEff_presel.SelectedTriggerNames[j]);
 				auto index = distance(triggerNames.begin(), it);
 				//trigEff_presel.ListTriggers[index] = (passTrigger[index]);
 

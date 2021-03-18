@@ -33,29 +33,29 @@ TrigEff::~TrigEff(){
 
 	
 	
-	selection.clear();
-	selectedtriggernames.clear();
+	SelectedTriggerNames.clear();
+	//Selection.clear();
 
-	efflist.clear();
+	EffList.clear();
 	
-	triggernames.clear();
-	triggerpass.clear();
+	TriggerNames.clear();
+	TriggerPass.clear();
 
-	correlation.clear();
-	num_corr.clear();
-	denom_corr.clear();
+	Correlation.clear();
+	NumCorr.clear();
+	DenomCorr.clear();
 
-	corr_err.clear();
+	CorrErr.clear();
 
-	efficiency.clear();
+	Efficiency.clear();
 	
-	num_efficiency.clear();
-	denom_efficiency.clear();
-	eff_err.clear();
+	NumEfficiency.clear();
+	DenomEfficiency.clear();
+	EffErr.clear();
 	
 
 
-	/*if(!EFF_TRIG){
+	if(!EFF_TRIG){
 		delete EFF_TRIG;
 	}
 	if(!OutputHisto){
@@ -66,7 +66,7 @@ TrigEff::~TrigEff(){
 	}
 	if(!EFF_DISTRIB){ 
 		delete EFF_DISTRIB;
-	}*/
+	}
 }
 
 
@@ -75,50 +75,66 @@ TrigEff::~TrigEff(){
 //*************************************************************
 
 
-void TrigEff::Load(vector<string> triggerNames,vector<string> selection,int error_type){ 
+void TrigEff::Load(vector<string> triggerNames,vector<string> SelectedTriggerNames,int ErrorType, string Selection){ 
 	
-	
-	for(int j = 0; j < selection.size(); j++){
-		//if(prescaleTrigger[j]==1){
-			auto it = find(triggerNames.begin(), triggerNames.end(), selection[j]);
-			auto index = distance(triggerNames.begin(), it);
-			ListTriggers[j] = (index);
-			cout << "[" << j<< "," << index+1 << "]" << endl; 
-		//}
+	if(Selection=="entered"){
+		for(int j = 0; j < SelectedTriggerNames.size(); j++){
+			//if(prescaleTrigger[j]==1){
+				auto it = find(triggerNames.begin(), triggerNames.end(), SelectedTriggerNames[j]);
+				auto index = distance(triggerNames.begin(), it);
+				ListTriggers[j] = (index);
+				cout << "[" << j<< "," << index+1 << "]" << endl; 
+			//}
+		}
+	}
+	else if(Selection=="sel1"){
+		for(int j = 0; j < 10; j++){
+			ListTriggers[j] = (j);
+		}
+	}
+	else if(Selection=="sel2"){
+		for(int j = 10; j < 20; j++){
+			ListTriggers[j] = (j);
+		}
+	}
+	else if(Selection=="all"){
+		for(int j = 0; j < trigerNames.size(); j++){
+			ListTriggers[j] = (j);
+		}
 	}
 
 
-	num_corr.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0)); // mettre map.size() dans les vecteurs
-	denom_corr.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0));
-	correlation.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0)); // taille après avoir récupérer la liste des trigg of interest
+	NumCorr.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0)); 
+	DenomCorr.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0));
+	Correlation.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0)); 
 	
-	num_efficiency.resize(ListTriggers.size(), 0.0);
-	denom_efficiency.resize(ListTriggers.size(), 0.0);
-	efficiency.resize(ListTriggers.size(), 0.0);
+	NumEfficiency.resize(ListTriggers.size(), 0.0);
+	DenomEfficiency.resize(ListTriggers.size(), 0.0);
+	Efficiency.resize(ListTriggers.size(), 0.0);
 	
-	eff_err.resize(ListTriggers.size(), 0.0);
+	EffErr.resize(ListTriggers.size(), 0.0);
 
-	this->triggernames = triggerNames;
+	this->TriggerNames = triggerNames;
 
 	TString outputfilename="testnewdata.root";
 	OutputHisto= new TFile(outputfilename,"RECREATE");
 
 
-	//selection=str;
-	//selectedtriggernames=triggerNames;
+	//SelectedTriggerNames=str;
+	//Selection=triggerNames;
 	//************* Init of histograms ****************
 
 
-	/*EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
-	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", 100,0,100);
+	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
+	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", ListTriggers.size(),0,ListTriggers.size());
 
-	TH2D* CORR = new TH2D("Correlation", " Correlation plot",  triggernames.size() , 0 , triggernames.size() , triggernames.size(), 0 , triggernames.size()); 
+	CORR = new TH2D("Correlation", " Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size() , ListTriggers.size(), 0 , ListTriggers.size()); 
 	
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
-	CORR->Sumw2();*/
+	CORR->Sumw2();
 	
-	if(error_type == 1 ){
+	if(ErrorType == 1 ){
 		//cout << " We will use the most general error estimator " << endl;
 	}
 	
@@ -135,17 +151,17 @@ void TrigEff::Fill(const vector<bool> &passtrig, string obs, double weight){
 	bool trig1,trig2;
 	for(auto iter = ListTriggers.begin(); iter != ListTriggers.end() ;iter++){
 		trig1 = passtrig[iter->second];
-		denom_efficiency[iter->first]+=1;
+		DenomEfficiency[iter->first]+=1;
 		if (trig1){
-			num_efficiency[iter->first]+=1;
+			NumEfficiency[iter->first]+=1;
 		}
 		for(auto jter = ListTriggers.begin(); jter != ListTriggers.end();jter++){
 			trig2 = passtrig[jter->second];
 			if(trig1 || trig2){
-				denom_corr[iter->first][jter->first]+=1;
+				DenomCorr[iter->first][jter->first]+=1;
 			}
 			if(trig1 && trig2){
-				num_corr[iter->first][jter->first]+=1;
+				NumCorr[iter->first][jter->first]+=1;
 			}
 		}
 	}
@@ -158,13 +174,13 @@ void TrigEff::Fill(const vector<bool> &passtrig, string obs, double weight){
 
 void TrigEff::ComputeCorr(){
 
-	for(int i=0;i< correlation.size();i++){
-		for(int j=0;j< correlation[i].size();j++){
-			if(denom_corr[i][j]==0){
-				correlation[i][j]=0;
+	for(int i=0;i< Correlation.size();i++){
+		for(int j=0;j< Correlation[i].size();j++){
+			if(DenomCorr[i][j]==0){
+				Correlation[i][j]=0;
 			}
 			else{	
-			correlation[i][j] = ((num_corr[i][j]*1.0) / denom_corr[i][j]);
+			Correlation[i][j] = ((NumCorr[i][j]*1.0) / DenomCorr[i][j]);
 			}
 			
 			//CORR->Fill( // Fill avec 
@@ -174,9 +190,9 @@ void TrigEff::ComputeCorr(){
 
 void TrigEff::PrintCorr(){
 	cout << endl;
-	for ( int i = 0; i < correlation.size(); i++ ){
-   		for ( int j = 0; j < correlation[i].size(); j++ ){
-      			cout << correlation[i][j] * 100  << "% ";
+	for ( int i = 0; i < Correlation.size(); i++ ){
+   		for ( int j = 0; j < Correlation[i].size(); j++ ){
+      			cout << Correlation[i][j] * 100  << "% ";
    		}
    	cout << endl;
 	}
@@ -185,9 +201,9 @@ void TrigEff::PrintCorr(){
 
 void TrigEff::PrintNumCorr(){
 	
-	for ( int i = 0; i < num_corr.size(); i++ ){
-   		for ( int j = 0; j < num_corr[i].size(); j++ ){
-      			cout << num_corr[i][j] << ' ';
+	for ( int i = 0; i < NumCorr.size(); i++ ){
+   		for ( int j = 0; j < NumCorr[i].size(); j++ ){
+      			cout << NumCorr[i][j] << ' ';
    		}
    	cout << endl;
 	}	
@@ -195,9 +211,9 @@ void TrigEff::PrintNumCorr(){
 
 void TrigEff::PrintDenomCorr(){
 
-	for ( int i = 0; i < denom_corr.size(); i++ ){
-   		for ( int j = 0; j < denom_corr[i].size(); j++ ){
-      			cout << "num:" << num_corr[i][j] << "denom: " << denom_corr[i][j] << ' ';
+	for ( int i = 0; i < DenomCorr.size(); i++ ){
+   		for ( int j = 0; j < DenomCorr[i].size(); j++ ){
+      			cout << "num:" << NumCorr[i][j] << "denom: " << DenomCorr[i][j] << ' ';
    		}
    	cout << endl;
 	}
@@ -207,14 +223,14 @@ void TrigEff::PrintDenomCorr(){
 
 void TrigEff::ComputeEff()
 {
-	for(int i=0;i< efficiency.size();i++){
-		if(denom_efficiency[i]==0){
-			efficiency[i]=0;
-			//EFF_TRIG->Fill(efficiency[i]);
+	for(int i=0;i< Efficiency.size();i++){
+		if(DenomEfficiency[i]==0){
+			Efficiency[i]=0;
+			//EFF_TRIG->Fill(Efficiency[i]);
 		}
 		else{	
-			efficiency[i] = ((num_efficiency[i]*1.0) / denom_efficiency[i]*1.0);
-			//EFF_TRIG->Fill(efficiency[i]);
+			Efficiency[i] = ((NumEfficiency[i]*1.0) / DenomEfficiency[i]*1.0);
+			//EFF_TRIG->Fill(Efficiency[i]);
 		}
 		
 	}
@@ -226,8 +242,8 @@ void TrigEff::ComputeEff()
 
 void TrigEff::PrintEff(){
 
-	for(int i=0;i< efficiency.size();i++){
-		cout << efficiency[i] *100 << "% " << "denom : " << denom_efficiency[i] <<" error : " << eff_err[i] << endl;
+	for(int i=0;i< Efficiency.size();i++){
+		cout << Efficiency[i] *100 << "% " << "denom : " << DenomEfficiency[i] <<" error : " << EffErr[i] << endl;
 	}
 }
 
@@ -235,14 +251,14 @@ void TrigEff::PrintEff(){
 
 void TrigEff::SortEffVec(){
 	
-	for (int i = 0; i < efficiency.size(); i++) { 
-        	efflist.push_back(make_pair(efficiency[i], make_pair(eff_err[i],triggernames[ListTriggers[i]])));
+	for (int i = 0; i < Efficiency.size(); i++) { 
+        	EffList.push_back(make_pair(Efficiency[i], make_pair(EffErr[i],TriggerNames[ListTriggers[i]])));
 	}
 
-	sort(efflist.begin(),efflist.end());
+	sort(EffList.begin(),EffList.end());
 	cout << "Efficiency " << "\t" << "Error" << "\t" << "Trigger name" << endl; 
-    	for (int i = 0; i < efficiency.size(); i++) { 
-        	cout << setprecision (8) << efflist[i].first << "\t" << efflist[i].second.first << "\t" << efflist[i].second.second << endl; 
+    	for (int i = 0; i < Efficiency.size(); i++) { 
+        	cout << setprecision (8) << EffList[i].first << "\t" << EffList[i].second.first << "\t" << EffList[i].second.second << endl; 
 		}
     
 }
@@ -252,66 +268,59 @@ void TrigEff::SaveIntTrigs(){
 	ofstream TriggersOfInterest;
 	TriggersOfInterest.open ("TriggersOfInterest.txt");
 	if (TriggersOfInterest.good()){
-		
-		for (int i = 0; i < efficiency.size(); i++) { 
-			if(efflist[i].first >= 0.5 ){
-			TriggersOfInterest << efflist[i].first << " " << efflist[i].second.first << " " << efflist[i].second.second << "\n";
-			double effem=efflist[i].first;
-			//EFF_DISTRIB->SetBinContent(j,effem);
+		for (int i = 0; i < Efficiency.size(); i++){ 
+			//if(EffList[i].first >= 0.5 ){
+			TriggersOfInterest << EffList[i].first << " " << EffList[i].second.first << " " << EffList[i].second.second << "\n";
+			double effem=EffList[i].first;
+			EFF_DISTRIB->SetBinContent(j,effem);
 			j++;
-			}
+			//}
     		}
 
 	TriggersOfInterest.close();
-	//EFF_DISTRIB->Write();
-	//OutputHisto->Close();
+	EFF_DISTRIB->Write();
 	}
 
 	else{
 		cout << "File .txt was not opened, aborting" << endl;
 	}
+	OutputHisto->Close();
 }
 
 
-
-/*void TrigEff::PrintSpecEff(vector<int> currentlines){
-		for(int i=0;i<currentlines.size();i++){
-			cout << "Trigger # "<< ListTriggers[i]+1 << " has e = " << efficiency[currentlines[i]] *100 << "% " << "+/- " << eff_err[currentlines[i]]*100 << "% " << endl;
-		}
-}*/
 
 
 
 
 
 void TrigEff::PrintNumEff(){
-	for ( int i = 0; i < num_efficiency.size(); i++ ){
-      		cout << num_efficiency[i] << endl ;
+	for ( int i = 0; i < NumEfficiency.size(); i++ ){
+      		cout << NumEfficiency[i] << endl ;
 	}	
 }
 
 
 void TrigEff::PrintDenomEff(){
-	for ( int i = 0; i < denom_efficiency.size(); i++ ){
-      		cout << num_efficiency[i] << " " << denom_efficiency[i] << " " <<eff_err[i] << endl ;
+	for ( int i = 0; i < DenomEfficiency.size(); i++ ){
+      		cout << NumEfficiency[i] << " " << DenomEfficiency[i] << " " <<EffErr[i] << endl ;
 	}
 }
 
 
 void TrigEff::ComputeError(){
 
-	for(int i=0;i< eff_err.size();i++){
-		cout << num_efficiency[i] << " " << denom_efficiency[i] << endl ;
-		if(efficiency[i]==0){
-			eff_err[i]=0;
+	for(int i=0;i< EffErr.size();i++){
+		cout << NumEfficiency[i] << " " << DenomEfficiency[i] << endl ;
+		if(Efficiency[i]==0){
+			EffErr[i]=0;
 		}
 		else{
-			eff_err[i]=sqrt((efficiency[i]*(1.0-efficiency[i]))/denom_efficiency[i]);
+			EffErr[i]=sqrt((Efficiency[i]*(1.0-Efficiency[i]))/DenomEfficiency[i]);
 		}
 	}
 }
 
-void TrigEff::GetPlot(string selection){
+void TrigEff::GetPlot(string SelectedTriggerNames){
 	//utiliser cette fonction pour plot l'efficacité en fonction de la masse : entrer le trigger (nom), il obtient son efficacité et à chaque fois il la met dans un TGRAPH avec la masse ( calculée à base de Ih et des deux coefficients dans la publication 1 envoyée), on peut donc avoir l'efficacité en fonction de la masse 
 
 	
@@ -327,7 +336,6 @@ void TrigEff::Compute(){
 	//PrintDenomEff();
 	SortEffVec();
 	//PrintEff();
-	//PrintSpecEff(currentlines);
 	SaveIntTrigs();
 	ComputeCorr();
 	//PrintDenomCorr();

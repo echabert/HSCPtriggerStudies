@@ -36,7 +36,7 @@ public:
    ~TrigEff();
    
 
-   void	Load(vector<string> triggernames,vector<string> selection,int error_type=1);
+   void	Load(vector<string> TriggerNames,vector<string> SelectedTriggerNames,int ErrorType=1, string Selection="entered");
 
    //void	Fill(const vector<bool> &triggerpass, string obs ="", double weight = 1); 
 
@@ -76,8 +76,6 @@ public:
    
    void PrintEff(); //Show all efficiencies 
 
-   void PrintSpecEff(vector<int> curline); //Show the efficiencies of entered triggers 
-
    void PrintNumEff(); // Show the numerator (# candidates that passed the trigger)
 
    void PrintDenomEff(); // Show the denominator (# candidates)
@@ -89,7 +87,7 @@ public:
 
    // ******************* Plotting ********************************
 
-   void GetPlot(string selection); // format latex 
+   void GetPlot(string SelectedTriggerNames); // format latex 
 
    void SavePlots(); // en png/hist ou whatever
 
@@ -100,45 +98,50 @@ public:
 // ******************************MEMBERS**************************
 
 
-   int error_type; // Int that corresponds to a way of calculating the error
-   
-   vector<string> selection; // Input by the user for specific triggers efficiencies 
-   vector<string> selectedtriggernames; // Takes only triggers with prescale == 1;
-   map<int,int> ListTriggers; // map linking position of given trigger in the .txt file and an index
 
-
-   
 
    TFile* OutputHisto;
+
    TH1D* EFF_TRIG;
    TH1D* EFF_DISTRIB;
 
    TH2D* CORR; 
 
-   vector<int> currentlines; // 
-   vector< pair<double, pair<double,string> > > efflist; 
 
+
+   int ErrorType; // Int that corresponds to a way of calculating the error
+   
+   string Selection; // Takes only triggers with prescale == 1;
+   
    string obs; // observable 
+  
+   
+   map<int,int> ListTriggers; // map linking position of given trigger in the .txt file and an index
 
-   vector<string> triggernames;
 
-   vector<bool> triggerpass; 
+   vector<string> SelectedTriggerNames; // Input by the user for specific triggers efficiencies 
+
+   vector< pair<double, pair<double,string> > > EffList; 
+
+   vector<string> TriggerNames;
+
+   vector<bool> TriggerPass; 
    
 
-   vector<vector<double> > correlation; 
+   vector<vector<double> > Correlation; 
 
-   vector<vector<double> > num_corr;
-   vector<vector<double> > denom_corr;
+   vector<vector<double> > NumCorr;
+   vector<vector<double> > DenomCorr;
 
-   vector<vector<double> > corr_err;
+   vector<vector<double> > CorrErr;
 
 
-   vector<double> efficiency;
+   vector<double> Efficiency;
 
-   vector<double> num_efficiency;
-   vector<double> denom_efficiency;
+   vector<double> NumEfficiency;
+   vector<double> DenomEfficiency;
 
-   vector<double> eff_err;
+   vector<double> EffErr;
 };
 
 #endif
