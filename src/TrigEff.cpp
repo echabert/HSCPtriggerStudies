@@ -143,7 +143,7 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> SelectedTriggerNam
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", ListTriggers.size(),0,ListTriggers.size());
 
-	CORR = new TH2D("Correlation", " Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size() , ListTriggers.size(), 0 , ListTriggers.size()); 
+	CORR = new TH2D("Correlation", " Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size()+1 , ListTriggers.size(), 0 , ListTriggers.size()+1); 
 	
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
@@ -206,7 +206,7 @@ void TrigEff::ComputeCorr(){
 			Correlation[i][j] = ((NumCorr[i][j]*1.0) / DenomCorr[i][j]);
 			}
 			
-			CORR->SetBinContent(i,j,Correlation[i][j]); // Fill avec 
+			CORR->SetBinContent(i,j,(Correlation[i][j]*100)); // Fill avec 
 		}
 	}
 	CORR->Write();
