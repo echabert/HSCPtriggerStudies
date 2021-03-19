@@ -45,13 +45,15 @@ void AnaEff::Loop()
    		triggerNames.push_back(tmp);
 	}
 
+	
+
 	cout<<"#triggers: "<< triggerNames.size() <<endl;
 	ifile.close();
+	
 	vector<string> str;
 	string interfstr;
-
 	int studytrig;
-
+	
 	cout << "How many triggers do you want to study? "  << endl;
 	cin >> studytrig;
 

@@ -94,11 +94,24 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> SelectedTriggerNam
 		}
 	}
 	else if(Selection=="sel2"){
-		for(int j = 10; j < 20; j++){
-			ListTriggers[j-10] = (j);
-			cout << "pos in map " << j-10 << " pos of trigger " << j << endl; 
+		for(int j = 0; j < 20; j++){
+			ListTriggers[j] = (j);
+			cout << "pos in map " << j << " pos of trigger " << j << endl; 
 		}
 	}
+	else if(Selection=="sel3"){
+		for(int j = 0; j < 30; j++){
+			ListTriggers[j] = (j);
+			cout << "pos in map " << j << " pos of trigger " << j << endl; 
+		}
+	}
+	else if(Selection=="sel4"){
+		for(int j = 0; j < 40; j++){
+			ListTriggers[j] = (j);
+			cout << "pos in map " << j << " pos of trigger " << j << endl; 
+		}
+	}
+
 	else if(Selection=="all"){
 		for(int j = 0; j < triggerNames.size(); j++){
 			ListTriggers[j] = (j);
@@ -193,9 +206,11 @@ void TrigEff::ComputeCorr(){
 			Correlation[i][j] = ((NumCorr[i][j]*1.0) / DenomCorr[i][j]);
 			}
 			
-			//CORR->Fill( // Fill avec 
+			CORR->SetBinContent(i,j,Correlation[i][j]); // Fill avec 
 		}
 	}
+	CORR->Write();
+	OutputHisto->Close();
 }
 
 void TrigEff::PrintCorr(){
@@ -244,7 +259,7 @@ void TrigEff::ComputeEff()
 		}
 		
 	}
-	//OutputHisto->cd();
+	OutputHisto->cd();
 	//EFF_TRIG->Write();
 }
 
@@ -268,7 +283,7 @@ void TrigEff::SortEffVec(){
 	sort(EffList.begin(),EffList.end());
 	cout << "Efficiency " << "\t" << "Error" << "\t" << "Trigger name" << endl; 
     	for (int i = 0; i < Efficiency.size(); i++) { 
-        	cout << setprecision (8) << EffList[i].first << "\t" << EffList[i].second.first << "\t" << EffList[i].second.second << endl; 
+        	cout << setprecision (8) << (EffList[i].first)*100 << "\t" << EffList[i].second.first << "\t" << EffList[i].second.second << endl; 
 		}
     
 }
@@ -294,7 +309,7 @@ void TrigEff::SaveIntTrigs(){
 	else{
 		cout << "File .txt was not opened, aborting" << endl;
 	}
-	OutputHisto->Close();
+	
 }
 
 
@@ -347,6 +362,7 @@ void TrigEff::Compute(){
 	SortEffVec();
 	//PrintEff();
 	SaveIntTrigs();
+
 	ComputeCorr();
 	//PrintDenomCorr();
 	PrintCorr();
