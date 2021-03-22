@@ -39,7 +39,8 @@ public :
 
    //User variables
    TrigEff   trigEff_presel;
-   TrigEff   trigEff_preseltwo;
+
+   TrigEff   trigEff_presel_two;//_varname
 
    //List of variables with ROOT dependancies
    
@@ -54,13 +55,13 @@ public :
    Int_t           npv;
    Int_t           ngoodpv;
    Int_t           ntrigger;
-
+   Int_t           nhscp;
    //Bool_t *passTrigger;
    Int_t	prescaleTrigger[1000];
    Bool_t	passTrigger[1000];
    
    Float_t         track_pt[33];   //[ntracks] augmenter la taille pour pas de overflow, it was 33
-   Int_t           hscp_track_idx[9];   //[nhscp] it was 9
+   Int_t           hscp_track_idx[9];  //[nhscp] it was 9
 
     // List of branches
    TBranch        *b_runNumber;   //!
@@ -72,7 +73,8 @@ public :
    TBranch        *b_passTrigger; //!
    TBranch        *b_track_pt;   //!
    TBranch        *b_hscp_track_idx;   //!
-   
+   TBranch        *b_nhscp;  //!
+
    //--------------------------------------
    // Methods
    //--------------------------------------
@@ -162,6 +164,7 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("ngoodpv", &ngoodpv, &b_ngoodpv);
    fChain->SetBranchAddress("track_pt", track_pt, &b_track_pt);
    fChain->SetBranchAddress("hscp_track_idx", hscp_track_idx, &b_hscp_track_idx);
+   fChain->SetBranchAddress("nhscp", &nhscp, &b_nhscp);
    Notify();
 }
 

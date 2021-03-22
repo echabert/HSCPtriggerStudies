@@ -37,6 +37,30 @@ void AnaEff::Loop()
 	if (initializing < 0) cout << "Aborted"<< endl;
 	nbi = fChain->GetEntry(initializing);   nbytes += nbi;
 	
+
+
+	/*
+	Part en fonction d'une obs, dans la boucle sur les evenements, ou dans une double boucle ou on prend les candidats pour chaque evenement ?
+
+	double HighestPT;
+	vector<double> TrackPT;
+	for (int ihs=0; ihs<nhscp; ihs++) {
+		TrackPT.push_back(track_pt[hscp_track_idx[ihs]]);
+	}
+	sort(TrackPT.rbegin(), TrackPT.rend());
+	HighestPT = TrackPT[0];
+
+	
+	// pour chaque candidat, ou pour chaque evenement ? 
+
+	Ressortir la valeur de ce PT, a quel évenement il correspond,  donner dans une méthode qui va sortir les eff en fonction de la masse ? 
+	*/
+
+
+
+
+
+
 	ifstream ifile("data/triggerNames.txt");
 	vector<string> triggerNames;
 
@@ -69,19 +93,35 @@ void AnaEff::Loop()
 	trigEff_presel.Load(triggerNames,str,1,"entered"); // if enter a string : sel 1 = 10 first triggers, sel2 = 20 first triggers etc..
 
 
-	
-
-	//nentries=100;
+	nentries=20;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%5000==0) cout << "Still here " << endl;
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		vector<Bool_t> vtrigger; //Convert array into vector
+		
+	
+		float Obs; 
+		double HighestPT;
+		//boucle sur les candidats nhscp, trouver le PT le plus grand 
+		vector<double> TrackPT;
+		for(int ihs=0; ihs<nhscp;ihs++){
+			TrackPT.push_back(track_pt[hscp_track_idx[ihs]]);
+			cout << "PT #" << ihs << "= " << track_pt[hscp_track_idx[ihs]] << endl;
+		}
+		sort(TrackPT.rbegin(), TrackPT.rend());
+		HighestPT = TrackPT[0];
+		TrackPT.clear();
+		cout << "Highest PT is : " << HighestPT << endl;
+		
+		
+
+		//vector<int> prescaletrigger; //Convert array into vector
 		for(int i=0;i<ntrigger;i++){
 			vtrigger.push_back(passTrigger[i]); //Fill vtrigger with bool values
+			//prescaletrigger.push_back(prescaleTrigger[i]);
 		}
-		//cout << "Before Fill" << endl;
 		trigEff_presel.Fill(vtrigger);  
 	}
 	trigEff_presel.Compute();

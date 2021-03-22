@@ -11,6 +11,7 @@
 #include <TPad.h>
 #include <TFile.h>
 #include <map>
+#include <TEfficiency.h>
 
 /*
 How to compile this file : if using root : .L AnaEff.cpp 
@@ -23,7 +24,7 @@ How to compile this file : if using root : .L AnaEff.cpp
 
 */
 
-using namespace std;
+using namespace std; // ici std::vector 
 
 
 
@@ -36,17 +37,12 @@ public:
    ~TrigEff();
    
 
-   void	Load(vector<string> TriggerNames,vector<string> SelectedTriggerNames,int ErrorType=1, string Selection="entered");
+   void	Load(const vector<string> &TriggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string Selection="entered",string NameVar="");
 
-   //void	Fill(const vector<bool> &triggerpass, string obs ="", double weight = 1); 
-
-  // void	Fill(map<int,int> ListTriggers, string obs ="", double weight = 1); 
-
-   void Fill(const vector<bool> &passtrig, string obs="", double weight = 1);
+   void Fill(const vector<bool> &passtrig, float Obs= 0.0, double weight = 1); // 
 
    void Compute();
-     
-   void SortEffVec();
+   
 
 
 
@@ -82,7 +78,7 @@ public:
 	
    void ComputeError(); // computes the error on the efficiencies
 
-
+   void SortEffVec();
 
 
    // ******************* Plotting ********************************
@@ -93,6 +89,13 @@ public:
 
    void SaveIntTrigs(); // Saves the list of interesting triggers (efficiency > threshold)
 
+
+
+
+
+   void StudyTrigvsMass(double mass); 
+
+//Mettre la masse en input, dans le anaEff.ccp : get la masse dans la double boucle for, et appeler cette fct avec la masse? 
 
 
 // ******************************MEMBERS**************************
@@ -111,9 +114,11 @@ public:
 
    int ErrorType; // Int that corresponds to a way of calculating the error
    
-   string Selection; // Takes only triggers with prescale == 1;
+   string Selection; // The name of the variable we want to study
    
-   string obs; // observable 
+   string NameObs;
+
+   float Obs; // observable 
   
    
    map<int,int> ListTriggers; // map linking position of given trigger in the .txt file and an index
@@ -124,6 +129,9 @@ public:
    vector< pair<double, pair<double,string> > > EffList; 
 
    vector<string> TriggerNames;
+
+
+   vector <TEfficiency*> EffvsObs;
 
    vector<bool> TriggerPass; 
    

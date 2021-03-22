@@ -73,10 +73,12 @@ TrigEff::~TrigEff(){
 
 
 //*************************************************************
+//Dans Load : Selection va être le nom de la variable qu'on veut étudier. Dans Fill on va mettre la valeur
 
-
-void TrigEff::Load(vector<string> triggerNames,vector<string> SelectedTriggerNames,int ErrorType, string Selection){ 
+void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &SelectedTriggerNames,int ErrorType, string Selection,string NameVar){ 
 	
+	NameObs=NameVar;
+	cout << "Name is : " << NameObs << endl;
 	if(Selection=="entered"){
 		for(int j = 0; j < SelectedTriggerNames.size(); j++){
 			//if(prescaleTrigger[j]==1){
@@ -139,11 +141,25 @@ void TrigEff::Load(vector<string> triggerNames,vector<string> SelectedTriggerNam
 	//Selection=triggerNames;
 	//************* Init of histograms ****************
 
+	
+	EffvsObs.resize(ListTriggers.size());
+	
+	if(NameVar!=""){
+	
+		for(int j=0; j < ListTriggers.size(); j++){
+
+			EffvsObs[j] = new TEfficiency("Eff","Efficiency;x;#epsilon",200,0,2000);
+			//Une fois qu'on a la liste de Tefficiency, on doit avoir la var entrée par l'utilisateur : (track_pt/.../...)
+			}
+		//Ensuite il faut les remplir, retour a Anaeff.cpp : 
+	}
+
+		
 
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", ListTriggers.size(),0,ListTriggers.size());
 
-	CORR = new TH2D("Correlation", " Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size()+1 , ListTriggers.size(), 0 , ListTriggers.size()+1); 
+	CORR = new TH2D("Correlation", " Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size() , ListTriggers.size(), 0 , ListTriggers.size()); 
 	
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
@@ -170,7 +186,7 @@ Differentes méthodes fill (en fonction du string donné, est-ce que je peux pas
 
 
 
-void TrigEff::Fill(const vector<bool> &passtrig, string obs, double weight){  
+void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){  
 	bool trig1,trig2;
 	for(auto iter = ListTriggers.begin(); iter != ListTriggers.end() ;iter++){
 		trig1 = passtrig[iter->second];
@@ -188,15 +204,24 @@ void TrigEff::Fill(const vector<bool> &passtrig, string obs, double weight){
 			}
 		}
 	}
-		
+	
+
+
+	
+}
+
+
+void TrigEff::StudyTrigvsMass(double mass){
+	
+
+
+
 }
 
 
 
-
-
 void TrigEff::ComputeCorr(){
-
+	int binx;
 	for(int i=0;i< Correlation.size();i++){
 		for(int j=0;j< Correlation[i].size();j++){
 			if(DenomCorr[i][j]==0){
@@ -206,7 +231,10 @@ void TrigEff::ComputeCorr(){
 			Correlation[i][j] = ((NumCorr[i][j]*1.0) / DenomCorr[i][j]);
 			}
 			
-			CORR->SetBinContent(i,j,(Correlation[i][j]*100)); // Fill avec 
+			CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100)); // Fill avec 
+			//binx=CORR->GetXAxis;
+			//transformer i et j en string ?
+			//BinLabel en 2D ? SetBinLabel(binx, triggername[indice]) Puis il faut une boucle pour écrire le label I J a chaque fois ? 
 		}
 	}
 	CORR->Write();
