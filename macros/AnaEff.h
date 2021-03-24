@@ -1,4 +1,4 @@
-// found on file: /opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/Glu1600_5ev/ntupleRaphael_MC16_AOD_Gluino1600_5ev.root
+//  /opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/Glu1600/nt_mc_aod_1.root
 //////////////////////////////////////////////////////////
 
 #ifndef EFFICIENCY_H
@@ -27,8 +27,7 @@
 
 using namespace std;
 
-//rajouter la classe pour dire "je remplis etc... , tu me donnes ce qui passe ou non et je fais avec tout ça
-// pas de dependence entre ce qui calcule les efficacités et comment tu donnes les variables
+
 class AnaEff
 {
 public :
@@ -42,7 +41,7 @@ public :
 
    TrigEff   trigEff_presel_two;//_varname
 
-   //List of variables with ROOT dependancies
+   //List of variables with ROOT dependencies
    
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
@@ -56,13 +55,16 @@ public :
    Int_t           ngoodpv;
    Int_t           ntrigger;
    Int_t           nhscp;
+
+ //  Int_t           hscp_muon_idx[9];   //[nhscp]
    //Bool_t *passTrigger;
-   Int_t	prescaleTrigger[1000];
+   Float_t	prescaleTrigger[1000];
    Bool_t	passTrigger[1000];
    
    Float_t         track_pt[33];   //[ntracks] augmenter la taille pour pas de overflow, it was 33
    Int_t           hscp_track_idx[9];  //[nhscp] it was 9
-
+ 
+   Float_t         muon_pt[32]; //!
     // List of branches
    TBranch        *b_runNumber;   //!
    TBranch        *b_event;   //!
@@ -74,6 +76,9 @@ public :
    TBranch        *b_track_pt;   //!
    TBranch        *b_hscp_track_idx;   //!
    TBranch        *b_nhscp;  //!
+   TBranch        *b_muon_pt;
+  // TBranch        *b_hscp_muon_idx; //!
+
 
    //--------------------------------------
    // Methods
@@ -102,11 +107,11 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root"); // /home/raph/CMS/TEST/ntupleRaphael_MC16_AOD_Gluino1600_5ev.root
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root"); // /home/raph/CMS/TEST/ntupleRaphael_MC16_AOD_Gluino1600_5ev.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
       if (!f || !f->IsOpen()) {
-	f = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root"); // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+	f = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root"); // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
       }
-      TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root:/stage");
+      TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
       dir->GetObject("ttree",tree);
 
    }
@@ -165,6 +170,8 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("track_pt", track_pt, &b_track_pt);
    fChain->SetBranchAddress("hscp_track_idx", hscp_track_idx, &b_hscp_track_idx);
    fChain->SetBranchAddress("nhscp", &nhscp, &b_nhscp);
+   fChain->SetBranchAddress("muon_pt", muon_pt, &b_muon_pt);
+ //  fChain->SetBranchAddress("hscp_muon_idx", hscp_muon_idx, &b_hscp_muon_idx); 
    Notify();
 }
 

@@ -37,7 +37,7 @@ public:
    ~TrigEff();
    
 
-   void	Load(const vector<string> &TriggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string Selection="entered",string NameVar="");
+   void	Load(const vector<string> &TriggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string Selection="entered",string NameVar="a");
 
    void Fill(const vector<bool> &passtrig, float Obs= 0.0, double weight = 1); // 
 
@@ -83,7 +83,7 @@ public:
 
    // ******************* Plotting ********************************
 
-   void GetPlot(string SelectedTriggerNames); // format latex 
+   void GetPlot(); // format latex 
 
    void SavePlots(); // en png/hist ou whatever
 

@@ -51,9 +51,16 @@ TrigEff::~TrigEff(){
 	
 	NumEfficiency.clear();
 	DenomEfficiency.clear();
+	
 	EffErr.clear();
 	
+	/*for(int i=0;i<ListTriggers.size();i++){
+		if(!EffvsObs[i]){	
+			delete EffvsObs[i];
+		}
+	}*/
 
+	EffvsObs.clear(); 
 
 	if(!EFF_TRIG){
 		delete EFF_TRIG;
@@ -89,7 +96,7 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 			//}
 		}
 	}
-/*		 Corrélation, fichier .txt commence ligne 1 et passtrig[] commence à 0	*/
+//		 Corrélation, fichier .txt commence ligne 1 et passtrig[] commence à 0	
 	else if(Selection=="sel1"){
 		for(int j = 0; j < 10; j++){
 			ListTriggers[j] = (j);
@@ -130,6 +137,8 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	Efficiency.resize(ListTriggers.size(), 0.0);
 	
 	EffErr.resize(ListTriggers.size(), 0.0);
+	EffvsObs.resize(ListTriggers.size());
+
 
 	this->TriggerNames = triggerNames;
 
@@ -142,16 +151,14 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	//************* Init of histograms ****************
 
 	
-	EffvsObs.resize(ListTriggers.size());
-	
 	if(NameVar!=""){
 	
 		for(int j=0; j < ListTriggers.size(); j++){
 
-			EffvsObs[j] = new TEfficiency("Eff","Efficiency;x;#epsilon",200,0,2000);
-			//Une fois qu'on a la liste de Tefficiency, on doit avoir la var entrée par l'utilisateur : (track_pt/.../...)
+			EffvsObs[j] = new TEfficiency("Eff","Efficiency;Track_pt;#epsilon",200,0,2000);
 			}
-		//Ensuite il faut les remplir, retour a Anaeff.cpp : 
+
+		
 	}
 
 		
@@ -187,26 +194,31 @@ Differentes méthodes fill (en fonction du string donné, est-ce que je peux pas
 
 
 void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){  
-	bool trig1,trig2;
-	for(auto iter = ListTriggers.begin(); iter != ListTriggers.end() ;iter++){
-		trig1 = passtrig[iter->second];
-		DenomEfficiency[iter->first]+=1;
-		if (trig1){
-			NumEfficiency[iter->first]+=1;
+	//if(Obs==0.0){
+		bool trig1,trig2;
+		for(auto iter = ListTriggers.begin(); iter != ListTriggers.end() ;iter++){
+			trig1 = passtrig[iter->second];
+			DenomEfficiency[iter->first]+=1;
+			if (trig1){
+				NumEfficiency[iter->first]+=1;
+			}
+			for(auto jter = ListTriggers.begin(); jter != ListTriggers.end();jter++){
+				trig2 = passtrig[jter->second];
+				if(trig1 || trig2){
+					DenomCorr[iter->first][jter->first]+=1;
+				}
+				if(trig1 && trig2){
+					NumCorr[iter->first][jter->first]+=1;
+				}
+			}
 		}
-		for(auto jter = ListTriggers.begin(); jter != ListTriggers.end();jter++){
-			trig2 = passtrig[jter->second];
-			if(trig1 || trig2){
-				DenomCorr[iter->first][jter->first]+=1;
-			}
-			if(trig1 && trig2){
-				NumCorr[iter->first][jter->first]+=1;
-			}
+	//}
+	/*else*/ if(Obs!=0.0){
+		
+		for(auto ster = ListTriggers.begin() ; ster != ListTriggers.end(); ster++){
+			EffvsObs[ster->first]->Fill(passtrig[ster->second],Obs);
 		}
 	}
-	
-
-
 	
 }
 
@@ -238,14 +250,23 @@ void TrigEff::ComputeCorr(){
 		}
 	}
 	CORR->Write();
-	OutputHisto->Close();
+	
 }
 
 void TrigEff::PrintCorr(){
 	cout << endl;
+	
+	/*for ( int i = Correlation.size()-1; i >= 0 ; i-- ){
+   		for ( int j = 0; j < Correlation[i].size(); j++ ){
+      			cout << "[" << i << "," << j << "] : " <<Correlation[i][j] * 100  << "% ";
+   		}
+   	cout << endl;
+	}
+	cout << endl;*/
+
 	for ( int i = 0; i < Correlation.size(); i++ ){
    		for ( int j = 0; j < Correlation[i].size(); j++ ){
-      			cout << Correlation[i][j] * 100  << "% ";
+      			cout << "[" << i << "," << j << "] : " <<Correlation[i][j] * 100  << "% ";
    		}
    	cout << endl;
 	}
@@ -309,12 +330,14 @@ void TrigEff::SortEffVec(){
 	}
 
 	sort(EffList.begin(),EffList.end());
-	cout << "Efficiency " << "\t" << "Error" << "\t" << "Trigger name" << endl; 
+	cout << "Efficiency " << "\t\t" << "Error" << "\t\t\t" << "Trigger name" << endl; 
     	for (int i = 0; i < Efficiency.size(); i++) { 
-        	cout << setprecision (8) << (EffList[i].first)*100 << "\t" << EffList[i].second.first << "\t" << EffList[i].second.second << endl; 
+        	cout << setprecision (8) << (EffList[i].first)*100 << "\t\t" << setprecision (8) << (EffList[i].second.first)*100 << "\t\t" << EffList[i].second.second << endl; 
 		}
     
 }
+
+
 
 void TrigEff::SaveIntTrigs(){
 	int j=0;
@@ -373,12 +396,12 @@ void TrigEff::ComputeError(){
 	}
 }
 
-void TrigEff::GetPlot(string SelectedTriggerNames){
-	//utiliser cette fonction pour plot l'efficacité en fonction de la masse : entrer le trigger (nom), il obtient son efficacité et à chaque fois il la met dans un TGRAPH avec la masse ( calculée à base de Ih et des deux coefficients dans la publication 1 envoyée), on peut donc avoir l'efficacité en fonction de la masse 
-
+void TrigEff::GetPlot(){
+	for(int i=0;i<ListTriggers.size();i++){
+		EffvsObs[i]->Write();
+	}
 	
-	
-
+	OutputHisto->Close();
 }
 
 void TrigEff::Compute(){
@@ -391,9 +414,11 @@ void TrigEff::Compute(){
 	//PrintEff();
 	SaveIntTrigs();
 
-	ComputeCorr();
+
+	//ComputeCorr();
 	//PrintDenomCorr();
-	PrintCorr();
+	//PrintCorr();
+	GetPlot();
 	
 }
 
