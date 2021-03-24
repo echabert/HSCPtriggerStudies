@@ -151,7 +151,7 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	OutputHisto = new TFile(outputfilename,"RECREATE");
 	
 
-
+	// changer outputhisto pour que quand j'appelle Load, ça ajoute un repertoire dans le Tfile ? 
 
 
 	/*TString outputfilename="testnewdata.root";
@@ -172,11 +172,10 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 			//EffvsObs[j]->Draw();
 			//gPad->Update();
 			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
-			
 
-			/*EffvsObs[j]->Draw("AP");
-			gPad->Update();
-			EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());*/
+			//EffvsObs[j]->Draw("AP");
+			//gPad->Update();
+			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
 			}
 
 		
