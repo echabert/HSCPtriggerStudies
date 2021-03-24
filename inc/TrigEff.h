@@ -37,7 +37,7 @@ public:
    ~TrigEff();
    
 
-   void	Load(const vector<string> &TriggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string Selection="entered",string NameVar="a");
+   void	Load(const vector<string> &TriggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string Selection="entered",string NameVar="a",string FileName="testnewdata.root");
 
    void Fill(const vector<bool> &passtrig, float Obs= 0.0, double weight = 1); // 
 
@@ -83,7 +83,7 @@ public:
 
    // ******************* Plotting ********************************
 
-   void GetPlot(); // format latex 
+   void WritePlots(); // format latex 
 
    void SavePlots(); // en png/hist ou whatever
 
@@ -117,6 +117,7 @@ public:
    string Selection; // The name of the variable we want to study
    
    string NameObs;
+   string FileName;
 
    float Obs; // observable 
   

@@ -13,6 +13,8 @@
 #include <fstream>
 #include <algorithm>
 #include <iostream>
+#include <TPad.h>
+#include <TCanvas.h>
 
 
 using namespace std;
@@ -82,8 +84,7 @@ TrigEff::~TrigEff(){
 //*************************************************************
 //Dans Load : Selection va être le nom de la variable qu'on veut étudier. Dans Fill on va mettre la valeur
 
-void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &SelectedTriggerNames,int ErrorType, string Selection,string NameVar){ 
-	
+void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &SelectedTriggerNames,int ErrorType, string Selection,string NameVar,string FileName){ 
 	NameObs=NameVar;
 	cout << "Name is : " << NameObs << endl;
 	if(Selection=="entered"){
@@ -96,7 +97,7 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 			//}
 		}
 	}
-//		 Corrélation, fichier .txt commence ligne 1 et passtrig[] commence à 0	
+//	 Corrélation, fichier .txt commence ligne 1 et passtrig[] commence à 0	
 	else if(Selection=="sel1"){
 		for(int j = 0; j < 10; j++){
 			ListTriggers[j] = (j);
@@ -126,7 +127,7 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 			ListTriggers[j] = (j);
 		}
 	}
-
+	
 
 	NumCorr.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0)); 
 	DenomCorr.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0));
@@ -139,11 +140,22 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	EffErr.resize(ListTriggers.size(), 0.0);
 	EffvsObs.resize(ListTriggers.size());
 
+	
 
 	this->TriggerNames = triggerNames;
+	
 
-	TString outputfilename="testnewdata.root";
-	OutputHisto= new TFile(outputfilename,"RECREATE");
+	
+	TString outputfilename=FileName.c_str();
+
+	OutputHisto = new TFile(outputfilename,"RECREATE");
+	
+
+
+
+
+	/*TString outputfilename="testnewdata.root";
+	OutputHisto= new TFile(outputfilename,"RECREATE");*/
 
 
 	//SelectedTriggerNames=str;
@@ -154,8 +166,17 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	if(NameVar!=""){
 	
 		for(int j=0; j < ListTriggers.size(); j++){
+			
+			EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",200,0,2000);
+			EffvsObs[j]->SetName(SelectedTriggerNames[j].c_str());
+			//EffvsObs[j]->Draw();
+			//gPad->Update();
+			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
+			
 
-			EffvsObs[j] = new TEfficiency("Eff","Efficiency;Track_pt;#epsilon",200,0,2000);
+			/*EffvsObs[j]->Draw("AP");
+			gPad->Update();
+			EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());*/
 			}
 
 		
@@ -177,6 +198,9 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	}
 	
 }
+
+
+
 //*************************************************************
 
 /*
@@ -396,7 +420,9 @@ void TrigEff::ComputeError(){
 	}
 }
 
-void TrigEff::GetPlot(){
+void TrigEff::WritePlots(){ // Write : TFile arg
+	//TFile cd 
+	
 	for(int i=0;i<ListTriggers.size();i++){
 		EffvsObs[i]->Write();
 	}
@@ -418,7 +444,7 @@ void TrigEff::Compute(){
 	//ComputeCorr();
 	//PrintDenomCorr();
 	//PrintCorr();
-	GetPlot();
+	WritePlots();
 	
 }
 

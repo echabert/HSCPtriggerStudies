@@ -36,10 +36,10 @@ void AnaEff::Loop()
 	Long64_t initializing = LoadTree(0); 
 	if (initializing < 0) cout << "Aborted"<< endl;
 	nbi = fChain->GetEntry(initializing);   nbytes += nbi;
-	
-	cout << " # of triggers : " << ntrigger << endl;
+	cout << " ntrigger  : " << ntrigger << endl;
 
-	ifstream ifile("data/triggerNames.txt");
+
+	ifstream ifile("data/triggerNamesSingleMuon.txt"); // ifstream ifile("data/triggerNames.txt")
 	vector<string> triggerNames;
 
 	string tmp;
@@ -49,40 +49,31 @@ void AnaEff::Loop()
 
 	
 
-	cout<<"#triggers: "<< triggerNames.size() <<endl;
+	cout<<"size of triggerNames : "<< triggerNames.size() <<endl;
 	ifile.close();
 	
 	vector<string> str;
 	string interfstr;
 	
 
-	ifstream inttrigs("data/inttrigs.txt"); // for choosen ones : data/inttrigs.txt
+	ifstream inttrigs("data/inttrigs.txt"); // change in file inttrigs the list of triggers that you want to study
 	while(getline(inttrigs,tmp)){
    		str.push_back(tmp);
 	}
 	inttrigs.close();
-
-	/*int studytrig;
-	
-	cout << "How many triggers do you want to study? "  << endl;
-	cin >> studytrig;
-
-	if(studytrig==1) cout <<"Name the trigger : " << endl;
-
-	else cout <<"Name the triggers : " << endl;
-
-	for (int i = 0; i< studytrig;i++){
-   		cin >> interfstr;
-		str.push_back(interfstr);
-	}*/
-
-
-	
-	
 	vector<string> listofprescaledtriggers;
 
-	for(int i=0;i<ntrigger;i++){
-			
+	/* SUBLIST
+	
+	for(int i=0;i<str.size();i++){
+		if(prescaleTrigger[i]==1){
+			strprescaled.push_back(str[i]);
+		}
+	}
+
+	*/
+
+	for(int i=0;i<triggerNames.size();i++){ // ntrigger
 			//cout << "Prescale # " << i << " : " << prescaleTrigger[i] << endl;
 			//cout << "Passtrigger # " << i << " : " << passTrigger[i] << endl;
 			if(prescaleTrigger[i]==1){
@@ -91,10 +82,12 @@ void AnaEff::Loop()
 
 		}
 
-	trigEff_presel.Load(triggerNames,listofprescaledtriggers,1,"entered"); // str instead of listofprescaledtriggers
+
+	//trigEff_presel.Load(triggerNames,str,1,"entered",""); 
+	trigEff_selection_obs.Load(triggerNames,str,1,"entered","MET","eff_MET.root");
+
 	str.clear();
 	
-//Reconnu comme muon, puis check muon_pt 
 	//nentries=30;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
@@ -103,23 +96,33 @@ void AnaEff::Loop()
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		
 		vector<Bool_t> vtrigger; //Convert array into vector
-		vector<float> TrackPT;
+		vector<float> TrackPT,MuonPT,METPT;
 
-		float HighestPT,HighestMuonPT;
-
-		
+		float HighestPT,HighestMuonPT,HighestMET;
 
 		if(nhscp !=0){
 			for(int ihs=0; ihs<nhscp;ihs++){
 				TrackPT.push_back(track_pt[hscp_track_idx[ihs]]);
+				//METPT.push_back(pfmet_pt[hscp_track_idx[ihs]]);
+				//MuonPT.push_back(muon_pt[hscp_track_idx[ihs]]);
+				cout << "PT : " << TrackPT[ihs] << endl;
 			}
-
 			sort(TrackPT.rbegin(), TrackPT.rend());
+			//sort(METPT.rbegin(), METPT.rend());
+			//sort(MuonPT.rbegin(), MuonPT.rend());	
+			
 			HighestPT = TrackPT[0];
-
+			//HighestMET=METPT[0];
+			//HighestMuonPT=MuonPT[0];
+			//METPT.clear();
+			//MuonPT.clear();
 			TrackPT.clear();
 		}
 		else{
+			
+			HighestMuonPT = muon_pt[0];
+			HighestMET = pfmet_pt[0];
+			
 			HighestPT = 0.0001;
 
 		}
@@ -127,17 +130,25 @@ void AnaEff::Loop()
 		
 		 //Convert array into vector
 		for(int i=0;i<ntrigger;i++){
-			vtrigger.push_back(passTrigger[i]); //Fill vtrigger with bool values
+			vtrigger.push_back(passTrigger[i]);
 			//prescaletrigger.push_back(prescaleTrigger[i]);
 		}
 		
-		trigEff_presel.Fill(vtrigger,HighestPT); 
+		//trigEff_presel.Fill(vtrigger); 
+
+		trigEff_selection_obs.Fill(vtrigger,HighestMET);
 		
+		//trigEff_selection_obs.Fill(vtrigger,HighestMuonPT);
+		
+		//trigEff_presel.Fill(vtrigger,HighestPT);
 	}
 	cout << "Before compute " << endl;
-	trigEff_presel.Compute();
+	//trigEff_presel.Compute();
+
+	trigEff_selection_obs.Compute();
 	
 	cout << "Just ended " << endl;
+
 	triggerNames.clear();
 	listofprescaledtriggers.clear();
 

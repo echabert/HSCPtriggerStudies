@@ -39,7 +39,10 @@ public :
    //User variables
    TrigEff   trigEff_presel;
 
-   TrigEff   trigEff_presel_two;//_varname
+   TrigEff   trigEff_selection_obs;
+
+
+	//_varname
 
    //List of variables with ROOT dependencies
    
@@ -56,15 +59,29 @@ public :
    Int_t           ntrigger;
    Int_t           nhscp;
 
- //  Int_t           hscp_muon_idx[9];   //[nhscp]
-   //Bool_t *passTrigger;
+
+   Float_t	pfmet_pt[32]; //test
+
    Float_t	prescaleTrigger[1000];
    Bool_t	passTrigger[1000];
    
-   Float_t         track_pt[33];   //[ntracks] augmenter la taille pour pas de overflow, it was 33
-   Int_t           hscp_track_idx[9];  //[nhscp] it was 9
+   Float_t	track_pt[33];   //[ntracks] augmenter la taille pour pas de overflow, it was 33
+   Float_t	track_pterr[33];
+   Int_t	hscp_track_idx[9];  //[nhscp] it was 9
  
-   Float_t         muon_pt[32]; //!
+   Float_t	muon_pt[32]; //!
+
+   Float_t	track_eta[33];
+
+   Int_t	track_npixhits[33];
+   Int_t	track_nvalidhits[33];
+   Float_t	track_validfraction[33];
+  
+   Int_t	ndedxhits;
+   Float_t	track_dxy[33];
+   Int_t	track_qual[33];
+   
+   
     // List of branches
    TBranch        *b_runNumber;   //!
    TBranch        *b_event;   //!
@@ -74,12 +91,19 @@ public :
    TBranch        *b_prescaleTrigger;
    TBranch        *b_passTrigger; //!
    TBranch        *b_track_pt;   //!
+   TBranch        *b_track_pterr; //!
    TBranch        *b_hscp_track_idx;   //!
    TBranch        *b_nhscp;  //!
-   TBranch        *b_muon_pt;
-  // TBranch        *b_hscp_muon_idx; //!
-
-
+   TBranch        *b_muon_pt; //!
+   TBranch        *b_pfmet_pt; // !
+   TBranch        *b_track_eta; //!
+   TBranch        *b_track_npixhits; //!
+   TBranch        *b_track_nvalidhits;
+   TBranch        *b_track_validfraction;
+   TBranch        *b_ndedxhits;
+   TBranch        *b_track_dxy;
+   TBranch        *b_track_qual;
+   
    //--------------------------------------
    // Methods
    //--------------------------------------
@@ -107,11 +131,11 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root"); // /home/raph/CMS/TEST/ntupleRaphael_MC16_AOD_Gluino1600_5ev.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_106.root"); // /home/raph/CMS/TEST/ntupleRaphael_MC16_AOD_Gluino1600_5ev.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
       if (!f || !f->IsOpen()) {
-	f = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root"); // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+	f = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_106.root"); // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
       }
-      TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
+      TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_106.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
       dir->GetObject("ttree",tree);
 
    }
@@ -168,9 +192,19 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("npv", &npv, &b_npv);
    fChain->SetBranchAddress("ngoodpv", &ngoodpv, &b_ngoodpv);
    fChain->SetBranchAddress("track_pt", track_pt, &b_track_pt);
+   fChain->SetBranchAddress("track_pterr", track_pterr, &b_track_pterr);
    fChain->SetBranchAddress("hscp_track_idx", hscp_track_idx, &b_hscp_track_idx);
    fChain->SetBranchAddress("nhscp", &nhscp, &b_nhscp);
    fChain->SetBranchAddress("muon_pt", muon_pt, &b_muon_pt);
+   fChain->SetBranchAddress("pfmet_pt", pfmet_pt, &b_pfmet_pt);
+   fChain->SetBranchAddress("track_eta", track_eta, &b_track_eta);
+   fChain->SetBranchAddress("track_npixhits", track_npixhits, &b_track_npixhits);
+   fChain->SetBranchAddress("track_nvalidhits", track_nvalidhits, &b_track_nvalidhits);
+   fChain->SetBranchAddress("track_validfraction", track_validfraction, &b_track_validfraction);
+   fChain->SetBranchAddress("ndedxhits", &ndedxhits, &b_ndedxhits);
+   fChain->SetBranchAddress("track_dxy", track_dxy, &b_track_dxy);
+   fChain->SetBranchAddress("track_qual", track_qual, &b_track_qual);
+
  //  fChain->SetBranchAddress("hscp_muon_idx", hscp_muon_idx, &b_hscp_muon_idx); 
    Notify();
 }
