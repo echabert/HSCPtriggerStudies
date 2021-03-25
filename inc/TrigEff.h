@@ -83,7 +83,7 @@ public:
 
    // ******************* Plotting ********************************
 
-   void WritePlots(); // format latex 
+   void WritePlots(); // format latex TFile* OutputHisto
 
    void SavePlots(); // en png/hist ou whatever
 

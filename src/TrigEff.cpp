@@ -266,13 +266,13 @@ void TrigEff::ComputeCorr(){
 			Correlation[i][j] = ((NumCorr[i][j]*1.0) / DenomCorr[i][j]);
 			}
 			
-			CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100)); // Fill avec 
+			//CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100)); // Fill avec 
 			//binx=CORR->GetXAxis;
 			//transformer i et j en string ?
 			//BinLabel en 2D ? SetBinLabel(binx, triggername[indice]) Puis il faut une boucle pour écrire le label I J a chaque fois ? 
 		}
 	}
-	CORR->Write();
+	//CORR->Write();
 	
 }
 
@@ -371,13 +371,13 @@ void TrigEff::SaveIntTrigs(){
 			//if(EffList[i].first >= 0.5 ){
 			TriggersOfInterest << EffList[i].first << " " << EffList[i].second.first << " " << EffList[i].second.second << "\n";
 			double effem=EffList[i].first;
-			EFF_DISTRIB->SetBinContent(j,effem);
+			//EFF_DISTRIB->SetBinContent(j,effem);
 			j++;
 			//}
     		}
 
 	TriggersOfInterest.close();
-	EFF_DISTRIB->Write();
+	//EFF_DISTRIB->Write();
 	}
 
 	else{
@@ -419,13 +419,29 @@ void TrigEff::ComputeError(){
 	}
 }
 
-void TrigEff::WritePlots(){ // Write : TFile arg
-	//TFile cd 
-	
+void TrigEff::WritePlots(){ //TFile* OutputHisto
+	//TFile cd, et ensuite on écrit tous les histos
+	//OutputHisto->cd();
+	//
+	//
 	for(int i=0;i<ListTriggers.size();i++){
+
 		EffvsObs[i]->Write();
 	}
 	
+	for(int i=0;i< Correlation.size();i++){
+		for(int j=0;j< Correlation[i].size();j++){
+			CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100)); // Fill avec 
+			//binx=CORR->GetXAxis;
+			//transformer i et j en string ?
+			//BinLabel en 2D ? SetBinLabel(binx, triggername[indice]) Puis il faut une boucle pour écrire le label I J a chaque fois ? 
+		}
+	}
+	CORR->Write();
+
+
+
+
 	OutputHisto->Close();
 }
 

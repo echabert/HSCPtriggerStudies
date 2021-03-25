@@ -21,6 +21,41 @@
 
 using namespace std;
 
+//******************TEST changing stringnames ****************
+/*
+vector<string> TrigNames;
+
+//Initialiser avec le premier evenement
+
+for(int i=0; i< ntrigger; i++){
+	TrigNames.push_back(triggerName->at(i));
+
+}
+//Lors de la lecture des evenements 
+bool result = std::equal(TrigNames.begin(), TrigNames.end(), triggerName.begin());
+
+if(result){
+	cout << "No trigger names added" << endl;
+}
+else{
+	[c,ia,ib] = interesect(TrigNames,triggerName); // c : les elements pareil, ia : positions des TrigNames, ib : position des triggerName
+	
+	auto itPos = TrigNames.begin() + 
+
+}
+
+
+
+
+
+
+
+*/
+
+
+
+
+
 
 
 
@@ -37,6 +72,8 @@ void AnaEff::Loop()
 	if (initializing < 0) cout << "Aborted"<< endl;
 	nbi = fChain->GetEntry(initializing);   nbytes += nbi;
 	cout << " ntrigger  : " << ntrigger << endl;
+
+	for(int i=0;i<ntrigger;i++) cout << "triggerName: " << triggerName->at(i) << endl;
 
 
 	ifstream ifile("data/triggerNamesSingleMuon.txt"); // ifstream ifile("data/triggerNames.txt")
@@ -83,7 +120,7 @@ void AnaEff::Loop()
 		}
 
 
-	//trigEff_presel.Load(triggerNames,str,1,"entered",""); 
+	//trigEff_presel.Load(triggerNames,str,1,"entered","Muon_pt","eff_MuonPT.root"); 
 	trigEff_selection_obs.Load(triggerNames,str,1,"entered","MET","eff_MET.root");
 
 	str.clear();
@@ -95,6 +132,10 @@ void AnaEff::Loop()
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		
+		
+
+
+
 		vector<Bool_t> vtrigger; //Convert array into vector
 		vector<float> TrackPT,MuonPT,METPT;
 
