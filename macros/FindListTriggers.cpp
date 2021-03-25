@@ -41,49 +41,89 @@ using namespace std;
 
 
 void ListNameTriggers::FindAllNames(){
+	
+	int testcount=0;
 	vector<string> TrigNames;
 
 	Long64_t nentries = fChain->GetEntriesFast();
 	Long64_t nbytes = 0, nb = 0, nbi = 0;
-
+	
 	// Initialization/reading the number of triggers (ntrigger), prescale triggers etc..
 
 	Long64_t initializing = LoadTree(0); 
-	if (initializing < 0) cout << "Aborted"<< endl;
-	nbi = fChain->GetEntry(initializing);   nbytes += nbi;
 
+	cout << "nentries : " << nentries << endl;
+
+	if (initializing < 0) cout << "Aborted"<< endl;
+
+	nbi = fChain->GetEntry(initializing);   nbytes += nbi;
+	
 	cout << " ntrigger  : " << ntrigger << endl;
 	
 	for(int i=0; i< ntrigger; i++){
 		//if(prescaleTrigger[i] == 1){
-			cout << "TriggerName : " << triggerName->at(i) << endl;
+			cout << "TriggerName " << i << " : " << triggerName->at(i) << endl;
 			TrigNames.push_back(triggerName->at(i));
 			//MapOfTriggerNames.insert(triggerName->at(i),
 			MapOfTriggerNames[triggerName->at(i)] = make_pair(true,true);
+			
 		//}
 	}
+	TrigNames.clear();
+	/*for( auto it = MapOfTriggerNames.begin(); it != MapOfTriggerNames.end(); it++){
+		cout << "["<< it->first << "," << it->second.first << "-" << it->second.second << "]"<< endl;
 
+	
+	}*/
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%5000==0) cout << "Still here " << endl;
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
+		testcount+=1;
+		
+		//push_back dans
+		cout << ntrigger << endl;
+		for(int i=0; i< ntrigger; i++){
+		//if(prescaleTrigger[i] == 1){
+			TrigNames.push_back(triggerName->at(i));
+			//MapOfTriggerNames.insert(triggerName->at(i),	
+		//}
+		}		
 
-		for(int j=0; j< ntrigger ; j++){
-			for(auto itr = MapOfTriggerNames.begin(); itr != MapOfTriggerNames.end(); itr++){
-				auto it = find(triggerName.begin(), triggerName.end(), itr->first);
+
+
+		cout << testcount << " triggerName size : " << TrigNames.size() << ", map size : "  << MapOfTriggerNames.size() << endl;
+		TrigNames.clear();
+		//for(int j=0; j < ntrigger ; j++){
+			//for(auto itr = MapOfTriggerNames.begin(); itr != MapOfTriggerNames.end(); itr++){
+				//auto it = find(triggerName->begin(), triggerName->end(), itr->first);
 				
+				//if(triggerName->size() >= MapOfTriggerNames.size()) 
+				//cout << " Il y a des triggers en plus pour cet evenement ! " << endl;
+				/*if(it!=triggerName->end()){
+					
+					cout << "Name " << itr->first << " found at position : " << it - triggerName->begin() << endl;
+					
+					
+				}*/
+				/*else{
+					MapOfTriggerNames.insert(
+
+				
+				}*/
 				//Si pas trouvé, il return last ? 	
 				
 				
-			}
+			//}
 			
 			
 
-		}
+		//}
 	
 
 
+	}
 }
 
 
@@ -92,15 +132,5 @@ int main(){
 
 	ListNameTriggers c;
 	c.FindAllNames();
-
-	//Initialiser le vecteur TrigNames lors de la première entrée 
-	/*for(int i=0; i< ntrigger; i++){
-		//if(prescaleTrigger[i] == 1){
-			cout << "TriggerName : " << triggerName->at(i) << endl;
-			TrigNames.push_back(triggerName->at(i));
-			MapOfTriggerNames[triggerName[i]] = make_pair(true,true);
-		//}
-	}
-*/
 
 }

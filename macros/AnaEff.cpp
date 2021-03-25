@@ -71,9 +71,9 @@ void AnaEff::Loop()
 	Long64_t initializing = LoadTree(0); 
 	if (initializing < 0) cout << "Aborted"<< endl;
 	nbi = fChain->GetEntry(initializing);   nbytes += nbi;
-	cout << " ntrigger  : " << ntrigger << endl;
+	cout << "ntrigger  : " << ntrigger << endl;
 
-	for(int i=0;i<ntrigger;i++) cout << "triggerName: " << triggerName->at(i) << endl;
+	//for(int i=0;i<ntrigger;i++) cout << "triggerName: " << triggerName->at(i) << endl;
 
 
 	ifstream ifile("data/triggerNamesSingleMuon.txt"); // ifstream ifile("data/triggerNames.txt")
@@ -141,32 +141,35 @@ void AnaEff::Loop()
 
 		float HighestPT,HighestMuonPT,HighestMET;
 
-		if(nhscp !=0){
+		
+		/*if(nhscp !=0){
 			for(int ihs=0; ihs<nhscp;ihs++){
 				TrackPT.push_back(track_pt[hscp_track_idx[ihs]]);
-				//METPT.push_back(pfmet_pt[hscp_track_idx[ihs]]);
+				METPT.push_back(pfmet_pt[hscp_track_idx[ihs]]);
 				//MuonPT.push_back(muon_pt[hscp_track_idx[ihs]]);
-				cout << "PT : " << TrackPT[ihs] << endl;
+				//cout << "PT : " << TrackPT[ihs] << endl;
 			}
 			sort(TrackPT.rbegin(), TrackPT.rend());
-			//sort(METPT.rbegin(), METPT.rend());
+			sort(METPT.rbegin(), METPT.rend());
 			//sort(MuonPT.rbegin(), MuonPT.rend());	
 			
 			HighestPT = TrackPT[0];
-			//HighestMET=METPT[0];
+			HighestMET=METPT[0];
 			//HighestMuonPT=MuonPT[0];
-			//METPT.clear();
+			METPT.clear();
 			//MuonPT.clear();
 			TrackPT.clear();
 		}
 		else{
 			
-			HighestMuonPT = muon_pt[0];
+			//HighestMuonPT = muon_pt[0];
 			HighestMET = pfmet_pt[0];
 			
-			HighestPT = 0.0001;
+			//HighestPT = 0.0001;
 
-		}
+		}*/
+		HighestMET = pfmet_pt[0];
+		//cout << HighestMET << endl;
 		//cout << "Highest PT after reverse: " << HighestPT << endl;
 		
 		 //Convert array into vector

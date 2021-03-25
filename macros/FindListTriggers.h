@@ -56,7 +56,7 @@ class ListNameTriggers
    Float_t	prescaleTrigger[1000];
    Bool_t	passTrigger[1000];
 
-   std::vector<std::string>* triggerName;
+   vector<string>* triggerName;
 
    
     // List of branches
@@ -76,21 +76,22 @@ class ListNameTriggers
    
 };
 
-#endif 
+
 
 ListNameTriggers::ListNameTriggers(TTree *tree) : fChain(0) //constructeur
 {
+	triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
-   if (tree == 0) {
-      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root"); 
-      if (!f || !f->IsOpen()) {
-	f = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root"); 
-      }
-      TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root:/stage"); 
-      dir->GetObject("ttree",tree);
+	if (tree == 0) {
+		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_dara_aod.root"); 
+		if (!f || !f->IsOpen()) {
+			f = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root"); 
+		}
+		TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root:/stage"); 
+		dir->GetObject("ttree",tree);
 
-   }
+	}
    
    Init(tree);
 
@@ -163,3 +164,5 @@ void ListNameTriggers::Show(Long64_t entry)
    if (!fChain) return;
    fChain->Show(entry);
 }
+
+#endif 
