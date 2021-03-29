@@ -52,19 +52,19 @@ public :
 
 
   // Declaration of leaf types
-   Int_t           runNumber;
-   UInt_t          event;
-   Int_t           npv;
-   Int_t           ngoodpv;
-   Int_t           ntrigger;
-   Int_t           nhscp;
-
+   Int_t	runNumber;
+   UInt_t	event;
+   Int_t	npv;
+   Int_t	ngoodpv;
+   Int_t	ntrigger;
+   Int_t	nhscp;
+   Int_t	ndedxhits;
 
    Float_t	pfmet_pt[32]; //test
 
    Float_t	prescaleTrigger[1000];
    Bool_t	passTrigger[1000];
-   vector<string>* triggerName;
+   vector<string>*	triggerName;
    
    Float_t	track_pt[33];   //[ntracks] augmenter la taille pour pas de overflow, it was 33
    Float_t	track_pterr[33];
@@ -78,10 +78,11 @@ public :
    Int_t	track_nvalidhits[33];
    Float_t	track_validfraction[33];
   
-   Int_t	ndedxhits;
+   Int_t	track_nhits[33];
+   Float_t	track_dz[33];
    Float_t	track_dxy[33];
    Int_t	track_qual[33];
-   
+   Float_t	hscp_iso2_tk[9];
    
     // List of branches
    TBranch        *b_runNumber;   //!
@@ -98,14 +99,19 @@ public :
    TBranch        *b_nhscp;  //!
    TBranch        *b_muon_pt; //!
 
+   TBranch        *b_track_nhits;
    TBranch        *b_pfmet_pt; // !
    TBranch        *b_track_eta; //!
    TBranch        *b_track_npixhits; //!
    TBranch        *b_track_nvalidhits;
    TBranch        *b_track_validfraction;
    TBranch        *b_ndedxhits;
+   TBranch        *b_track_dz;
    TBranch        *b_track_dxy;
    TBranch        *b_track_qual;
+   TBranch        *b_hscp_iso2_tk;
+   
+   
    
    //--------------------------------------
    // Methods
@@ -119,7 +125,7 @@ public :
    virtual void     Loop();
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
-   
+   virtual bool     Selection(int i);
 
 
 };
@@ -214,7 +220,11 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("ndedxhits", &ndedxhits, &b_ndedxhits);
    fChain->SetBranchAddress("track_dxy", track_dxy, &b_track_dxy);
    fChain->SetBranchAddress("track_qual", track_qual, &b_track_qual);
-
+   fChain->SetBranchAddress("track_nhits", track_nhits, &b_track_nhits);
+   fChain->SetBranchAddress("ndedxhits", &ndedxhits, &b_ndedxhits);
+   fChain->SetBranchAddress("track_dz", track_dz, &b_track_dz);
+   fChain->SetBranchAddress("hscp_iso2_tk", hscp_iso2_tk, &b_hscp_iso2_tk);
+   
  //  fChain->SetBranchAddress("hscp_muon_idx", hscp_muon_idx, &b_hscp_muon_idx); 
    Notify();
 }

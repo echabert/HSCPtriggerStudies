@@ -26,7 +26,10 @@ TrigEff::TrigEff(){
 	EFF_DISTRIB=0;
 	CORR=0;
 	OutputHisto=0;
-	
+
+	/*for(int i=0; i < ListTriggers.size() ; i++){
+		EffvsObs[i]=0;
+	}*/
 }
 
 
@@ -36,8 +39,7 @@ TrigEff::~TrigEff(){
 	
 	
 	SelectedTriggerNames.clear();
-	//Selection.clear();
-
+	
 	EffList.clear();
 	
 	TriggerNames.clear();
@@ -56,8 +58,8 @@ TrigEff::~TrigEff(){
 	
 	EffErr.clear();
 	
-	/*for(int i=0;i<ListTriggers.size();i++){
-		if(!EffvsObs[i]){	
+	/*for(int i=0; i < ListTriggers.size() ; i++){
+		if(!EffvsObs[i]){
 			delete EffvsObs[i];
 		}
 	}*/
@@ -80,6 +82,30 @@ TrigEff::~TrigEff(){
 
 
 
+/*void TrigEff::CreateHisto(string NameVar,const vector<string> &SelectedTriggerNames){
+
+	TString outputfilename="Efficiency_results.root";
+
+	OutputHisto = new TFile(outputfilename,"RECREATE");
+
+	if(NameVar!=""){
+		for(int j=0; j < ListTriggers.size(); j++){
+
+			EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",200,0,2000);
+			EffvsObs[j]->SetName(SelectedTriggerNames[j].c_str());
+			
+//EffvsObs[j]->Draw();
+			//gPad->Update();
+			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
+
+		
+			}
+
+		
+	}
+	
+}*/
+
 
 //*************************************************************
 //Dans Load : Selection va être le nom de la variable qu'on veut étudier. Dans Fill on va mettre la valeur
@@ -97,38 +123,8 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 			//}
 		}
 	}
-//	 Corrélation, fichier .txt commence ligne 1 et passtrig[] commence à 0	
-	else if(Selection=="sel1"){
-		for(int j = 0; j < 10; j++){
-			ListTriggers[j] = (j);
-		}
-	}
-	else if(Selection=="sel2"){
-		for(int j = 0; j < 20; j++){
-			ListTriggers[j] = (j);
-			cout << "pos in map " << j << " pos of trigger " << j << endl; 
-		}
-	}
-	else if(Selection=="sel3"){
-		for(int j = 0; j < 30; j++){
-			ListTriggers[j] = (j);
-			cout << "pos in map " << j << " pos of trigger " << j << endl; 
-		}
-	}
-	else if(Selection=="sel4"){
-		for(int j = 0; j < 40; j++){
-			ListTriggers[j] = (j);
-			cout << "pos in map " << j << " pos of trigger " << j << endl; 
-		}
-	}
 
-	else if(Selection=="all"){
-		for(int j = 0; j < triggerNames.size(); j++){
-			ListTriggers[j] = (j);
-		}
-	}
 	
-
 	NumCorr.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0)); 
 	DenomCorr.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0));
 	Correlation.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0)); 
@@ -151,22 +147,13 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	OutputHisto = new TFile(outputfilename,"RECREATE");
 	
 
-	// changer outputhisto pour que quand j'appelle Load, ça ajoute un repertoire dans le Tfile ? 
-
-
-	/*TString outputfilename="testnewdata.root";
-	OutputHisto= new TFile(outputfilename,"RECREATE");*/
-
-
 	//SelectedTriggerNames=str;
 	//Selection=triggerNames;
 	//************* Init of histograms ****************
 
 	
 	if(NameVar!=""){
-	
 		for(int j=0; j < ListTriggers.size(); j++){
-			
 			EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",200,0,2000);
 			EffvsObs[j]->SetName(SelectedTriggerNames[j].c_str());
 			//EffvsObs[j]->Draw();
@@ -180,13 +167,13 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 
 		
 	}
-
+	
 		
 
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", ListTriggers.size(),0,ListTriggers.size());
 
-	CORR = new TH2D("Correlation", " Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size() , ListTriggers.size(), 0 , ListTriggers.size()); 
+	CORR = new TH2D("Correlation", "Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size() , ListTriggers.size(), 0 , ListTriggers.size()); 
 	
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
@@ -200,44 +187,27 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 
 
 
-//*************************************************************
-
-/*
-Differentes méthodes fill (en fonction du string donné, est-ce que je peux pas simplement remplir la map dans des if/else if ?
-
-
-
-
-*/
-
-//*************************************************************
-
-
-
-
 
 void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){  
-	//if(Obs==0.0){
-		bool trig1,trig2;
-		for(auto iter = ListTriggers.begin(); iter != ListTriggers.end() ;iter++){
-			trig1 = passtrig[iter->second];
-			DenomEfficiency[iter->first]+=1;
-			if (trig1){
-				NumEfficiency[iter->first]+=1;
+	bool trig1,trig2;
+	for(auto iter = ListTriggers.begin(); iter != ListTriggers.end() ;iter++){
+		trig1 = passtrig[iter->second];
+		DenomEfficiency[iter->first]+=1;
+		if (trig1){
+			NumEfficiency[iter->first]+=1;
+		}
+		for(auto jter = ListTriggers.begin(); jter != ListTriggers.end();jter++){
+			trig2 = passtrig[jter->second];
+			if(trig1 || trig2){
+				DenomCorr[iter->first][jter->first]+=1;
 			}
-			for(auto jter = ListTriggers.begin(); jter != ListTriggers.end();jter++){
-				trig2 = passtrig[jter->second];
-				if(trig1 || trig2){
-					DenomCorr[iter->first][jter->first]+=1;
-				}
-				if(trig1 && trig2){
-					NumCorr[iter->first][jter->first]+=1;
-				}
+			if(trig1 && trig2){
+				NumCorr[iter->first][jter->first]+=1;
 			}
 		}
-	//}
-	/*else*/ if(Obs!=0.0){
-		
+	}
+	
+	if(Obs!=0.0){
 		for(auto ster = ListTriggers.begin() ; ster != ListTriggers.end(); ster++){
 			EffvsObs[ster->first]->Fill(passtrig[ster->second],Obs);
 		}
@@ -247,16 +217,10 @@ void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){
 
 
 void TrigEff::StudyTrigvsMass(double mass){
-	
-
-
-
 }
 
 
-
 void TrigEff::ComputeCorr(){
-	int binx;
 	for(int i=0;i< Correlation.size();i++){
 		for(int j=0;j< Correlation[i].size();j++){
 			if(DenomCorr[i][j]==0){
@@ -265,28 +229,15 @@ void TrigEff::ComputeCorr(){
 			else{	
 			Correlation[i][j] = ((NumCorr[i][j]*1.0) / DenomCorr[i][j]);
 			}
-			
-			//CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100)); // Fill avec 
-			//binx=CORR->GetXAxis;
-			//transformer i et j en string ?
-			//BinLabel en 2D ? SetBinLabel(binx, triggername[indice]) Puis il faut une boucle pour écrire le label I J a chaque fois ? 
+
 		}
 	}
-	//CORR->Write();
+	
 	
 }
 
 void TrigEff::PrintCorr(){
 	cout << endl;
-	
-	/*for ( int i = Correlation.size()-1; i >= 0 ; i-- ){
-   		for ( int j = 0; j < Correlation[i].size(); j++ ){
-      			cout << "[" << i << "," << j << "] : " <<Correlation[i][j] * 100  << "% ";
-   		}
-   	cout << endl;
-	}
-	cout << endl;*/
-
 	for ( int i = 0; i < Correlation.size(); i++ ){
    		for ( int j = 0; j < Correlation[i].size(); j++ ){
       			cout << "[" << i << "," << j << "] : " <<Correlation[i][j] * 100  << "% ";
@@ -323,16 +274,13 @@ void TrigEff::ComputeEff()
 	for(int i=0;i< Efficiency.size();i++){
 		if(DenomEfficiency[i]==0){
 			Efficiency[i]=0;
-			//EFF_TRIG->Fill(Efficiency[i]);
 		}
 		else{	
 			Efficiency[i] = ((NumEfficiency[i]*1.0) / DenomEfficiency[i]*1.0);
-			//EFF_TRIG->Fill(Efficiency[i]);
 		}
 		
 	}
-	OutputHisto->cd();
-	//EFF_TRIG->Write();
+	
 }
 
 
@@ -371,13 +319,11 @@ void TrigEff::SaveIntTrigs(){
 			//if(EffList[i].first >= 0.5 ){
 			TriggersOfInterest << EffList[i].first << " " << EffList[i].second.first << " " << EffList[i].second.second << "\n";
 			double effem=EffList[i].first;
-			//EFF_DISTRIB->SetBinContent(j,effem);
 			j++;
 			//}
     		}
 
 	TriggersOfInterest.close();
-	//EFF_DISTRIB->Write();
 	}
 
 	else{
@@ -385,10 +331,6 @@ void TrigEff::SaveIntTrigs(){
 	}
 	
 }
-
-
-
-
 
 
 
@@ -409,7 +351,7 @@ void TrigEff::PrintDenomEff(){
 void TrigEff::ComputeError(){
 
 	for(int i=0;i< EffErr.size();i++){
-		cout << NumEfficiency[i] << " " << DenomEfficiency[i] << endl ;
+		//cout << NumEfficiency[i] << " " << DenomEfficiency[i] << endl ;
 		if(Efficiency[i]==0){
 			EffErr[i]=0;
 		}
@@ -419,30 +361,41 @@ void TrigEff::ComputeError(){
 	}
 }
 
-void TrigEff::WritePlots(){ //TFile* OutputHisto
-	//TFile cd, et ensuite on écrit tous les histos
-	//OutputHisto->cd();
-	//
-	//
-	for(int i=0;i<ListTriggers.size();i++){
+void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 
+	OutputHisto->cd();
+	gDirectory->mkdir("MET");
+	//OutputHisto->mkdir("MET");
+	OutputHisto->cd("MET");
+
+	
+	/*OutputHisto->mkdir(NameVar.c_str());
+	OutputHisto->cd(NameVar.c_str());*/
+	
+	
+	for(int i=0;i < ListTriggers.size();i++){
 		EffvsObs[i]->Write();
 	}
+
+	OutputHisto->cd();
 	
-	for(int i=0;i< Correlation.size();i++){
+	/*OutputHisto->mkdir("Correlations");
+	OutputHisto->cd("Correlations");*/
+	
+
+	for(int i=0;i < Correlation.size();i++){
 		for(int j=0;j< Correlation[i].size();j++){
-			CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100)); // Fill avec 
-			//binx=CORR->GetXAxis;
-			//transformer i et j en string ?
+			CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100));
 			//BinLabel en 2D ? SetBinLabel(binx, triggername[indice]) Puis il faut une boucle pour écrire le label I J a chaque fois ? 
 		}
 	}
+	//CORR->SetDirectory("Correlations");
 	CORR->Write();
-
-
-
-
+	
+	//OutputHisto->cd();
+	cout << "right before closing  outputhisto" << endl;
 	OutputHisto->Close();
+	cout << "right after closing  outputhisto" << endl;
 }
 
 void TrigEff::Compute(){
@@ -456,10 +409,9 @@ void TrigEff::Compute(){
 	SaveIntTrigs();
 
 
-	//ComputeCorr();
+	ComputeCorr();
 	//PrintDenomCorr();
 	//PrintCorr();
-	WritePlots();
 	
 }
 

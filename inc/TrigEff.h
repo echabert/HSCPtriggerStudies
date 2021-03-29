@@ -43,7 +43,9 @@ public:
 
    void Compute();
    
+   //void CreateHisto(string NameVar="random", const vector<string> &SelectedTriggerNames);
 
+   void WritePlots(string NameVar="a"); // format latex TFile* OutputHisto
 
 
  private :
@@ -82,8 +84,6 @@ public:
 
 
    // ******************* Plotting ********************************
-
-   void WritePlots(); // format latex TFile* OutputHisto
 
    void SavePlots(); // en png/hist ou whatever
 
@@ -133,6 +133,8 @@ public:
 
 
    vector <TEfficiency*> EffvsObs;
+   vector <TEfficiency*> EffvsObsTwo;
+
 
    vector<bool> TriggerPass; 
    

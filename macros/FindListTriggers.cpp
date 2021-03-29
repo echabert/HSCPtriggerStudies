@@ -40,7 +40,7 @@ void ListNameTriggers::FindAllNames(){
 	for(int i=0; i< ntrigger; i++){
 		cout << "TriggerName " << i << " : " << triggerName->at(i) << endl;
 		TrigNames.push_back(triggerName->at(i));
-		if(prescaleTrigger[i]){
+		if(prescaleTrigger[i]==1){
 			MapOfTriggerNames[triggerName->at(i)] = make_pair(true,true);
 		}
 		else{
@@ -65,7 +65,7 @@ void ListNameTriggers::FindAllNames(){
 		//}
 		}		
 
-
+		// for dans la map, look for TrigNames et changer les booleens si jamais 
 
 		//if(TrigNames.size() < MapOfTriggerNames.size()){
 
@@ -76,10 +76,11 @@ void ListNameTriggers::FindAllNames(){
 			auto it = MapOfTriggerNames.find(TrigNames[i]);
 			if(it != MapOfTriggerNames.end()){
 				//cout << "Found " << TrigNames[i] << endl;
+				//verifier prescale != 1 : bool <false, *>
 				
 			}
 			else{
-				if(prescaleTrigger[i]){
+				if(prescaleTrigger[i]==1){
 					cout << "Added one vector to the map " << endl;
 					MapOfTriggerNames.insert(pair<string,pair<bool, bool> > (TrigNames[i],pair<bool, bool>(true,false)));
 				}
@@ -94,9 +95,9 @@ void ListNameTriggers::FindAllNames(){
 	}
 
 	for(auto itr = MapOfTriggerNames.begin(); itr != MapOfTriggerNames.end(); itr++){
-		CompleteList << itr->first << " " << itr->second.first << " " << itr->second.second << endl;
+		CompleteList << itr->first << endl; //<< " " << itr->second.first << " " << itr->second.second
 		if(itr->second.first){
-			PrescaledSubList << itr->first << " " << itr->second.first << " " << itr->second.second << endl;
+			PrescaledSubList << itr->first << endl; //<< " " << itr->second.first << " " << itr->second.second
 		}
 
 		
