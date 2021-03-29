@@ -154,7 +154,7 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	
 	if(NameVar!=""){
 		for(int j=0; j < ListTriggers.size(); j++){
-			EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",200,0,2000);
+			EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",200,0,2000);
 			EffvsObs[j]->SetName(SelectedTriggerNames[j].c_str());
 			//EffvsObs[j]->Draw();
 			//gPad->Update();
@@ -313,11 +313,11 @@ void TrigEff::SortEffVec(){
 void TrigEff::SaveIntTrigs(){
 	int j=0;
 	ofstream TriggersOfInterest;
-	TriggersOfInterest.open ("TriggersOfInterest.txt");
+	TriggersOfInterest.open ("TriggersOfInterest_PT.txt");
 	if (TriggersOfInterest.good()){
 		for (int i = 0; i < Efficiency.size(); i++){ 
 			//if(EffList[i].first >= 0.5 ){
-			TriggersOfInterest << EffList[i].first << " " << EffList[i].second.first << " " << EffList[i].second.second << "\n";
+			TriggersOfInterest << EffList[i].first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n";
 			double effem=EffList[i].first;
 			j++;
 			//}
@@ -364,9 +364,9 @@ void TrigEff::ComputeError(){
 void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 
 	OutputHisto->cd();
-	gDirectory->mkdir("MET");
+	//gDirectory->mkdir("MET");
 	//OutputHisto->mkdir("MET");
-	OutputHisto->cd("MET");
+	//OutputHisto->cd("MET");
 
 	
 	/*OutputHisto->mkdir(NameVar.c_str());
@@ -377,7 +377,7 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 		EffvsObs[i]->Write();
 	}
 
-	OutputHisto->cd();
+	//OutputHisto->cd();
 	
 	/*OutputHisto->mkdir("Correlations");
 	OutputHisto->cd("Correlations");*/
@@ -393,9 +393,9 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 	CORR->Write();
 	
 	//OutputHisto->cd();
-	cout << "right before closing  outputhisto" << endl;
+	//cout << "right before closing  outputhisto" << endl;
 	OutputHisto->Close();
-	cout << "right after closing  outputhisto" << endl;
+	//cout << "right after closing  outputhisto" << endl;
 }
 
 void TrigEff::Compute(){

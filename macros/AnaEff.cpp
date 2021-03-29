@@ -67,11 +67,11 @@ void AnaEff::Loop()
 
 	
 
-	trigEff_selection_obs.Load(triggerNames,str,1,"entered","MET","eff_MET.root");
+	trigEff_selection_obs.Load(triggerNames,str,1,"entered","PT","eff_PT.root");
 
 	//trigEff_selection_obs.CreateHisto("s", str);
 
-	//trigEff_presel.Load(triggerNames,str,1,"entered","PT","eff_PT.root"); 
+	//trigEff_presel.Load(triggerNames,str,1,"entered","PT","eff_MET.root"); 
 	str.clear();
 	int counter=0,passedevent=0;
 	
@@ -121,8 +121,8 @@ void AnaEff::Loop()
 			HighestPT = 0.0001;
 
 		}*/
-	
-		HighestMET = pfmet_pt[0];
+		HighestPT = track_pt[ihs];
+		HighestMET = pfmet_pt[ihs];
 
 		for(int i=0;i<ntrigger;i++){
 			vtrigger.push_back(passTrigger[i]);
@@ -132,7 +132,7 @@ void AnaEff::Loop()
 
 		if(selections){
 			passedevent+=1;
-			trigEff_selection_obs.Fill(vtrigger,HighestMET); // HighestMET
+			trigEff_selection_obs.Fill(vtrigger,HighestPT); // HighestMET
 			//trigEff_presel.Fill(vtrigger,HighestPT);
 		}
 		}	
@@ -153,7 +153,7 @@ void AnaEff::Loop()
 	triggerNames.clear();
 	listofprescaledtriggers.clear();
 	
-	trigEff_selection_obs.WritePlots("MET");
+	trigEff_selection_obs.WritePlots("");
 
 	//trigEff_presel.WritePlots("PT");
 }
