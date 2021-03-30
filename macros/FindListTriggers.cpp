@@ -76,6 +76,10 @@ void ListNameTriggers::FindAllNames(){
 			auto it = MapOfTriggerNames.find(TrigNames[i]);
 			if(it != MapOfTriggerNames.end()){
 				//cout << "Found " << TrigNames[i] << endl;
+				if(prescaleTrigger[i]!=1){
+					MapOfTriggerNames[TrigNames[i]] = make_pair<bool, bool>(false,true);
+
+				}
 				//verifier prescale != 1 : bool <false, *>
 				
 			}

@@ -84,11 +84,11 @@ ListNameTriggers::ListNameTriggers(TTree *tree) : fChain(0) //constructeur
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
 	if (tree == 0) {
-		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_dara_aod.root"); 
+		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root"); 
 		if (!f || !f->IsOpen()) {
-			f = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root"); 
+			f = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root"); 
 		}
-		TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root:/stage"); 
+		TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root:/stage"); 
 		dir->GetObject("ttree",tree);
 
 	}
