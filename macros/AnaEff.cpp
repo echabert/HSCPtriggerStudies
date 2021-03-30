@@ -74,7 +74,7 @@ void AnaEff::Loop()
 	//trigEff_presel.Load(triggerNames,str,1,"entered","PT","eff_MET.root"); 
 	str.clear();
 	int counter=0,passedevent=0;
-	
+	int indexcandidate;
 	//nentries=30;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
@@ -84,14 +84,14 @@ void AnaEff::Loop()
 
 
 
-		for(int ihs=0; ihs<nhscp;ihs++){
-		counter+=1;
+		//for(int ihs=0; ihs<nhscp;ihs++){
+			counter+=1;
 		
-		vector<Bool_t> vtrigger; //Convert array into vector
-		vector<float> TrackPT,MuonPT,METPT;
+			vector<Bool_t> vtrigger; //Convert array into vector
+			vector<float> TrackPT,MuonPT,METPT;
 
-		float HighestPT,HighestMuonPT,HighestMET;
-		bool selections;
+			float HighestPT,HighestMuonPT,HighestMET;
+			bool selections;
 		
 		
 
@@ -121,28 +121,44 @@ void AnaEff::Loop()
 			HighestPT = 0.0001;
 
 		}*/
-		HighestPT = track_pt[ihs];
-		HighestMET = pfmet_pt[ihs];
-
-		for(int i=0;i<ntrigger;i++){
-			vtrigger.push_back(passTrigger[i]);
-		}
+			indexcandidate=Selection();
+			if(indexcandidate != 64){
+				HighestPT = track_pt[indexcandidate];
+				HighestMET = pfmet_pt[indexcandidate];
 		
-		selections=Selection(ihs);
+				for(int i=0;i<ntrigger;i++){
+					vtrigger.push_back(passTrigger[i]);
+				}
 
-		if(selections){
-			passedevent+=1;
-			trigEff_selection_obs.Fill(vtrigger,HighestPT); // HighestMET
-			//trigEff_presel.Fill(vtrigger,HighestPT);
-		}
-		}	
+				passedevent+=1;
+				trigEff_selection_obs.Fill(vtrigger,HighestPT);
+
+				
+			}
+		
+	
+			/*HighestPT = track_pt[ihs];
+			HighestMET = pfmet_pt[ihs];
+
+			for(int i=0;i<ntrigger;i++){
+				vtrigger.push_back(passTrigger[i]);
+			}
+		
+			//selections=Selection(ihs);
+
+			if(selections){
+				passedevent+=1;
+				trigEff_selection_obs.Fill(vtrigger,HighestPT); // HighestMET
+				//trigEff_presel.Fill(vtrigger,HighestPT);
+			}*/
+		//}	
 		
 	}
 	cout << "Before compute " << endl;
 
 	double ratio = passedevent*1.0/counter;
 	cout << " Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << endl;
-	cout << " Ratio of events passing selection/total : " << ratio*100 << " %" << endl;
+	cout << " Ratio passed/total : " << ratio*100 << " %" << endl;
 	trigEff_selection_obs.Compute();
 
 	//trigEff_presel.Compute();
@@ -158,56 +174,133 @@ void AnaEff::Loop()
 	//trigEff_presel.WritePlots("PT");
 }
 
-bool AnaEff::Selection(int i){
+int AnaEff::Selection(){
 
+	//Selectionné si au moins 1 par evenemtn est selectionné (dans fonction selection : trouver l'indice du sélectioné)
+
+	
+	for(int ihs=0; ihs<nhscp;ihs++){
+	
+	
+	
+		int index;
+		bool selec=1;
+
+		if( track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1 ){
+			selec = 0;
+			//return false;
+		}
+
+		if( track_npixhits[hscp_track_idx[ihs]] <= 1 ){ //?
+			selec = 0;
+		}
+	
+		if( track_nhits[hscp_track_idx[ihs]] <= 7 ){
+			selec = 0;
+		}
+
+		if( track_validfraction[hscp_track_idx[ihs]] <= 0.8 ){
+			selec = 0;
+		}
+
+		if( ndedxhits <= 5 ){
+			selec = 0;
+		}
+
+		if( track_pt[hscp_track_idx[ihs]] <= 55 ){
+			selec = 0;
+		}
+
+		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
+			selec = 0;
+		}
+		
+		if( track_dz[hscp_track_idx[ihs]] >=0.5 ){
+			selec = 0;
+		}
+	
+		if( track_pterr[hscp_track_idx[ihs]]/track_pt[hscp_track_idx[ihs]] >= 1 ){ 
+			selec = 0;
+		}
+
+		if( track_qual[hscp_track_idx[ihs]] < 2 ){//?
+			selec = 0;
+		}
+
+		if(hscp_iso2_tk[ihs] >= 50){
+			selec = 0;
+		}
+
+		if(selec){
+			return ihs;
+		}
+		else{
+			return 64;
+		}
+		//ecal + hcal/p
+
+	
+		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
+	 
+		
+	}
+
+	/*
 	bool selec=1;
 
-	if( track_eta[hscp_track_idx[i]] >= 2.1 || track_eta[hscp_track_idx[i]] <= -2.1 ){
-		selec = 0;
-	}
+		if( track_eta[hscp_track_idx[i]] >= 2.1 || track_eta[hscp_track_idx[i]] <= -2.1 ){
+			selec = 0;
+			//return false;
+		}
 
-	if( track_npixhits[hscp_track_idx[i]] <= 1 ){
-		selec = 0;
-	}
+		if( track_npixhits[hscp_track_idx[i]] <= 1 ){ //?
+			selec = 0;
+		}
 	
-	if( track_nhits[hscp_track_idx[i]] <= 7 ){
-		selec = 0;
-	}
+		if( track_nhits[hscp_track_idx[i]] <= 7 ){
+			selec = 0;
+		}
 
-	if( track_validfraction[hscp_track_idx[i]] <= 0.8 ){
-		selec = 0;
-	}
+		if( track_validfraction[hscp_track_idx[i]] <= 0.8 ){
+			selec = 0;
+		}
 
-	if( ndedxhits <= 5 ){
-		selec = 0;
-	}
+		if( ndedxhits <= 5 ){
+			selec = 0;
+		}
 
-	if( track_pt[hscp_track_idx[i]] <= 55 ){
-		selec = 0;
-	}
+		if( track_pt[hscp_track_idx[i]] <= 55 ){
+			selec = 0;
+		}
 
-	if( track_dxy[hscp_track_idx[i]] >=0.5 ){
-		selec = 0;
-	}
+		if( track_dxy[hscp_track_idx[i]] >=0.5 ){
+			selec = 0;
+		}
+		
+		if( track_dz[hscp_track_idx[i]] >=0.5 ){
+			selec = 0;
+		}
 	
-	if( track_dz[hscp_track_idx[i]] >=0.5 ){
-		selec = 0;
-	}
+		if( track_pterr[hscp_track_idx[i]]/track_pt[hscp_track_idx[i]] >= 1 ){ 
+			selec = 0;
+		}
+
+		if( track_qual[hscp_track_idx[i]] < 2 ){//?
+			selec = 0;
+		}
+
+		if(hscp_iso2_tk[i] >= 50){
+			selec = 0;
+		}
+
+		//ecal + hcal/p
+
 	
-	if( track_pterr[hscp_track_idx[i]]/track_pt[hscp_track_idx[i]] >= 1 ){ 
-		selec = 0;
+		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
+	 
+		return selec;
 	}
-
-	if( track_qual[hscp_track_idx[i]] < 2 ){
-		selec = 0;
-	}
-
-	if(hscp_iso2_tk[i] >= 50){
-		selec = 0;
-	}
-
-	return selec;
-
+*/
 }
 
 int main(){

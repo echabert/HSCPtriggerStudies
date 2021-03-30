@@ -209,7 +209,7 @@ void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){
 	
 	if(Obs!=0.0){
 		for(auto ster = ListTriggers.begin() ; ster != ListTriggers.end(); ster++){
-			EffvsObs[ster->first]->Fill(passtrig[ster->second],Obs);
+			EffvsObs[ster->first]->TEfficiency::Fill(passtrig[ster->second],Obs);
 		}
 	}
 	
