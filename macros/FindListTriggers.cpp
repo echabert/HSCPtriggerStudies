@@ -75,7 +75,7 @@ void ListNameTriggers::FindAllNames(){
 
 		for( auto it= MapOfTriggerNames.begin(); it != MapOfTriggerNames.end(); it++){
 			string transf = it->first;
-			vector<string>::iterator itf = find(triggerName->begin(), triggerName->end(), transf);
+			vector<string>::iterator itf = std::find(triggerName->begin(), triggerName->end(), transf);
 			//auto itf = find (triggerName->begin() , triggerName->end(), transf);
 			if(itf != triggerName->end()){
 			
