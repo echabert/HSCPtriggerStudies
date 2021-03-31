@@ -41,7 +41,7 @@ public:
 
    void Fill(const vector<bool> &passtrig, float Obs= 0.0, double weight = 1); // 
 
-   void Compute();
+   void Compute(string NameOutputFile);
    
    //void CreateHisto(string NameVar="random", const vector<string> &SelectedTriggerNames);
 
@@ -87,7 +87,7 @@ public:
 
    void SavePlots(); // en png/hist ou whatever
 
-   void SaveIntTrigs(); // Saves the list of interesting triggers (efficiency > threshold)
+   void SaveIntTrigs(string NameOutputFile); // Saves the list of interesting triggers (efficiency > threshold)
 
 
 
@@ -119,6 +119,7 @@ public:
    string NameObs;
    string FileName;
 
+   string NameOutputFile;
    float Obs; // observable 
   
    

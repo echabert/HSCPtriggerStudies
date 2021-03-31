@@ -67,11 +67,13 @@ void AnaEff::Loop()
 
 	
 
-	trigEff_selection_obs.Load(triggerNames,str,1,"entered","PT","eff_PT.root");
+	trigEff_selection_obs.Load(triggerNames,str,1,"entered","PT","test_PT.root");
 
 	//trigEff_selection_obs.CreateHisto("s", str);
 
-	//trigEff_presel.Load(triggerNames,str,1,"entered","PT","eff_MET.root"); 
+	trigEff_presel.Load(triggerNames,str,1,"entered","MET","test_MET.root"); 
+
+
 	str.clear();
 	int counter=0,passedevent=0;
 	int indexcandidate;
@@ -132,7 +134,7 @@ void AnaEff::Loop()
 
 				passedevent+=1;
 				trigEff_selection_obs.Fill(vtrigger,HighestPT);
-
+				trigEff_presel.Fill(vtrigger,HighestMET);
 				
 			}
 		
@@ -159,8 +161,9 @@ void AnaEff::Loop()
 	double ratio = passedevent*1.0/counter;
 	cout << " Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << endl;
 	cout << " Ratio passed/total : " << ratio*100 << " %" << endl;
-	trigEff_selection_obs.Compute();
+	trigEff_selection_obs.Compute("test_TriggersOfInterest_PT.txt");
 
+	trigEff_presel.Compute("test_TriggersOfInterest_MET.txt");
 	//trigEff_presel.Compute();
 
 	
@@ -170,7 +173,7 @@ void AnaEff::Loop()
 	listofprescaledtriggers.clear();
 	
 	trigEff_selection_obs.WritePlots("");
-
+	trigEff_presel.WritePlots("");
 	//trigEff_presel.WritePlots("PT");
 }
 
@@ -229,6 +232,10 @@ int AnaEff::Selection(){
 
 		if(hscp_iso2_tk[ihs] >= 50){
 			selec = 0;
+		}
+		
+		if ( muon_comb_inversebeta[hscp_track_idx[i]] < 1   ) { // no branch yet
+	 		selec = 0;
 		}
 
 		if(selec){

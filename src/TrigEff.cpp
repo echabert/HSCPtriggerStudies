@@ -154,8 +154,15 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	
 	if(NameVar!=""){
 		for(int j=0; j < ListTriggers.size(); j++){
-			EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",200,0,2000);
+			if(NameVar=="PT"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",200,0,2000); // changer le titre MET/PT !!
+			}
+
+			if(NameVar=="MET"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",200,0,2000);
+			}
 			EffvsObs[j]->SetName(SelectedTriggerNames[j].c_str());
+			
 			//EffvsObs[j]->Draw();
 			//gPad->Update();
 			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
@@ -310,10 +317,10 @@ void TrigEff::SortEffVec(){
 
 
 
-void TrigEff::SaveIntTrigs(){
+void TrigEff::SaveIntTrigs(string NameOutputFile){
 	int j=0;
 	ofstream TriggersOfInterest;
-	TriggersOfInterest.open ("TriggersOfInterest_PT.txt");
+	TriggersOfInterest.open (NameOutputFile.c_str());
 	if (TriggersOfInterest.good()){
 		for (int i = 0; i < Efficiency.size(); i++){ 
 			//if(EffList[i].first >= 0.5 ){
@@ -398,7 +405,7 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 	//cout << "right after closing  outputhisto" << endl;
 }
 
-void TrigEff::Compute(){
+void TrigEff::Compute(string NameOutputFile){
 	ComputeEff();
 	ComputeError();
 	
@@ -406,7 +413,7 @@ void TrigEff::Compute(){
 	//PrintDenomEff();
 	SortEffVec();
 	//PrintEff();
-	SaveIntTrigs();
+	SaveIntTrigs(NameOutputFile.c_str());
 
 
 	ComputeCorr();
