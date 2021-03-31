@@ -21,24 +21,38 @@ void ListNameTriggers::FindAllNames(){
 	ofstream PrescaledSubList;
 	PrescaledSubList.open ("PrescaledSubList.txt");
 
+	ofstream PrescaledTurnedBad;
+	PrescaledSubList.open ("PrescaledTurnedBad.txt");
 
 	int testcount=0;
 	vector<string> TrigNames;
 
+	vector<bool> StillPrescaled;
+
+	
 	Long64_t nentries = fChain->GetEntriesFast();
 	Long64_t nbytes = 0, nb = 0, nbi = 0;
 	Long64_t initializing = LoadTree(0); 
 
 	cout << "nentries : " << nentries << endl;
-
+	
 	if (initializing < 0) cout << "Aborted"<< endl;
 
 	nbi = fChain->GetEntry(initializing);   nbytes += nbi;
 	
 	cout << " ntrigger  : " << ntrigger << endl;
-	
+	StillPrescaled.resize(ntrigger, true);
+
+
 	for(int i=0; i< ntrigger; i++){
 		cout << "TriggerName " << i << " : " << triggerName->at(i) << endl;
+		if(prescaleTrigger[i]==1){
+			StillPrescaled[i]=true;
+		}
+		else{
+			StillPrescaled[i]=false;
+		}
+
 		TrigNames.push_back(triggerName->at(i));
 		if(prescaleTrigger[i]==1){
 			MapOfTriggerNames[triggerName->at(i)] = make_pair(true,true);
@@ -60,6 +74,11 @@ void ListNameTriggers::FindAllNames(){
 
 		for(int i=0; i< ntrigger; i++){
 		//if(prescaleTrigger[i] == 1){
+			if(prescaleTrigger[i] != 1){
+				StillPrescaled[i]=false;
+				PrescaledTurnedBad << "Entry " << jentry << " made prescale " << i << " false" << endl;
+			}
+			
 			//cout << " Prescale " << i << " : " << prescaleTrigger[i] << endl;
 			TrigNames.push_back(triggerName->at(i));	
 		//}
@@ -107,6 +126,8 @@ void ListNameTriggers::FindAllNames(){
 		
 	}
 	CompleteList.close();
+	PrescaledSubList.close();
+	PrescaledTurnedBad.close();
 }
 
 
