@@ -74,7 +74,8 @@ void ListNameTriggers::FindAllNames(){
 		//if(TrigNames.size() < MapOfTriggerNames.size()){
 
 		for( auto it= MapOfTriggerNames.begin(); it != MapOfTriggerNames.end(); it++){
-			auto itf = find (triggerName->begin() , triggerName->end(), it->first.c_str());
+			string transf = it->first;
+			auto itf = find (triggerName->begin() , triggerName->end(), transf);
 			if(itf != triggerName->end()){
 			
 			}
