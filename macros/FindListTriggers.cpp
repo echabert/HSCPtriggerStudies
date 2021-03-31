@@ -6,7 +6,7 @@
 #include <fstream>
 #include <map>
 #include <iterator>
-
+#include <algorithm>
 #include "FindListTriggers.h" 
 
 using namespace std; 
@@ -22,7 +22,7 @@ void ListNameTriggers::FindAllNames(){
 	PrescaledSubList.open ("PrescaledSubList.txt");
 
 	ofstream PrescaledTurnedBad;
-	PrescaledSubList.open ("PrescaledTurnedBad.txt");
+	PrescaledTurnedBad.open ("PrescaledTurnedBad.txt");
 
 	int testcount=0;
 	
@@ -68,14 +68,15 @@ void ListNameTriggers::FindAllNames(){
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		testcount+=1;
-		
+		 
 
 		
 		//if(TrigNames.size() < MapOfTriggerNames.size()){
 
 		for( auto it= MapOfTriggerNames.begin(); it != MapOfTriggerNames.end(); it++){
 			string transf = it->first;
-			vector<string>::iterator itf = std::find(triggerName->begin(), triggerName->end(), transf);
+			//cout << transf << endl;  
+			auto itf = std::find( triggerName->begin() , triggerName->end(), transf);
 			//auto itf = find (triggerName->begin() , triggerName->end(), transf);
 			if(itf != triggerName->end()){
 			
@@ -90,7 +91,7 @@ void ListNameTriggers::FindAllNames(){
 					
 
 		}
-
+	//	PrescaledTurnedBad <<"------------------------------------------------" << endl;
 		//}
 
 		for(int i=0; i< ntrigger; i++){
@@ -124,7 +125,7 @@ void ListNameTriggers::FindAllNames(){
 	}
 
 	for(auto itr = MapOfTriggerNames.begin(); itr != MapOfTriggerNames.end(); itr++){
-		CompleteList << itr->first << endl; //<< " " << itr->second.first << " " << itr->second.second
+		CompleteList << itr->first << " " << itr->second.first <<" " << itr->second.second << endl; //<< " " << itr->second.first << " " << itr->second.second
 		if(itr->second.first){
 			PrescaledSubList << itr->first << endl; //<< " " << itr->second.first << " " << itr->second.second
 		}

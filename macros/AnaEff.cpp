@@ -234,9 +234,9 @@ int AnaEff::Selection(){
 			selec = 0;
 		}
 		
-		if ( muon_comb_inversebeta[hscp_track_idx[i]] < 1   ) { // no branch yet
-	 		selec = 0;
-		}
+		//if ( muon_comb_inversebeta[hscp_track_idx[i]] < 1   ) { // no branch yet
+	 	//	selec = 0;
+	//	}
 
 		if(selec){
 			return ihs;
