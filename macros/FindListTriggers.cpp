@@ -60,7 +60,7 @@ void ListNameTriggers::FindAllNames(){
 
 	}
 	
-	PrescaledTurnedBad << "----------------------------------------------------------------\n ----------------------------------------------------------------\n " << i << " is not 1" << endl;
+	PrescaledTurnedBad << "----------------------------------------------------------------\n ----------------------------------------------------------------\n " << endl;
 	
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
@@ -74,8 +74,8 @@ void ListNameTriggers::FindAllNames(){
 		//if(TrigNames.size() < MapOfTriggerNames.size()){
 
 		for( auto it= MapOfTriggerNames.begin(); it != MapOfTriggerNames.end(); it++){
-			auto itf = find (triggerName.begin() , triggerName.end(), it->first);
-			if(itf != triggerName.end()){
+			auto itf = find (triggerName->begin() , triggerName->end(), it->first);
+			if(itf != triggerName->end()){
 			
 			}
 			else{
@@ -96,7 +96,7 @@ void ListNameTriggers::FindAllNames(){
 			if(it != MapOfTriggerNames.end()){
 				//cout << "Found " << TrigNames[i] << endl;
 				if(prescaleTrigger[i]!=1){
-					if(MapOfTriggerNames[triggerName->at(i)] == (true, true)){
+					if(MapOfTriggerNames[triggerName->at(i)] == pair<bool, bool>(true,true)){
 						PrescaledTurnedBad << "Entry " << jentry << " made prescale " << i << " false" << endl;
 					}
 					MapOfTriggerNames[triggerName->at(i)] = make_pair<bool, bool>(false,true);
@@ -118,7 +118,7 @@ void ListNameTriggers::FindAllNames(){
 			}
 
 		}
-		TrigNames.clear();
+		
 	}
 
 	for(auto itr = MapOfTriggerNames.begin(); itr != MapOfTriggerNames.end(); itr++){
