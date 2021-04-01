@@ -110,6 +110,67 @@ TrigEff::~TrigEff(){
 //*************************************************************
 //Dans Load : Selection va être le nom de la variable qu'on veut étudier. Dans Fill on va mettre la valeur
 
+
+void TrigEff::LoadNoMap(const vector<string> &SelectedTriggerNames,int ErrorType, string NameVar,string FileName){ 
+	NameObs=NameVar;
+	cout << "Name is : " << NameObs << endl;
+	
+
+	NumCorr.resize(SelectedTriggerNames.size(), vector<double>(SelectedTriggerNames.size(), 0.0)); 
+	DenomCorr.resize(SelectedTriggerNames.size(), vector<double>(SelectedTriggerNames.size(), 0.0));
+	Correlation.resize(SelectedTriggerNames.size(), vector<double>(SelectedTriggerNames.size(), 0.0)); 
+	
+	NumEfficiency.resize(SelectedTriggerNames.size(), 0.0);
+	DenomEfficiency.resize(SelectedTriggerNames.size(), 0.0);
+	Efficiency.resize(SelectedTriggerNames.size(), 0.0);
+	
+	EffErr.resize(SelectedTriggerNames.size(), 0.0);
+	EffvsObs.resize(SelectedTriggerNames.size());
+
+
+	
+	TString outputfilename=FileName.c_str();
+
+	OutputHisto = new TFile(outputfilename,"RECREATE");
+	
+
+	//SelectedTriggerNames=str;
+	//Selection=triggerNames;
+	//************* Init of histograms ****************
+
+	
+	if(NameVar!=""){
+		for(int j=0; j < SelectedTriggerNames.size(); j++){
+			if(NameVar=="PT"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",50,0,2000); // changer le titre MET/PT !!
+			}
+			if(NameVar=="MET"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",50,0,2000);
+			}
+			EffvsObs[j]->SetName(SelectedTriggerNames[j].c_str());
+
+			//EffvsObs[j]->Draw("AP");
+			//gPad->Update();
+			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
+			}
+	}
+	
+	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
+	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", SelectedTriggerNames.size(),0,SelectedTriggerNames.size());
+	CORR = new TH2D("Correlation", "Correlation plot",  SelectedTriggerNames.size() , 0 , SelectedTriggerNames.size() , SelectedTriggerNames.size(), 0 , SelectedTriggerNames.size()); 
+	EFF_TRIG->Sumw2();
+	EFF_DISTRIB->Sumw2();
+	CORR->Sumw2();
+	
+	if(ErrorType == 1 ){
+	}
+	
+}
+
+
+
+
+//***************************************************************************************************************************
 void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &SelectedTriggerNames,int ErrorType, string Selection,string NameVar,string FileName){ 
 	NameObs=NameVar;
 	cout << "Name is : " << NameObs << endl;
@@ -155,42 +216,66 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	if(NameVar!=""){
 		for(int j=0; j < ListTriggers.size(); j++){
 			if(NameVar=="PT"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",200,0,2000); // changer le titre MET/PT !!
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",50,0,2000); // changer le titre MET/PT !!
 			}
-
 			if(NameVar=="MET"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",200,0,2000);
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",50,0,2000);
 			}
 			EffvsObs[j]->SetName(SelectedTriggerNames[j].c_str());
-			
-			//EffvsObs[j]->Draw();
-			//gPad->Update();
-			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
 
 			//EffvsObs[j]->Draw("AP");
 			//gPad->Update();
 			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
 			}
-
-		
 	}
 	
-		
-
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", ListTriggers.size(),0,ListTriggers.size());
-
 	CORR = new TH2D("Correlation", "Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size() , ListTriggers.size(), 0 , ListTriggers.size()); 
-	
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
 	CORR->Sumw2();
 	
 	if(ErrorType == 1 ){
-		//cout << " We will use the most general error estimator " << endl;
 	}
 	
 }
+
+
+
+void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){  
+	bool trig1,trig2;
+	for(int i = 0; i < passtrig.size()  ;i++){
+		trig1 = passtrig.at(i);
+		DenomEfficiency[i]+=1;
+		if(trig1){
+			NumEfficiency[i]+=1;
+		}
+	
+		for(int j = 0; j < passtrig.size()  ;j++){
+			trig2 = passtrig.at(j);
+			if(trig1 || trig2){
+				DenomCorr[i][j]+=1;
+			}
+			if(trig1 && trig2){
+				NumCorr[i][j]+=1;
+			}
+	
+		}
+	}
+
+	if(Obs!=0.0){
+		for(int i = 0 ; i < passtrig.size(); i++){
+			EffvsObs[i]->TEfficiency::Fill(passtrig[i],Obs);
+		}
+	//alternative sans map 
+		
+		
+	}
+}
+
+
+
 
 
 
@@ -215,6 +300,8 @@ void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){
 	}
 	
 	if(Obs!=0.0){
+
+	//alternative sans map 
 		for(auto ster = ListTriggers.begin() ; ster != ListTriggers.end(); ster++){
 			EffvsObs[ster->first]->TEfficiency::Fill(passtrig[ster->second],Obs);
 		}

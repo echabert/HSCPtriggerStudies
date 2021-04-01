@@ -246,7 +246,7 @@ int AnaEff::Selection(){
 		}
 		//ecal + hcal/p
 
-	
+		//Rajouter les critères pour un muon seulement + condition timing
 		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
 	 
 		

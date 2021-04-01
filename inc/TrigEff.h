@@ -37,7 +37,14 @@ public:
    ~TrigEff();
    
 
+   void LoadNoMap(const vector<string> &SelectedTriggerNames,int ErrorType=1, string NameVar="a",string FileName="testnewdata.root");
+
+
    void	Load(const vector<string> &TriggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string Selection="entered",string NameVar="a",string FileName="testnewdata.root");
+
+
+
+   void FillNoMap(const vector<bool> &passtrig, float Obs = 0.0, double weight = 1);
 
    void Fill(const vector<bool> &passtrig, float Obs= 0.0, double weight = 1); // 
 
@@ -46,6 +53,11 @@ public:
    //void CreateHisto(string NameVar="random", const vector<string> &SelectedTriggerNames);
 
    void WritePlots(string NameVar="a"); // format latex TFile* OutputHisto
+
+
+
+
+
 
 
  private :

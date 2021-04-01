@@ -16,7 +16,7 @@ using namespace std;
 void ListNameTriggers::FindAllNames(){
 	
 	ofstream CompleteList;
-	CompleteList.open ("CompleteList.txt");
+	CompleteList.open ("CompleteList.txt"); //change name
 
 	ofstream PrescaledSubList;
 	PrescaledSubList.open ("PrescaledSubList.txt");
