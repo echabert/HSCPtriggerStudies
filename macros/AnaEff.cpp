@@ -62,18 +62,18 @@ void AnaEff::Loop()
 
 
 	
-
-
+	trigEff_selection_obs.LoadNoMap(str,1,"PT","test_PT_nomap.root");
+	trigEff_presel.LoadNoMap(str,1,"MET","test_MET_nomap.root");
 
 	
 
-	trigEff_selection_obs.Load(triggerNames,str,1,"entered","PT","test_PT.root");
+	//trigEff_selection_obs.Load(triggerNames,str,1,"entered","PT","test_PT.root");
+
+	
+
+	//trigEff_presel.Load(triggerNames,str,1,"entered","MET","test_MET.root"); 
 
 	//trigEff_selection_obs.CreateHisto("s", str);
-
-	trigEff_presel.Load(triggerNames,str,1,"entered","MET","test_MET.root"); 
-
-
 	str.clear();
 	int counter=0,passedevent=0;
 	int indexcandidate;
@@ -133,8 +133,11 @@ void AnaEff::Loop()
 				}
 
 				passedevent+=1;
-				trigEff_selection_obs.Fill(vtrigger,HighestPT);
-				trigEff_presel.Fill(vtrigger,HighestMET);
+				//trigEff_selection_obs.Fill(vtrigger,HighestPT);
+				//trigEff_presel.Fill(vtrigger,HighestMET);
+
+				trigEff_selection_obs.FillNoMap(vtrigger,HighestPT);
+				trigEff_presel.FillNoMap(vtrigger,HighestMET);			
 				
 			}
 		
@@ -161,9 +164,9 @@ void AnaEff::Loop()
 	double ratio = passedevent*1.0/counter;
 	cout << " Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << endl;
 	cout << " Ratio passed/total : " << ratio*100 << " %" << endl;
-	trigEff_selection_obs.Compute("test_TriggersOfInterest_PT.txt");
+	trigEff_selection_obs.Compute("test_TriggersOfInterest_PT_nomap.txt");
 
-	trigEff_presel.Compute("test_TriggersOfInterest_MET.txt");
+	trigEff_presel.Compute("test_TriggersOfInterest_MET_nomap.txt");
 	//trigEff_presel.Compute();
 
 	

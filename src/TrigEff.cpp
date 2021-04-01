@@ -127,7 +127,7 @@ void TrigEff::LoadNoMap(const vector<string> &SelectedTriggerNames,int ErrorType
 	EffErr.resize(SelectedTriggerNames.size(), 0.0);
 	EffvsObs.resize(SelectedTriggerNames.size());
 
-
+	this->TriggerNames = SelectedTriggerNames;
 	
 	TString outputfilename=FileName.c_str();
 
@@ -388,10 +388,13 @@ void TrigEff::PrintEff(){
 
 
 
+
+
+
 void TrigEff::SortEffVec(){
 	
 	for (int i = 0; i < Efficiency.size(); i++) { 
-        	EffList.push_back(make_pair(Efficiency[i], make_pair(EffErr[i],TriggerNames[ListTriggers[i]])));
+        	EffList.push_back(make_pair(Efficiency[i], make_pair(EffErr[i],TriggerNames[i]))); // ListTriggers[i] if we work with a map
 	}
 
 	sort(EffList.begin(),EffList.end());
@@ -467,7 +470,7 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 	OutputHisto->cd(NameVar.c_str());*/
 	
 	
-	for(int i=0;i < ListTriggers.size();i++){
+	for(int i=0;i < EffvsObs.size();i++){
 		EffvsObs[i]->Write();
 	}
 
