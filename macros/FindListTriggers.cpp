@@ -125,7 +125,7 @@ void ListNameTriggers::FindAllNames(){
 	}
 
 	for(auto itr = MapOfTriggerNames.begin(); itr != MapOfTriggerNames.end(); itr++){
-		CompleteList << itr->first << " " << itr->second.first <<" " << itr->second.second << endl; //<< " " << itr->second.first << " " << itr->second.second
+		CompleteList << itr->first << endl; //<< " " << itr->second.first << " " << itr->second.second
 		if(itr->second.first){
 			PrescaledSubList << itr->first << endl; //<< " " << itr->second.first << " " << itr->second.second
 		}

@@ -300,8 +300,6 @@ void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){
 	}
 	
 	if(Obs!=0.0){
-
-	//alternative sans map 
 		for(auto ster = ListTriggers.begin() ; ster != ListTriggers.end(); ster++){
 			EffvsObs[ster->first]->TEfficiency::Fill(passtrig[ster->second],Obs);
 		}
@@ -394,7 +392,7 @@ void TrigEff::PrintEff(){
 void TrigEff::SortEffVec(){
 	
 	for (int i = 0; i < Efficiency.size(); i++) { 
-        	EffList.push_back(make_pair(Efficiency[i], make_pair(EffErr[i],TriggerNames[i]))); // ListTriggers[i] if we work with a map
+        	EffList.push_back(make_pair(Efficiency[i], make_pair(EffErr[i],TriggerNames[ListTriggers[i]]))); // ListTriggers[i] if we work with a map
 	}
 
 	sort(EffList.begin(),EffList.end());
