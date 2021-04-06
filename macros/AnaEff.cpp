@@ -28,7 +28,7 @@ void AnaEff::Loop()
 	Long64_t nentries = fChain->GetEntriesFast();
 	Long64_t nbytes = 0, nb = 0, nbi = 0;
 
-	// Initialization/reading the number of triggers (ntrigger), prescale triggers etc..
+	// Initialization
 
 	Long64_t initializing = LoadTree(0); 
 	if (initializing < 0) cout << "Aborted"<< endl;
@@ -41,6 +41,7 @@ void AnaEff::Loop()
 	vector<string> SubListMET;
 	
 	string s2 = "PFMET";
+	string s3 = ""; 
 
 	string tmp;
 	while(getline(ifile,tmp)){
@@ -50,20 +51,14 @@ void AnaEff::Loop()
 		}
 		
 	}
-
-	
-
 	cout<<"size of triggerNames : "<< triggerNames.size() <<endl;
-	ifile.close();
 	
-
-
+	ifile.close();
 
 	vector<string> str;
 	string interfstr;
 	
-
-	ifstream inttrigs("PrescaledSubList.txt"); // FIle with triggers that you want to study (prescale == 1)
+	ifstream inttrigs("PrescaledSubList.txt"); 
 	while(getline(inttrigs,tmp)){
    		str.push_back(tmp);
 	}
@@ -85,6 +80,9 @@ void AnaEff::Loop()
 
 	//trigEff_selection_obs.CreateHisto("s", str);
 	str.clear();
+	SubListMET.clear();
+	
+
 	int counter=0,passedevent=0;
 	int indexcandidate;
 	//nentries=30;
