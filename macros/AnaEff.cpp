@@ -72,18 +72,15 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	
-	//trigEff_selection_obs.LoadNoMap(str,1,"PT","test_PT_nomap.root");
+	//trigEff_selection_obs.LoadNoMap(str,1,"PT","test_PT_nomap.root"); 
 	//trigEff_presel.LoadNoMap(str,1,"MET","test_MET_nomap.root");
 
 	
 
 	trigEff_selection_obs.Load(triggerNames,str,1,"entered","PT","test_PT.root");
+	//trigEff_presel.Load(triggerNames,SubListMET,1,"entered","MET","test_MET.root"); 
 
 	
-
-	trigEff_presel.Load(triggerNames,SubListMET,1,"entered","MET","test_MET.root"); 
-
-	//trigEff_selection_obs.CreateHisto("s", str);
 	str.clear();
 	SubListMET.clear();
 	SubListPT.clear();
@@ -120,8 +117,9 @@ void AnaEff::Loop()
 			}
 
 			passedevent+=1;
+
 			trigEff_selection_obs.Fill(vtrigger,HighestPT);
-			trigEff_presel.Fill(vtrigger,HighestMET);
+			//trigEff_presel.Fill(vtrigger,HighestMET);
 
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
@@ -132,17 +130,17 @@ void AnaEff::Loop()
 	double ratio = passedevent*1.0/counter;
 	cout << " Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << endl;
 	cout << " Ratio passed/total : " << ratio*100 << " %" << endl;
+	
 	trigEff_selection_obs.Compute("test_TriggersOfInterest_PT_withmap.txt");
-
-	trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
+	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	cout << "Just ended " << endl;
 
 	triggerNames.clear();
 	
 	trigEff_selection_obs.WritePlots("");
-	trigEff_presel.WritePlots("");
-	//trigEff_presel.WritePlots("PT");
+	//trigEff_presel.WritePlots("");
+
 }
 
 int AnaEff::Selection(){
@@ -217,12 +215,11 @@ double AnaEff::MuonsInvariantMass(int entry){
 			yon = false;
 		}
 		
-
-		if(pfmet_pt[hscp_track_idx[ihs]] >= 30 ){
+		if(pfmet_pt[hscp_track_idx[ihs]] >= 40 ){
 			yon = false;
 		}
 	
-		if( track_pt[hscp_track_idx[ihs]] >= 25 ){
+		if( track_pt[hscp_track_idx[ihs]] >= 45 ){
 			yon = false;
 		}
 		

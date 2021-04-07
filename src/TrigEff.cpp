@@ -163,6 +163,9 @@ void TrigEff::LoadNoMap(const vector<string> &SelectedTriggerNames,int ErrorType
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", SelectedTriggerNames.size(),0,SelectedTriggerNames.size());
 	CORR = new TH2D("Correlation", "Correlation plot",  SelectedTriggerNames.size() , 0 , SelectedTriggerNames.size() , SelectedTriggerNames.size(), 0 , SelectedTriggerNames.size()); 
+	MASS = new TH1D("MASS" , " Masses invariante des muons" , 60 , 0 , 120);
+
+	MASS->Sumw2();
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
 	CORR->Sumw2();
@@ -503,10 +506,12 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 
 void TrigEff::FillMass(double INVMASS){
 	MASS->Fill(INVMASS);
+
 }
 
 
 void TrigEff::Compute(string NameOutputFile){
+	
 	ComputeEff();
 	ComputeError();
 	
@@ -522,4 +527,3 @@ void TrigEff::Compute(string NameOutputFile){
 	//PrintCorr();
 	
 }
-

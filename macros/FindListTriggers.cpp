@@ -13,6 +13,7 @@ using namespace std;
 
 
 
+
 void ListNameTriggers::FindAllNames(){
 	
 	ofstream CompleteList;
