@@ -66,7 +66,8 @@ public :
    Bool_t	passTrigger[1000];
   // vector<string>*	triggerName;
    
-   Float_t	track_pt[33];   //[ntracks] augmenter la taille pour pas de overflow, it was 33
+   Float_t	track_pt[33]; //[ntracks] augmenter la taille pour pas de overflow, it was 33
+   Float_t      track_p[33];   
    Float_t	track_pterr[33];
    Int_t	hscp_track_idx[9];  //[nhscp] it was 9
  
@@ -83,7 +84,12 @@ public :
    Float_t	track_dxy[33];
    Int_t	track_qual[33];
    Float_t	hscp_iso2_tk[9];
-   
+   Bool_t	muon_isTrackerMuon[32];
+   Float_t      muon_comb_inversebeta[32];
+   Float_t      track_ih_ampl[33];
+
+
+
     // List of branches
    TBranch        *b_runNumber;   //!
    TBranch        *b_event;   //!
@@ -110,9 +116,12 @@ public :
    TBranch        *b_track_dxy;
    TBranch        *b_track_qual;
    TBranch        *b_hscp_iso2_tk;
-   
-   
-   
+   TBranch        *b_muon_isTrackerMuon;
+   TBranch        *b_muon_comb_inversebeta;
+   TBranch        *b_track_p;
+   TBranch        *b_track_ih_ampl;
+
+
    //--------------------------------------
    // Methods
    //--------------------------------------
@@ -126,7 +135,7 @@ public :
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
    virtual int      Selection();
-
+   virtual double     MuonsInvariantMass(int entry);
 
 };
 
@@ -142,14 +151,14 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
 	if (tree == 0) {
-		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root"); // /home/raph/CMS/TEST/ntupleRaphael_MC16_AOD_Gluino1600_5ev.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/nt_data_aod.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 ///opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/HSCPgluino_M-1600_TuneCP5_13TeV-pythia8/MC17_Gluino1600_runv3/210324_135858/0000
 
 ///home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_106.root
 	if (!f || !f->IsOpen()) {
-		f = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root"); // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+		f = new TFile("/home/raph/CMS/nt_data_aod.root"); // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 	}
-	TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
+	TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/nt_data_aod.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
 	dir->GetObject("ttree",tree);
 
    }
@@ -225,7 +234,12 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("ndedxhits", &ndedxhits, &b_ndedxhits);
    fChain->SetBranchAddress("track_dz", track_dz, &b_track_dz);
    fChain->SetBranchAddress("hscp_iso2_tk", hscp_iso2_tk, &b_hscp_iso2_tk);
-   
+   fChain->SetBranchAddress("muon_isTrackerMuon", muon_isTrackerMuon, &b_muon_isTrackerMuon);
+   fChain->SetBranchAddress("muon_comb_inversebeta", muon_comb_inversebeta, &b_muon_comb_inversebeta);
+   fChain->SetBranchAddress("track_p", track_p, &b_track_p);
+   fChain->SetBranchAddress("track_ih_ampl", track_ih_ampl, &b_track_ih_ampl);
+
+
  //  fChain->SetBranchAddress("hscp_muon_idx", hscp_muon_idx, &b_hscp_muon_idx); 
    Notify();
 }

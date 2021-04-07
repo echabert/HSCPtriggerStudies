@@ -26,6 +26,8 @@ TrigEff::TrigEff(){
 	EFF_DISTRIB=0;
 	CORR=0;
 	OutputHisto=0;
+		
+	MASS=0;
 
 	/*for(int i=0; i < ListTriggers.size() ; i++){
 		EffvsObs[i]=0;
@@ -77,6 +79,9 @@ TrigEff::~TrigEff(){
 	}
 	if(!EFF_DISTRIB){ 
 		delete EFF_DISTRIB;
+	}
+	if(!MASS){
+		delete MASS;
 	}
 }
 
@@ -231,7 +236,11 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", ListTriggers.size(),0,ListTriggers.size());
-	CORR = new TH2D("Correlation", "Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size() , ListTriggers.size(), 0 , ListTriggers.size()); 
+	CORR = new TH2D("Correlation", "Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size() , ListTriggers.size(), 0 , ListTriggers.size());
+
+	MASS = new TH1D("MASS" , " Masses invariante des muons" , 60 , 0 , 120);
+
+	MASS->Sumw2();
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
 	CORR->Sumw2();
@@ -269,8 +278,7 @@ void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){
 			EffvsObs[i]->TEfficiency::Fill(passtrig[i],Obs);
 		}
 	//alternative sans map 
-		
-		
+	//test liste complète avec/sans map 
 	}
 }
 
@@ -486,12 +494,17 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 	}
 	//CORR->SetDirectory("Correlations");
 	CORR->Write();
-	
+	MASS->Write();
 	//OutputHisto->cd();
 	//cout << "right before closing  outputhisto" << endl;
 	OutputHisto->Close();
 	//cout << "right after closing  outputhisto" << endl;
 }
+
+void TrigEff::FillMass(double INVMASS){
+	MASS->Fill(INVMASS);
+}
+
 
 void TrigEff::Compute(string NameOutputFile){
 	ComputeEff();

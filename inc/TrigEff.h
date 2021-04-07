@@ -54,9 +54,9 @@ public:
 
    void WritePlots(string NameVar="a"); // format latex TFile* OutputHisto
 
+   void FillMass(double INVMASS);
 
-
-
+   
 
 
 
@@ -101,11 +101,8 @@ public:
 
    void SaveIntTrigs(string NameOutputFile); // Saves the list of interesting triggers (efficiency > threshold)
 
-
-
-
-
    void StudyTrigvsMass(double mass); 
+
 
 //Mettre la masse en input, dans le anaEff.ccp : get la masse dans la double boucle for, et appeler cette fct avec la masse? 
 
@@ -119,10 +116,12 @@ public:
 
    TH1D* EFF_TRIG;
    TH1D* EFF_DISTRIB;
+   TH1D* MASS;
+
 
    TH2D* CORR; 
 
-
+   
 
    int ErrorType; // Int that corresponds to a way of calculating the error
    
