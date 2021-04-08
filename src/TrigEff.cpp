@@ -241,8 +241,9 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", ListTriggers.size(),0,ListTriggers.size());
 	CORR = new TH2D("Correlation", "Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size() , ListTriggers.size(), 0 , ListTriggers.size());
 
-	MASS = new TH1D("MASS" , " Masses invariante des muons" , 60 , 0 , 120);
-
+	MASS = new TH1D("MASS" , " Z Mass from Z->mu mu decay" , 80 , 0 , 160);
+	MASS->GetXaxis()->SetTitle("M [GeV]");
+	MASS->GetYaxis()->SetTitle(" # candidates");
 	MASS->Sumw2();
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();

@@ -17,11 +17,14 @@
 #include <fstream>
 #include <algorithm>
 #include <vector>
+#include <TLorentzVector.h>
+#include <TMath.h>
 
 
 using namespace std;
 
-
+const double massZ = 91.1876;
+const double massMu = 0.1134289257;
 void AnaEff::Loop()
 {
 
@@ -87,7 +90,7 @@ void AnaEff::Loop()
 	SubListMET.clear();
 	SubListPT.clear();
 
-	int counter=0,passedevent=0;
+	int counter=0,passedevent=0,nbofpairs=0;
 	int indexcandidate;
 	//nentries=30;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
@@ -101,6 +104,7 @@ void AnaEff::Loop()
 			
 		if(InvMass!=1){
 			//cout << InvMass << endl;
+			nbofpairs+=1;
 			trigEff_selection_obs.FillMass(InvMass);
 		}
 
@@ -130,11 +134,12 @@ void AnaEff::Loop()
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
+	
 
-	cout << "Before compute " << endl;
+	cout << "Number of pairs found " << nbofpairs << "\n" << endl;
 	double ratio = passedevent*1.0/counter;
-	cout << " Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << endl;
-	cout << " Ratio passed/total : " << ratio*100 << " %" << endl;
+	cout << "Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << "\n" << endl;
+	cout << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 	
 	trigEff_selection_obs.Compute("test_TriggersOfInterest_PT_withmap.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
@@ -212,10 +217,12 @@ int AnaEff::Selection(){
 
 
 double AnaEff::MuonsInvariantMass(int entry){
-	double Ka =2.935, Ce = 3.197,InvariantMass;
+	double Ka =2.935, Ce = 3.197,InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
 	bool yon=true;
 	bool twomuons=false;
 	int counttwomuons=0,candidate1,candidate2,countdiff=0;
+	
+	
 	
 	for(int ihs=0; ihs<nhscp;ihs++){
 		//if(muon isolé)
@@ -230,7 +237,13 @@ double AnaEff::MuonsInvariantMass(int entry){
 		if( track_pt[hscp_track_idx[ihs]] >= 45 ){
 			yon = false;
 		}
+		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
+			yon = false;
+		}
 		
+		if( track_dz[hscp_track_idx[ihs]] >=0.5 ){
+			yon = false;
+		}
 		//double m = sqrt(E*E - (track_p[hscp_track_idx[ihs]]*track_p[hscp_track_idx[ihs]]);
 
 		//Tracks with opposite charges 
@@ -265,6 +278,18 @@ double AnaEff::MuonsInvariantMass(int entry){
 
 
 		//Breit Wigner distribution
+		//charge opposée 
+
+		//opposite charge same flavour 
+
+		//isolated
+		
+		//appartenance au vertex+compatibles 
+
+		//cut on quality (trackqual, Identifc qual -> % that is really a muon/...) 
+
+		//seuils eta/pt , ambiguités si plusieurs combinaisons possible (algo somme close to peak )
+		
 		//2 tracks with opposite charge, invariant mass around 90 GeV , small MET ( less than 10 GeV )
 		//HLT Mu45 eta2p1,  HLT Mu50 employed to collect HSCPs that are charged. 
 		//HSCP that is neutral in the muon system : high PT inner track (IT) not reconstructed as a muon, 10 GeV in MET in the calo.
@@ -276,34 +301,60 @@ double AnaEff::MuonsInvariantMass(int entry){
 	
 	if(counttwomuons==2){
 		
-		if(track_ih_ampl[hscp_track_idx[candidate1]] > Ce && track_ih_ampl[hscp_track_idx[candidate2]] > Ce){
-
+		
 			//calcul de la masse invariante
-			double MASSc1=sqrt((track_p[hscp_track_idx[candidate1]]*track_p[hscp_track_idx[candidate1]]/Ka)*(track_ih_ampl[hscp_track_idx[candidate1]]- Ce) );
-		
-			double MASSc2=sqrt((track_p[hscp_track_idx[candidate2]]*track_p[hscp_track_idx[candidate2]]/Ka)*(track_ih_ampl[hscp_track_idx[candidate2]]- Ce) );
-		
-			double Energy1 = sqrt(MASSc1*MASSc1 + track_p[hscp_track_idx[candidate1]]*track_p[hscp_track_idx[candidate1]]);  //m²c⁴ + p²c²				
-			double Energy2 = sqrt(MASSc2*MASSc2 + track_p[hscp_track_idx[candidate2]]*track_p[hscp_track_idx[candidate2]]);
-		
-			double totEnergy = Energy1 + Energy2;
-			double totMomentum = track_p[hscp_track_idx[candidate1]] + track_p[hscp_track_idx[candidate2]];
-			//cout << "after all calculations" << endl;
-			if(totEnergy > totMomentum){
-				InvariantMass = sqrt((totEnergy*totEnergy) - (totMomentum*totMomentum));
-			}
-			else{
-				InvariantMass = 1;
-			}
-		
-			return InvariantMass;
+		c1phi = muon_phi[candidate1];
+		c2phi = muon_phi[candidate2];
 
+		c1eta = muon_eta[candidate1];
+		c2eta = muon_eta[candidate2];
+
+		c1pt = muon_pt[candidate1];
+		c2pt = muon_pt[candidate2];
+			
+		TLorentzVector mu1,mu2,sum;
+		mu1.SetPtEtaPhiM(c1pt,c1eta,c1phi,massMu);
+		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
+		//PtEtaPhiMVector mu1(c1pt,c1eta,c1phi,massZ);
+		//PtEtaPhiMVector mu2(c2pt,c2eta,c2phi,massZ);
+
+		sum = mu1 + mu2;
+		//sum.SetM(massZ/2);
+		//cout << sum[0] << ", " << sum[1] << ", " << sum[2] << endl;
+		double armass = sum.M();
+		cout << "invariant mass : " << armass << endl;
+		//mass mauvaises -> energy mauvaise 
+		//
+			
+		/*double MASSc1=sqrt((track_p[hscp_track_idx[candidate1]]*track_p[hscp_track_idx[candidate1]]/Ka)*(track_ih_ampl[hscp_track_idx[candidate1]]- Ce) );
+		
+		double MASSc2=sqrt((track_p[hscp_track_idx[candidate2]]*track_p[hscp_track_idx[candidate2]]/Ka)*(track_ih_ampl[hscp_track_idx[candidate2]]- Ce) );
+			
+		cout << "Mass mu 1 : " << MASSc1 << " , Mass mu 2 : " << MASSc2 << endl;
+		double Energy1 = sqrt(MASSc1*MASSc1 + track_p[hscp_track_idx[candidate1]]*track_p[hscp_track_idx[candidate1]]);  //m²c⁴ + p²c²				
+		double Energy2 = sqrt(MASSc2*MASSc2 + track_p[hscp_track_idx[candidate2]]*track_p[hscp_track_idx[candidate2]]);
+		
+		double totEnergy = Energy1 + Energy2;
+		double totMomentum = track_p[hscp_track_idx[candidate1]] + track_p[hscp_track_idx[candidate2]];
+		//cout << "after all calculations" << endl;
+		if(totEnergy > totMomentum){
+			InvariantMass = sqrt((totEnergy*totEnergy) - (totMomentum*totMomentum));
 		}
+		else{
+			InvariantMass = 1;
+		}*/
+			
+		return armass;
+
+		
 	}
 	return 1;
 	//trigEff_selection_obs.MASS->Write();
 	
 }
+
+
+
 
 
 

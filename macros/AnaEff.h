@@ -71,7 +71,6 @@ public :
    Float_t	track_pterr[33];
    Int_t	hscp_track_idx[9];  //[nhscp] it was 9
  
-   Float_t	muon_pt[32]; //!
 
    Float_t	track_eta[33];
 
@@ -87,7 +86,9 @@ public :
    Bool_t	muon_isTrackerMuon[32];
    Float_t      muon_comb_inversebeta[32];
    Float_t      track_ih_ampl[33];
-
+   Float_t      muon_phi[32];
+   Float_t      muon_eta[32];
+   Float_t      muon_pt[32];
 
 
     // List of branches
@@ -103,7 +104,6 @@ public :
    TBranch        *b_track_pterr; //!
    TBranch        *b_hscp_track_idx;   //!
    TBranch        *b_nhscp;  //!
-   TBranch        *b_muon_pt; //!
 
    TBranch        *b_track_nhits;
    TBranch        *b_pfmet_pt; // !
@@ -120,7 +120,9 @@ public :
    TBranch        *b_muon_comb_inversebeta;
    TBranch        *b_track_p;
    TBranch        *b_track_ih_ampl;
-
+   TBranch        *b_muon_eta;   //!
+   TBranch        *b_muon_phi;
+   TBranch        *b_muon_pt;
 
    //--------------------------------------
    // Methods
@@ -151,14 +153,14 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
 	if (tree == 0) {
-		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/nt_data_aod.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 ///opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/HSCPgluino_M-1600_TuneCP5_13TeV-pythia8/MC17_Gluino1600_runv3/210324_135858/0000
 
 ///home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_106.root
 	if (!f || !f->IsOpen()) {
-		f = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+		f = new TFile("/home/raph/CMS/nt_data_aod.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 	}
-	TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
+	TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/nt_data_aod.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
 	dir->GetObject("ttree",tree);
 
    }
@@ -221,7 +223,7 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("track_pterr", track_pterr, &b_track_pterr);
    fChain->SetBranchAddress("hscp_track_idx", hscp_track_idx, &b_hscp_track_idx);
    fChain->SetBranchAddress("nhscp", &nhscp, &b_nhscp);
-   fChain->SetBranchAddress("muon_pt", muon_pt, &b_muon_pt);
+
    fChain->SetBranchAddress("pfmet_pt", pfmet_pt, &b_pfmet_pt);
    fChain->SetBranchAddress("track_eta", track_eta, &b_track_eta);
    fChain->SetBranchAddress("track_npixhits", track_npixhits, &b_track_npixhits);
@@ -238,7 +240,9 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("muon_comb_inversebeta", muon_comb_inversebeta, &b_muon_comb_inversebeta);
    fChain->SetBranchAddress("track_p", track_p, &b_track_p);
    fChain->SetBranchAddress("track_ih_ampl", track_ih_ampl, &b_track_ih_ampl);
-
+   fChain->SetBranchAddress("muon_phi", muon_phi, &b_muon_phi);
+   fChain->SetBranchAddress("muon_eta", muon_eta, &b_muon_eta);
+   fChain->SetBranchAddress("muon_pt", muon_pt, &b_muon_pt);
 
  //  fChain->SetBranchAddress("hscp_muon_idx", hscp_muon_idx, &b_hscp_muon_idx); 
    Notify();
