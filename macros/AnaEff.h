@@ -135,7 +135,7 @@ public :
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
    virtual int      Selection();
-   virtual double     MuonsInvariantMass(int entry);
+   virtual double   MuonsInvariantMass(int entry);
 
 };
 

@@ -78,6 +78,8 @@ void AnaEff::Loop()
 	
 
 	trigEff_selection_obs.Load(triggerNames,str,1,"entered","PT","test_PT.root");
+
+	
 	//trigEff_presel.Load(triggerNames,SubListMET,1,"entered","MET","test_MET.root"); 
 
 	
@@ -93,8 +95,12 @@ void AnaEff::Loop()
 		if(jentry!=0 && jentry%5000==0) cout << "Still here " << endl;
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
+		
 		double InvMass = MuonsInvariantMass(jentry);
+		
+			
 		if(InvMass!=1){
+			//cout << InvMass << endl;
 			trigEff_selection_obs.FillMass(InvMass);
 		}
 
@@ -103,10 +109,9 @@ void AnaEff::Loop()
 		counter+=1;
 		
 		vector<Bool_t> vtrigger; //Convert array into vector
-		vector<float> TrackPT,MuonPT,METPT;
+		//vector<float> TrackPT,MuonPT,METPT;
 
 		float HighestPT,HighestMuonPT,HighestMET;
-		bool selections;
 		indexcandidate=Selection();
 		if(indexcandidate != 64){
 			HighestPT = track_pt[indexcandidate];
@@ -207,10 +212,11 @@ int AnaEff::Selection(){
 
 
 double AnaEff::MuonsInvariantMass(int entry){
-	double Ka =2.935, Ce = 3.197;
+	double Ka =2.935, Ce = 3.197,InvariantMass;
 	bool yon=true;
 	bool twomuons=false;
 	int counttwomuons=0,candidate1,candidate2,countdiff=0;
+	
 	for(int ihs=0; ihs<nhscp;ihs++){
 		//if(muon isolé)
 		if(track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1){
@@ -230,37 +236,33 @@ double AnaEff::MuonsInvariantMass(int entry){
 		//Tracks with opposite charges 
 
 		//m²c⁴ + p²c²
-
+		
+		
 		if(muon_isTrackerMuon[hscp_track_idx[ihs]]){
 			counttwomuons+=1;
 		}
+			
 		if(countdiff==0){
 			if(yon){
 				candidate1=ihs;
 				countdiff+=1;
 			}
+			else{
+				candidate1=ihs;
+				countdiff+=1;
+			}
 		}
+		
 		else{
 			if(yon){
 				candidate2=ihs;
 			}
-		}
-		/*if(yon){
-			if(track_ih_ampl[hscp_track_idx[ihs]] > Ce){
-
-				double MASS=sqrt((track_p[hscp_track_idx[ihs]]*track_p[hscp_track_idx[ihs]]/Ka)*(track_ih_ampl[hscp_track_idx[ihs]]-Ce) );
-		
-				double Energy = sqrt(MASS*MASS + track_p[hscp_track_idx[ihs]]*track_p[hscp_track_idx[ihs]]);  //m²c⁴ + p²c²
-				
-				return MASS;
-				//trigEff_selection_obs.MASS->Fill(MASS);
-
-
-				//double InvMass = sqrt(Energy*Energy - (track_p[hscp_track_idx[ihs]]*track_p[hscp_track_idx[ihs]]));
-
-				//cout << "Candidate " << ihs << " of event " << entry << " has mass = " << MASS << ", energy = " << Energy << endl;
+			else{
+				candidate2=ihs;
+			
 			}
-		}*/
+		}
+
 
 		//Breit Wigner distribution
 		//2 tracks with opposite charge, invariant mass around 90 GeV , small MET ( less than 10 GeV )
@@ -271,21 +273,32 @@ double AnaEff::MuonsInvariantMass(int entry){
 		
 	}
 	
-	if(track_ih_ampl[hscp_track_idx[candidate1]] > Ce && track_ih_ampl[hscp_track_idx[candidate2]] > Ce && counttwomuons==2){
+	
+	if(counttwomuons==2){
+		
+		if(track_ih_ampl[hscp_track_idx[candidate1]] > Ce && track_ih_ampl[hscp_track_idx[candidate2]] > Ce){
 
-		//calcul de la masse invariante
-		double MASSc1=sqrt((track_p[hscp_track_idx[candidate1]]*track_p[hscp_track_idx[candidate1]]/Ka)*(track_ih_ampl[hscp_track_idx[candidate1]]-Ce) );
+			//calcul de la masse invariante
+			double MASSc1=sqrt((track_p[hscp_track_idx[candidate1]]*track_p[hscp_track_idx[candidate1]]/Ka)*(track_ih_ampl[hscp_track_idx[candidate1]]- Ce) );
 		
-		double MASSc2=sqrt((track_p[hscp_track_idx[candidate2]]*track_p[hscp_track_idx[candidate2]]/Ka)*(track_ih_ampl[hscp_track_idx[candidate2]]-Ce) );
+			double MASSc2=sqrt((track_p[hscp_track_idx[candidate2]]*track_p[hscp_track_idx[candidate2]]/Ka)*(track_ih_ampl[hscp_track_idx[candidate2]]- Ce) );
 		
-		double Energy1 = sqrt(MASSc1*MASSc1 + track_p[hscp_track_idx[candidate1]]*track_p[hscp_track_idx[candidate1]]);  //m²c⁴ + p²c²				
-		double Energy2 = sqrt(MASSc2*MASSc2 + track_p[hscp_track_idx[candidate2]]*track_p[hscp_track_idx[candidate2]]);
+			double Energy1 = sqrt(MASSc1*MASSc1 + track_p[hscp_track_idx[candidate1]]*track_p[hscp_track_idx[candidate1]]);  //m²c⁴ + p²c²				
+			double Energy2 = sqrt(MASSc2*MASSc2 + track_p[hscp_track_idx[candidate2]]*track_p[hscp_track_idx[candidate2]]);
 		
-		double totEnergy = Energy1 + Energy2;
-		double totMomentum = track_p[hscp_track_idx[candidate1]] + track_p[hscp_track_idx[candidate2]];
-		double InvMass = sqrt((totEnergy*totEnergy) - (totMomentum*totMomentum));
-		return InvMass;
+			double totEnergy = Energy1 + Energy2;
+			double totMomentum = track_p[hscp_track_idx[candidate1]] + track_p[hscp_track_idx[candidate2]];
+			//cout << "after all calculations" << endl;
+			if(totEnergy > totMomentum){
+				InvariantMass = sqrt((totEnergy*totEnergy) - (totMomentum*totMomentum));
+			}
+			else{
+				InvariantMass = 1;
+			}
+		
+			return InvariantMass;
 
+		}
 	}
 	return 1;
 	//trigEff_selection_obs.MASS->Write();
