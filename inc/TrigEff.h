@@ -106,6 +106,11 @@ public:
 
 //Mettre la masse en input, dans le anaEff.ccp : get la masse dans la double boucle for, et appeler cette fct avec la masse? 
 
+// ******************************FITS**************************
+
+
+
+   void FitSignal();
 
 // ******************************MEMBERS**************************
 
@@ -118,6 +123,10 @@ public:
    TH1D* EFF_DISTRIB;
    TH1D* MASS;
 
+   TH1D* FITSIG;
+   TH1D* FITBG;
+
+   TF1 *myfunc;
 
    TH2D* CORR; 
 

@@ -24,7 +24,11 @@
 using namespace std;
 
 const double massZ = 91.1876;
+const double uncertaintyZ = 0.0021;
+
 const double massMu = 0.1056583745;
+const double uncertaintyMu = 0.0000000024;
+
 void AnaEff::Loop()
 {
 
