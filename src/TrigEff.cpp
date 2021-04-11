@@ -525,10 +525,18 @@ void TrigEff::FitSignal(){
 	
 	
 
-		
+	//int bc = FITBG->GetBinContent(39);
 	
 	int nbinxfit = FITSIG->GetNbinsX();
 	int nbinyfit = FITSIG->GetNbinsY();
+	
+	int tab[nbinxfit];
+	
+	for(int x = 0 ; x < nbinxfit ; x++){
+		tab[x] = FITBG->GetBinContent(x);
+		cout << "bin " << x << " = " << tab[x] << endl;
+	}
+
 
 	for(int x = 0 ; x < 40 ; x++){
 		FITSIG->SetBinContent(x,0);
@@ -539,7 +547,7 @@ void TrigEff::FitSignal(){
 	}
 	
 	for(int x = 40 ; x < 50 ; x++){
-		FITBG->SetBinContent(x,0);
+		FITBG->SetBinContent(x,tab[39]);
 
 	}
 	
