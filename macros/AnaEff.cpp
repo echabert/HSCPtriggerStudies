@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	
-	trigEff_selection_obs.LoadNoMap(triggerNames,1,"PT","test_PT_nomap.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,str,1,"PT","test_PT_nomap.root"); 
 	//trigEff_presel.LoadNoMap(str,1,"MET","test_MET_nomap.root");
 
 	
@@ -129,8 +129,8 @@ void AnaEff::Loop()
 
 			//trigEff_selection_obs.Fill(vtrigger,HighestPT);
 			//trigEff_presel.Fill(vtrigger,HighestMET);
-			
-			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT);
+			//cout << "PT : " << HighestPT << endl;
+			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
@@ -142,7 +142,7 @@ void AnaEff::Loop()
 	cout << "Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << "\n" << endl;
 	cout << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 	
-	trigEff_selection_obs.Compute("test_TriggersOfInterest_PT_withmap.txt");
+	trigEff_selection_obs.Compute("test_TriggersOfInterest_PT_nomap.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 
@@ -246,7 +246,7 @@ double AnaEff::MuonsInvariantMass(int entry){
 	
 
 	if(candidates.size() == 3){
-		cout << "Picking from 3 candidates" << endl;
+		//cout << "Picking from 3 candidates" << endl;
 		if(muon_pt[candidates[0]] > muon_pt[candidates[1]] && muon_pt[candidates[0]] > muon_pt[candidates[2]]){
 			order.push_back(0);
 			if(muon_pt[candidates[1]] > muon_pt[candidates[2]]){
@@ -297,7 +297,7 @@ double AnaEff::MuonsInvariantMass(int entry){
 		
 		sum = mu1 + mu2;
 		double armass = sum.M();
-		cout << "invariant mass of candidates: " << order[0] << " and " << order[1] << " = " << armass << endl;
+		//cout << "invariant mass of candidates: " << order[0] << " and " << order[1] << " = " << armass << endl;
 		order.clear();
 		return armass;
 	}
@@ -321,7 +321,7 @@ double AnaEff::MuonsInvariantMass(int entry){
 		
 		//cout << sum[0] << ", " << sum[1] << ", " << sum[2] << endl;
 		double armass = sum.M();
-		cout << "invariant mass : " << armass << endl;	
+		//cout << "invariant mass : " << armass << endl;	
 		return armass;
 
 		

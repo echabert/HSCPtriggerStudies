@@ -37,7 +37,7 @@ public:
    ~TrigEff();
    
 
-   void LoadNoMap(const vector<string> &SelectedTriggerNames,int ErrorType=1, string NameVar="a",string FileName="testnewdata.root");
+   void LoadNoMap(const vector<string> &triggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string NameVar="a",string FileName="testnewdata.root");
 
 
    void	Load(const vector<string> &TriggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string Selection="entered",string NameVar="a",string FileName="testnewdata.root");

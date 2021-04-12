@@ -121,23 +121,23 @@ TrigEff::~TrigEff(){
 //Dans Load : Selection va être le nom de la variable qu'on veut étudier. Dans Fill on va mettre la valeur
 
 
-void TrigEff::LoadNoMap(const vector<string> &SelectedTriggerNames,int ErrorType, string NameVar,string FileName){ 
+void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string> &SelectedTriggerNames,int ErrorType, string NameVar,string FileName){ 
 	NameObs=NameVar;
 	cout << "Name is : " << NameObs << endl;
 	
 
-	NumCorr.resize(SelectedTriggerNames.size(), vector<double>(SelectedTriggerNames.size(), 0.0)); 
-	DenomCorr.resize(SelectedTriggerNames.size(), vector<double>(SelectedTriggerNames.size(), 0.0));
-	Correlation.resize(SelectedTriggerNames.size(), vector<double>(SelectedTriggerNames.size(), 0.0)); 
+	NumCorr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0)); 
+	DenomCorr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
+	Correlation.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0)); 
 	
-	NumEfficiency.resize(SelectedTriggerNames.size(), 0.0);
-	DenomEfficiency.resize(SelectedTriggerNames.size(), 0.0);
-	Efficiency.resize(SelectedTriggerNames.size(), 0.0);
+	NumEfficiency.resize(triggerNames.size(), 0.0);
+	DenomEfficiency.resize(triggerNames.size(), 0.0);
+	Efficiency.resize(triggerNames.size(), 0.0);
 	
-	EffErr.resize(SelectedTriggerNames.size(), 0.0);
-	EffvsObs.resize(SelectedTriggerNames.size());
+	EffErr.resize(triggerNames.size(), 0.0);
+	EffvsObs.resize(triggerNames.size());
 
-	this->TriggerNames = SelectedTriggerNames;
+	this->TriggerNames = triggerNames;
 	
 	TString outputfilename=FileName.c_str();
 
@@ -150,14 +150,15 @@ void TrigEff::LoadNoMap(const vector<string> &SelectedTriggerNames,int ErrorType
 
 	
 	if(NameVar!=""){
-		for(int j=0; j < SelectedTriggerNames.size(); j++){
+		cout << "selection size : " << TriggerNames.size() << endl;
+		for(int j=0; j < TriggerNames.size(); j++){ //selected trigger names
 			if(NameVar=="PT"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",50,0,2000); // changer le titre MET/PT !!
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",50,0,2000); 
 			}
 			if(NameVar=="MET"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",50,0,2000);
 			}
-			EffvsObs[j]->SetName(SelectedTriggerNames[j].c_str());
+			EffvsObs[j]->SetName(TriggerNames[j].c_str());
 
 			//EffvsObs[j]->Draw("AP");
 			//gPad->Update();
@@ -166,8 +167,8 @@ void TrigEff::LoadNoMap(const vector<string> &SelectedTriggerNames,int ErrorType
 	}
 	
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
-	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", SelectedTriggerNames.size(),0,SelectedTriggerNames.size());
-	CORR = new TH2D("Correlation", "Correlation plot",  SelectedTriggerNames.size() , 0 , SelectedTriggerNames.size() , SelectedTriggerNames.size(), 0 , SelectedTriggerNames.size()); 
+	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", TriggerNames.size(),0,TriggerNames.size());
+	CORR = new TH2D("Correlation", "Correlation plot",  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
 	MASS = new TH1D("MASS" , " Masses invariante des muons" , 60 , 0 , 120);
 
 	MASS->Sumw2();
@@ -282,13 +283,13 @@ void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){
 	
 		}
 	}
-
+	
 	if(Obs!=0.0){
-		for(int i = 0 ; i < passtrig.size(); i++){
+		for(int i = 0 ; i < TriggerNames.size(); i++){
+			//cout << "filled passtrig :" << i << "with value " << passtrig[i] << "and obs = " << Obs << endl;
 			EffvsObs[i]->TEfficiency::Fill(passtrig[i],Obs);
 		}
-	//alternative sans map 
-	//test liste complète avec/sans map 
+
 	}
 }
 
@@ -412,7 +413,7 @@ void TrigEff::SortEffVec(){
 	for (int i = 0; i < Efficiency.size(); i++) { 
         	EffList.push_back(make_pair(Efficiency[i], make_pair(EffErr[i],TriggerNames[i]))); // ListTriggers[i] if we work with a map
 	}
-
+	
 	sort(EffList.begin(),EffList.end());
 	cout << "Efficiency " << "\t\t" << "Error" << "\t\t\t" << "Trigger name" << endl; 
     	for (int i = 0; i < Efficiency.size(); i++) { 
@@ -486,7 +487,7 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 	OutputHisto->cd(NameVar.c_str());*/
 	
 	
-	for(int i=0;i < EffvsObs.size();i++){
+	for(int i=0;i < TriggerNames.size();i++){
 		EffvsObs[i]->Write();
 	}
 
@@ -586,11 +587,13 @@ void TrigEff::FitSignal(){
 void TrigEff::Compute(string NameOutputFile){
 	
 	ComputeEff();
+	
 	ComputeError();
 	
 	//PrintNumEff();
 	//PrintDenomEff();
 	SortEffVec();
+	
 	//PrintEff();
 	SaveIntTrigs(NameOutputFile.c_str());
 
