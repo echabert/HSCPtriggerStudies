@@ -566,7 +566,7 @@ void TrigEff::FitSignal(){
 	FITBG2->Fit("expo");
 	double IntegralBg = FITBG->Integral(40,50, "width");
 	double IntegralBg2 = FITBG2->Integral(40,50, "width");
-	//cout << "This is the integral of the background : " << IntegralBg << endl;
+	cout << "This is the integral of the background with bins [40-50] = 0 : " << IntegralBg << " and without the bins : " << IntegralBg2 << endl;
 	cout << "Ratio signal/total with bins in 40-50 are 0 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg))*100 << " %" << endl;
 	cout << "Ratio signal/total without bins = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg2))*100 << " %" << endl;
 	//FITBG->GetFunction("expo")->SetLineColor(kBlue);
