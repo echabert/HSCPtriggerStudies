@@ -78,7 +78,7 @@ void AnaEff::Loop()
 	}
 	inttrigs.close();
 
-	
+	//cout << "avant loadnomap" << endl;
 	trigEff_selection_obs.LoadNoMap(triggerNames,str,1,"PT","test_PT_nomap.root"); 
 	//trigEff_presel.LoadNoMap(str,1,"MET","test_MET_nomap.root");
 
@@ -126,7 +126,7 @@ void AnaEff::Loop()
 			}
 
 			passedevent+=1;
-
+			
 			//trigEff_selection_obs.Fill(vtrigger,HighestPT);
 			//trigEff_presel.Fill(vtrigger,HighestMET);
 			//cout << "PT : " << HighestPT << endl;

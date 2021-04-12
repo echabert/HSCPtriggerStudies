@@ -157,15 +157,15 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 
 	
 	if(NameVar!=""){
-		cout << "selection size : " << TriggerNames.size() << endl;
-		for(int j=0; j < TriggerNames.size(); j++){ //selected trigger names
+		cout << "selection size : " << TestNoMap.size() << endl;
+		for(int j=0; j < TestNoMap.size(); j++){ //selected trigger names
 			if(NameVar=="PT"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",50,0,2000); 
 			}
 			if(NameVar=="MET"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",50,0,2000);
 			}
-			EffvsObs[j]->SetName(TriggerNames[j].c_str());
+			EffvsObs[j]->SetName(TriggerNames[TestNoMap[j].second].c_str());
 
 			//EffvsObs[j]->Draw("AP");
 			//gPad->Update();
@@ -292,9 +292,9 @@ void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){
 	}
 	
 	if(Obs!=0.0){
-		for(int i = 0 ; i < TriggerNames.size(); i++){
+		for(int i = 0 ; i < TestNoMap.size(); i++){
 			//cout << "filled passtrig :" << i << "with value " << passtrig[i] << "and obs = " << Obs << endl;
-			EffvsObs[i]->TEfficiency::Fill(passtrig[i],Obs);
+			EffvsObs[i]->TEfficiency::Fill(passtrig[TestNoMap[i].second],Obs);
 		}
 
 	}
@@ -436,9 +436,9 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	ofstream TriggersOfInterest;
 	TriggersOfInterest.open (NameOutputFile.c_str());
 	if (TriggersOfInterest.good()){
-		for (int i = 0; i < Efficiency.size(); i++){ 
+		for (int i = 0; i < TestNoMap.size(); i++){ 
 			//if(EffList[i].first >= 0.5 ){
-			TriggersOfInterest << EffList[i].first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n";
+			TriggersOfInterest << EffList[TestNoMap[i].second].first*100 << " " << EffList[TestNoMap[i].second].second.first*100 << " " << EffList[TestNoMap[i].second].second.second << "\n";
 			double effem=EffList[i].first;
 			j++;
 			//}
@@ -494,7 +494,7 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 	OutputHisto->cd(NameVar.c_str());*/
 	
 	
-	for(int i=0;i < TriggerNames.size();i++){
+	for(int i=0;i < TestNoMap.size();i++){
 		EffvsObs[i]->Write();
 	}
 
