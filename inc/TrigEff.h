@@ -149,6 +149,9 @@ public:
    vector<string> SelectedTriggerNames; // Input by the user for specific triggers efficiencies 
 
    vector< pair<double, pair<double,string> > > EffList; 
+   
+   vector< pair<int, int > > TestNoMap; 
+
 
    vector<string> TriggerNames;
 

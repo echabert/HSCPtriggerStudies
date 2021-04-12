@@ -125,6 +125,13 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	NameObs=NameVar;
 	cout << "Name is : " << NameObs << endl;
 	
+	for(int j = 0; j < SelectedTriggerNames.size(); j++){
+			auto it = find(triggerNames.begin(), triggerNames.end(), SelectedTriggerNames[j]);
+			auto index = distance(triggerNames.begin(), it);
+			TestNoMap.push_back(make_pair(j,index));
+			cout << "[" << j<< "," << index+1 << "]" << endl; 
+			
+		}
 
 	NumCorr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0)); 
 	DenomCorr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
