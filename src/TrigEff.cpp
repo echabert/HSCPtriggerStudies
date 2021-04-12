@@ -410,7 +410,7 @@ void TrigEff::PrintEff(){
 void TrigEff::SortEffVec(){
 	
 	for (int i = 0; i < Efficiency.size(); i++) { 
-        	EffList.push_back(make_pair(Efficiency[i], make_pair(EffErr[i],TriggerNames[ListTriggers[i]]))); // ListTriggers[i] if we work with a map
+        	EffList.push_back(make_pair(Efficiency[i], make_pair(EffErr[i],TriggerNames[i]))); // ListTriggers[i] if we work with a map
 	}
 
 	sort(EffList.begin(),EffList.end());

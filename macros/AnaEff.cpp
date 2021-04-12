@@ -79,12 +79,12 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	
-	//trigEff_selection_obs.LoadNoMap(str,1,"PT","test_PT_nomap.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,1,"PT","test_PT_nomap.root"); 
 	//trigEff_presel.LoadNoMap(str,1,"MET","test_MET_nomap.root");
 
 	
 
-	trigEff_selection_obs.Load(triggerNames,str,1,"entered","PT","test_PT.root");
+	//trigEff_selection_obs.Load(triggerNames,str,1,"entered","PT","test_PT.root");
 
 	
 	//trigEff_presel.Load(triggerNames,SubListMET,1,"entered","MET","test_MET.root"); 
@@ -104,8 +104,6 @@ void AnaEff::Loop()
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		
 		double InvMass = MuonsInvariantMass(jentry);
-		
-			
 		if(InvMass!=1){
 			//cout << InvMass << endl;
 			nbofpairs+=1;
@@ -118,23 +116,22 @@ void AnaEff::Loop()
 		
 		vector<Bool_t> vtrigger; //Convert array into vector
 		//vector<float> TrackPT,MuonPT,METPT;
-
 		float HighestPT,HighestMuonPT,HighestMET;
 		indexcandidate=Selection();
 		if(indexcandidate != 64){
 			HighestPT = track_pt[indexcandidate];
 			HighestMET = pfmet_pt[indexcandidate];
-		
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 			}
 
 			passedevent+=1;
 
-			trigEff_selection_obs.Fill(vtrigger,HighestPT);
+			//trigEff_selection_obs.Fill(vtrigger,HighestPT);
 			//trigEff_presel.Fill(vtrigger,HighestMET);
-
-			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT);
+			
+			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT);
+			
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
@@ -148,7 +145,6 @@ void AnaEff::Loop()
 	trigEff_selection_obs.Compute("test_TriggersOfInterest_PT_withmap.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
-	cout << "Just ended " << endl;
 
 	triggerNames.clear();
 	
@@ -160,7 +156,6 @@ void AnaEff::Loop()
 int AnaEff::Selection(){
 	for(int ihs=0; ihs<nhscp;ihs++){
 		int index;
-		bool selec=1;
 
 		if( track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1 ){
 			return 64;
@@ -205,56 +200,51 @@ int AnaEff::Selection(){
 		if(hscp_iso2_tk[ihs] >= 50){
 			return 64;
 		}
-		
-		//if ( muon_comb_inversebeta[hscp_track_idx[ihs]] < 1   ) { // no branch yet
-	 	//	selec = 0;
-	//	}
-
+	
 		return ihs;
 	
 		//ecal + hcal/p
-
-		//Rajouter les critères pour un muon seulement + condition timing
 		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
 	}
 }
 
 
 double AnaEff::MuonsInvariantMass(int entry){
-	double Ka =2.935, Ce = 3.197,InvariantMass,c1pt,c2pt,c3pt,c1phi,c2phi,c3phi,c1eta,c2eta,c3eta;
+	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
 	bool yon=true;
-	bool twomuons=false;
 	TLorentzVector mu1,mu2,mu3,sum;
 	vector<int> candidates,order;
-	vector<double> cpt,cphi,ceta;
+	
 
 	for(int ihs=0; ihs<nhscp;ihs++){
 		//if(muon isolé)
 		if(track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1){
-			yon = false;
+			return 1;
 		}
 		
-		if(pfmet_pt[hscp_track_idx[ihs]] >= 40 ){
-			yon = false;
+		if(pfmet_pt[hscp_track_idx[ihs]] >= 500 ){
+			return 1;
 		}
 	
-		if( track_pt[hscp_track_idx[ihs]] >= 45 ){
-			yon = false;
+		if( track_pt[hscp_track_idx[ihs]] >= 500 ){
+			return 1;
 		}
 		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
-			yon = false;
+			return 1;
 		}
 		
 		if( track_dz[hscp_track_idx[ihs]] >=0.5 ){
-			yon = false;
+			return 1;
 		}
 	
-		if(muon_isTrackerMuon[hscp_track_idx[ihs]] && yon){
+		if(muon_isTrackerMuon[hscp_track_idx[ihs]]){
 			candidates.push_back(ihs);
+			//cout << ihs << endl;
 		}
 			
 	}
 	
+
 	if(candidates.size() == 3){
 		cout << "Picking from 3 candidates" << endl;
 		if(muon_pt[candidates[0]] > muon_pt[candidates[1]] && muon_pt[candidates[0]] > muon_pt[candidates[2]]){
@@ -266,10 +256,9 @@ double AnaEff::MuonsInvariantMass(int entry){
 			else{
 				order.push_back(2);
 				order.push_back(1);
-			}
-			
+			}	
 		}
-		else if(muon_pt[candidates[1]] > muon_pt[candidates[0]] && muon_pt[candidates[1]] > muon_pt[candidates[2]] ){
+		else if (muon_pt[candidates[1]] > muon_pt[candidates[0]] && muon_pt[candidates[1]] > muon_pt[candidates[2]] ){
 			order.push_back(1);
 			if(muon_pt[candidates[0]] > muon_pt[candidates[2]]){
 				order.push_back(0);
@@ -281,8 +270,7 @@ double AnaEff::MuonsInvariantMass(int entry){
 			}
 
 		}
-
-		else if(muon_pt[candidates[2]] > muon_pt[candidates[1]] && muon_pt[candidates[2]] > muon_pt[candidates[0]]){
+		else if (muon_pt[candidates[2]] > muon_pt[candidates[1]] && muon_pt[candidates[2]] > muon_pt[candidates[0]]) {
 			order.push_back(2);
 			if(muon_pt[candidates[1]] > muon_pt[candidates[0]]){
 				order.push_back(1);
@@ -315,7 +303,7 @@ double AnaEff::MuonsInvariantMass(int entry){
 	}
 
 	
-	else if(candidates.size() == 2){
+	if(candidates.size() == 2){
 		
 		c1phi = muon_phi[candidates[0]];
 		c2phi = muon_phi[candidates[1]];
@@ -343,18 +331,6 @@ double AnaEff::MuonsInvariantMass(int entry){
 	//trigEff_selection_obs.MASS->Write();
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
