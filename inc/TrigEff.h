@@ -125,8 +125,8 @@ public:
 
    TH1D* FITSIG;
    TH1D* FITBG;
+   TH1D* FITBG2;
 
-   TF1 *myfunc;
 
    TH2D* CORR; 
 

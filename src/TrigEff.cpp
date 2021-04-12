@@ -27,7 +27,7 @@ TrigEff::TrigEff(){
 	EFF_DISTRIB=0;
 	CORR=0;
 	OutputHisto=0;
-		
+	FITBG2=0;
 	MASS=0;
 
 	/*for(int i=0; i < ListTriggers.size() ; i++){
@@ -84,6 +84,10 @@ TrigEff::~TrigEff(){
 	if(!MASS){
 		delete MASS;
 	}
+	if(!FITBG2){
+		delete FITBG2;
+	}
+
 }
 
 
@@ -495,7 +499,6 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 	for(int i=0;i < Correlation.size();i++){
 		for(int j=0;j< Correlation[i].size();j++){
 			CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100));
-			//BinLabel en 2D ? SetBinLabel(binx, triggername[indice]) Puis il faut une boucle pour écrire le label I J a chaque fois ? 
 		}
 	}
 	//CORR->SetDirectory("Correlations");
@@ -509,70 +512,69 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 
 void TrigEff::FillMass(double INVMASS){
 	MASS->Fill(INVMASS);
-	
 }
 
 
 void TrigEff::FitSignal(){
-	//file->GetObject("hname", MASS);
-	
 	FITSIG = (TH1D*) MASS->Clone();
 	FITBG = (TH1D*) MASS->Clone();
+	FITBG2 = new TH1D("FitBackground2" , " Z Mass from Z->mu mu decay" , 80 , 0 , 160);
 	
+	//FITBG2->Sumw2();
+
 	FITSIG->SetName("FitSignal");
 	FITBG->SetName("FitBackground");
-	
-	
-	
 
-	//int bc = FITBG->GetBinContent(39);
 	
 	int nbinxfit = FITSIG->GetNbinsX();
 	int nbinyfit = FITSIG->GetNbinsY();
-	
 	int tab[nbinxfit];
 	
 	for(int x = 0 ; x < nbinxfit ; x++){
 		tab[x] = FITBG->GetBinContent(x);
-		cout << "bin " << x << " = " << tab[x] << endl;
+		//cout << "bin " << x << " = " << tab[x] << endl;
 	}
 
 
 	for(int x = 0 ; x < 40 ; x++){
 		FITSIG->SetBinContent(x,0);
+		FITBG2->SetBinContent(x,tab[x]);
 
 	}
 	for(int x = 50; x < 80 ; x++){
 		FITSIG->SetBinContent(x,0);
+		FITBG2->SetBinContent(x,tab[x]);
 	}
 	
 	for(int x = 40 ; x < 50 ; x++){
-		FITBG->SetBinContent(x,tab[39]);
-
+		FITBG->SetBinContent(x,0);
 	}
 	
 	FITSIG->Fit("gaus"); 
-	double IntegralGauss = FITSIG->Integral(1,FITSIG->GetNbinsX(), "width");
+	double IntegralGauss = FITSIG->Integral(40,50, "width");
 	
 	//myfunc = FITSIG->GetFunction("gaus");
 	//myfunc->Draw();
 
-	cout << "This is the integral of the signal : " << IntegralGauss << endl;
+	//cout << "This is the integral of the signal : " << IntegralGauss << endl;
 	//FITSIG->GetFunction("gaus")->SetLineColor(kRed);
 	//FITSIG->GetFunction("gaus")->SetLineStyle(1);
 	//FITSIG->GetFunction("gaus")->SetLineWidth(2);
 
 
 	FITBG->Fit("expo");
-	double IntegralBg = FITBG->Integral(1,FITBG->GetNbinsX(), "width");
-	cout << "This is the integral of the background : " << IntegralBg << endl;
-	cout << "Ratio signal/total = " << IntegralGauss *1.0 / (IntegralGauss+IntegralBg) << endl;
+	FITBG2->Fit("expo");
+	double IntegralBg = FITBG->Integral(40,50, "width");
+	double IntegralBg2 = FITBG2->Integral(40,50, "width");
+	//cout << "This is the integral of the background : " << IntegralBg << endl;
+	cout << "Ratio signal/total with bins in 40-50 are 0 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg))*100 << " %" << endl;
+	cout << "Ratio signal/total without bins = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg2))*100 << " %" << endl;
 	//FITBG->GetFunction("expo")->SetLineColor(kBlue);
 	//FITBG->GetFunction("expo")->SetLineStyle(1);
 	//FITBG->GetFunction("expo")->SetLineWidth(2);
 
 
-	
+	FITBG2->Write();
 	FITBG->Write();
 	FITSIG->Write();
 }
