@@ -193,7 +193,7 @@ int AnaEff::Selection(){
 
 double AnaEff::MuonsInvariantMass(){
 	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
-	TLorentzVector mu1,mu2,mu3,sum;
+	TLorentzVector mu1,mu2,mu3,mu4,sum;
 	vector<int> candidates,order;
 	for(int ihs=0; ihs<nhscp;ihs++){
 		//if(muon isolé)
@@ -224,11 +224,30 @@ double AnaEff::MuonsInvariantMass(){
 	}
 	if(candidates.size() == 4){
 		cout << " 4 candidates, picking " << endl;
+		mu1.SetPtEtaPhiM(muon_pt[0],muon_eta[0],muon_phi[0],massMu);
+		mu2.SetPtEtaPhiM(muon_pt[1],muon_eta[1],muon_phi[1],massMu);
+		mu3.SetPtEtaPhiM(muon_pt[2],muon_eta[2],muon_phi[2],massMu);
+		mu4.SetPtEtaPhiM(muon_pt[3],muon_eta[3],muon_phi[3],massMu);
+		
+		vector<double> InvMass;
+		TLorentzVector six[6];
+		six[0] = mu1 + mu2;
+		six[1] = mu1 + mu3;
+		six[2] = mu1 + mu4;
+		six[3] = mu2 + mu3;
+		six[4] = mu2 + mu4;
+		six[5] = mu3 + mu4;
 
+		for(int i = 0; i < 6 ; i++ ){
+			InvMass.push_back(six[i].M());
+		}
 
+		sort(InvMass.begin(), InvMass.end());
+		cout << "Highest Invariant mass from 4 candidates : " << InvMass[5] << endl;
+		return InvMass[5];
 	}
 
-	if(candidates.size() == 3){
+	else if(candidates.size() == 3){
 		//cout << "Picking from 3 candidates" << endl;
 		if(muon_pt[candidates[0]] > muon_pt[candidates[1]] && muon_pt[candidates[0]] > muon_pt[candidates[2]]){
 			order.push_back(0);
@@ -287,7 +306,7 @@ double AnaEff::MuonsInvariantMass(){
 	}
 
 	
-	if(candidates.size() == 2){
+	else if(candidates.size() == 2){
 		
 		c1phi = muon_phi[candidates[0]];
 		c2phi = muon_phi[candidates[1]];
