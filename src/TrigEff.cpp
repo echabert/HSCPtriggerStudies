@@ -280,7 +280,7 @@ void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){
 			NumEfficiency[i]+=1;
 		}
 	
-		for(int j = 0; j < passtrig.size()  ;j++){
+		/*for(int j = 0; j < passtrig.size()  ;j++){
 			trig2 = passtrig.at(j);
 			if(trig1 || trig2){
 				DenomCorr[i][j]+=1;
@@ -289,7 +289,7 @@ void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){
 				NumCorr[i][j]+=1;
 			}
 	
-		}
+		}*/
 	}
 	
 	if(Obs!=0.0){

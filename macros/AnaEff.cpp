@@ -148,6 +148,7 @@ void AnaEff::Loop()
 }
 
 int AnaEff::Selection(){
+
 	for(int ihs=0; ihs<nhscp;ihs++){
 		int index;
 		//ecal + hcal/p
@@ -243,7 +244,7 @@ double AnaEff::MuonsInvariantMass(){
 		}
 
 		sort(InvMass.begin(), InvMass.end());
-		cout << "Highest Invariant mass from 4 candidates : " << InvMass[5] << endl;
+		cout << "Highest Invariant mass 1-2 : " << InvMass[0] << " , 1-3 : " << InvMass[1] << " , 1-4 : " << InvMass[2] << " , 2-3 : " << InvMass[3] << " , 2-4 : " << InvMass[4] << " , 3-4 : " << InvMass[5] << endl;
 		return InvMass[5];
 	}
 
