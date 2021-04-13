@@ -202,11 +202,11 @@ double AnaEff::MuonsInvariantMass(){
 			return 1;
 		}
 		
-		if(pfmet_pt[hscp_track_idx[ihs]] >= 500 ){
+		if(pfmet_pt[hscp_track_idx[ihs]] >= 5000 ){
 			return 1;
 		}
 	
-		if( track_pt[hscp_track_idx[ihs]] >= 500 ){
+		if( track_pt[hscp_track_idx[ihs]] >= 5000 ){
 			return 1;
 		}
 		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
@@ -223,6 +223,7 @@ double AnaEff::MuonsInvariantMass(){
 		}
 			
 	}
+
 	if(candidates.size() == 4){
 		cout << " 4 candidates, picking " << endl;
 		mu1.SetPtEtaPhiM(muon_pt[0],muon_eta[0],muon_phi[0],massMu);
@@ -249,7 +250,7 @@ double AnaEff::MuonsInvariantMass(){
 	}
 
 	else if(candidates.size() == 3){
-		//cout << "Picking from 3 candidates" << endl;
+		cout << "Picking from 3 candidates" << endl;
 		if(muon_pt[candidates[0]] > muon_pt[candidates[1]] && muon_pt[candidates[0]] > muon_pt[candidates[2]]){
 			order.push_back(0);
 			if(muon_pt[candidates[1]] > muon_pt[candidates[2]]){
@@ -308,7 +309,7 @@ double AnaEff::MuonsInvariantMass(){
 
 	
 	else if(candidates.size() == 2){
-		
+		cout << "Picking from 2 candidates" << endl;
 		c1phi = muon_phi[candidates[0]];
 		c2phi = muon_phi[candidates[1]];
 
