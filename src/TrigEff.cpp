@@ -546,7 +546,7 @@ void TrigEff::FitSignal(){
 
 	FITBG->Fit("expo");
 	FITBG2->SetMarkerStyle(3);
-	FITBG2->Fit("expo","","P");
+	FITBG2->Fit("expo");
 	double IntegralBg = FITBG->Integral(40,50, "width");
 	double IntegralBg2 = FITBG2->Integral(40,50, "width");
 	cout << "This is the integral of the background with bins [40-50] = 0 : " << IntegralBg << " and without the bins : " << IntegralBg2 << endl;
