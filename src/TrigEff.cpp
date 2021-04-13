@@ -123,6 +123,8 @@ TrigEff::~TrigEff(){
 
 void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string> &SelectedTriggerNames,int ErrorType, string NameVar,string FileName){ 
 	NameObs=NameVar;
+	int nbins=70;
+	int massmax=140;
 	cout << "Name is : " << NameObs << endl;
 	
 	for(int j = 0; j < SelectedTriggerNames.size(); j++){
@@ -176,7 +178,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", TriggerNames.size(),0,TriggerNames.size());
 	CORR = new TH2D("Correlation", "Correlation plot",  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
-	MASS = new TH1D("MASS" , " Masses invariante des muons" , 60 , 0 , 120);
+	MASS = new TH1D("MASS" , " Masses invariante des muons" , nbins , 0 , massmax);
 
 	MASS->Sumw2();
 	EFF_TRIG->Sumw2();
@@ -269,7 +271,6 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 }
 
 
-
 void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){  
 	bool trig1,trig2;
 	for(int i = 0; i < passtrig.size()  ;i++){
@@ -300,12 +301,6 @@ void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){
 	}
 }
 
-
-
-
-
-
-
 void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){  
 	bool trig1,trig2;
 	for(auto iter = ListTriggers.begin(); iter != ListTriggers.end() ;iter++){
@@ -333,10 +328,9 @@ void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){
 	
 }
 
-
 void TrigEff::StudyTrigvsMass(double mass){
-}
 
+}
 
 void TrigEff::ComputeCorr(){
 	for(int i=0;i< Correlation.size();i++){
@@ -385,8 +379,6 @@ void TrigEff::PrintDenomCorr(){
 	}
 }
 
-
-
 void TrigEff::ComputeEff()
 {
 	for(int i=0;i< Efficiency.size();i++){
@@ -401,19 +393,12 @@ void TrigEff::ComputeEff()
 	
 }
 
-
-
 void TrigEff::PrintEff(){
 
 	for(int i=0;i< Efficiency.size();i++){
 		cout << Efficiency[i] *100 << "% " << "denom : " << DenomEfficiency[i] <<" error : " << EffErr[i] << endl;
 	}
 }
-
-
-
-
-
 
 void TrigEff::SortEffVec(){
 	
@@ -428,8 +413,6 @@ void TrigEff::SortEffVec(){
 		}
     
 }
-
-
 
 void TrigEff::SaveIntTrigs(string NameOutputFile){
 	int j=0;
@@ -453,8 +436,6 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	
 }
 
-
-
 void TrigEff::PrintNumEff(){
 	for ( int i = 0; i < NumEfficiency.size(); i++ ){
       		cout << NumEfficiency[i] << endl ;
@@ -467,7 +448,6 @@ void TrigEff::PrintDenomEff(){
       		cout << NumEfficiency[i] << " " << DenomEfficiency[i] << " " <<EffErr[i] << endl ;
 	}
 }
-
 
 void TrigEff::ComputeError(){
 
@@ -522,13 +502,12 @@ void TrigEff::FillMass(double INVMASS){
 	MASS->Fill(INVMASS);
 }
 
-
 void TrigEff::FitSignal(){
 	FITSIG = (TH1D*) MASS->Clone();
 	FITBG = (TH1D*) MASS->Clone();
-	FITBG2 = new TH1D("FitBackground2" , " Z Mass from Z->mu mu decay" , 80 , 0 , 160);
+	FITBG2 = new TH1D("FitBackground2" , " Z Mass from Z->mu mu decay" , 70 , 0 , 140);
 	
-	//FITBG2->Sumw2();
+	FITBG2->Sumw2();
 
 	FITSIG->SetName("FitSignal");
 	FITBG->SetName("FitBackground");
@@ -537,6 +516,7 @@ void TrigEff::FitSignal(){
 	int nbinxfit = FITSIG->GetNbinsX();
 	int nbinyfit = FITSIG->GetNbinsY();
 	int tab[nbinxfit];
+	cout << "nb of bins : " <<  nbinxfit << endl;
 	
 	for(int x = 0 ; x < nbinxfit ; x++){
 		tab[x] = FITBG->GetBinContent(x);
@@ -549,64 +529,53 @@ void TrigEff::FitSignal(){
 		FITBG2->SetBinContent(x,tab[x]);
 
 	}
-	for(int x = 50; x < 80 ; x++){
+	for(int x = 50; x < 70 ; x++){
 		FITSIG->SetBinContent(x,0);
 		FITBG2->SetBinContent(x,tab[x]);
+		//cout << "bin " << x << " = " << tab[x] << endl;
 	}
 	
 	for(int x = 40 ; x < 50 ; x++){
 		FITBG->SetBinContent(x,0);
+		FITBG->SetBinError(x,0);
 	}
 	
 	FITSIG->Fit("gaus"); 
 	double IntegralGauss = FITSIG->Integral(40,50, "width");
-	
-	//myfunc = FITSIG->GetFunction("gaus");
-	//myfunc->Draw();
-
-	//cout << "This is the integral of the signal : " << IntegralGauss << endl;
-	//FITSIG->GetFunction("gaus")->SetLineColor(kRed);
-	//FITSIG->GetFunction("gaus")->SetLineStyle(1);
-	//FITSIG->GetFunction("gaus")->SetLineWidth(2);
 
 
 	FITBG->Fit("expo");
-	FITBG2->Fit("expo");
+	FITBG2->SetMarkerStyle(3);
+	FITBG2->Fit("expo","","P");
 	double IntegralBg = FITBG->Integral(40,50, "width");
 	double IntegralBg2 = FITBG2->Integral(40,50, "width");
 	cout << "This is the integral of the background with bins [40-50] = 0 : " << IntegralBg << " and without the bins : " << IntegralBg2 << endl;
-	cout << "Ratio signal/total with bins in 40-50 are 0 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg))*100 << " %" << endl;
-	cout << "Ratio signal/total without bins = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg2))*100 << " %" << endl;
-	//FITBG->GetFunction("expo")->SetLineColor(kBlue);
-	//FITBG->GetFunction("expo")->SetLineStyle(1);
-	//FITBG->GetFunction("expo")->SetLineWidth(2);
-
+	cout << "Ratio signal/total ¦ bins in 40-50 -> 0 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg))*100 << " %" << endl;
+	cout << "Ratio signal/total no bins in 40-50 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg2))*100 << " %" << endl;
 
 	FITBG2->Write();
+	
 	FITBG->Write();
 	FITSIG->Write();
 }
 
-
-
-
-
 void TrigEff::Compute(string NameOutputFile){
 	
 	ComputeEff();
-	
 	ComputeError();
 	
 	//PrintNumEff();
 	//PrintDenomEff();
-	SortEffVec();
-	
 	//PrintEff();
+
+	SortEffVec();
 	SaveIntTrigs(NameOutputFile.c_str());
 
+	//ComputeCorr();
 
-	ComputeCorr();
 	//PrintDenomCorr();
 	//PrintCorr();
+
 	FitSignal();
 }
+

@@ -65,7 +65,7 @@ void AnaEff::Loop()
 		}
 		
 	}
-	cout<<"size of triggerNames : "<< triggerNames.size() <<endl;
+	
 	
 	ifile.close();
 
@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,str,1,"PT","test_PT_nomap.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,str,1,"PT","SingleMuonZ.root"); 
 	//trigEff_presel.LoadNoMap(str,1,"MET","test_MET_nomap.root");
 
 	
@@ -103,14 +103,12 @@ void AnaEff::Loop()
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		
-		double InvMass = MuonsInvariantMass(jentry);
+		double InvMass = MuonsInvariantMass();
 		if(InvMass!=1){
 			//cout << InvMass << endl;
 			nbofpairs+=1;
 			trigEff_selection_obs.FillMass(InvMass);
 		}
-
-		//MuonsInvariantMass(jentry);
 
 		counter+=1;
 		
@@ -124,14 +122,11 @@ void AnaEff::Loop()
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 			}
-
 			passedevent+=1;
-			
 			//trigEff_selection_obs.Fill(vtrigger,HighestPT);
 			//trigEff_presel.Fill(vtrigger,HighestMET);
-			//cout << "PT : " << HighestPT << endl;
-			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			
+			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
@@ -145,7 +140,6 @@ void AnaEff::Loop()
 	trigEff_selection_obs.Compute("test_TriggersOfInterest_PT_nomap.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
-
 	triggerNames.clear();
 	
 	trigEff_selection_obs.WritePlots("");
@@ -156,66 +150,51 @@ void AnaEff::Loop()
 int AnaEff::Selection(){
 	for(int ihs=0; ihs<nhscp;ihs++){
 		int index;
+		//ecal + hcal/p
+		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
 
 		if( track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1 ){
 			return 64;
 		}
-
 		if( track_npixhits[hscp_track_idx[ihs]] <= 1 ){ //?
 			return 64;
 		}
-	
 		if( track_nhits[hscp_track_idx[ihs]] <= 7 ){
 			return 64;
 		}
-
 		if( track_validfraction[hscp_track_idx[ihs]] <= 0.8 ){
 			return 64;
 		}
-
 		if( ndedxhits <= 5 ){
 			return 64;
 		}
-
 		if( track_pt[hscp_track_idx[ihs]] <= 55 ){
 			return 64;
 		}
-
 		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
 			return 64;
 		}
-		
 		if( track_dz[hscp_track_idx[ihs]] >=0.5 ){
 			return 64;
 		}
-	
 		if( track_pterr[hscp_track_idx[ihs]]/track_pt[hscp_track_idx[ihs]] >= 1 ){ 
 			return 64;
 		}
-
 		if( track_qual[hscp_track_idx[ihs]] < 2 ){//?
 			return 64;
 		}
-
 		if(hscp_iso2_tk[ihs] >= 50){
 			return 64;
 		}
-	
 		return ihs;
-	
-		//ecal + hcal/p
-		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
 	}
 }
 
 
-double AnaEff::MuonsInvariantMass(int entry){
+double AnaEff::MuonsInvariantMass(){
 	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
-	bool yon=true;
 	TLorentzVector mu1,mu2,mu3,sum;
 	vector<int> candidates,order;
-	
-
 	for(int ihs=0; ihs<nhscp;ihs++){
 		//if(muon isolé)
 		if(track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1){
@@ -243,7 +222,11 @@ double AnaEff::MuonsInvariantMass(int entry){
 		}
 			
 	}
-	
+	if(candidates.size() == 4){
+		cout << " 4 candidates, picking " << endl;
+
+
+	}
 
 	if(candidates.size() == 3){
 		//cout << "Picking from 3 candidates" << endl;
@@ -294,7 +277,8 @@ double AnaEff::MuonsInvariantMass(int entry){
 		
 		mu1.SetPtEtaPhiM(c1pt,c1eta,c1phi,massMu);
 		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
-		
+		double angle = mu1.Angle(mu2.Vect());
+		//cout << " Angle between the two muons :" << angle << endl; 
 		sum = mu1 + mu2;
 		double armass = sum.M();
 		//cout << "invariant mass of candidates: " << order[0] << " and " << order[1] << " = " << armass << endl;
@@ -318,7 +302,8 @@ double AnaEff::MuonsInvariantMass(int entry){
 		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
 
 		sum = mu1 + mu2;
-		
+		double angle = mu1.Angle(mu2.Vect());
+		//cout << " Angle between the two muons :" << angle << endl; 
 		//cout << sum[0] << ", " << sum[1] << ", " << sum[2] << endl;
 		double armass = sum.M();
 		//cout << "invariant mass : " << armass << endl;	
