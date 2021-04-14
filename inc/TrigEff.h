@@ -54,7 +54,7 @@ public:
 
    void WritePlots(string NameVar="a"); // format latex TFile* OutputHisto
 
-   void FillMass(double INVMASS);
+   void FillMass(double INVMASS,int choice= 1);
 
    
 
@@ -122,7 +122,8 @@ public:
    TH1D* EFF_TRIG;
    TH1D* EFF_DISTRIB;
    TH1D* MASS;
-
+   TH1D* SOLOM;
+   
    TH1D* FITSIG;
    TH1D* FITBG;
    TH1D* FITBG2;

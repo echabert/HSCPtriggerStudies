@@ -7,11 +7,20 @@
 #include <map>
 #include <iterator>
 #include <algorithm>
-#include "FindListTriggers.h" 
+#include <ranges>
+#include "FindListTriggers.h"
+
 
 using namespace std; 
 
-
+bool ListNameTriggers::IsInList(string name ){
+	for(int i = 0 ; i < InfoTriggers.size() ; i++){
+		if(InfoTriggers[i].first == name){
+			return true;
+		}
+	}
+	return false;
+}
 
 
 void ListNameTriggers::FindAllNames(){
@@ -50,14 +59,17 @@ void ListNameTriggers::FindAllNames(){
 
 		
 		if(prescaleTrigger[i]==1){
-			
-			MapOfTriggerNames[triggerName->at(i)] = make_pair(true,true);
+			InfoTriggers.push_back(make_pair(triggerName->at(i), make_pair(true,true)));
+
+		//	MapOfTriggerNames[triggerName->at(i)] = make_pair(true,true);
 		}
 		else{
-			
-			MapOfTriggerNames[triggerName->at(i)] = make_pair(false,true);
+			InfoTriggers.push_back(make_pair(triggerName->at(i), make_pair(false,true)));
+
+		//	MapOfTriggerNames[triggerName->at(i)] = make_pair(false,true);
 			PrescaledTurnedBad << "Prescale " << i << " is not 1" << endl;
 		}
+
 
 	}
 	
@@ -74,7 +86,7 @@ void ListNameTriggers::FindAllNames(){
 		
 		//if(TrigNames.size() < MapOfTriggerNames.size()){
 
-		for( auto it= MapOfTriggerNames.begin(); it != MapOfTriggerNames.end(); it++){
+		/*for( auto it= MapOfTriggerNames.begin(); it != MapOfTriggerNames.end(); it++){
 			string transf = it->first;
 			//cout << transf << endl;  
 			auto itf = std::find( triggerName->begin() , triggerName->end(), transf);
@@ -87,15 +99,44 @@ void ListNameTriggers::FindAllNames(){
 				PrescaledTurnedBad << "Prescale " << it->first << " was not in event " << jentry << endl;
 
 			}
-
+		
 
 					
 
-		}
+		}*/
 	//	PrescaledTurnedBad <<"------------------------------------------------" << endl;
 		//}
 
 		for(int i=0; i< ntrigger; i++){
+			//auto it = find(InfoTriggers.begin(), InfoTriggers.end(),triggerName->at(i));
+
+			//auto it = std::ranges::find(InfoTriggers, triggerName->at(i), &std::pair<std::string, std::pair<bool,bool> >::first);
+			
+			auto it = std::find_if(InfoTriggers.begin(), InfoTriggers.end(), IsInList(triggerName->at(i)));
+
+			//
+			if(it != InfoTriggers.end()){
+				if(prescaleTrigger[i]!=1){
+					if(InfoTriggers[i].second.first == true && InfoTriggers[i].second.second == true){
+						PrescaledTurnedBad << "Entry " << jentry << " made prescale " << i << " false" << endl;
+					}
+					InfoTriggers[i] = make_pair(triggerName->at(i) , make_pair(false,true));
+				}
+			}
+			else{
+				if(prescaleTrigger[i]==1){
+					cout << "Added one vector to the map " << endl;
+					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(true,false)));
+
+					
+				}
+				else{
+					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
+				}
+			}
+
+
+/*
 			auto it = MapOfTriggerNames.find(triggerName->at(i));
 			if(it != MapOfTriggerNames.end()){
 				//cout << "Found " << TrigNames[i] << endl;
@@ -103,12 +144,8 @@ void ListNameTriggers::FindAllNames(){
 					if(MapOfTriggerNames[triggerName->at(i)] == pair<bool, bool>(true,true)){
 						PrescaledTurnedBad << "Entry " << jentry << " made prescale " << i << " false" << endl;
 					}
-					MapOfTriggerNames[triggerName->at(i)] = make_pair<bool, bool>(false,true);
-					
-					
+					MapOfTriggerNames[triggerName->at(i)] = make_pair<bool, bool>(false,true);	
 				}
-
-				
 			}
 			else{
 				if(prescaleTrigger[i]==1){
@@ -117,22 +154,26 @@ void ListNameTriggers::FindAllNames(){
 				}
 				else{
 					MapOfTriggerNames.insert(pair<string,pair<bool, bool> > (triggerName->at(i),pair<bool, bool>(false,false)));
-
 				}
-			}
+			}*/
 
 		}
 		
 	}
+	for ( auto it = 0 ; it != InfoTriggers.size() ; it++){
+		CompleteList << InfoTriggers[it].first << endl;
+		if(InfoTriggers[it].second.first){
+			PrescaledSubList << InfoTriggers[it].first << endl; //<< " " << itr->second.first << " " << itr->second.second
+		}
+	}
 
-	for(auto itr = MapOfTriggerNames.begin(); itr != MapOfTriggerNames.end(); itr++){
+	/*for(auto itr = MapOfTriggerNames.begin(); itr != MapOfTriggerNames.end(); itr++){
 		CompleteList << itr->first << endl; //<< " " << itr->second.first << " " << itr->second.second
 		if(itr->second.first){
 			PrescaledSubList << itr->first << endl; //<< " " << itr->second.first << " " << itr->second.second
-		}
+		}	
+	}*/
 
-		
-	}
 	CompleteList.close();
 	PrescaledSubList.close();
 	PrescaledTurnedBad.close();

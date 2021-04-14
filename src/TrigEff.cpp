@@ -29,7 +29,7 @@ TrigEff::TrigEff(){
 	OutputHisto=0;
 	FITBG2=0;
 	MASS=0;
-
+	SOLOM=0;
 	/*for(int i=0; i < ListTriggers.size() ; i++){
 		EffvsObs[i]=0;
 	}*/
@@ -87,7 +87,10 @@ TrigEff::~TrigEff(){
 	if(!FITBG2){
 		delete FITBG2;
 	}
-
+	if(!SOLOM){
+		delete SOLOM;
+	}
+	
 }
 
 
@@ -178,7 +181,11 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", TriggerNames.size(),0,TriggerNames.size());
 	CORR = new TH2D("Correlation", "Correlation plot",  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
+	
 	MASS = new TH1D("MASS" , " Masses invariante des muons" , nbins , 0 , massmax);
+	MASS->GetXaxis()->SetTitle("M [GeV]");
+	MASS->GetYaxis()->SetTitle(" # candidates");
+
 
 	MASS->Sumw2();
 	EFF_TRIG->Sumw2();
@@ -260,6 +267,11 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 	MASS->GetXaxis()->SetTitle("M [GeV]");
 	MASS->GetYaxis()->SetTitle(" # candidates");
 	
+	SOLOM = new TH1D("MuMASS" , " Muons invariant masses" , 800 , 0 , 1600);
+	SOLOM->GetXaxis()->SetTitle("M [GeV]");
+	SOLOM->GetYaxis()->SetTitle(" # candidates");
+
+	SOLOM->Sumw2();
 	MASS->Sumw2();
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
@@ -273,31 +285,30 @@ void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &Sele
 
 void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){  
 	bool trig1,trig2;
-	for(int i = 0; i < passtrig.size()  ;i++){
-		trig1 = passtrig.at(i);
-		DenomEfficiency[i]+=1;
+	for(int i = 0; i < TestNoMap.size()  ;i++){
+		trig1 = passtrig.at(TestNoMap[i].second);
+		DenomEfficiency[TestNoMap[i].second]+=1;
 		if(trig1){
-			NumEfficiency[i]+=1;
+			NumEfficiency[TestNoMap[i].second]+=1;
 		}
-	
-		/*for(int j = 0; j < passtrig.size()  ;j++){
-			trig2 = passtrig.at(j);
+
+		for(int j = 0; j < TestNoMap.size()  ;j++){
+			trig2 = passtrig.at(TestNoMap[j].second);
 			if(trig1 || trig2){
-				DenomCorr[i][j]+=1;
+				DenomCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
 			}
 			if(trig1 && trig2){
-				NumCorr[i][j]+=1;
+				NumCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
 			}
 	
-		}*/
+		}
 	}
-	
+
 	if(Obs!=0.0){
 		for(int i = 0 ; i < TestNoMap.size(); i++){
 			//cout << "filled passtrig :" << i << "with value " << passtrig[i] << "and obs = " << Obs << endl;
 			EffvsObs[i]->TEfficiency::Fill(passtrig[TestNoMap[i].second],Obs);
 		}
-
 	}
 }
 
@@ -325,7 +336,27 @@ void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){
 			EffvsObs[ster->first]->TEfficiency::Fill(passtrig[ster->second],Obs);
 		}
 	}
+	// OLD FILL NO MAP
+	/*for(int i = 0; i < passtrig.size()  ;i++){
+		trig1 = passtrig.at(i);
+		DenomEfficiency[i]+=1;
+		if(trig1){
+			NumEfficiency[i]+=1;
+		}
 	
+		for(int j = 0; j < passtrig.size()  ;j++){
+			trig2 = passtrig.at(j);
+			if(trig1 || trig2){
+				DenomCorr[i][j]+=1;
+			}
+			if(trig1 && trig2){
+				NumCorr[i][j]+=1;
+			}
+	
+		}
+	}*/	
+
+
 }
 
 void TrigEff::StudyTrigvsMass(double mass){
@@ -382,7 +413,10 @@ void TrigEff::PrintDenomCorr(){
 void TrigEff::ComputeEff()
 {
 	for(int i=0;i< Efficiency.size();i++){
-		if(DenomEfficiency[i]==0){
+		if(DenomEfficiency[i]==0 && NumEfficiency[i] == 0){
+			Efficiency[i]=0;
+		}
+		else if(DenomEfficiency[i]==0){
 			Efficiency[i]=0;
 		}
 		else{	
@@ -415,25 +449,32 @@ void TrigEff::SortEffVec(){
 }
 
 void TrigEff::SaveIntTrigs(string NameOutputFile){
-	int j=0;
 	ofstream TriggersOfInterest;
+	ofstream AllTriggers;
 	TriggersOfInterest.open (NameOutputFile.c_str());
+	AllTriggers.open ("ListOfAllTriggersEff.txt");
+	if (TriggersOfInterest.good()){
+		for (int i = 0; i < Efficiency.size(); i++){ 
+			//if(EffList[i].first >= 0.5 ){
+			AllTriggers << EffList[i].first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
+			//}
+    		}
+	AllTriggers.close();
+	}
+
 	if (TriggersOfInterest.good()){
 		for (int i = 0; i < TestNoMap.size(); i++){ 
 			//if(EffList[i].first >= 0.5 ){
-			TriggersOfInterest << EffList[TestNoMap[i].second].first*100 << " " << EffList[TestNoMap[i].second].second.first*100 << " " << EffList[TestNoMap[i].second].second.second << "\n";
-			double effem=EffList[i].first;
-			j++;
+			TriggersOfInterest << EffList[TestNoMap[i].second].first*100 << " " << EffList[TestNoMap[i].second].second.first*100 << " " << EffList[TestNoMap[i].second].second.second << "\n"; //TestNoMap[i].second
 			//}
     		}
-
+	
 	TriggersOfInterest.close();
 	}
 
 	else{
 		cout << "File .txt was not opened, aborting" << endl;
 	}
-	
 }
 
 void TrigEff::PrintNumEff(){
@@ -498,8 +539,10 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 	//cout << "right after closing  outputhisto" << endl;
 }
 
-void TrigEff::FillMass(double INVMASS){
-	MASS->Fill(INVMASS);
+void TrigEff::FillMass(double INVMASS,int choice){
+	if(choice==1){
+		MASS->Fill(INVMASS);
+	}
 }
 
 void TrigEff::FitSignal(){
@@ -511,7 +554,12 @@ void TrigEff::FitSignal(){
 
 	FITSIG->SetName("FitSignal");
 	FITBG->SetName("FitBackground");
-
+	
+	FITBG->GetXaxis()->SetTitle("M [GeV]");
+	FITBG->GetYaxis()->SetTitle(" # candidates");
+	
+	FITSIG->GetXaxis()->SetTitle("M [GeV]");
+	FITSIG->GetYaxis()->SetTitle(" # candidates");
 	
 	int nbinxfit = FITSIG->GetNbinsX();
 	int nbinyfit = FITSIG->GetNbinsY();
@@ -571,7 +619,7 @@ void TrigEff::Compute(string NameOutputFile){
 	SortEffVec();
 	SaveIntTrigs(NameOutputFile.c_str());
 
-	//ComputeCorr();
+	ComputeCorr();
 
 	//PrintDenomCorr();
 	//PrintCorr();
