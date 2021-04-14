@@ -13,13 +13,15 @@
 
 using namespace std; 
 
-bool ListNameTriggers::IsInList(string name ){
+int ListNameTriggers::IsInList(string name){
+	int ct=0;
 	for(int i = 0 ; i < InfoTriggers.size() ; i++){
 		if(InfoTriggers[i].first == name){
-			return true;
+			return ct;
 		}
+		ct+=1;
 	}
-	return false;
+	return 9999;
 }
 
 
@@ -111,11 +113,28 @@ void ListNameTriggers::FindAllNames(){
 			//auto it = find(InfoTriggers.begin(), InfoTriggers.end(),triggerName->at(i));
 
 			//auto it = std::ranges::find(InfoTriggers, triggerName->at(i), &std::pair<std::string, std::pair<bool,bool> >::first);
-			
-			auto it = std::find_if(InfoTriggers.begin(), InfoTriggers.end(), IsInList(triggerName->at(i)));
+			int a = IsInList(triggerName->at(i));
+			if(a!=9999){
+				if(prescaleTrigger[a]!=1){
+					if(InfoTriggers[a].second.first == true && InfoTriggers[a].second.second == true){
+						PrescaledTurnedBad << "Entry " << jentry << " made prescale " << i << " false" << endl;
+					}
+					InfoTriggers[a] = make_pair(triggerName->at(a) , make_pair(false,true));
+				}
+			}
+			else{
+				if(prescaleTrigger[i]==1){
+					cout << "Added one vector to the map " << endl;
+					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(true,false)));
+				}
+				else{
+					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
+				}
+			}
+			//auto it = std::find_if(InfoTriggers.begin(), InfoTriggers.end(), IsInList(triggerName->at(i)));
 
 			//
-			if(it != InfoTriggers.end()){
+			/*if(it != InfoTriggers.end()){
 				if(prescaleTrigger[i]!=1){
 					if(InfoTriggers[i].second.first == true && InfoTriggers[i].second.second == true){
 						PrescaledTurnedBad << "Entry " << jentry << " made prescale " << i << " false" << endl;
@@ -133,7 +152,7 @@ void ListNameTriggers::FindAllNames(){
 				else{
 					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
 				}
-			}
+			}*/
 
 
 /*

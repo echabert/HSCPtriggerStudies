@@ -46,7 +46,7 @@ class ListNameTriggers
    virtual void     Show(Long64_t entry = -1);
    
    void FindAllNames();
-   bool IsInList(string name);
+   int IsInList(string name);
 
    // Declaration of leaf types
 
