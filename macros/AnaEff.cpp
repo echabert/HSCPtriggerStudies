@@ -113,11 +113,12 @@ void AnaEff::Loop()
 		//if(IsoInvMass != 1){
 		//	trigEff_selection_obs.FillMass(IsoInvMass,2);
 		//}
-		counter+=1;
+		counter+=nhscp;
 		
 		vector<Bool_t> vtrigger; //Convert array into vector
 		//vector<float> TrackPT,MuonPT,METPT;
 		float HighestPT,HighestMuonPT,HighestMET;
+		//cout << nhscp << endl;
 		indexcandidate=Selection();
 		if(indexcandidate != 64){
 			HighestPT = track_pt[indexcandidate];
@@ -151,9 +152,9 @@ void AnaEff::Loop()
 }
 
 int AnaEff::Selection(){
-
+	int index=64;
 	for(int ihs=0; ihs<nhscp;ihs++){
-		int index;
+		//cout << ihs  << endl;
 		//ecal + hcal/p
 		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
 
@@ -190,8 +191,8 @@ int AnaEff::Selection(){
 		if(hscp_iso2_tk[ihs] >= 50){
 			return 64;
 		}
+		return ihs; // pb ici, return que 0
 		
-		return ihs;
 	}
 	return 64;
 }
