@@ -178,7 +178,7 @@ int AnaEff::Selection(){
 		if( track_npixhits[hscp_track_idx[ihs]] <= 1 ){ //?
 			yon=false;
 		}
-		if( track_nhits[hscp_track_idx[ihs]] <= 7 ){
+		if( track_nhits[hscp_track_idx[ihs]] <= 4 ){ //7
 			yon=false;
 		}
 		if( track_validfraction[hscp_track_idx[ihs]] <= 0.8 ){
@@ -187,7 +187,7 @@ int AnaEff::Selection(){
 		if( ndedxhits <= 5 ){
 			yon=false;
 		}
-		if( track_pt[hscp_track_idx[ihs]] <= 20 ){
+		if( track_pt[hscp_track_idx[ihs]] <= 10 ){ //55
 			yon=false;
 		}
 		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
@@ -202,7 +202,7 @@ int AnaEff::Selection(){
 		if( track_qual[hscp_track_idx[ihs]] < 2 ){//?
 			yon=false;
 		}
-		if(hscp_iso2_tk[ihs] >= 50){
+		if(hscp_iso2_tk[ihs] >= 100){ //50
 			yon=false;
 		}
 		if(yon){
@@ -239,7 +239,10 @@ int AnaEff::Selection(){
 			}
 		}
 	}
-	return 64;
+	else{
+		return 64;
+	}
+
 }
 
 
