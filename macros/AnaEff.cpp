@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,str,1,"PT","SingleMuonZ.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","StudyMET.root"); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 
 	
@@ -120,6 +120,7 @@ void AnaEff::Loop()
 		float HighestPT,HighestMuonPT,HighestMET;
 		//cout << nhscp << endl;
 		indexcandidate=Selection();
+		//cout << "index:" << indexcandidate <<endl;
 		if(indexcandidate != 64){
 			HighestPT = track_pt[indexcandidate];
 			HighestMET = pfmet_pt[indexcandidate];
@@ -130,7 +131,7 @@ void AnaEff::Loop()
 			//trigEff_selection_obs.Fill(vtrigger,HighestPT);
 			//trigEff_presel.Fill(vtrigger,HighestMET);
 			
-			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
+			trigEff_selection_obs.FillNoMap(vtrigger,HighestMET,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
@@ -141,7 +142,7 @@ void AnaEff::Loop()
 	cout << "Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << "\n" << endl;
 	cout << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 	
-	trigEff_selection_obs.Compute("test_TriggersOfInterest_PT_nomap.txt");
+	trigEff_selection_obs.Compute("StudyMET_List.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
@@ -152,12 +153,12 @@ void AnaEff::Loop()
 }
 
 int AnaEff::Selection(){
-	int index=64;
+	int index=64,count2=0;
+	vector<int> positions;
 	for(int ihs=0; ihs<nhscp;ihs++){
 		//cout << ihs  << endl;
 		//ecal + hcal/p
 		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
-
 		if( track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1 ){
 			return 64;
 		}
@@ -191,8 +192,25 @@ int AnaEff::Selection(){
 		if(hscp_iso2_tk[ihs] >= 50){
 			return 64;
 		}
-		return ihs; // pb ici, return que 0
+		positions.push_back(ihs);
+		 // pb ici, return que 0
 		
+	}
+	
+	//cout << "nhscp:" << nhscp <<endl;
+	
+	if(positions.size() != 0){
+		if(positions.size() == 1){
+			return positions[0];
+		}
+		else if(positions.size() == 2){
+			if(muon_pt[positions[0]] > muon_pt[positions[1]]){
+				return positions[0];	
+			}
+			else{
+				return positions[1];
+			}
+		}
 	}
 	return 64;
 }

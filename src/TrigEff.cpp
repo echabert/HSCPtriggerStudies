@@ -137,7 +137,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			cout << "[" << j<< "," << index+1 << "]" << endl; 
 			
 		}
-
+	
 	NumCorr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0)); 
 	DenomCorr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	Correlation.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0)); 
@@ -440,7 +440,7 @@ void TrigEff::SortEffVec(){
         	EffList.push_back(make_pair(Efficiency[i], make_pair(EffErr[i],TriggerNames[i]))); // ListTriggers[i] if we work with a map
 	}
 	
-	sort(EffList.begin(),EffList.end());
+	//sort(EffList.begin(),EffList.end());
 	cout << "Efficiency " << "\t\t" << "Error" << "\t\t\t" << "Trigger name" << endl; 
     	for (int i = 0; i < Efficiency.size(); i++) { 
         	cout << setprecision (8) << (EffList[i].first)*100 << "\t\t" << setprecision (8) << (EffList[i].second.first)*100 << "\t\t" << EffList[i].second.second << endl; 
@@ -453,7 +453,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	ofstream AllTriggers;
 	TriggersOfInterest.open (NameOutputFile.c_str());
 	AllTriggers.open ("ListOfAllTriggersEff.txt");
-	if (TriggersOfInterest.good()){
+	if (AllTriggers.good()){
 		for (int i = 0; i < Efficiency.size(); i++){ 
 			//if(EffList[i].first >= 0.5 ){
 			AllTriggers << EffList[i].first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second

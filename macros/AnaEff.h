@@ -170,7 +170,7 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 
 }
 ////home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root
-
+// /opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1000.root
 AnaEff::~AnaEff() //deconstructeur
 {
    if (!fChain) return;
