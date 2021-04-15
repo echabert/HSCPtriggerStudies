@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","StudyMET_1-13.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","StudyMET_1-14.root"); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 
 	
@@ -135,7 +135,7 @@ void AnaEff::Loop()
 		}	
 	}
 	ofstream InfosData;
-	InfosData.open ("AllInfosaod_1-13.txt");
+	InfosData.open ("AllInfosaod_1-14.txt");
 
 	InfosData << "Number of muons pairs found " << nbofpairs << "\n" << endl;
 
@@ -153,7 +153,7 @@ void AnaEff::Loop()
 	InfosData << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 
 	InfosData.close();
-	trigEff_selection_obs.Compute("StudyMET_List_aod_1-13.txt");
+	trigEff_selection_obs.Compute("StudyMET_List_aod_1-14.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
