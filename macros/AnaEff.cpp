@@ -166,6 +166,7 @@ void AnaEff::Loop()
 int AnaEff::Selection(){
 	int index=64,count2=0;
 	vector<int> positions;
+	vector< pair<float, int > > Muonpt; 
 	bool yon=true;
 	for(int ihs=0; ihs<nhscp;ihs++){
 		//cout << ihs  << endl;
@@ -207,6 +208,7 @@ int AnaEff::Selection(){
 		}
 		if(yon){
 			positions.push_back(ihs);
+			Muonpt.push_back(make_pair(muon_pt[ihs],ihs));
 		}
 		 // pb ici, return que 0
 		
@@ -217,26 +219,20 @@ int AnaEff::Selection(){
 	
 	if(positions.size() != 0){
 		if(positions.size() == 1){
-			return positions[0];
+			return Muonpt[0].second;
 		}
 		else if(positions.size() == 2){
-			if(muon_pt[positions[0]] > muon_pt[positions[1]]){
-				return positions[0];	
+			if(Muonpt[0].first > Muonpt[1].first){
+				return Muonpt[0].second;	
 			}
 			else{
-				return positions[1];
+				return Muonpt[1].second;
 			}
 		}
-		else if(positions.size() == 3){
-			if(muon_pt[positions[0]] > muon_pt[positions[1]] && muon_pt[positions[0]] > muon_pt[positions[2]]){
-				return positions[0];
-			}
-			else if(muon_pt[positions[1]] > muon_pt[positions[0]] && muon_pt[positions[1]] > muon_pt[positions[2]]){
-				return positions[1];
-			}
-			else if(muon_pt[positions[2]] > muon_pt[positions[0]] && muon_pt[positions[2]] > muon_pt[positions[1]]){
-				return positions[2];
-			}
+		else if(positions.size() >= 3){
+			int siz=Muonpt.size();
+			sort(Muonpt.begin(),Muonpt.end());
+			return Muonpt[siz-1].second;
 		}
 	}
 	else{
