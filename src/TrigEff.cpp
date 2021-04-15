@@ -319,20 +319,22 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	for (int i = 0; i < Efficiency.size(); i++){
 		EffList.push_back(make_pair(make_pair(Efficiency[i],i), make_pair(EffErr[i],TriggerNames[i])));
 		//if(EffList[i].first >= 0.5 ){
-		cout << setprecision (8) << (EffList[i].first.first)*100 << "\t\t" << setprecision (8) << (EffList[i].second.first)*100 << "\t\t" << EffList[i].second.second << endl; 
+		
 		//}
     	}
 
 	sort(EffList.begin(),EffList.end());
 
 	for (int i = 0; i < Efficiency.size(); i++){
+		//cout << setprecision (8) << (EffList[i].first.first)*100 << "\t\t" << setprecision (8) << (EffList[i].second.first)*100 << "\t\t" << EffList[i].second.second << endl; 
 		AllTriggers << EffList[i].first.first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
 	}
 
 	AllTriggers.close();
 
 	for (int i = 0; i < TestNoMap.size(); i++){ 	
-		TransferVec.push_back(make_pair(make_pair(Efficiency[TestNoMap[i].second],TestNoMap[i].second), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second])));		
+		TransferVec.push_back(make_pair(make_pair(Efficiency[TestNoMap[i].second],TestNoMap[i].second), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second])));
+		cout << setprecision (8) << (TransferVec[i].first.first)*100 << "\t\t" << setprecision (8) << (TransferVec[i].second.first)*100 << "\t\t" << TransferVec[i].second.second << endl; 		
     	}
 
 	sort(TransferVec.begin(), TransferVec.end());
