@@ -437,13 +437,16 @@ void TrigEff::PrintEff(){
 void TrigEff::SortEffVec(){
 	
 	for (int i = 0; i < Efficiency.size(); i++) { 
-        	EffList.push_back(make_pair(Efficiency[i], make_pair(EffErr[i],TriggerNames[i]))); // ListTriggers[i] if we work with a map
+        	EffList.push_back(make_pair(make_pair(Efficiency[i],i), make_pair(EffErr[i],TriggerNames[i]))); // ListTriggers[i] if we work with a map
 	}
+	
+	//TransferVec = EffList;
+	
 	
 	//sort(EffList.begin(),EffList.end());
 	cout << "Efficiency " << "\t\t" << "Error" << "\t\t\t" << "Trigger name" << endl; 
     	for (int i = 0; i < Efficiency.size(); i++) { 
-        	cout << setprecision (8) << (EffList[i].first)*100 << "\t\t" << setprecision (8) << (EffList[i].second.first)*100 << "\t\t" << EffList[i].second.second << endl; 
+        	cout << setprecision (8) << (EffList[i].first.first)*100 << "\t\t" << setprecision (8) << (EffList[i].second.first)*100 << "\t\t" << EffList[i].second.second << endl; 
 		}
     
 }
@@ -456,7 +459,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	if (AllTriggers.good()){
 		for (int i = 0; i < Efficiency.size(); i++){ 
 			//if(EffList[i].first >= 0.5 ){
-			AllTriggers << EffList[i].first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
+			AllTriggers << EffList[i].first.first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
 			//}
     		}
 	AllTriggers.close();
@@ -465,7 +468,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	if (TriggersOfInterest.good()){
 		for (int i = 0; i < TestNoMap.size(); i++){ 
 			//if(EffList[i].first >= 0.5 ){
-			TriggersOfInterest << EffList[TestNoMap[i].second].first*100 << " " << EffList[TestNoMap[i].second].second.first*100 << " " << EffList[TestNoMap[i].second].second.second << "\n"; //TestNoMap[i].second
+			TriggersOfInterest << EffList[TestNoMap[i].second].first.first*100 << " " << EffList[TestNoMap[i].second].second.first*100 << " " << EffList[TestNoMap[i].second].second.second << "\n"; //TestNoMap[i].second
 			//}
     		}
 	

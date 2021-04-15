@@ -7,7 +7,6 @@
 #include <map>
 #include <iterator>
 #include <algorithm>
-#include <ranges>
 #include "FindListTriggers.h"
 
 
