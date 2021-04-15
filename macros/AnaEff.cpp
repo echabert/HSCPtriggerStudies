@@ -207,7 +207,7 @@ int AnaEff::Selection(){
 			yon=false;
 		}
 		if(yon){
-			positions.push_back(ihs);
+			positions.push_back(ihs); 
 			Muonpt.push_back(make_pair(muon_pt[ihs],ihs));
 		}
 		 // pb ici, return que 0
@@ -218,22 +218,9 @@ int AnaEff::Selection(){
 	//cout << "nhscp:" << nhscp <<endl;
 	
 	if(positions.size() != 0){
-		if(positions.size() == 1){
-			return Muonpt[0].second;
-		}
-		else if(positions.size() == 2){
-			if(Muonpt[0].first > Muonpt[1].first){
-				return Muonpt[0].second;	
-			}
-			else{
-				return Muonpt[1].second;
-			}
-		}
-		else if(positions.size() >= 3){
-			int siz=Muonpt.size();
-			sort(Muonpt.begin(),Muonpt.end());
-			return Muonpt[siz-1].second;
-		}
+		int siz=Muonpt.size();
+		sort(Muonpt.begin(),Muonpt.end());
+		return Muonpt[siz-1].second;
 	}
 	else{
 		return 64;
