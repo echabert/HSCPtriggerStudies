@@ -201,86 +201,6 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 
 
 //***************************************************************************************************************************
-void TrigEff::Load(const vector<string> &triggerNames,const vector<string> &SelectedTriggerNames,int ErrorType, string Selection,string NameVar,string FileName){ 
-	NameObs=NameVar;
-	cout << "Name is : " << NameObs << endl;
-	if(Selection=="entered"){
-		for(int j = 0; j < SelectedTriggerNames.size(); j++){
-			//if(prescaleTrigger[j]==1){
-				auto it = find(triggerNames.begin(), triggerNames.end(), SelectedTriggerNames[j]);
-				auto index = distance(triggerNames.begin(), it);
-				ListTriggers[j] = (index);
-				cout << "[" << j<< "," << index+1 << "]" << endl; 
-			//}
-		}
-	}
-
-	
-	NumCorr.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0)); 
-	DenomCorr.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0));
-	Correlation.resize(ListTriggers.size(), vector<double>(ListTriggers.size(), 0.0)); 
-	
-	NumEfficiency.resize(ListTriggers.size(), 0.0);
-	DenomEfficiency.resize(ListTriggers.size(), 0.0);
-	Efficiency.resize(ListTriggers.size(), 0.0);
-	
-	EffErr.resize(ListTriggers.size(), 0.0);
-	EffvsObs.resize(ListTriggers.size());
-
-	
-
-	this->TriggerNames = triggerNames;
-	
-
-	
-	TString outputfilename=FileName.c_str();
-
-	OutputHisto = new TFile(outputfilename,"RECREATE");
-	
-
-	//SelectedTriggerNames=str;
-	//Selection=triggerNames;
-	//************* Init of histograms ****************
-
-	
-	if(NameVar!=""){
-		for(int j=0; j < ListTriggers.size(); j++){
-			if(NameVar=="PT"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",50,0,2000); // changer le titre MET/PT !!
-			}
-			if(NameVar=="MET"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",50,0,2000);
-			}
-			EffvsObs[j]->SetName(SelectedTriggerNames[j].c_str());
-
-			//EffvsObs[j]->Draw("AP");
-			//gPad->Update();
-			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
-			}
-	}
-	
-	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
-	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", ListTriggers.size(),0,ListTriggers.size());
-	CORR = new TH2D("Correlation", "Correlation plot",  ListTriggers.size() , 0 , ListTriggers.size() , ListTriggers.size(), 0 , ListTriggers.size());
-
-	MASS = new TH1D("MASS" , " Z Mass from Z->mu mu decay" , 80 , 0 , 160);
-	MASS->GetXaxis()->SetTitle("M [GeV]");
-	MASS->GetYaxis()->SetTitle(" # candidates");
-	
-	SOLOM = new TH1D("MuMASS" , " Muons invariant masses" , 800 , 0 , 1600);
-	SOLOM->GetXaxis()->SetTitle("M [GeV]");
-	SOLOM->GetYaxis()->SetTitle(" # candidates");
-
-	SOLOM->Sumw2();
-	MASS->Sumw2();
-	EFF_TRIG->Sumw2();
-	EFF_DISTRIB->Sumw2();
-	CORR->Sumw2();
-	
-	if(ErrorType == 1 ){
-	}
-	
-}
 
 
 void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){  
@@ -312,52 +232,6 @@ void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){
 	}
 }
 
-void TrigEff::Fill(const vector<bool> &passtrig, float Obs, double weight){  
-	bool trig1,trig2;
-	for(auto iter = ListTriggers.begin(); iter != ListTriggers.end() ;iter++){
-		trig1 = passtrig[iter->second];
-		DenomEfficiency[iter->first]+=1;
-		if (trig1){
-			NumEfficiency[iter->first]+=1;
-		}
-		for(auto jter = ListTriggers.begin(); jter != ListTriggers.end();jter++){
-			trig2 = passtrig[jter->second];
-			if(trig1 || trig2){
-				DenomCorr[iter->first][jter->first]+=1;
-			}
-			if(trig1 && trig2){
-				NumCorr[iter->first][jter->first]+=1;
-			}
-		}
-	}
-	
-	if(Obs!=0.0){
-		for(auto ster = ListTriggers.begin() ; ster != ListTriggers.end(); ster++){
-			EffvsObs[ster->first]->TEfficiency::Fill(passtrig[ster->second],Obs);
-		}
-	}
-	// OLD FILL NO MAP
-	/*for(int i = 0; i < passtrig.size()  ;i++){
-		trig1 = passtrig.at(i);
-		DenomEfficiency[i]+=1;
-		if(trig1){
-			NumEfficiency[i]+=1;
-		}
-	
-		for(int j = 0; j < passtrig.size()  ;j++){
-			trig2 = passtrig.at(j);
-			if(trig1 || trig2){
-				DenomCorr[i][j]+=1;
-			}
-			if(trig1 && trig2){
-				NumCorr[i][j]+=1;
-			}
-	
-		}
-	}*/	
-
-
-}
 
 void TrigEff::StudyTrigvsMass(double mass){
 
@@ -434,50 +308,44 @@ void TrigEff::PrintEff(){
 	}
 }
 
-void TrigEff::SortEffVec(){
-	
-	for (int i = 0; i < Efficiency.size(); i++) { 
-        	EffList.push_back(make_pair(make_pair(Efficiency[i],i), make_pair(EffErr[i],TriggerNames[i]))); // ListTriggers[i] if we work with a map
-	}
-	
-	//TransferVec = EffList;
-	
-	
-	//sort(EffList.begin(),EffList.end());
-	cout << "Efficiency " << "\t\t" << "Error" << "\t\t\t" << "Trigger name" << endl; 
-    	for (int i = 0; i < Efficiency.size(); i++) { 
-        	cout << setprecision (8) << (EffList[i].first.first)*100 << "\t\t" << setprecision (8) << (EffList[i].second.first)*100 << "\t\t" << EffList[i].second.second << endl; 
-		}
-    
-}
 
 void TrigEff::SaveIntTrigs(string NameOutputFile){
+	
 	ofstream TriggersOfInterest;
 	ofstream AllTriggers;
 	TriggersOfInterest.open (NameOutputFile.c_str());
 	AllTriggers.open ("ListOfAllTriggersEff.txt");
-	if (AllTriggers.good()){
-		for (int i = 0; i < Efficiency.size(); i++){ 
-			//if(EffList[i].first >= 0.5 ){
-			AllTriggers << EffList[i].first.first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
-			//}
-    		}
-	AllTriggers.close();
-	}
-
-	if (TriggersOfInterest.good()){
-		for (int i = 0; i < TestNoMap.size(); i++){ 
-			//if(EffList[i].first >= 0.5 ){
-			TriggersOfInterest << EffList[TestNoMap[i].second].first.first*100 << " " << EffList[TestNoMap[i].second].second.first*100 << " " << EffList[TestNoMap[i].second].second.second << "\n"; //TestNoMap[i].second
-			//}
-    		}
 	
-	TriggersOfInterest.close();
+	for (int i = 0; i < Efficiency.size(); i++){
+		EffList.push_back(make_pair(make_pair(Efficiency[i],i), make_pair(EffErr[i],TriggerNames[i])));
+		//if(EffList[i].first >= 0.5 ){
+		cout << setprecision (8) << (EffList[i].first.first)*100 << "\t\t" << setprecision (8) << (EffList[i].second.first)*100 << "\t\t" << EffList[i].second.second << endl; 
+		//}
+    	}
+
+	sort(EffList.begin(),EffList.end());
+
+	for (int i = 0; i < Efficiency.size(); i++){
+		AllTriggers << EffList[i].first.first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
 	}
 
-	else{
-		cout << "File .txt was not opened, aborting" << endl;
+	AllTriggers.close();
+
+	for (int i = 0; i < TestNoMap.size(); i++){ 	
+		TransferVec.push_back(make_pair(make_pair(Efficiency[TestNoMap[i].second],TestNoMap[i].second), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second])));		
+    	}
+
+	sort(TransferVec.begin(), TransferVec.end());
+		
+	for(int i = 0; i < TestNoMap.size(); i++){ 
+		TriggersOfInterest <<  TransferVec[i].first.first*100 << " " << TransferVec[i].second.first*100 << " " << TransferVec[i].second.second << "\n"; //TestNoMap[i].second
 	}
+	TransferVec.clear();
+	TriggersOfInterest.close();
+
+	//else{
+	//	cout << "File .txt was not opened, aborting" << endl;
+	//}
 }
 
 void TrigEff::PrintNumEff(){
@@ -494,9 +362,7 @@ void TrigEff::PrintDenomEff(){
 }
 
 void TrigEff::ComputeError(){
-
 	for(int i=0;i< EffErr.size();i++){
-		//cout << NumEfficiency[i] << " " << DenomEfficiency[i] << endl ;
 		if(Efficiency[i]==0){
 			EffErr[i]=0;
 		}
@@ -507,39 +373,26 @@ void TrigEff::ComputeError(){
 }
 
 void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
-
 	OutputHisto->cd();
 	//gDirectory->mkdir("MET");
 	//OutputHisto->mkdir("MET");
 	//OutputHisto->cd("MET");
+	//OutputHisto->mkdir(NameVar.c_str());
+	//OutputHisto->cd(NameVar.c_str());
 
-	
-	/*OutputHisto->mkdir(NameVar.c_str());
-	OutputHisto->cd(NameVar.c_str());*/
-	
-	
 	for(int i=0;i < TestNoMap.size();i++){
 		EffvsObs[i]->Write();
 	}
 
-	//OutputHisto->cd();
-	
-	/*OutputHisto->mkdir("Correlations");
-	OutputHisto->cd("Correlations");*/
-	
-
 	for(int i=0;i < Correlation.size();i++){
 		for(int j=0;j< Correlation[i].size();j++){
-			CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100));
+			CORR->SetBinContent((i),(j),(Correlation[i][j]*100));
 		}
 	}
 	//CORR->SetDirectory("Correlations");
 	CORR->Write();
 	MASS->Write();
-	//OutputHisto->cd();
-	//cout << "right before closing  outputhisto" << endl;
 	OutputHisto->Close();
-	//cout << "right after closing  outputhisto" << endl;
 }
 
 void TrigEff::FillMass(double INVMASS,int choice){
@@ -560,6 +413,10 @@ void TrigEff::FitSignal(){
 	
 	FITBG->GetXaxis()->SetTitle("M [GeV]");
 	FITBG->GetYaxis()->SetTitle(" # candidates");
+	
+	FITBG2->GetXaxis()->SetTitle("M [GeV]");
+	FITBG2->GetYaxis()->SetTitle(" # candidates");
+
 	
 	FITSIG->GetXaxis()->SetTitle("M [GeV]");
 	FITSIG->GetYaxis()->SetTitle(" # candidates");
@@ -619,7 +476,6 @@ void TrigEff::Compute(string NameOutputFile){
 	//PrintDenomEff();
 	//PrintEff();
 
-	SortEffVec();
 	SaveIntTrigs(NameOutputFile.c_str());
 
 	ComputeCorr();

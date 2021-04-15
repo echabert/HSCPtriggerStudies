@@ -39,14 +39,7 @@ public:
 
    void LoadNoMap(const vector<string> &triggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string NameVar="a",string FileName="testnewdata.root");
 
-
-   void	Load(const vector<string> &TriggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string Selection="entered",string NameVar="a",string FileName="testnewdata.root");
-
-
-
    void FillNoMap(const vector<bool> &passtrig, float Obs = 0.0, double weight = 1);
-
-   void Fill(const vector<bool> &passtrig, float Obs= 0.0, double weight = 1); // 
 
    void Compute(string NameOutputFile);
    
@@ -92,7 +85,6 @@ public:
 	
    void ComputeError(); // computes the error on the efficiencies
 
-   void SortEffVec();
 
 
    // ******************* Plotting ********************************
