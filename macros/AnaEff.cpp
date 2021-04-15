@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","StudyMET.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","StudyMET_1-13.root"); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 
 	
@@ -111,7 +111,7 @@ void AnaEff::Loop()
 			trigEff_selection_obs.FillMass(InvMass,1);
 		}
 		
-		counter+=nhscp;
+		counter+=1;
 		
 		vector<Bool_t> vtrigger; //Convert array into vector
 		float HighestPT,HighestMuonPT,HighestMET;
@@ -134,14 +134,26 @@ void AnaEff::Loop()
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
-	
+	ofstream InfosData;
+	InfosData.open ("AllInfosaod_1-13.txt");
+
+	InfosData << "Number of muons pairs found " << nbofpairs << "\n" << endl;
 
 	cout << "Number of pairs found " << nbofpairs << "\n" << endl;
+
+
 	double ratio = passedevent*1.0/counter;
-	cout << "Number of candidates that passed the selection : " << passedevent << " , total number : " << nentries << "\n" << endl;
+	cout << "Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << "\n" << endl;
+
+	InfosData << "Number of candidates that passed the selection : " << passedevent << " , total number : " << nentries << "\n" << endl;
+
+
 	cout << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 	
-	trigEff_selection_obs.Compute("StudyMET_List.txt");
+	InfosData << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
+
+	InfosData.close();
+	trigEff_selection_obs.Compute("StudyMET_List_aod_1-13.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
