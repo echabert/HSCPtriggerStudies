@@ -248,28 +248,30 @@ double AnaEff::MuonsInvariantMass(){
 	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
 	TLorentzVector mu1,mu2,mu3,mu4,sum;
 	vector<int> candidates,order;
+	bool yon=true;
 	for(int ihs=0; ihs<nhscp;ihs++){
+		yon=true;
 		//if(muon isolé)
 		if(track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1){
-			return 1;
+			yon = false;
 		}
 		
 		if(pfmet_pt[hscp_track_idx[ihs]] >= 5000 ){
-			return 1;
+			yon = false;
 		}
 	
 		if( track_pt[hscp_track_idx[ihs]] >= 5000 ){
-			return 1;
+			yon = false;
 		}
 		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
-			return 1;
+			yon = false;
 		}
 		
 		if( track_dz[hscp_track_idx[ihs]] >=0.5 ){
-			return 1;
+			yon = false;
 		}
 	
-		if(muon_isTrackerMuon[hscp_track_idx[ihs]]){
+		if(muon_isTrackerMuon[hscp_track_idx[ihs]] && yon){
 			candidates.push_back(ihs);
 			//cout << ihs << endl;
 		}
