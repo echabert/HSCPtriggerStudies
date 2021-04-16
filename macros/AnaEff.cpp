@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","MET_1025.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","MET_1020.root"); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 
 	
@@ -135,7 +135,7 @@ void AnaEff::Loop()
 		}	
 	}
 	ofstream InfosData;
-	InfosData.open ("AllInfosaod_1025.txt");
+	InfosData.open ("AllInfosaod_1020.txt");
 
 	InfosData << "Number of muons pairs found " << nbofpairs << "\n" << endl;
 
@@ -153,12 +153,12 @@ void AnaEff::Loop()
 	InfosData << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 
 
-	cout << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << endl << endl <<"Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
+	cout << "# muons as a pair close to Z/ number of pairs found : " << nbofpairsZ << " / " << nbofpairs << endl << endl <<"Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << endl << endl << "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 	InfosData.close();
-	trigEff_selection_obs.Compute("MET1025.txt");
+	trigEff_selection_obs.Compute("MET1020.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
