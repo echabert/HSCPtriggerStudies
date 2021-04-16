@@ -241,7 +241,7 @@ double AnaEff::MuonsInvariantMass(){
 	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
 	TLorentzVector mu1,mu2,sum;
 	double tram=5;
-	vector<TLorentzVector> mus,sums;
+	vector<TLorentzVector> mus;
 	vector<double> invmass;
 	bool yon=true,diff=true;
 	vector< pair<float, int > > muonPT,muonPHI,muonETA;
@@ -271,6 +271,7 @@ double AnaEff::MuonsInvariantMass(){
 		//cout << " Angle between the two muons :" << angle << endl; 
 		//cout << sum[0] << ", " << sum[1] << ", " << sum[2] << endl;
 		double armass = sum.M();
+
 		//cout << "invariant mass : " << armass << endl;	
 		return armass;
 	}
@@ -279,7 +280,7 @@ double AnaEff::MuonsInvariantMass(){
 		nbcomb = (fact(nmuons) / (fact(2) * fact(nmuons-2)) );
 		
 		mus.resize(nmuons);
-		sums.resize(nbcomb);
+		
 		
 		//cout << nmuons << " muons " << endl; 
 		for(int i = 0; i < nmuons ; i++){
@@ -301,7 +302,6 @@ double AnaEff::MuonsInvariantMass(){
 						if(diff){
 							mus[k].SetPtEtaPhiM(muonPT[k].first,muonETA[k].first,muonPHI[k].first,massMu);
 							binom.push_back(make_pair(j,k));
-							//sums[k] = mus[j] + mus[k];
 							invmass.push_back((mus[j]+mus[k]).M());
 						}
 					}
@@ -310,7 +310,7 @@ double AnaEff::MuonsInvariantMass(){
 			}
 		//}
 		mus.clear();
-		sums.clear();
+		
 		muonPT.clear();
 		muonETA.clear();
 		muonPHI.clear();
@@ -335,6 +335,13 @@ double AnaEff::MuonsInvariantMass(){
 		return armass;
 		}
 
+	mus.clear();
+	
+	muonPT.clear();
+	muonETA.clear();
+	muonPHI.clear();
+	binom.clear();
+	invmass.clear();
 	return 1;
 	//trigEff_selection_obs.MASS->Write();
 	
