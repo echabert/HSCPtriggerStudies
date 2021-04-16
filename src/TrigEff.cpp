@@ -324,7 +324,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	
 	ofstream TriggersOfInterest;
 	ofstream AllTriggers;
-	TriggersOfInterest.open ("MET1020.txt");
+	TriggersOfInterest.open ("MET1048.txt");
 	AllTriggers.open ("ListOfAllTriggersEff.txt");
 	
 	for (int i = 0; i < Efficiency.size(); i++){
