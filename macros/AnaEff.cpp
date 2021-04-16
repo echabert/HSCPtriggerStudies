@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","StudyMET_1-32.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","SingleMuon_aod.root"); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 
 	
@@ -153,7 +153,7 @@ void AnaEff::Loop()
 	InfosData << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 
 	InfosData.close();
-	trigEff_selection_obs.Compute("StudyMET_List_aod_1-32.txt");
+	trigEff_selection_obs.Compute("SingleMuon_List_aod.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
@@ -229,6 +229,82 @@ int AnaEff::Selection(){
 }
 
 
+
+double AnaEff::MuonsInvariantMass(){
+	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
+	TLorentzVector mu1,mu2,mu3,mu4,sum;
+	vector<int> candidates,order;
+	bool yon=true;
+	vector< pair<float, int > > muonPT,muonPHI,muonETA;
+
+	if (nmuons == 2){
+		//cout << "2 muons " << endl; 
+		c1phi = muon_phi[0];
+		c2phi = muon_phi[1];
+
+		c1eta = muon_eta[0];
+		c2eta = muon_eta[1];
+
+		c1pt = muon_pt[0];
+		c2pt = muon_pt[1];
+				
+		mu1.SetPtEtaPhiM(c1pt,c1eta,c1phi,massMu);
+		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
+
+		sum = mu1 + mu2;
+		double angle = mu1.Angle(mu2.Vect());
+		//cout << " Angle between the two muons :" << angle << endl; 
+		//cout << sum[0] << ", " << sum[1] << ", " << sum[2] << endl;
+		double armass = sum.M();
+		//cout << "invariant mass : " << armass << endl;	
+		return armass;
+	}
+
+	else if(nmuons >= 2){
+		//cout << nmuons << " muons " << endl; 
+		for(int i = 0; i < nmuons ; i++){
+			muonPT.push_back(make_pair(muon_pt[i],i));
+			muonETA.push_back(make_pair(muon_eta[i],i));
+			muonPHI.push_back(make_pair(muon_phi[i],i));
+		}
+		
+		sort(muonPT.rbegin(), muonPT.rend());
+		sort(muonETA.rbegin(), muonETA.rend());
+		sort(muonPHI.rbegin(), muonPHI.rend());
+		
+		
+		//cout << "Picking from 3 candidates" << endl;
+		//m plus proche du Z
+		//norme du vec p 
+	
+		c1pt = muonPT[0].first;
+		c2pt = muonPT[1].first;
+		
+		c1eta = muonETA[0].first;
+		c2eta = muonETA[1].first;
+
+		c1phi = muonPHI[0].first;
+		c2phi = muonPHI[1].first;
+		
+		mu1.SetPtEtaPhiM(c1pt,c1eta,c1phi,massMu);
+		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
+		double angle = mu1.Angle(mu2.Vect());
+		//cout << " Angle between the two muons :" << angle << endl; 
+		sum = mu1 + mu2;
+		double armass = sum.M();
+		//cout << "invariant mass of candidates: " << order[0] << " and " << order[1] << " = " << armass << endl;
+		
+		return armass;
+	}
+
+	candidates.clear();
+	return 1;
+	//trigEff_selection_obs.MASS->Write();
+	
+}
+
+
+/*
 
 double AnaEff::MuonsInvariantMass(){
 	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
@@ -378,6 +454,47 @@ double AnaEff::MuonsInvariantMass(){
 	//trigEff_selection_obs.MASS->Write();
 	
 }
+*/
+
+double AnaEff::IsolateMuons(const vector<bool> &passtrig){
+	vector<int> candidates;
+	int nbpairs=0;
+	double proba1,proba2;
+	vector<bool> ootm1,ootm2,combinedootm;
+	vector<double> inversebeta;
+
+	//----------------------------------------------------
+	// Associate reconstructed muon witgh triggered muon
+
+	//mhtFromJet
+	
+	//find two muons
+	// Check if they pass a given trigger
+	
+		
+		/*if(muon_isTrackerMuon[hscp_track_idx[ihs]]){
+			candidates.push_back(ihs);
+			inversebeta.push_back(muon_comb_inversebeta[hscp_track_idx[ihs]]);
+			
+			//cout << ihs << endl;
+		}*/
+		
+		
+	return 1;	
+
+	
+}
+
+
+
+
+
+
+
+
+
+
+
 
 double AnaEff::MuonInvariantMass(){
 	double InvariantMass,cpt,cphi,ceta;

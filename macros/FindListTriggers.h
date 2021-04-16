@@ -55,7 +55,10 @@ class ListNameTriggers
 
    Float_t	prescaleTrigger[1000];
    Bool_t	passTrigger[1000];
-
+   Int_t	nmuons;
+   Float_t      muon_phi[32];
+   Float_t      muon_eta[32];
+   Float_t      muon_pt[32];
    vector<string>* triggerName;
 
    
@@ -66,7 +69,10 @@ class ListNameTriggers
    TBranch        *b_passTrigger; //!
    TBranch        *b_prescaleTrigger;
    TBranch	  *b_triggerName;
-
+   TBranch        *b_nmuons;
+   TBranch        *b_muon_eta;   //!
+   TBranch        *b_muon_phi;
+   TBranch        *b_muon_pt;
 
  private : 
 
@@ -85,11 +91,11 @@ ListNameTriggers::ListNameTriggers(TTree *tree) : fChain(0) //constructeur
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
 	if (tree == 0) {
-		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1013.root"); 
+		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root"); 
 		if (!f || !f->IsOpen()) {
-			f = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1013.root"); 
+			f = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root"); 
 		}
-		TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1013.root:/stage"); 
+		TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root:/stage"); 
 		dir->GetObject("ttree",tree);
 
 	}
@@ -135,13 +141,15 @@ void ListNameTriggers::Init(TTree *tree)
    fCurrent = -1;
    fChain->SetMakeClass(1);
 
-
+   fChain->SetBranchAddress("nmuons", &nmuons, &b_nmuons);
    fChain->SetBranchAddress("ntrigger", &ntrigger, &b_ntrigger);
    fChain->SetBranchAddress("prescaleTrigger", prescaleTrigger, &b_prescaleTrigger);
    fChain->SetBranchAddress("nameTrigger", &triggerName, &b_triggerName);
    fChain->SetBranchAddress("passTrigger", passTrigger, &b_passTrigger); // & devant PT 1
    fChain->SetBranchAddress("nhscp", &nhscp, &b_nhscp);
-  
+   fChain->SetBranchAddress("muon_phi", muon_phi, &b_muon_phi);
+   fChain->SetBranchAddress("muon_eta", muon_eta, &b_muon_eta);
+   fChain->SetBranchAddress("muon_pt", muon_pt, &b_muon_pt);
 
  //  fChain->SetBranchAddress("hscp_muon_idx", hscp_muon_idx, &b_hscp_muon_idx); 
    Notify();

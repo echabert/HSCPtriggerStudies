@@ -89,6 +89,8 @@ public :
    Float_t      muon_phi[32];
    Float_t      muon_eta[32];
    Float_t      muon_pt[32];
+   Int_t	nmuons;
+
 
 
     // List of branches
@@ -123,6 +125,7 @@ public :
    TBranch        *b_muon_eta;   //!
    TBranch        *b_muon_phi;
    TBranch        *b_muon_pt;
+   TBranch        *b_nmuons;
 
    //--------------------------------------
    // Methods
@@ -139,6 +142,7 @@ public :
    virtual int      Selection();
    virtual double   MuonsInvariantMass();
    virtual double   MuonInvariantMass();
+   virtual double   IsolateMuons(const vector<bool> &passtrig);
 };
 
 
@@ -149,18 +153,19 @@ public :
 
 AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 {
+
 	//triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
 	if (tree == 0) {
-		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1032.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 ///opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/HSCPgluino_M-1600_TuneCP5_13TeV-pythia8/MC17_Gluino1600_runv3/210324_135858/0000
 
 ///home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_106.root
 	if (!f || !f->IsOpen()) {
-		f = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1032.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+		f = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 	}
-	TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1032.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
+	TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/SingleMuon/2017B/nt_data_aod-2.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
 	dir->GetObject("ttree",tree);
 
    }
@@ -213,7 +218,7 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("prescaleTrigger", prescaleTrigger, &b_prescaleTrigger);
 
    //fChain->SetBranchAddress("nameTrigger", &triggerName, &b_triggerName);
-
+   fChain->SetBranchAddress("nmuons", &nmuons, &b_nmuons);
    fChain->SetBranchAddress("passTrigger", passTrigger, &b_passTrigger); // & devant PT 1
    fChain->SetBranchAddress("runNumber", &runNumber, &b_runNumber);
    fChain->SetBranchAddress("event", &event, &b_event);

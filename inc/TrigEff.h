@@ -39,7 +39,7 @@ public:
 
    void LoadNoMap(const vector<string> &triggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string NameVar="a",string FileName="testnewdata.root");
 
-   void FillNoMap(const vector<bool> &passtrig, float Obs = 0.0, double weight = 1);
+   void FillNoMap(const vector<bool> &passtrig, float Obs = 0.0, double weight = 1,string mode = "all");
 
    void Compute(string NameOutputFile);
    

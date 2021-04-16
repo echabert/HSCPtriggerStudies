@@ -82,31 +82,25 @@ void ListNameTriggers::FindAllNames(){
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		testcount+=1;
-		 
-
 		
-		//if(TrigNames.size() < MapOfTriggerNames.size()){
-
-		/*for( auto it= MapOfTriggerNames.begin(); it != MapOfTriggerNames.end(); it++){
-			string transf = it->first;
-			//cout << transf << endl;  
-			auto itf = std::find( triggerName->begin() , triggerName->end(), transf);
-			//auto itf = find (triggerName->begin() , triggerName->end(), transf);
-			if(itf != triggerName->end()){
-			
-			}
-			else{
+		/*if(nhscp==2){
+			cout << "Entry[" << jentry << "]," << endl <<"-------------------------------------------------" << endl;
+			for(int i=0 ; i < nhscp ;i++){
+				cout << "candidate[" << i << "]," << endl <<"-------------------------------------------------" << endl;
+				for(int j=0; j < ntrigger ; j++){
+					if(passTrigger[j] == 1 )
+						cout << passTrigger[j] << " ," << j << endl;
+				}
 				
-				PrescaledTurnedBad << "Prescale " << it->first << " was not in event " << jentry << endl;
-
 			}
+		}
+		
+		cout << " EVENT ------- "<< jentry << "--------------- NMUONS : " << nmuons << endl;
+		for (int i = 0 ; i < nmuons ;i++){
+			cout << "muon" << i << " has pt = " << muon_pt[i] << " , phi = " << muon_phi[i] << " and eta = " << muon_eta[i] << endl;
+		}*/
 		
 
-					
-
-		}*/
-	//	PrescaledTurnedBad <<"------------------------------------------------" << endl;
-		//}
 
 		for(int i=0; i< ntrigger; i++){
 			//auto it = find(InfoTriggers.begin(), InfoTriggers.end(),triggerName->at(i));
@@ -130,54 +124,9 @@ void ListNameTriggers::FindAllNames(){
 					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
 				}
 			}
-			//auto it = std::find_if(InfoTriggers.begin(), InfoTriggers.end(), IsInList(triggerName->at(i)));
-
-			//
-			/*if(it != InfoTriggers.end()){
-				if(prescaleTrigger[i]!=1){
-					if(InfoTriggers[i].second.first == true && InfoTriggers[i].second.second == true){
-						PrescaledTurnedBad << "Entry " << jentry << " made prescale " << i << " false" << endl;
-					}
-					InfoTriggers[i] = make_pair(triggerName->at(i) , make_pair(false,true));
-				}
-			}
-			else{
-				if(prescaleTrigger[i]==1){
-					cout << "Added one vector to the map " << endl;
-					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(true,false)));
-
-					
-				}
-				else{
-					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
-				}
-			}*/
-
-
-/*
-			auto it = MapOfTriggerNames.find(triggerName->at(i));
-			if(it != MapOfTriggerNames.end()){
-				//cout << "Found " << TrigNames[i] << endl;
-				if(prescaleTrigger[i]!=1){
-					if(MapOfTriggerNames[triggerName->at(i)] == pair<bool, bool>(true,true)){
-						PrescaledTurnedBad << "Entry " << jentry << " made prescale " << i << " false" << endl;
-					}
-					MapOfTriggerNames[triggerName->at(i)] = make_pair<bool, bool>(false,true);	
-				}
-			}
-			else{
-				if(prescaleTrigger[i]==1){
-					cout << "Added one vector to the map " << endl;
-					MapOfTriggerNames.insert(pair<string,pair<bool, bool> > (triggerName->at(i),pair<bool, bool>(true,false)));
-				}
-				else{
-					MapOfTriggerNames.insert(pair<string,pair<bool, bool> > (triggerName->at(i),pair<bool, bool>(false,false)));
-				}
-			}*/
-
 		}
-		
 	}
+
 	for ( auto it = 0 ; it != InfoTriggers.size() ; it++){
 		CompleteList << InfoTriggers[it].first << endl;
 		if(InfoTriggers[it].second.first){
@@ -185,17 +134,12 @@ void ListNameTriggers::FindAllNames(){
 		}
 	}
 
-	/*for(auto itr = MapOfTriggerNames.begin(); itr != MapOfTriggerNames.end(); itr++){
-		CompleteList << itr->first << endl; //<< " " << itr->second.first << " " << itr->second.second
-		if(itr->second.first){
-			PrescaledSubList << itr->first << endl; //<< " " << itr->second.first << " " << itr->second.second
-		}	
-	}*/
 
 	CompleteList.close();
 	PrescaledSubList.close();
 	PrescaledTurnedBad.close();
 }
+
 
 
 
@@ -205,3 +149,5 @@ int main(){
 	c.FindAllNames();
 
 }
+
+

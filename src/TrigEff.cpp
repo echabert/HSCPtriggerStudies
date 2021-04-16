@@ -203,31 +203,42 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 //***************************************************************************************************************************
 
 
-void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight){  
-	bool trig1,trig2;
-	for(int i = 0; i < TestNoMap.size()  ;i++){
-		trig1 = passtrig.at(TestNoMap[i].second);
-		DenomEfficiency[TestNoMap[i].second]+=1;
-		if(trig1){
-			NumEfficiency[TestNoMap[i].second]+=1;
-		}
+void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight,string mode){  
+	if(mode== "all"){
+		bool trig1,trig2;
+		for(int i = 0; i < TestNoMap.size()  ;i++){
+			trig1 = passtrig.at(TestNoMap[i].second);
+			DenomEfficiency[TestNoMap[i].second]+=1;
+			if(trig1){
+				NumEfficiency[TestNoMap[i].second]+=1;
+			}
 
-		for(int j = 0; j < TestNoMap.size()  ;j++){
-			trig2 = passtrig.at(TestNoMap[j].second);
-			if(trig1 || trig2){
-				DenomCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
-			}
-			if(trig1 && trig2){
-				NumCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
-			}
+			for(int j = 0; j < TestNoMap.size()  ;j++){
+				trig2 = passtrig.at(TestNoMap[j].second);
+				if(trig1 || trig2){
+					DenomCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
+				}
+				if(trig1 && trig2){
+					NumCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
+				}
 	
+			}
 		}
-	}
 
-	if(Obs!=0.0){
-		for(int i = 0 ; i < TestNoMap.size(); i++){
-			//cout << "filled passtrig :" << i << "with value " << passtrig[i] << "and obs = " << Obs << endl;
-			EffvsObs[i]->TEfficiency::Fill(passtrig[TestNoMap[i].second],Obs);
+		if(Obs!=0.0){
+			for(int i = 0 ; i < TestNoMap.size(); i++){
+				//cout << "filled passtrig :" << i << "with value " << passtrig[i] << "and obs = " << Obs << endl;
+				EffvsObs[i]->TEfficiency::Fill(passtrig[TestNoMap[i].second],Obs);
+			}
+		}
+
+	}
+	if(mode == "muon"){
+		bool trigmu1,trigmu2;
+		for(int i = 0; i < TestNoMap.size()  ;i++){
+		
+			trigmu1 = passtrig.at(TestNoMap[i].second);
+
 		}
 	}
 }
@@ -442,7 +453,6 @@ void TrigEff::FitSignal(){
 	for(int x = 50; x < 70 ; x++){
 		FITSIG->SetBinContent(x,0);
 		FITBG2->SetBinContent(x,tab[x]);
-		//cout << "bin " << x << " = " << tab[x] << endl;
 	}
 	
 	for(int x = 40 ; x < 50 ; x++){
@@ -468,6 +478,11 @@ void TrigEff::FitSignal(){
 	FITBG->Write();
 	FITSIG->Write();
 }
+
+
+
+
+
 
 void TrigEff::Compute(string NameOutputFile){
 	
