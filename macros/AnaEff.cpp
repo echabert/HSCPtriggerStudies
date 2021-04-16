@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","SingleMuon_aod.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","MET_1024.root"); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 
 	
@@ -119,9 +119,6 @@ void AnaEff::Loop()
 		vector<Bool_t> vtrigger; //Convert array into vector
 		float HighestPT,HighestMuonPT,HighestMET;
 		indexcandidate=Selection();
-		if(indexcandidate == 64){
-			//cout << "broke" << endl;
-		}
 		if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
@@ -161,7 +158,7 @@ void AnaEff::Loop()
 	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << endl << endl << "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 	InfosData.close();
-	trigEff_selection_obs.Compute("SingleMuon_List_aod.txt");
+	trigEff_selection_obs.Compute("MET1024.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
@@ -251,7 +248,10 @@ double AnaEff::MuonsInvariantMass(){
 	vector< pair<int, int > > binom;
 	int nbcomb,pom=0;
 	
-	if (nmuons == 2){
+	if(nmuons < 2){
+		return 1;
+	}
+	else if (nmuons == 2){
 		
 		//cout << "2 muons " << endl; 
 		c1phi = muon_phi[0];
@@ -267,7 +267,7 @@ double AnaEff::MuonsInvariantMass(){
 		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
 
 		sum = mu1 + mu2;
-		double angle = mu1.Angle(mu2.Vect());
+		//double angle = mu1.Angle(mu2.Vect());
 		//cout << " Angle between the two muons :" << angle << endl; 
 		//cout << sum[0] << ", " << sum[1] << ", " << sum[2] << endl;
 		double armass = sum.M();
