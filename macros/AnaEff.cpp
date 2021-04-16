@@ -333,36 +333,6 @@ double AnaEff::MuonsInvariantMass(){
 		
 		invmass.clear();
 		return armass;
-		//cout << "From " << nmuons << " , " << nbcomb << " choices : " << endl;
-		/*for (int j = 0 ; j < binom.size() ; j++){
-			cout << "["<< binom[j].first << "," << binom[j].second << "]" << endl;
-			cout << invmass[j] << endl;
-
-		}*/
-		
-		
-		//cout << "Picking from 3 candidates" << endl;
-		//m plus proche du Z
-		//norme du vec p 
-	
-		/*c1pt = muonPT[0].first;
-		c2pt = muonPT[1].first;
-		
-		c1eta = muonETA[0].first;
-		c2eta = muonETA[1].first;
-
-		c1phi = muonPHI[0].first;
-		c2phi = muonPHI[1].first;
-		
-		mu1.SetPtEtaPhiM(c1pt,c1eta,c1phi,massMu);
-		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
-		double angle = mu1.Angle(mu2.Vect());
-		//cout << " Angle between the two muons :" << angle << endl; 
-		sum = mu1 + mu2;
-		double armass = sum.M();
-		//cout << "invariant mass of candidates: " << order[0] << " and " << order[1] << " = " << armass << endl;
-		
-		return armass;*/
 		}
 
 	return 1;
@@ -528,36 +498,9 @@ double AnaEff::IsolateMuons(const vector<bool> &passtrig){
 	int nbpairs=0;
 	double proba1,proba2;
 	vector<bool> ootm1,ootm2,combinedootm;
-	vector<double> inversebeta;
-
-	//----------------------------------------------------
-	// Associate reconstructed muon witgh triggered muon
-
-	//mhtFromJet
-	
-	//find two muons
-	// Check if they pass a given trigger
-	
-		
-		/*if(muon_isTrackerMuon[hscp_track_idx[ihs]]){
-			candidates.push_back(ihs);
-			inversebeta.push_back(muon_comb_inversebeta[hscp_track_idx[ihs]]);
-			
-			//cout << ihs << endl;
-		}*/
-		
-		
+	vector<double> inversebeta;	
 	return 1;	
-
-	
 }
-
-
-
-
-
-
-
 
 
 
