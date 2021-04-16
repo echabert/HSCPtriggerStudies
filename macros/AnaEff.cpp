@@ -92,7 +92,7 @@ void AnaEff::Loop()
 	SubListMET.clear();
 	SubListPT.clear();
 
-	int counter=0,passedevent=0,nbofpairs=0;
+	int counter=0,passedevent=0,nbofpairs=0,nbofpairsZ=0,nbmuons=0;
 	int indexcandidate;
 	double InvMass;
 	//nentries=30;
@@ -106,11 +106,14 @@ void AnaEff::Loop()
 
 		//double IsoInvMass = MuonInvariantMass();
 		if(InvMass!=1){
+			if(InvMass < massZ + 5 && InvMass > massZ - 5){
+				nbofpairsZ+=1;
+			}
 			//cout << InvMass << endl;
 			nbofpairs+=1;
 			trigEff_selection_obs.FillMass(InvMass,1);
 		}
-		
+		nbmuons+=nmuons;
 		counter+=1;
 		
 		vector<Bool_t> vtrigger; //Convert array into vector
@@ -143,14 +146,19 @@ void AnaEff::Loop()
 
 
 	double ratio = passedevent*1.0/counter;
+
 	cout << "Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << "\n" << endl;
 
 	InfosData << "Number of candidates that passed the selection : " << passedevent << " , total number : " << nentries << "\n" << endl;
 
-
 	cout << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 	
 	InfosData << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
+
+
+	cout << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << endl << endl <<"Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
+
+	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << endl << endl << "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 	InfosData.close();
 	trigEff_selection_obs.Compute("SingleMuon_List_aod.txt");
@@ -228,16 +236,23 @@ int AnaEff::Selection(){
 
 }
 
-
+int AnaEff::fact(int n){
+     return (n==0) || (n==1) ? 1 : n* fact(n-1);
+}
 
 double AnaEff::MuonsInvariantMass(){
 	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
-	TLorentzVector mu1,mu2,mu3,mu4,sum;
-	vector<int> candidates,order;
-	bool yon=true;
+	TLorentzVector mu1,mu2,sum;
+	double tram=5;
+	vector<TLorentzVector> mus,sums;
+	vector<double> invmass;
+	bool yon=true,diff=true;
 	vector< pair<float, int > > muonPT,muonPHI,muonETA;
-
+	vector< pair<int, int > > binom;
+	int nbcomb,pom=0;
+	
 	if (nmuons == 2){
+		
 		//cout << "2 muons " << endl; 
 		c1phi = muon_phi[0];
 		c2phi = muon_phi[1];
@@ -247,7 +262,7 @@ double AnaEff::MuonsInvariantMass(){
 
 		c1pt = muon_pt[0];
 		c2pt = muon_pt[1];
-				
+		
 		mu1.SetPtEtaPhiM(c1pt,c1eta,c1phi,massMu);
 		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
 
@@ -260,24 +275,77 @@ double AnaEff::MuonsInvariantMass(){
 		return armass;
 	}
 
-	else if(nmuons >= 2){
+	else if(nmuons > 2){
+		nbcomb = (fact(nmuons) / (fact(2) * fact(nmuons-2)) );
+		
+		mus.resize(nmuons);
+		sums.resize(nbcomb);
+		
 		//cout << nmuons << " muons " << endl; 
 		for(int i = 0; i < nmuons ; i++){
 			muonPT.push_back(make_pair(muon_pt[i],i));
 			muonETA.push_back(make_pair(muon_eta[i],i));
 			muonPHI.push_back(make_pair(muon_phi[i],i));
 		}
+		//for(int h = 0 ; h < sums.size() ; h++){
+			for(int j = 0 ; j < nmuons ; j++){
+				mus[j].SetPtEtaPhiM(muonPT[j].first,muonETA[j].first,muonPHI[j].first,massMu);
+				for(int k = 0; k < nmuons ; k++){
+					if(k!=j){
+						diff=true;
+						for(int s = 0; s < binom.size() ; s++){
+							if(binom[s].first == k && binom[s].second == j){
+								diff=false;
+							}
+						}
+						if(diff){
+							mus[k].SetPtEtaPhiM(muonPT[k].first,muonETA[k].first,muonPHI[k].first,massMu);
+							binom.push_back(make_pair(j,k));
+							//sums[k] = mus[j] + mus[k];
+							invmass.push_back((mus[j]+mus[k]).M());
+						}
+					}
+				}
+			
+			}
+		//}
+		mus.clear();
+		sums.clear();
+		muonPT.clear();
+		muonETA.clear();
+		muonPHI.clear();
+		binom.clear();
+		//cout << "-------------------------------------------" << invmass.size() << endl;
+		for (int u = 0; u < invmass.size() ; u++){
+			//cout << invmass[u] << endl;
+			if((abs(invmass[u]-massZ)) < tram){
+				pom=u;
+				tram=abs(invmass[u]-massZ);
+				//cout << pom << " ," << invmass[pom] << endl;
+				//cout << tram << endl;
+			}
+		}
+		double armass = invmass[pom];
+
+		//sort(invmass.rbegin(),invmass.rend());
+		//cout << invmass[0] << endl;
+		//cout << pom << " ," << armass << endl;
 		
-		sort(muonPT.rbegin(), muonPT.rend());
-		sort(muonETA.rbegin(), muonETA.rend());
-		sort(muonPHI.rbegin(), muonPHI.rend());
+		invmass.clear();
+		return armass;
+		//cout << "From " << nmuons << " , " << nbcomb << " choices : " << endl;
+		/*for (int j = 0 ; j < binom.size() ; j++){
+			cout << "["<< binom[j].first << "," << binom[j].second << "]" << endl;
+			cout << invmass[j] << endl;
+
+		}*/
 		
 		
 		//cout << "Picking from 3 candidates" << endl;
 		//m plus proche du Z
 		//norme du vec p 
 	
-		c1pt = muonPT[0].first;
+		/*c1pt = muonPT[0].first;
 		c2pt = muonPT[1].first;
 		
 		c1eta = muonETA[0].first;
@@ -294,10 +362,9 @@ double AnaEff::MuonsInvariantMass(){
 		double armass = sum.M();
 		//cout << "invariant mass of candidates: " << order[0] << " and " << order[1] << " = " << armass << endl;
 		
-		return armass;
-	}
+		return armass;*/
+		}
 
-	candidates.clear();
 	return 1;
 	//trigEff_selection_obs.MASS->Write();
 	

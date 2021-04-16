@@ -76,6 +76,7 @@ void ListNameTriggers::FindAllNames(){
 	
 	PrescaledTurnedBad << "----------------------------------------------------------------\n ----------------------------------------------------------------\n " << endl;
 	
+	
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%5000==0) cout << "Still here " << endl;
@@ -99,6 +100,8 @@ void ListNameTriggers::FindAllNames(){
 		for (int i = 0 ; i < nmuons ;i++){
 			cout << "muon" << i << " has pt = " << muon_pt[i] << " , phi = " << muon_phi[i] << " and eta = " << muon_eta[i] << endl;
 		}*/
+
+		
 		
 
 
