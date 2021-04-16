@@ -324,7 +324,8 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	
 	ofstream TriggersOfInterest;
 	ofstream AllTriggers;
-	TriggersOfInterest.open ("MET1048.txt");
+	
+	TriggersOfInterest.open (NameOutputFile.c_str());
 	AllTriggers.open ("ListOfAllTriggersEff.txt");
 	
 	for (int i = 0; i < Efficiency.size(); i++){
@@ -363,7 +364,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 
 void TrigEff::PrintNumEff(){
 	for ( int i = 0; i < NumEfficiency.size(); i++ ){
-      		cout << NumEfficiency[i] << endl ;
+      		cout << NumEfficiency[i] << " / " << DenomEfficiency[i] << endl ;
 	}	
 }
 
@@ -493,7 +494,7 @@ void TrigEff::Compute(string NameOutputFile){
 	//PrintDenomEff();
 	//PrintEff();
 
-	SaveIntTrigs(NameOutputFile.c_str());
+	SaveIntTrigs(NameOutputFile);
 
 	ComputeCorr();
 

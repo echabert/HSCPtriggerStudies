@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","MET_1048.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","AOD_1.root"); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 
 	
@@ -135,7 +135,7 @@ void AnaEff::Loop()
 		}	
 	}
 	ofstream InfosData;
-	InfosData.open ("AllInfosaod_1048.txt");
+	InfosData.open ("AllInfosaod_1.txt");
 
 	InfosData << "Number of muons pairs found " << nbofpairs << "\n" << endl;
 
@@ -158,7 +158,7 @@ void AnaEff::Loop()
 	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << endl << endl << "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 	InfosData.close();
-	trigEff_selection_obs.Compute("MET1048.txt");
+	trigEff_selection_obs.Compute("AOD1.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
@@ -193,7 +193,7 @@ int AnaEff::Selection(){
 		if( ndedxhits <= 5 ){
 			yon=false;
 		}
-		if( track_pt[hscp_track_idx[ihs]] <= 10 ){ //55
+		if( track_pt[hscp_track_idx[ihs]] <= 50 ){ //55
 			yon=false;
 		}
 		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
