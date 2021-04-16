@@ -235,11 +235,11 @@ void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight,s
 	}
 	if(mode == "muon"){
 		bool trigmu1,trigmu2;
-		for(int i = 0; i < TestNoMap.size()  ;i++){
+		//for(int i = 0; i < TestNoMap.size()  ;i++){
 		
-			trigmu1 = passtrig.at(TestNoMap[i].second);
+		//trigmu1 = passtrig.at(TestNoMap[i].second);
 
-		}
+		//}
 	}
 }
 
@@ -324,7 +324,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	
 	ofstream TriggersOfInterest;
 	ofstream AllTriggers;
-	TriggersOfInterest.open (NameOutputFile.c_str());
+	TriggersOfInterest.open ("MET1025.txt");
 	AllTriggers.open ("ListOfAllTriggersEff.txt");
 	
 	for (int i = 0; i < Efficiency.size(); i++){
@@ -346,7 +346,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	for (int i = 0; i < TestNoMap.size(); i++){ 	
 		TransferVec.push_back(make_pair(make_pair(Efficiency[TestNoMap[i].second],TestNoMap[i].second), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second])));
 		cout << setprecision (8) << (TransferVec[i].first.first)*100 << "\t\t" << setprecision (8) << (TransferVec[i].second.first)*100 << "\t\t" << TransferVec[i].second.second << endl; 		
-		TriggersOfInterest <<  TransferVec[i].first.first*100 << " " << TransferVec[i].second.first*100 << " " << TransferVec[i].second.second << "\n";
+		TriggersOfInterest << (TransferVec[i].first.first)*100 << " " << (TransferVec[i].second.first)*100 << " " << TransferVec[i].second.second << "\n";
     	}
 
 	//sort(TransferVec.begin(), TransferVec.end());
@@ -354,12 +354,11 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	/*for(int i = 0; i < TransferVec.size(); i++){ 
 		TriggersOfInterest <<  TransferVec[i].first.first*100 << " " << TransferVec[i].second.first*100 << " " << TransferVec[i].second.second << "\n"; //TestNoMap[i].second
 	}*/
+
 	TransferVec.clear();
 	TriggersOfInterest.close();
 
-	//else{
-	//	cout << "File .txt was not opened, aborting" << endl;
-	//}
+	
 }
 
 void TrigEff::PrintNumEff(){
