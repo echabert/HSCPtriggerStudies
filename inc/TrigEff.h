@@ -45,7 +45,7 @@ public:
    
    //void CreateHisto(string NameVar="random", const vector<string> &SelectedTriggerNames);
 
-   void WritePlots(string NameVar="a"); // format latex TFile* OutputHisto
+   void WritePlots(string NameVar="a",string NameOfFile="a.root"); // format latex TFile* OutputHisto
 
    void FillMass(double INVMASS,int choice= 1);
 
@@ -110,6 +110,10 @@ public:
 
 
    TFile* OutputHisto;
+   //TFile* f2;
+   //TFile* output;
+   //TFile* file;
+
 
    TH1D* EFF_TRIG;
    TH1D* EFF_DISTRIB;
@@ -131,6 +135,8 @@ public:
    
    string NameObs;
    string FileName;
+   string NameOfFile;
+
 
    string NameOutputFile;
    float Obs; // observable 

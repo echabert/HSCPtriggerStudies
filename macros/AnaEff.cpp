@@ -21,6 +21,7 @@
 #include <TMath.h>
 
 
+
 using namespace std;
 
 const double massZ = 91.1876;
@@ -31,7 +32,7 @@ const double uncertaintyMu = 0.0000000024;
 
 void AnaEff::Loop()
 {
-
+	
 	Long64_t nentries = fChain->GetEntriesFast();
 	Long64_t nbytes = 0, nb = 0, nbi = 0;
 
@@ -78,14 +79,13 @@ void AnaEff::Loop()
 	}
 	inttrigs.close();
 
-	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","MET_1015.root"); 
+	string NameOfFile="MET_1015.root";
+	string NameOfTxt="AllInfosMET_1015.txt";
+	string NameOfEff="MET_1015.txt";
+
+
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET",NameOfFile); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
-
-	
-
-	//trigEff_selection_obs.Load(triggerNames,str,1,"entered","PT","test_PT.root");
-	//trigEff_presel.Load(triggerNames,SubListMET,1,"entered","MET","test_MET.root"); 
 
 	
 	str.clear();
@@ -127,15 +127,13 @@ void AnaEff::Loop()
 				vtrigger.push_back(passTrigger[i]);
 			}
 			passedevent+=1;
-			//trigEff_selection_obs.Fill(vtrigger,HighestPT);
-			//trigEff_presel.Fill(vtrigger,HighestMET);
-			
+		
 			trigEff_selection_obs.FillNoMap(vtrigger,HighestMET,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
 	ofstream InfosData;
-	InfosData.open ("AllInfosaod_1015.txt");
+	InfosData.open (NameOfTxt);
 
 	InfosData << "Number of muons pairs found " << nbofpairs << "\n" << endl;
 
@@ -158,12 +156,15 @@ void AnaEff::Loop()
 	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << endl << endl << "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 	InfosData.close();
-	trigEff_selection_obs.Compute("MET1015.txt");
+	trigEff_selection_obs.Compute(NameOfEff);
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
 	
-	trigEff_selection_obs.WritePlots("");
+	trigEff_selection_obs.WritePlots("",NameOfFile);
+
+	
+	
 	//trigEff_presel.WritePlots("");
 
 }

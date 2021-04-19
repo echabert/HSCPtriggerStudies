@@ -16,7 +16,9 @@
 #include <TPad.h>
 #include <TCanvas.h>
 #include <TROOT.h> 
-
+#include <TTree.h>
+#include <TFile.h>
+#include <TEntryList.h>
 
 using namespace std;
 
@@ -386,7 +388,7 @@ void TrigEff::ComputeError(){
 	}
 }
 
-void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
+void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	OutputHisto->cd();
 	//gDirectory->mkdir("MET");
 	//OutputHisto->mkdir("MET");
@@ -406,7 +408,63 @@ void TrigEff::WritePlots(string NameVar){ //TFile* OutputHisto
 	//CORR->SetDirectory("Correlations");
 	CORR->Write();
 	MASS->Write();
+
+	
+
+
+	
 	OutputHisto->Close();
+
+
+	
+	
+	
+	TString Cuts = "nmuons>2";
+	
+	TFile *file = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root");
+	cout << "after opening .root file" << endl;
+
+	TTree *ntuple = (TTree*) file->Get("T");
+
+	TFile *f2 = new TFile("small.root","recreate");
+	cout << "before CopyTree" << endl;
+
+	//TTree *small = ntuple->CopyTree("nmuons>2");
+
+   	
+	cout << "after SetBranchStatus" << endl;
+
+	
+
+	//TFile *newfile = new TFile("small.root","recreate");
+	cout << "after small.root" << endl;
+	//TTree *newtree = oldtree->CloneTree();
+
+	cout << "after clone" << endl;
+
+
+	
+	//TTree *oldtree = (TTree*)file->Get("T");
+
+	
+	ntuple->Print();
+	
+	//newfile->Write();
+	
+	delete file;
+	//delete newfile;
+	//gROOT->cd();
+
+	
+
+	/*TTree* originalTree = (TTree*) OutputHisto->Get("reducedTree");
+
+	f2 = TFile::Open("small.root","RECREATE");
+
+	TTree* selectedTree = originalTree->CopyTree("nmuons>2");
+
+
+	f2->Close();*/
 }
 
 void TrigEff::FillMass(double INVMASS,int choice){
