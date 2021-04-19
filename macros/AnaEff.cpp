@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","AOD_1.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","MET_1033.root"); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 
 	
@@ -135,7 +135,7 @@ void AnaEff::Loop()
 		}	
 	}
 	ofstream InfosData;
-	InfosData.open ("AllInfosaod_1.txt");
+	InfosData.open ("AllInfosaod_1033.txt");
 
 	InfosData << "Number of muons pairs found " << nbofpairs << "\n" << endl;
 
@@ -158,7 +158,7 @@ void AnaEff::Loop()
 	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << endl << endl << "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 	InfosData.close();
-	trigEff_selection_obs.Compute("AOD1.txt");
+	trigEff_selection_obs.Compute("MET1033.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
@@ -240,7 +240,7 @@ int AnaEff::fact(int n){
 double AnaEff::MuonsInvariantMass(){
 	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
 	TLorentzVector mu1,mu2,sum;
-	double tram=5;
+	double tram;
 	vector<TLorentzVector> mus;
 	vector<double> invmass;
 	bool yon=true,diff=true;
@@ -316,15 +316,17 @@ double AnaEff::MuonsInvariantMass(){
 		muonPHI.clear();
 		binom.clear();
 		//cout << "-------------------------------------------" << invmass.size() << endl;
+		tram = abs(invmass[0]-massZ);
 		for (int u = 0; u < invmass.size() ; u++){
-			//cout << invmass[u] << endl;
+			//cout << "--------------" << invmass[u] << endl;
 			if((abs(invmass[u]-massZ)) < tram){
 				pom=u;
 				tram=abs(invmass[u]-massZ);
 				//cout << pom << " ," << invmass[pom] << endl;
-				//cout << tram << endl;
+				//cout << "mass-mZ : " << tram << endl;
 			}
 		}
+		//cout << invmass[pom] << endl;
 		double armass = invmass[pom];
 
 		//sort(invmass.rbegin(),invmass.rend());

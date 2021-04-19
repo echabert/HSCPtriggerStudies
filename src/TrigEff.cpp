@@ -461,7 +461,7 @@ void TrigEff::FitSignal(){
 		FITBG->SetBinError(x,0);
 	}
 	
-	FITSIG->Fit("gaus"); 
+	FITSIG->Fit("gaus");
 	double IntegralGauss = FITSIG->Integral(40,50, "width");
 
 
