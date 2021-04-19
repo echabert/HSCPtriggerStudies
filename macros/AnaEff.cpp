@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	inttrigs.close();
 
 	//cout << "avant loadnomap" << endl;
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","MET_1033.root"); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET","MET_1015.root"); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 
 	
@@ -135,7 +135,7 @@ void AnaEff::Loop()
 		}	
 	}
 	ofstream InfosData;
-	InfosData.open ("AllInfosaod_1033.txt");
+	InfosData.open ("AllInfosaod_1015.txt");
 
 	InfosData << "Number of muons pairs found " << nbofpairs << "\n" << endl;
 
@@ -158,7 +158,7 @@ void AnaEff::Loop()
 	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << endl << endl << "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 	InfosData.close();
-	trigEff_selection_obs.Compute("MET1033.txt");
+	trigEff_selection_obs.Compute("MET1015.txt");
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
@@ -252,63 +252,73 @@ double AnaEff::MuonsInvariantMass(){
 		return 1;
 	}
 	else if (nmuons == 2){
+		if(muon_pt[0] >= 10 && muon_pt[1] >= 10){
+			//cout << "2 muons " << endl; 
+			c1phi = muon_phi[0];
+			c2phi = muon_phi[1];
+
+			c1eta = muon_eta[0];
+			c2eta = muon_eta[1];
+
+			c1pt = muon_pt[0];
+			c2pt = muon_pt[1];
 		
-		//cout << "2 muons " << endl; 
-		c1phi = muon_phi[0];
-		c2phi = muon_phi[1];
+			mu1.SetPtEtaPhiM(c1pt,c1eta,c1phi,massMu);
+			mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
 
-		c1eta = muon_eta[0];
-		c2eta = muon_eta[1];
+			sum = mu1 + mu2;
+			//double angle = mu1.Angle(mu2.Vect());
+			//cout << " Angle between the two muons :" << angle << endl; 
+			//cout << sum[0] << ", " << sum[1] << ", " << sum[2] << endl;
+			double armass = sum.M();
 
-		c1pt = muon_pt[0];
-		c2pt = muon_pt[1];
-		
-		mu1.SetPtEtaPhiM(c1pt,c1eta,c1phi,massMu);
-		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
-
-		sum = mu1 + mu2;
-		//double angle = mu1.Angle(mu2.Vect());
-		//cout << " Angle between the two muons :" << angle << endl; 
-		//cout << sum[0] << ", " << sum[1] << ", " << sum[2] << endl;
-		double armass = sum.M();
-
-		//cout << "invariant mass : " << armass << endl;	
-		return armass;
+			//cout << "invariant mass : " << armass << endl;	
+			return armass;
+		}
+		else{
+			return 1;
+		}
 	}
 
 	else if(nmuons > 2){
 		nbcomb = (fact(nmuons) / (fact(2) * fact(nmuons-2)) );
 		
-		mus.resize(nmuons);
 		
 		
+		//&& muon_pt[j] >= 10 && muon_pt[k] >= 10
 		//cout << nmuons << " muons " << endl; 
 		for(int i = 0; i < nmuons ; i++){
-			muonPT.push_back(make_pair(muon_pt[i],i));
-			muonETA.push_back(make_pair(muon_eta[i],i));
-			muonPHI.push_back(make_pair(muon_phi[i],i));
+			if(muon_pt[i] > 10){
+				muonPT.push_back(make_pair(muon_pt[i],i));
+				muonETA.push_back(make_pair(muon_eta[i],i));
+				muonPHI.push_back(make_pair(muon_phi[i],i));
+			}
+
 		}
-		//for(int h = 0 ; h < sums.size() ; h++){
-			for(int j = 0 ; j < nmuons ; j++){
-				mus[j].SetPtEtaPhiM(muonPT[j].first,muonETA[j].first,muonPHI[j].first,massMu);
-				for(int k = 0; k < nmuons ; k++){
-					if(k!=j){
-						diff=true;
-						for(int s = 0; s < binom.size() ; s++){
-							if(binom[s].first == k && binom[s].second == j){
-								diff=false;
-							}
-						}
-						if(diff){
-							mus[k].SetPtEtaPhiM(muonPT[k].first,muonETA[k].first,muonPHI[k].first,massMu);
-							binom.push_back(make_pair(j,k));
-							invmass.push_back((mus[j]+mus[k]).M());
+		if(muonPT.size() < 2){
+			return 1;
+		}
+		mus.resize(muonPT.size());
+		for(int j = 0 ; j < muonPT.size() ; j++){
+			mus[j].SetPtEtaPhiM(muonPT[j].first,muonETA[j].first,muonPHI[j].first,massMu);
+			for(int k = 0; k < muonPT.size() ; k++){
+				if(k!=j){
+					diff=true;
+					for(int s = 0; s < binom.size() ; s++){
+						if(binom[s].first == k && binom[s].second == j){
+							diff=false;
 						}
 					}
+					if(diff){
+						mus[k].SetPtEtaPhiM(muonPT[k].first,muonETA[k].first,muonPHI[k].first,massMu);
+						binom.push_back(make_pair(j,k));
+						invmass.push_back((mus[j]+mus[k]).M());
+					}
 				}
-			
 			}
-		//}
+			
+		}
+		
 		mus.clear();
 		
 		muonPT.clear();
