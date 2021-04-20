@@ -426,28 +426,18 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 
 	TTree *ntuple = (TTree*) file->Get("T");
 
+
 	TFile *f2 = new TFile("small.root","recreate");
+
 	cout << "before CopyTree" << endl;
 
 	//TTree *small = ntuple->CopyTree("nmuons>2");
 
-   	
-	cout << "after SetBranchStatus" << endl;
-
-	
-
-	//TFile *newfile = new TFile("small.root","recreate");
-	cout << "after small.root" << endl;
 	//TTree *newtree = oldtree->CloneTree();
 
 	cout << "after clone" << endl;
-
-
 	
-	//TTree *oldtree = (TTree*)file->Get("T");
-
-	
-	ntuple->Print();
+	//ntuple->Write();
 	
 	//newfile->Write();
 	
