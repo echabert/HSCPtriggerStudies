@@ -14,7 +14,14 @@
 using namespace std; 
 
 CopyTree::CopyTree(){
-	
+	file = 0;
+	f2 = 0;
+	file2 = 0;
+	f22 = 0;
+	file3 = 0;
+	f23 = 0;
+	file4 = 0;
+	f24 = 0;
 	/*for(int i=0; i < ListTriggers.size() ; i++){
 		EffvsObs[i]=0;
 	}*/
