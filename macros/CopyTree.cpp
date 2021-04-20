@@ -70,6 +70,7 @@ void CopyTree::CopyWithSelec(){
 
 	TTree *small = ntuple->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0]>10 && muon_pt[1] > 10 && muon_eta[0] < 2.1 && muon_eta[0] > -2.1 && ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]");
 
+	cout << " Copied file 1" << endl;
 
 	file2 = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1062.root");
 	TTree *ntuple2 = (TTree*) file2->Get("stage/ttree");
@@ -78,7 +79,7 @@ void CopyTree::CopyWithSelec(){
 
 	TTree *small2 = ntuple2->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0]>10 && muon_pt[1] > 10 && muon_eta[0] < 2.1 && muon_eta[0] > -2.1 && ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]");
 
-
+	cout << " Copied file 2" << endl;
 
 	file3 = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1059.root");
 	TTree *ntuple3 = (TTree*) file3->Get("stage/ttree");
@@ -88,8 +89,8 @@ void CopyTree::CopyWithSelec(){
 	
 	TTree *small3 = ntuple3->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0]>10 && muon_pt[1] > 10 && muon_eta[0] < 2.1 && muon_eta[0] > -2.1 && ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]");
 
-
-
+	cout << " Copied file 3" << endl;
+	
 
 	file4 = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1058.root");
 	TTree *ntuple4 = (TTree*) file4->Get("stage/ttree");
@@ -98,8 +99,17 @@ void CopyTree::CopyWithSelec(){
 
 	TTree *small4 = ntuple4->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0]>10 && muon_pt[1] > 10 && muon_eta[0] < 2.1 && muon_eta[0] > -2.1 && ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]");
 
-
+	cout << " Copied file 4" << endl;
 	
+	f2->Write();
+	f22->Write();
+	f23->Write();
+	f24->Write();
+	
+	f2->Close();
+	f22->Close();
+	f23->Close();
+	f24->Close();
 }
 
 

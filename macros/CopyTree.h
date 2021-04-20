@@ -18,19 +18,12 @@ using namespace std;
 class CopyTree
 {
  public :
-
-
-   //----------------------------------------
-   //----------------METHODS ----------------
-   //----------------------------------------
    
    CopyTree();
    ~CopyTree();
 
    
    virtual void	    CopyWithSelec();
-
-   // Declaration of leaf types
 
 
  private : 
