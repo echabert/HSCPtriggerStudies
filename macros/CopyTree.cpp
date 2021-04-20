@@ -101,10 +101,15 @@ void CopyTree::CopyWithSelec(){
 
 	cout << " Copied file 4" << endl;
 	
-	f2->Write();
-	f22->Write();
-	f23->Write();
-	f24->Write();
+	ntuple->Write();
+	ntuple2->Write();
+	ntuple3->Write();
+	ntuple4->Write();
+	
+	//f2->Write();
+	//f22->Write();
+	//f23->Write();
+	//f24->Write();
 	
 	f2->Close();
 	f22->Close();
