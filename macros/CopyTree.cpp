@@ -158,7 +158,7 @@ void CopyTree::CopyWithSelec(string mode){
 int main(){
 
 	CopyTree c;
-	c.CopyWithSelec("norm");
+	c.CopyWithSelec("aod");
 
 }
 
