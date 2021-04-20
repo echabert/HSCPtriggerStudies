@@ -421,13 +421,19 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	
 	//TString Cuts = "nmuons>2";
 	
-	TFile *file = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1059.root");
+	TFile *file = new TFile("/home/raph/CMS/nt_data_aod.root");
 
-	TTree *ntuple = (TTree*) file->Get("ntuple");
+	TTree *ntuple = (TTree*) file->Get("stage/ttree");
 
 	TFile *f2 = new TFile("small.root","recreate");
 
-	TTree *small = ntuple->CopyTree("nmuons>2");
+
+	//cuts to change on other things + cut PT 
+	//
+	
+	TTree *small = ntuple->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0] > 10 && muon_pt[1] > 10");
+
+
 
 	//TTree *newtree = oldtree->CloneTree();
 
