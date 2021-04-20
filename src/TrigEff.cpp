@@ -419,23 +419,23 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	
 	
 	
-	TString Cuts = "nmuons>2";
+	//TString Cuts = "nmuons>2";
 	
-	TFile *file = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root");
-	cout << "after opening .root file" << endl;
+	//TFile *file = new TFile("/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root");
+	
 
-	TTree *ntuple = (TTree*) file->Get("T");
+	//TTree *ntuple = (TTree*) file->Get("T");
 
 
-	TFile *f2 = new TFile("small.root","recreate");
+	//TFile *f2 = new TFile("small.root","recreate");
 
-	cout << "before CopyTree" << endl;
+	
 
 	//TTree *small = ntuple->CopyTree("nmuons>2");
 
 	//TTree *newtree = oldtree->CloneTree();
 
-	cout << "after clone" << endl;
+	
 	
 	//ntuple->Write();
 	
@@ -452,8 +452,6 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	f2 = TFile::Open("small.root","RECREATE");
 
 	TTree* selectedTree = originalTree->CopyTree("nmuons>2");
-
-
 	f2->Close();*/
 }
 

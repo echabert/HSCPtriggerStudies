@@ -247,7 +247,7 @@ double AnaEff::MuonsInvariantMass(){
 	bool yon=true,diff=true;
 	vector< pair<float, int > > muonPT,muonPHI,muonETA;
 	vector< pair<int, int > > binom;
-	int nbcomb,pom=0;
+	int nbcomb,pom=0,newcomb;
 	
 	if(nmuons < 2){
 		return 1;
@@ -294,8 +294,11 @@ double AnaEff::MuonsInvariantMass(){
 				muonETA.push_back(make_pair(muon_eta[i],i));
 				muonPHI.push_back(make_pair(muon_phi[i],i));
 			}
-
 		}
+		cout << "On a sample of " << nmuons << " muons, only " << muonPT.size() << " were picked" << endl;
+		newcomb = (fact(muonPT.size()) / (fact(2) * fact(muonPT.size()-2)));
+		cout << "That leaves us with " << newcomb << " possible pairs" << endl;
+
 		if(muonPT.size() < 2){
 			return 1;
 		}
