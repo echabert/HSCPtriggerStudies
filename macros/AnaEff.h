@@ -154,7 +154,7 @@ public :
 
 AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 {
-	cout << "hi" << endl;
+	
 	//triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -168,12 +168,12 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 			f = new TFile("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/first5.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 		}
 		
-	cout << "hi2" << endl;
+	
 		TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/first5.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
 		dir->GetObject("ttree",tree);
 		
 
-	cout << "hi2" << endl;
+	
 
   	 }
   

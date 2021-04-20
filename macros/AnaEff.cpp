@@ -41,8 +41,8 @@ void AnaEff::Loop()
 	Long64_t initializing = LoadTree(0); 
 	if (initializing < 0) cout << "Aborted"<< endl;
 	nbi = fChain->GetEntry(initializing);   nbytes += nbi;
-	cout << "ntrigger  : " << ntrigger << endl;
-	
+	cout << "Number of triggers for this file  : " << ntrigger << endl;
+	cout << " Number of events for this file : " << nentries << endl;
 
 	ifstream ifile("CompleteList.txt"); 
 	vector<string> triggerNames;
