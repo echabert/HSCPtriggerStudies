@@ -54,7 +54,7 @@ void AnaEff::Loop()
 	string s3 = "TESTPT";
 
 	
-
+	//cout << "hi" << endl;
 	string tmp;
 	while(getline(ifile,tmp)){
    		triggerNames.push_back(tmp);

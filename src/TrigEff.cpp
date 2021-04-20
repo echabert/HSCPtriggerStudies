@@ -408,53 +408,9 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	//CORR->SetDirectory("Correlations");
 	CORR->Write();
 	MASS->Write();
-
-	
-
-
-	
 	OutputHisto->Close();
 
 
-	
-	
-	
-	//TString Cuts = "nmuons>2";
-	
-	TFile *file = new TFile("/home/raph/CMS/nt_data_aod.root");
-
-	TTree *ntuple = (TTree*) file->Get("stage/ttree");
-
-	TFile *f2 = new TFile("small.root","recreate");
-
-
-	//cuts to change on other things + cut PT 
-	//
-	
-	TTree *small = ntuple->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0] > 10 && muon_pt[1] > 10");
-
-
-
-	//TTree *newtree = oldtree->CloneTree();
-
-	
-	
-	//ntuple->Write();
-	
-	//newfile->Write();
-	
-	delete file;
-	//delete newfile;
-	//gROOT->cd();
-
-	
-
-	/*TTree* originalTree = (TTree*) OutputHisto->Get("reducedTree");
-
-	f2 = TFile::Open("small.root","RECREATE");
-
-	TTree* selectedTree = originalTree->CopyTree("nmuons>2");
-	f2->Close();*/
 }
 
 void TrigEff::FillMass(double INVMASS,int choice){
@@ -538,7 +494,7 @@ void TrigEff::Compute(string NameOutputFile){
 	ComputeEff();
 	ComputeError();
 	
-	//PrintNumEff();
+	PrintNumEff();
 	//PrintDenomEff();
 	//PrintEff();
 

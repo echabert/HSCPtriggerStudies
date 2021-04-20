@@ -23,7 +23,7 @@ class CopyTree
    ~CopyTree();
 
    
-   virtual void	    CopyWithSelec();
+   virtual void	    CopyWithSelec(string mode);
 
 
  private : 
@@ -39,6 +39,12 @@ class CopyTree
 
 	TFile* file4;
 	TFile* f24;
+
+	TFile* fileaod;
+	TFile* faod;
+
+	
+	string mode;
 };
 
 

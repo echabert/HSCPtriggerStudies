@@ -51,7 +51,7 @@ public :
    Int_t           fCurrent; //!current Tree number in a TChain
 
 
-
+   TString	FilePath="/home/raph/CMS/HSCPtriggerStudies/smallaod.root";
   // Declaration of leaf types
    Int_t	runNumber;
    UInt_t	event;
@@ -154,26 +154,26 @@ public :
 
 AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 {
-
+	cout << "hi" << endl;
 	//triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
 	if (tree == 0) {
-		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/small1064.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/HSCPtriggerStudies/first5.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 ///opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/HSCPgluino_M-1600_TuneCP5_13TeV-pythia8/MC17_Gluino1600_runv3/210324_135858/0000
 		
-		
+		//pas dans stage ?
 ///home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_106.root
 		if (!f || !f->IsOpen()) {
-			f = new TFile("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/small1064.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+			f = new TFile("/home/raph/CMS/HSCPtriggerStudies/first5.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 		}
 		
-
-		TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/small1064.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
+	cout << "hi2" << endl;
+		TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/HSCPtriggerStudies/first5.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
 		dir->GetObject("ttree",tree);
 		
 
-
+	cout << "hi2" << endl;
 
   	 }
    
@@ -182,7 +182,7 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
    Init(tree);
 
 }
-////home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root
+////home/raph/CMS/prodMarch2021_CMSSW_10_6_2/smallaod.root
 // /opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1059.root
 AnaEff::~AnaEff() //deconstructeur
 {
