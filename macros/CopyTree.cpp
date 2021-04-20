@@ -55,22 +55,23 @@ CopyTree::~CopyTree(){
 }
 
 void CopyTree::CopyWithSelec(string mode){
+
+
 	TString cuts = "nmuons>2 && muon_pt[0] > 10 && muon_pt[1] > 10 && muon_eta[0] < 2.1 && muon_eta[0] > -2.1 && ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]";
 
-	TString filepathaod="/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root";
 
 	if(mode == "norm"){
-		string namesmall = "small1064.root";
-		string namesmall2 = "small1062.root";
-		string namesmall3 = "small1059.root";
-		string namesmall4 = "small1058.root";
-		string namesmall5 = "small1057.root";
+		string namesmall = "small1057.root";
+		string namesmall2 = "small1056.root";
+		string namesmall3 = "small1055.root";
+		string namesmall4 = "small1054.root";
+		
 
-		TString pathfile = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1064.root";
-		TString pathfile2 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1062.root";
-		TString pathfile3 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1059.root";
-		TString pathfile4 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1058.root";
-		TString pathfile5 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1057.root";
+		TString pathfile = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1057.root";
+		TString pathfile2 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1056.root";
+		TString pathfile3 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1055.root";
+		TString pathfile4 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1054.root";
+		
 
 
 		file = new TFile(pathfile);
@@ -128,7 +129,7 @@ void CopyTree::CopyWithSelec(string mode){
 	}
 	else if(mode == "aod"){
 		
-		
+		TString filepathaod="/home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_data_aod.root";
 		string namesmallaod = "smallaod.root";
 		fileaod = new TFile(filepathaod);
 		TTree *ntupleaod = (TTree*) fileaod->Get("stage/ttree");
@@ -158,7 +159,7 @@ void CopyTree::CopyWithSelec(string mode){
 int main(){
 
 	CopyTree c;
-	c.CopyWithSelec("aod");
+	c.CopyWithSelec("norm");
 
 }
 
