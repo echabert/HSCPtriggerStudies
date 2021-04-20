@@ -494,7 +494,7 @@ void TrigEff::Compute(string NameOutputFile){
 	ComputeEff();
 	ComputeError();
 	
-	PrintNumEff();
+	//PrintNumEff();
 	//PrintDenomEff();
 	//PrintEff();
 
