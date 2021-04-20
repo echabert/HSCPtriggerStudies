@@ -61,7 +61,7 @@ void CopyTree::CopyWithSelec(){
 
 	f2 = new TFile(namesmall.c_str(),"recreate");
 
-	TTree *small = ntuple->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0] > 10 && muon_pt[1] > 10 && ");
+	TTree *small = ntuple->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0]>10 && muon_pt[1] > 10 && muon_eta[0] < 2.1 && muon_eta[0] > -2.1 && ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]");
 
 
 	file2 = new TFile("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1062.root");
@@ -69,7 +69,7 @@ void CopyTree::CopyWithSelec(){
 
 	f22 = new TFile(namesmall2.c_str(),"recreate");
 
-	TTree *small2 = ntuple2->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0] > 10 && muon_pt[1] > 10 && ");
+	TTree *small2 = ntuple2->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0]>10 && muon_pt[1] > 10 && muon_eta[0] < 2.1 && muon_eta[0] > -2.1 && ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]");
 
 
 
@@ -78,7 +78,8 @@ void CopyTree::CopyWithSelec(){
 
 	f23 = new TFile(namesmall3.c_str(),"recreate");
 
-	TTree *small3 = ntuple3->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0] > 10 && muon_pt[1] > 10 && ");
+	
+	TTree *small3 = ntuple3->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0]>10 && muon_pt[1] > 10 && muon_eta[0] < 2.1 && muon_eta[0] > -2.1 && ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]");
 
 
 
@@ -88,7 +89,7 @@ void CopyTree::CopyWithSelec(){
 
 	f24 = new TFile(namesmall4.c_str(),"recreate");
 
-	TTree *small4 = ntuple4->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0] > 10 && muon_pt[1] > 10 && ");
+	TTree *small4 = ntuple4->CopyTree("muon_pt[0]","nmuons>2 && muon_pt[0]>10 && muon_pt[1] > 10 && muon_eta[0] < 2.1 && muon_eta[0] > -2.1 && ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]");
 
 
 	
