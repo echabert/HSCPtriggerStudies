@@ -44,7 +44,7 @@ void ListNameTriggers::FindAllNames(){
 	Long64_t nbytes = 0, nb = 0, nbi = 0;
 	Long64_t initializing = LoadTree(0); 
 
-	cout << "nentries : " << nentries << endl;
+	cout << "Number of entries : " << nentries << endl;
 	
 	if (initializing < 0) cout << "Aborted"<< endl;
 

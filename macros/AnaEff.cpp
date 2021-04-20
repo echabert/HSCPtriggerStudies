@@ -529,49 +529,6 @@ double AnaEff::IsolateMuons(const vector<bool> &passtrig){
 
 
 
-double AnaEff::MuonInvariantMass(){
-	double InvariantMass,cpt,cphi,ceta;
-	TLorentzVector mu;
-	vector<int> candidates;
-	for(int ihs=0; ihs<nhscp;ihs++){
-		//if(muon isolé)
-		if(track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1){
-			return 1;
-		}
-		
-		if(pfmet_pt[hscp_track_idx[ihs]] >= 5000 ){
-			return 1;
-		}
-	
-		if( track_pt[hscp_track_idx[ihs]] >= 5000 ){
-			return 1;
-		}
-		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
-			return 1;
-		}
-		
-		if( track_dz[hscp_track_idx[ihs]] >=0.5 ){
-			return 1;
-		}
-		if(muon_isTrackerMuon[hscp_track_idx[ihs]]){
-			candidates.push_back(ihs);
-			//cout << ihs << endl;
-		}
-	}
-		//
-		//if ismuon
-	if(candidates.size() == 1 ){
-		cpt = muon_pt[0];
-		ceta = muon_eta[0];
-		cphi = muon_phi[0];
-		mu.SetPtEtaPhiM(cpt,ceta,cphi,massMu);
-		double armass = mu.M();
-		return armass;
-	}
-
-	candidates.clear();
-	return 1;
-}
 
 int main(){
 
