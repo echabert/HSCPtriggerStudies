@@ -61,16 +61,16 @@ void CopyTree::CopyWithSelec(string mode){
 
 
 	if(mode == "norm"){
-		string namesmall = "small1057.root";
-		string namesmall2 = "small1056.root";
-		string namesmall3 = "small1055.root";
-		string namesmall4 = "small1054.root";
+		string namesmall = "small1053.root";
+		string namesmall2 = "small1051.root";
+		string namesmall3 = "small1050.root";
+		string namesmall4 = "small1048.root";
 		
 
-		TString pathfile = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1057.root";
-		TString pathfile2 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1056.root";
-		TString pathfile3 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1055.root";
-		TString pathfile4 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1054.root";
+		TString pathfile = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1053.root";
+		TString pathfile2 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1051.root";
+		TString pathfile3 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1050.root";
+		TString pathfile4 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1048.root";
 		
 
 
