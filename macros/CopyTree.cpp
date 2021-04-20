@@ -58,7 +58,12 @@ void CopyTree::CopyWithSelec(string mode){
 
 
 	TString cuts = "nmuons>2 && muon_pt[0] > 10 && muon_pt[1] > 10 && muon_eta[0] < 2.1 && muon_eta[0] > -2.1 && ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]";
-
+	
+	
+	//Verifier les coupures ici, comparées à celles d'avant 
+	//Si les grandeurs sont décorélées, on s'en fout 
+	// P-e la combinaison des coupures ->  
+	// Contraintes supplémentaires qui arrivent ici 
 
 	if(mode == "norm"){
 		string namesmall = "small1064.root";
