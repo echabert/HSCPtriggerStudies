@@ -207,7 +207,7 @@ void CopyTree::CopyWithSelec(string mode){
 
 		file10 = new TFile(pathfile10);
 		TTree *ntuple10 = (TTree*) file10->Get("stage/ttree");
-		f210 = new TFile(namesmall8.c_str(),"RECREATE");
+		f210 = new TFile(namesmall10.c_str(),"RECREATE");
 		f210->cd();
 		f210->mkdir("stage");
 		f210->cd("stage");
@@ -219,7 +219,7 @@ void CopyTree::CopyWithSelec(string mode){
 
 		file11 = new TFile(pathfile11);
 		TTree *ntuple11 = (TTree*) file11->Get("stage/ttree");
-		f211 = new TFile(namesmall8.c_str(),"RECREATE");
+		f211 = new TFile(namesmall11.c_str(),"RECREATE");
 		f211->cd();
 		f211->mkdir("stage");
 		f211->cd("stage");
