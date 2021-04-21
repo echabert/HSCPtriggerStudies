@@ -109,7 +109,7 @@ void AnaEff::Loop()
 
 		//double IsoInvMass = MuonInvariantMass();
 		if(InvMass!=1){
-			if(InvMass < massZ + 1.25 && InvMass > massZ - 1.25){
+			if(InvMass < massZ + 10 && InvMass > massZ - 10){ // 10 
 				InfosZ << "Z found entry " << jentry << " muons " << muon1 << " and " << muon2 << endl;
 				nbofpairsZ+=1;
 			}
@@ -289,8 +289,7 @@ double AnaEff::MuonsInvariantMass(){
 	else if(nmuons > 2){
 		nbcomb = (fact(nmuons) / (fact(2) * fact(nmuons-2)) );
 		
-		
-		
+	
 		//&& muon_pt[j] >= 10 && muon_pt[k] >= 10
 		//cout << nmuons << " muons " << endl; 
 		for(int i = 0; i < nmuons ; i++){
