@@ -84,7 +84,9 @@ void AnaEff::Loop()
 	string NameOfEff="Eff19-00.txt";
 	string EntriesFromZ="EntriesFromZ.txt";
 
+	
 
+	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
 	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET",NameOfFile); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 	//a
@@ -136,6 +138,7 @@ void AnaEff::Loop()
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
+	
 	InfosZ.close();
 	ofstream InfosData;
 	InfosData.open (NameOfTxt);
@@ -168,8 +171,13 @@ void AnaEff::Loop()
 	
 	trigEff_selection_obs.WritePlots("",NameOfFile);
 
+	cout << "hi" << endl;
+
 	
-	
+	distrib = new TFile("DistribZPeak.root","RECREATE");
+	distrib->cd();
+	MUONPT_DISTRIB->Write();
+	distrib->Close();
 	//trigEff_presel.WritePlots("");
 
 }
@@ -254,6 +262,9 @@ double AnaEff::MuonsInvariantMass(){
 	vector< pair<int, int > > binom;
 	int nbcomb,pom=0,newcomb;
 	
+		
+
+
 	if(nmuons < 2){
 		return 1;
 	}
@@ -336,6 +347,7 @@ double AnaEff::MuonsInvariantMass(){
 		//cout << "-------------------------------------------" << invmass.size() << endl;
 		tram = abs(invmass[0]-massZ);
 		for (int u = 0; u < invmass.size() ; u++){
+			//cout << pom << endl;
 			//cout << "--------------" << invmass[u] << endl;
 			if((abs(invmass[u]-massZ)) < tram){
 				pom=u;
@@ -344,8 +356,20 @@ double AnaEff::MuonsInvariantMass(){
 				//cout << "mass-mZ : " << tram << endl;
 			}
 		}
+	
 		muon1 = binom[pom].first;
 		muon2 = binom[pom].second;
+		//cout << "muon " << binom[pom].first << "[pt] :" << muon_pt[binom[pom].first] << " , muon " << binom[pom].second << "[pt] :"  << muon_pt[binom[pom].second] << endl;
+		
+
+		MUONPT_DISTRIB->Fill(muon_pt[binom[pom].first]);
+		
+		MUONPT_DISTRIB->Fill(muon_pt[binom[pom].second]);
+		
+		//cout << "hi" << endl;
+		//ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].first]);
+		//ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].second]);
+		
 		//cout << invmass[pom] << endl;
 		double armass = invmass[pom];
 

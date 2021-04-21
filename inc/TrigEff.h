@@ -31,7 +31,7 @@ using namespace std; // ici std::vector
 class TrigEff 
 {
 public:
-
+   
 
    TrigEff(); 
    ~TrigEff();
