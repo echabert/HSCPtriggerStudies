@@ -419,76 +419,6 @@ void TrigEff::FillMass(double INVMASS,int choice){
 	}
 }
 
-void TrigEff::FitSignal(){
-	FITSIG = (TH1D*) MASS->Clone();
-	FITBG = (TH1D*) MASS->Clone();
-	FITBG2 = new TH1D("FitBackground2" , " Z Mass from Z->mu mu decay" , 70 , 0 , 140);
-	
-	FITBG2->Sumw2();
-
-	FITSIG->SetName("FitSignal");
-	FITBG->SetName("FitBackground");
-	
-	FITBG->GetXaxis()->SetTitle("M [GeV]");
-	FITBG->GetYaxis()->SetTitle(" # candidates");
-	
-	FITBG2->GetXaxis()->SetTitle("M [GeV]");
-	FITBG2->GetYaxis()->SetTitle(" # candidates");
-
-	
-	FITSIG->GetXaxis()->SetTitle("M [GeV]");
-	FITSIG->GetYaxis()->SetTitle(" # candidates");
-	
-	int nbinxfit = FITSIG->GetNbinsX();
-	int nbinyfit = FITSIG->GetNbinsY();
-	int tab[nbinxfit];
-	cout << "nb of bins : " <<  nbinxfit << endl;
-	
-	for(int x = 0 ; x < nbinxfit ; x++){
-		tab[x] = FITBG->GetBinContent(x);
-		//cout << "bin " << x << " = " << tab[x] << endl;
-	}
-
-
-	for(int x = 0 ; x < 40 ; x++){
-		FITSIG->SetBinContent(x,0);
-		FITBG2->SetBinContent(x,tab[x]);
-
-	}
-	for(int x = 50; x < 70 ; x++){
-		FITSIG->SetBinContent(x,0);
-		FITBG2->SetBinContent(x,tab[x]);
-	}
-	
-	for(int x = 40 ; x < 50 ; x++){
-		FITBG->SetBinContent(x,0);
-		FITBG->SetBinError(x,0);
-	}
-	
-	FITSIG->Fit("gaus");
-	double IntegralGauss = FITSIG->Integral(40,50, "width");
-
-
-	FITBG->Fit("expo");
-	FITBG2->SetMarkerStyle(3);
-	FITBG2->Fit("expo");
-	double IntegralBg = FITBG->Integral(40,50, "width");
-	double IntegralBg2 = FITBG2->Integral(40,50, "width");
-	cout << "This is the integral of the background with bins [40-50] = 0 : " << IntegralBg << " and without the bins : " << IntegralBg2 << endl;
-	cout << "Ratio signal/total ¦ bins in 40-50 -> 0 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg))*100 << " %" << endl;
-	cout << "Ratio signal/total no bins in 40-50 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg2))*100 << " %" << endl;
-
-	FITBG2->Write();
-	
-	FITBG->Write();
-	FITSIG->Write();
-}
-
-
-
-
-
-
 void TrigEff::Compute(string NameOutputFile){
 	
 	ComputeEff();
@@ -505,6 +435,5 @@ void TrigEff::Compute(string NameOutputFile){
 	//PrintDenomCorr();
 	//PrintCorr();
 
-	FitSignal();
 }
 
