@@ -121,7 +121,7 @@ CopyTree::~CopyTree(){
 void CopyTree::CopyWithSelec(string mode){
 
 	
-	TString cuts = "nmuons>=2 && muon_pt[0] >= 10 && muon_pt[1] >= 10 && && ndedxhits >= 5 && (track_charge[0]*track_charge[1]) == -1";
+	TString cuts = "nmuons>=2 && muon_pt[0] >= 10 && muon_pt[1] >= 10 && ndedxhits >= 5 && (track_charge[0]*track_charge[1]) == -1";
 	//&& ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]
 	
 	//Verifier les coupures ici, comparées à celles d'avant 
