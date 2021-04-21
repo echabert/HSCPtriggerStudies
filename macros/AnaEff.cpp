@@ -106,7 +106,7 @@ void AnaEff::Loop()
 
 		//double IsoInvMass = MuonInvariantMass();
 		if(InvMass!=1){
-			if(InvMass < massZ + 5 && InvMass > massZ - 5){
+			if(InvMass < massZ + 1.25 && InvMass > massZ - 1.25){
 				nbofpairsZ+=1;
 			}
 			//cout << InvMass << endl;
