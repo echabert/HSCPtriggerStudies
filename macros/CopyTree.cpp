@@ -66,32 +66,33 @@ void CopyTree::CopyWithSelec(string mode){
 	// Contraintes supplémentaires qui arrivent ici 
 
 	if(mode == "norm"){
-		string namesmall = "small1038.root";
-		string namesmall2 = "small1037.root";
-		string namesmall3 = "small1034.root";
-		string namesmall4 = "small1033.root";
-		string namesmall5 = "small1032.root";
-		string namesmall6 = "small1031.root";
-		string namesmall7 = "small1030.root";
-		string namesmall8 = "small1028.root";
-		string namesmall9 = "small1025.root";
-		string namesmall10 = "small1024.root";
-		string namesmall11 = "small1021.root";
-		string namesmall12 = "small1020.root";
+		string namesmall = "small1019.root";
+		string namesmall2 = "small1016.root";
+		string namesmall3 = "small1015.root";
+		string namesmall4 = "small1014.root";
+		string namesmall5 = "small1013.root";
+		string namesmall6 = "small1008.root";
+		string namesmall7 = "small1006.root";
+		string namesmall8 = "small1005.root";
+		string namesmall9 = "small1003.root";
+		string namesmall10 = "small1002.root";
+		string namesmall11 = "small1000.root";
+
+		//string namesmall12 = "small1020.root";
 		
 
-		TString pathfile = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1038.root";
-		TString pathfile2 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1037.root";
-		TString pathfile3 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1034.root";
-		TString pathfile4 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1033.root";
-		TString pathfile5 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1032.root";
-		TString pathfile6 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1031.root";
-		TString pathfile7 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1030.root";
-		TString pathfile8 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1028.root";
-		TString pathfile9 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1025.root";
-		TString pathfile10 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1024.root";
-		TString pathfile11 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1021.root";
-		TString pathfile12 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1020.root";
+		TString pathfile = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1019.root";
+		TString pathfile2 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1016.root";
+		TString pathfile3 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1015.root";
+		TString pathfile4 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1014.root";
+		TString pathfile5 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1013.root";
+		TString pathfile6 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1008.root";
+		TString pathfile7 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1006.root";
+		TString pathfile8 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1005.root";
+		TString pathfile9 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1003.root";
+		TString pathfile10 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1002.root";
+		TString pathfile11 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1000.root";
+		//TString pathfile12 = "/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1020.root";
 
 
 		file = new TFile(pathfile);
@@ -229,7 +230,7 @@ void CopyTree::CopyWithSelec(string mode){
 
 		cout << " Copied file 11" << endl;
 
-		file12 = new TFile(pathfile12);
+	/*	file12 = new TFile(pathfile12);
 		TTree *ntuple12 = (TTree*) file12->Get("stage/ttree");
 		f212 = new TFile(namesmall12.c_str(),"RECREATE");
 		f212->cd();
@@ -239,7 +240,7 @@ void CopyTree::CopyWithSelec(string mode){
 		small12->Write();
 		f212->Close();
 
-		cout << " Copied file 12" << endl;
+		cout << " Copied file 12" << endl;*/
 	}
 	else if(mode == "aod"){
 		
