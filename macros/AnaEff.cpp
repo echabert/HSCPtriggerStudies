@@ -79,9 +79,9 @@ void AnaEff::Loop()
 	}
 	inttrigs.close();
 
-	string NameOfFile="38-20.root";
-	string NameOfTxt="AllInfos38-20.txt";
-	string NameOfEff="Eff38-20.txt";
+	string NameOfFile="19-00.root";
+	string NameOfTxt="AllInfos19-00.txt";
+	string NameOfEff="Eff19-00.txt";
 
 
 	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET",NameOfFile); 
