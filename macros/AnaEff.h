@@ -144,6 +144,12 @@ public :
    virtual double   MuonsInvariantMass();
    virtual double   IsolateMuons(const vector<bool> &passtrig);
    virtual int      fact(int n);
+
+
+private :
+
+   Int_t muon1;
+   Int_t muon2;
 };
 
 

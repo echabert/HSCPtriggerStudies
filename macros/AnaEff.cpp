@@ -82,6 +82,7 @@ void AnaEff::Loop()
 	string NameOfFile="19-00.root";
 	string NameOfTxt="AllInfos19-00.txt";
 	string NameOfEff="Eff19-00.txt";
+	string EntriesFromZ="EntriesFromZ.txt";
 
 
 	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET",NameOfFile); 
@@ -96,6 +97,8 @@ void AnaEff::Loop()
 	int indexcandidate;
 	double InvMass;
 	//nentries=30;
+	ofstream InfosZ;
+	InfosZ.open (EntriesFromZ);
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%5000==0) cout << "Still here " << endl;
@@ -107,6 +110,7 @@ void AnaEff::Loop()
 		//double IsoInvMass = MuonInvariantMass();
 		if(InvMass!=1){
 			if(InvMass < massZ + 1.25 && InvMass > massZ - 1.25){
+				InfosZ << "Z found entry " << jentry << " muons " << muon1 << " and " << muon2 << endl;
 				nbofpairsZ+=1;
 			}
 			//cout << InvMass << endl;
@@ -340,6 +344,8 @@ double AnaEff::MuonsInvariantMass(){
 				//cout << "mass-mZ : " << tram << endl;
 			}
 		}
+		muon1 = binom[pom].first;
+		muon2 = binom[pom].second;
 		//cout << invmass[pom] << endl;
 		double armass = invmass[pom];
 
