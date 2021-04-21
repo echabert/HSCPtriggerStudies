@@ -136,6 +136,7 @@ void AnaEff::Loop()
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
+	InfosZ.close();
 	ofstream InfosData;
 	InfosData.open (NameOfTxt);
 
