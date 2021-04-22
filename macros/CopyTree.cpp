@@ -161,7 +161,7 @@ void CopyTree::CopyWithSelec(string mode){
  	cout << "couldn't open directory" << endl;
 	}
 
-	/*for(int i = 2; i < NameFiles.size() ; i++){
+	for(int i = 2; i < NameFiles.size() ; i++){
 		cout << NameFiles[i] << endl;
 		string namsmall = "namesmall";
 		string s = to_string(i);
@@ -180,7 +180,7 @@ void CopyTree::CopyWithSelec(string mode){
 		fs[i]->Close();
 
 		cout << " Copied file " << i << endl;
-	}*/
+	}
 	
 	if(mode == "first"){
 
