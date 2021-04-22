@@ -152,7 +152,9 @@ void CopyTree::CopyWithSelec(string mode){
 	if ((dir = opendir ("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/")) != NULL) {
   		/* print all the files and directories within directory */
   		while ((ent = readdir (dir)) != NULL) {
-			NameFiles.push_back(ent->d_name);
+			if(ent->d_name != "." && ent->d_name != ".."){
+				NameFiles.push_back(ent->d_name);
+			}
   		}
   	closedir (dir);
 	} else {
@@ -162,7 +164,23 @@ void CopyTree::CopyWithSelec(string mode){
 
 	for(int i = 0; i < NameFiles.size() ; i++){
 		cout << NameFiles[i] << endl;
-	
+		string namsmall = "namesmall";
+		string s = to_string(i);
+		namesmall[i] = namsmall + s;
+		
+		pathfile[i] = path + NameFiles[i];
+
+		files[i] = new TFile(pathfile[i]);
+		ntuple[i] = (TTree*) files[i]->Get("stage/ttree");
+		fs[i] = new TFile(namesmall[i].c_str(),"RECREATE");
+		fs[i]->cd();
+		fs[i]->mkdir("stage");
+		fs[i]->cd("stage");
+		small[i] = ntuple[i]->CopyTree(cuts);
+		small[i]->Write();
+		fs[i]->Close();
+
+		cout << " Copied file " << i << endl;
 	}
 	
 	if(mode == "first"){

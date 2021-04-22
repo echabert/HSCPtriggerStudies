@@ -66,8 +66,16 @@ class CopyTree
 	TFile* fileaod;
 	TFile* faod;
 
+	vector<TFile*> files;
+	vector<TFile*> fs;
+	
+	vector<TTree*> small;
+	vector<TTree*> ntuple;
+
 	vector<string> NameFiles;
-	string mode;
+
+	vector<TString> pathfile;
+
 
 	string namesmall[100]; //number of files in dylans given directory
 };
