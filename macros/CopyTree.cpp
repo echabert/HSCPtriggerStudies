@@ -683,7 +683,7 @@ void CopyTree::CopyWithSelec(string mode){
 int main(){
 
 	CopyTree c;
-	c.CopyWithSelec("third");
+	c.CopyWithSelec("second");
 
 }
 
