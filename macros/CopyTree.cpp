@@ -8,8 +8,10 @@
 #include <map>
 #include <iterator>
 #include <algorithm>
+#include <filesystem>
 #include "CopyTree.h"
 
+namespace fs = std::filesystem;
 
 using namespace std; 
 
@@ -118,6 +120,29 @@ CopyTree::~CopyTree(){
 	}
 }
 
+
+
+/*int CopyTree::CopyAllFiles(string mode){
+	std::string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/");
+	std::string ext(".root");
+	for (auto &p : fs::recursive_directory_iterator(path))
+	{
+		if (p.path().extension() == ext)
+			std::cout << p.path().stem().string() << '\n';
+	}
+	return 0;
+}*/
+
+
+
+
+
+
+
+
+
+
+
 void CopyTree::CopyWithSelec(string mode){
 
 	//faire l'association, deux traces associées à ces muons et ensuite faire la requête sur la qualité 
@@ -128,7 +153,15 @@ void CopyTree::CopyWithSelec(string mode){
 	//Si les grandeurs sont décorélées, on s'en fout 
 	// P-e la combinaison des coupures ->  
 	// Contraintes supplémentaires qui arrivent ici 
+	std::string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/");
+	std::string ext(".root");
+	for (auto &p : fs::recursive_directory_iterator(path))
+	{
+		if (p.path().extension() == ext)
+			std::cout << p.path().stem().string() << '\n';
+	}
 
+	
 	if(mode == "first"){
 
 		cout << " Working on files [64-48]" << endl;
@@ -683,7 +716,7 @@ void CopyTree::CopyWithSelec(string mode){
 int main(){
 
 	CopyTree c;
-	c.CopyWithSelec("first");
+	c.CopyWithSelec("dadk");
 
 }
 

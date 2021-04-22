@@ -37,7 +37,7 @@ void DrawHist::FitSignalBg(){
 	InfosPurity.open ("PurityallMET.txt");
 
 	
-	myFile = new TFile("all.root");
+	myFile = new TFile("64-00.root");
 	TH1D* HIST_MASSES = (TH1D*)gROOT->FindObject("MASS");
 	
 
@@ -90,8 +90,8 @@ void DrawHist::FitSignalBg(){
 	
 	HIST_FITSIG->Fit("gaus");
 	TF1 *s = (TF1*)HIST_FITSIG->GetListOfFunctions()->FindObject("gaus");
-	
-	double IntegralGauss = s->Integral(40,50,"width");
+	double m = s->GetParameter(0);
+	double IntegralGauss = s->Integral(86,96);
 
 
 	HIST_FITBG->Fit("pol0");
@@ -99,9 +99,9 @@ void DrawHist::FitSignalBg(){
 	TF1 *g = (TF1*)HIST_FITBG->GetListOfFunctions()->FindObject("pol0");
 	
 	double c = g->GetParameter(0);
-	cout << c << endl;
+	//cout << c << endl;
 	
-	double IntegralBg = g->Integral(40,50);
+	double IntegralBg = g->Integral(86,96);
 	
 	cout << "This is the integral of the Signal in bins [40-50]: " << IntegralGauss << endl;
 	cout << "This is the integral of the background with bins [40-50] = 0 : " << IntegralBg << endl;
