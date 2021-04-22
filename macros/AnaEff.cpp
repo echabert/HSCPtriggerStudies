@@ -79,9 +79,9 @@ void AnaEff::Loop()
 	}
 	inttrigs.close();
 
-	string NameOfFile="19-00.root";
-	string NameOfTxt="AllInfos19-00.txt";
-	string NameOfEff="Eff19-00.txt";
+	string NameOfFile="64-48.root";
+	string NameOfTxt="AllInfos64-48.txt";
+	string NameOfEff="Eff64-48.txt";
 	string EntriesFromZ="EntriesFromZ.txt";
 
 	
@@ -260,7 +260,7 @@ double AnaEff::MuonsInvariantMass(){
 	bool yon=true,diff=true;
 	vector< pair<float, int > > muonPT,muonPHI,muonETA;
 	vector< pair<int, int > > binom;
-	int nbcomb,pom=0,newcomb;
+	int nbcomb,pom=0,newcomb,nbpairZ=0;
 	
 		
 
@@ -317,6 +317,7 @@ double AnaEff::MuonsInvariantMass(){
 		if(muonPT.size() < 2){
 			return 1;
 		}
+		
 		mus.resize(muonPT.size());
 		for(int j = 0 ; j < muonPT.size() ; j++){
 			mus[j].SetPtEtaPhiM(muonPT[j].first,muonETA[j].first,muonPHI[j].first,massMu);
@@ -339,12 +340,12 @@ double AnaEff::MuonsInvariantMass(){
 		}
 		
 		mus.clear();
-		
 		muonPT.clear();
 		muonETA.clear();
 		muonPHI.clear();
-		binom.clear();
-		//cout << "-------------------------------------------" << invmass.size() << endl;
+		
+		
+		
 		tram = abs(invmass[0]-massZ);
 		for (int u = 0; u < invmass.size() ; u++){
 			//cout << pom << endl;
@@ -360,19 +361,21 @@ double AnaEff::MuonsInvariantMass(){
 		muon1 = binom[pom].first;
 		muon2 = binom[pom].second;
 		//cout << "muon " << binom[pom].first << "[pt] :" << muon_pt[binom[pom].first] << " , muon " << binom[pom].second << "[pt] :"  << muon_pt[binom[pom].second] << endl;
-		
+		if(invmass[pom] < massZ + 10 && invmass[pom] > massZ -10){
+			MUONPT_DISTRIB->Fill(muon_pt[binom[pom].first]);
+			MUONPT_DISTRIB->Fill(muon_pt[binom[pom].second]);
+			nbpairZ++;
+		}
 
-		MUONPT_DISTRIB->Fill(muon_pt[binom[pom].first]);
-		
-		MUONPT_DISTRIB->Fill(muon_pt[binom[pom].second]);
-		
+		binom.clear();
+	
 		//cout << "hi" << endl;
 		//ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].first]);
 		//ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].second]);
 		
 		//cout << invmass[pom] << endl;
 		double armass = invmass[pom];
-
+		
 		//sort(invmass.rbegin(),invmass.rend());
 		//cout << invmass[0] << endl;
 		//cout << pom << " ," << armass << endl;
