@@ -83,7 +83,7 @@ void AnaEff::Loop()
 	string NameOfTxt="AllInfos64-48.txt";
 	string NameOfEff="Eff64-48.txt";
 	string EntriesFromZ="EntriesFromZ.txt";
-
+	TString distribvarZ = "DistribZpeak64-48.root";
 	
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
@@ -177,7 +177,7 @@ void AnaEff::Loop()
 	cout << "hi" << endl;
 
 	
-	distrib = new TFile("DistribZPeak.root","RECREATE");
+	distrib = new TFile(distribvarZ,"RECREATE");
 	
 	distrib->cd();
 	MUONPT_DISTRIB->Write();
