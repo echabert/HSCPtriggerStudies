@@ -91,7 +91,7 @@ public :
    Float_t      muon_eta[32];
    Float_t      muon_pt[32];
    Int_t	nmuons;
-
+   Float_t      muon_isoR03_sumChargedHadronPt[32];
 
 
     // List of branches
@@ -127,7 +127,7 @@ public :
    TBranch        *b_muon_phi;
    TBranch        *b_muon_pt;
    TBranch        *b_nmuons;
-
+   TBranch        *b_muon_isoR03_sumChargedHadronPt;
    //--------------------------------------
    // Methods
    //--------------------------------------
@@ -153,7 +153,8 @@ private :
 
    TFile* distrib;
    TH1D* MUONPT_DISTRIB;
-   
+
+   TH1D* ISOR03_DISTRIB;
 };
 
 
@@ -164,7 +165,9 @@ private :
 
 AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 {
-	
+	distrib=0;
+	MUONPT_DISTRIB=0;
+	ISOR03_DISTRIB=0;
 	//triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -199,6 +202,15 @@ AnaEff::~AnaEff() //deconstructeur
    if (!fChain) return;
    delete fChain->GetCurrentFile();
    
+   if(!distrib){
+   	delete distrib;
+   }
+   if(!MUONPT_DISTRIB){
+   	delete MUONPT_DISTRIB;
+   }
+   if(!ISOR03_DISTRIB){
+   	delete ISOR03_DISTRIB;
+   }
    //delete[] passTrigger;
 }
 
@@ -266,7 +278,8 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("muon_phi", muon_phi, &b_muon_phi);
    fChain->SetBranchAddress("muon_eta", muon_eta, &b_muon_eta);
    fChain->SetBranchAddress("muon_pt", muon_pt, &b_muon_pt);
-
+   
+   fChain->SetBranchAddress("muon_isoR03_sumChargedHadronPt", muon_isoR03_sumChargedHadronPt, &b_muon_isoR03_sumChargedHadronPt);
  //  fChain->SetBranchAddress("hscp_muon_idx", hscp_muon_idx, &b_hscp_muon_idx); 
    Notify();
 }

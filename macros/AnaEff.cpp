@@ -87,6 +87,7 @@ void AnaEff::Loop()
 	
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
+	ISOR03_DISTRIB = new TH1D("ISOR03 close to Z", "ISOR03 close to z peak", 50,0,100);
 	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET",NameOfFile); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 	//a
@@ -150,18 +151,20 @@ void AnaEff::Loop()
 
 	double ratio = passedevent*1.0/counter;
 
-	cout << "Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << "\n" << endl;
+	cout << " Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << "\n" << endl;
 
 	InfosData << "Number of candidates that passed the selection : " << passedevent << " , total number : " << nentries << "\n" << endl;
 
-	cout << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
+	cout << " Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 	
 	InfosData << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 
+	cout << " # muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << " , Ratio :" << (nbofpairsZ*2.0/nbmuons)*100 << " %" << endl << endl << " Total number of pairs = " << nbofpairs  <<" Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
-	cout << "# muons as a pair close to Z/ number of pairs found : " << nbofpairsZ << " / " << nbofpairs << endl << endl <<"Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
-	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << endl << endl << "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
+
+	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << " , Ratio :" << (nbofpairsZ*2.0/nbmuons)*100 << " %" << endl << endl <<  "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
+
 
 	InfosData.close();
 	trigEff_selection_obs.Compute(NameOfEff);
@@ -175,8 +178,10 @@ void AnaEff::Loop()
 
 	
 	distrib = new TFile("DistribZPeak.root","RECREATE");
+	
 	distrib->cd();
 	MUONPT_DISTRIB->Write();
+	ISOR03_DISTRIB->Write();
 	distrib->Close();
 	//trigEff_presel.WritePlots("");
 
@@ -262,9 +267,6 @@ double AnaEff::MuonsInvariantMass(){
 	vector< pair<int, int > > binom;
 	int nbcomb,pom=0,newcomb,nbpairZ=0;
 	
-		
-
-
 	if(nmuons < 2){
 		return 1;
 	}
@@ -364,6 +366,9 @@ double AnaEff::MuonsInvariantMass(){
 		if(invmass[pom] < massZ + 10 && invmass[pom] > massZ -10){
 			MUONPT_DISTRIB->Fill(muon_pt[binom[pom].first]);
 			MUONPT_DISTRIB->Fill(muon_pt[binom[pom].second]);
+
+			ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].first]);
+			ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].second]);
 			nbpairZ++;
 		}
 
@@ -397,157 +402,6 @@ double AnaEff::MuonsInvariantMass(){
 }
 
 
-/*
-
-double AnaEff::MuonsInvariantMass(){
-	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
-	TLorentzVector mu1,mu2,mu3,mu4,sum;
-	vector<int> candidates,order;
-	bool yon=true;
-	for(int ihs=0; ihs<nhscp;ihs++){
-		yon=true;
-		//if(muon isolé)
-		if(track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1){
-			yon = false;
-		}
-		
-		if(pfmet_pt[hscp_track_idx[ihs]] >= 5000 ){
-			yon = false;
-		}
-	
-		if( track_pt[hscp_track_idx[ihs]] >= 5000 ){
-			yon = false;
-		}
-		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
-			yon = false;
-		}
-		
-		if( track_dz[hscp_track_idx[ihs]] >=0.5 ){
-			yon = false;
-		}
-	
-		if(muon_isTrackerMuon[hscp_track_idx[ihs]] && yon){
-			candidates.push_back(ihs);
-			//cout << ihs << endl;
-		}
-			
-	}
-	if(candidates.size() == 2){
-		//cout << "Picking from 2 candidates" << endl;
-		c1phi = muon_phi[candidates[0]];
-		c2phi = muon_phi[candidates[1]];
-
-		c1eta = muon_eta[candidates[0]];
-		c2eta = muon_eta[candidates[1]];
-
-		c1pt = muon_pt[candidates[0]];
-		c2pt = muon_pt[candidates[1]];
-				
-		mu1.SetPtEtaPhiM(c1pt,c1eta,c1phi,massMu);
-		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
-
-		sum = mu1 + mu2;
-		double angle = mu1.Angle(mu2.Vect());
-		//cout << " Angle between the two muons :" << angle << endl; 
-		//cout << sum[0] << ", " << sum[1] << ", " << sum[2] << endl;
-		double armass = sum.M();
-		//cout << "invariant mass : " << armass << endl;	
-		return armass;
-
-		
-	}
-	else if(candidates.size() == 3){
-		//cout << "Picking from 3 candidates" << endl;
-		if(muon_pt[candidates[0]] > muon_pt[candidates[1]] && muon_pt[candidates[0]] > muon_pt[candidates[2]]){
-			order.push_back(0);
-			if(muon_pt[candidates[1]] > muon_pt[candidates[2]]){
-				order.push_back(1);
-				//order.push_back(2);
-			}
-			else{
-				order.push_back(2);
-				//order.push_back(1);
-			}	
-		}
-		else if (muon_pt[candidates[1]] > muon_pt[candidates[0]] && muon_pt[candidates[1]] > muon_pt[candidates[2]] ){
-			order.push_back(1);
-			if(muon_pt[candidates[0]] > muon_pt[candidates[2]]){
-				order.push_back(0);
-				//order.push_back(2);
-			}
-			else{
-				order.push_back(2);
-				//order.push_back(0);
-			}
-
-		}
-		else if (muon_pt[candidates[2]] > muon_pt[candidates[1]] && muon_pt[candidates[2]] > muon_pt[candidates[0]]) {
-			order.push_back(2);
-			if(muon_pt[candidates[1]] > muon_pt[candidates[0]]){
-				order.push_back(1);
-				//order.push_back(0);
-			}
-			else{
-				order.push_back(0);
-				//order.push_back(1);
-			}
-		}
-		//m plus proche du Z
-		//norme du vec p 
-	
-		c1pt = muon_pt[order[0]];
-		c2pt = muon_pt[order[1]];
-		
-		c1eta = muon_eta[order[0]];
-		c2eta = muon_eta[order[1]];
-
-		c1phi = muon_phi[order[0]];
-		c2phi = muon_phi[order[1]];
-		
-		mu1.SetPtEtaPhiM(c1pt,c1eta,c1phi,massMu);
-		mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
-		double angle = mu1.Angle(mu2.Vect());
-		//cout << " Angle between the two muons :" << angle << endl; 
-		sum = mu1 + mu2;
-		double armass = sum.M();
-		//cout << "invariant mass of candidates: " << order[0] << " and " << order[1] << " = " << armass << endl;
-		order.clear();
-		return armass;
-	}
-
-	else if(candidates.size() == 4){
-		//cout << " 4 candidates, picking " << endl;
-		mu1.SetPtEtaPhiM(muon_pt[0],muon_eta[0],muon_phi[0],massMu);
-		mu2.SetPtEtaPhiM(muon_pt[1],muon_eta[1],muon_phi[1],massMu);
-		mu3.SetPtEtaPhiM(muon_pt[2],muon_eta[2],muon_phi[2],massMu);
-		mu4.SetPtEtaPhiM(muon_pt[3],muon_eta[3],muon_phi[3],massMu);
-		
-		vector<double> InvMass;
-		TLorentzVector six[6];
-		six[0] = mu1 + mu2;
-		six[1] = mu1 + mu3;
-		six[2] = mu1 + mu4;
-		six[3] = mu2 + mu3;
-		six[4] = mu2 + mu4;
-		six[5] = mu3 + mu4;
-
-		for(int i = 0; i < 6 ; i++ ){
-			InvMass.push_back(six[i].M());
-		}
-
-		sort(InvMass.begin(), InvMass.end());
-		//cout << "Highest Invariant mass 1-2 : " << InvMass[0] << " , 1-3 : " << InvMass[1] << " , 1-4 : " << InvMass[2] << " , 2-3 : " << InvMass[3] << " , 2-4 : " << InvMass[4] << " , 3-4 : " << InvMass[5] << endl;
-		return InvMass[5];
-	}
-	else if(candidates.size() == 5){
-		cout << "5 candidates, too much bg" << endl;
-	}
-	candidates.clear();
-	return 1;
-	//trigEff_selection_obs.MASS->Write();
-	
-}
-*/
 
 double AnaEff::IsolateMuons(const vector<bool> &passtrig){
 	vector<int> candidates;
