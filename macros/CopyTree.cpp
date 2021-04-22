@@ -172,9 +172,10 @@ void CopyTree::CopyWithSelec(string mode){
 		pathfile.push_back(transfer2);
 
 		files[i-2] = new TFile(pathfile[i-2].c_str());
-	
+		cout << " line 175 " << endl;
 		ntuple[i-2] = (TTree*) files[i-2]->Get("stage/ttree");
 		fs[i-2] = new TFile(namesmall[i-2].c_str(),"RECREATE");
+		cout << " line 178 " << endl;
 		fs[i-2]->cd();
 		fs[i-2]->mkdir("stage");
 		fs[i-2]->cd("stage");
