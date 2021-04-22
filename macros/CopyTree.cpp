@@ -648,7 +648,7 @@ void CopyTree::CopyWithSelec(string mode){
 		small11->Write();
 		f211->Close();
 
-
+		cout << " Copied file 11" << endl;
 
 	}
 	else if(mode == "aod"){
