@@ -11,10 +11,11 @@
 #include <iterator>
 #include <algorithm>
 #include <filesystem>
-#include <boost/filesystem.hpp>
+#include <dirent.h>
 #include "CopyTree.h"
 
-namespace fs = boost::filesystem;
+
+
 using namespace std; 
 
 CopyTree::CopyTree(){
@@ -124,41 +125,8 @@ CopyTree::~CopyTree(){
 
 
 
-/*int CopyTree::CopyAllFiles(string mode){
-	std::string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/");
-	std::string ext(".root");
-	for (auto &p : fs::recursive_directory_iterator(path))
-	{
-		if (p.path().extension() == ext)
-			std::cout << p.path().stem().string() << '\n';
-	}
-	return 0;
-}*/
 
 
-
-
-/**
- * \brief   Return the filenames of all files that have the specified extension
- *          in the specified directory and all subdirectories.
- */
-
-
-std::vector<fs::path> CopyTree::get_all(fs::path const & root, std::string const & ext)
-{
-    std::vector<fs::path> paths;
-
-    if (fs::exists(root) && fs::is_directory(root))
-    {
-        for (auto const & entry : fs::recursive_directory_iterator(root))
-        {
-            if (fs::is_regular_file(entry) && entry.path().extension() == ext)
-                paths.emplace_back(entry.path().filename());
-        }
-    }
-
-    return paths;
-}
 
 
 
@@ -178,7 +146,22 @@ void CopyTree::CopyWithSelec(string mode){
 	// Contraintes supplémentaires qui arrivent ici 
 	std::string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/");
 	std::string ext(".root");
-	get_all(path,ext);
+	
+	DIR *dir;
+	struct dirent *ent;
+	if ((dir = opendir ("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/")) != NULL) {
+  		/* print all the files and directories within directory */
+  		while ((ent = readdir (dir)) != NULL) {
+			namefiles.push_back(ent->d_name);
+  		}
+  	closedir (dir);
+	} else {
+  	/* could not open directory */
+ 	perror ("");
+  	return EXIT_FAILURE;
+	}
+
+
 
 	
 	if(mode == "first"){

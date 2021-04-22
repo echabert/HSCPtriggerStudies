@@ -24,7 +24,6 @@ class CopyTree
 
    
    virtual void	    CopyWithSelec(string mode);
-   virtual std::vector<fs::path> get_all(fs::path const & root, std::string const & ext);
 
  private : 
 	
@@ -67,7 +66,7 @@ class CopyTree
 	TFile* fileaod;
 	TFile* faod;
 
-	
+	vector<string> NameFiles;
 	string mode;
 };
 
