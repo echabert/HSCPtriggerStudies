@@ -79,11 +79,11 @@ void AnaEff::Loop()
 	}
 	inttrigs.close();
 
-	string NameOfFile="38-00.root";
-	string NameOfTxt="AllInfos38-20.txt";
-	string NameOfEff="Eff38-20.txt";
-	string EntriesFromZ="EntriesFromZ38-20.txt";
-	TString distribvarZ = "DistribZpeak38-20.root";
+	string NameOfFile="64-48.root";
+	string NameOfTxt="AllInfos64-48.txt";
+	string NameOfEff="Eff64-48.txt";
+	string EntriesFromZ="EntriesFromZ64-48.txt";
+	TString distribvarZ = "DistribZpeak64-48.root";
 	
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
