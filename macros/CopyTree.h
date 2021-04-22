@@ -66,11 +66,11 @@ class CopyTree
 	TFile* fileaod;
 	TFile* faod;
 
-	vector<TFile*> files;
-	vector<TFile*> fs;
+	vector <TFile*> files;
+	vector <TFile*> fs;
 	
-	vector<TTree*> small;
-	vector<TTree*> ntuple;
+	vector <TTree*> small;
+	vector <TTree*> ntuple;
 
 	vector<string> NameFiles;
 	vector<string> namesmall;
