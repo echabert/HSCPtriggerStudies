@@ -152,13 +152,12 @@ void CopyTree::CopyWithSelec(string mode){
 	if ((dir = opendir ("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/")) != NULL) {
   		/* print all the files and directories within directory */
   		while ((ent = readdir (dir)) != NULL) {
-			namefiles.push_back(ent->d_name);
+			NameFiles.push_back(ent->d_name);
   		}
   	closedir (dir);
 	} else {
   	/* could not open directory */
- 	perror ("");
-  	return EXIT_FAILURE;
+ 	cout << "couldn't open directory" << endl;
 	}
 
 
