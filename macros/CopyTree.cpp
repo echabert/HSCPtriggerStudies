@@ -144,8 +144,8 @@ void CopyTree::CopyWithSelec(string mode){
 	//Si les grandeurs sont décorélées, on s'en fout 
 	// P-e la combinaison des coupures ->  
 	// Contraintes supplémentaires qui arrivent ici 
-	std::string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/");
-	std::string ext(".root");
+	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/");
+	string ext(".root");
 	
 	DIR *dir;
 	struct dirent *ent;

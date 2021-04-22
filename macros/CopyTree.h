@@ -73,8 +73,8 @@ class CopyTree
 	vector<TTree*> ntuple;
 
 	vector<string> NameFiles;
-
-	vector<TString> pathfile;
+	vector<string> namesmall;
+	vector<string> pathfile;
 
 
 	string namesmall[100]; //number of files in dylans given directory
