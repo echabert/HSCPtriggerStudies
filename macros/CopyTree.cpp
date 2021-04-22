@@ -174,7 +174,7 @@ void CopyTree::CopyWithSelec(string mode){
 		files[i-2] = new TFile(pathfile[i-2].c_str());
 	
 		ntuple[i-2] = (TTree*) files[i-2]->Get("stage/ttree");
-		fs[i-2] = new TFile(namesmall[i].c_str(),"RECREATE");
+		fs[i-2] = new TFile(namesmall[i-2].c_str(),"RECREATE");
 		fs[i-2]->cd();
 		fs[i-2]->mkdir("stage");
 		fs[i-2]->cd("stage");
