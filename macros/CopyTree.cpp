@@ -79,7 +79,7 @@ void CopyTree::CopyWithSelec(string mode){
 			string namsmall = "namesmall";
 			int intransf = i-2;
 			string s = to_string(intransf);
-			string transfer = namsmall + s;
+			string transfer = namsmall + s + ext;
 			namesmall.push_back(transfer);
 			string transfer2 = path + NameFiles[i];
 			pathfile.push_back(transfer2);
