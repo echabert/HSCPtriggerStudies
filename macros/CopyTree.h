@@ -68,6 +68,8 @@ class CopyTree
 
 	vector<string> NameFiles;
 	string mode;
+
+	string namesmall[100]; //number of files in dylans given directory
 };
 
 
