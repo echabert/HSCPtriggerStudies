@@ -164,22 +164,23 @@ void CopyTree::CopyWithSelec(string mode){
 	for(int i = 2; i < NameFiles.size() ; i++){
 		cout << NameFiles[i] << endl;
 		string namsmall = "namesmall";
-		string s = to_string(i);
+		string s = to_string(i-2);
 		string transfer = namsmall + s;
 		namesmall.push_back(transfer);
 		string transfer2 = path + NameFiles[i];
 
 		pathfile.push_back(transfer2);
 
-		files[i] = new TFile(pathfile[i].c_str());
-		ntuple[i] = (TTree*) files[i]->Get("stage/ttree");
-		fs[i] = new TFile(namesmall[i].c_str(),"RECREATE");
-		fs[i]->cd();
-		fs[i]->mkdir("stage");
-		fs[i]->cd("stage");
-		small[i] = ntuple[i]->CopyTree(cuts);
-		small[i]->Write();
-		fs[i]->Close();
+		files[i-2] = new TFile(pathfile[i-2].c_str());
+	
+		ntuple[i-2] = (TTree*) files[i-2]->Get("stage/ttree");
+		fs[i-2] = new TFile(namesmall[i].c_str(),"RECREATE");
+		fs[i-2]->cd();
+		fs[i-2]->mkdir("stage");
+		fs[i-2]->cd("stage");
+		small[i-2] = ntuple[i-2]->CopyTree(cuts);
+		small[i-2]->Write();
+		fs[i-2]->Close();
 
 		cout << " Copied file " << i << endl;
 	}
