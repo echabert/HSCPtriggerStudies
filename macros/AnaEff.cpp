@@ -79,11 +79,11 @@ void AnaEff::Loop()
 	}
 	inttrigs.close();
 
-	string NameOfFile="64-48.root";
-	string NameOfTxt="AllInfos64-48.txt";
-	string NameOfEff="Eff64-48.txt";
-	string EntriesFromZ="EntriesFromZ64-48.txt";
-	TString distribvarZ = "DistribZpeak64-48.root";
+	string NameOfFile="64-00.root";
+	string NameOfTxt="AllInfos64-00.txt";
+	string NameOfEff="Eff64-00.txt";
+	string EntriesFromZ="EntriesFromZ64-00.txt";
+	TString distribvarZ = "DistribZpeak64-00.root";
 	
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
@@ -117,8 +117,10 @@ void AnaEff::Loop()
 				nbofpairsZ+=1;
 			}
 			//cout << InvMass << endl;
-			nbofpairs+=1;
-			trigEff_selection_obs.FillMass(InvMass,1);
+			nbofpairs+=1;-+
+			if(InvMass > 15){
+				trigEff_selection_obs.FillMass(InvMass,1);
+			}
 		}
 		nbmuons+=nmuons;
 		counter+=1;
@@ -174,7 +176,7 @@ void AnaEff::Loop()
 	
 	trigEff_selection_obs.WritePlots("",NameOfFile);
 
-	cout << "hi" << endl;
+	
 
 	
 	distrib = new TFile(distribvarZ,"RECREATE");
@@ -265,7 +267,7 @@ double AnaEff::MuonsInvariantMass(){
 	bool yon=true,diff=true;
 	vector< pair<float, int > > muonPT,muonPHI,muonETA;
 	vector< pair<int, int > > binom;
-	int nbcomb,pom=0,newcomb,nbpairZ=0;
+	int nbcomb,pom=0,newcomb;
 	
 	if(nmuons < 2){
 		return 1;
@@ -365,16 +367,16 @@ double AnaEff::MuonsInvariantMass(){
 		//cout << "muon " << binom[pom].first << "[pt] :" << muon_pt[binom[pom].first] << " , muon " << binom[pom].second << "[pt] :"  << muon_pt[binom[pom].second] << endl;
 		if(invmass[pom] < massZ + 10 && invmass[pom] > massZ -10){
 			MUONPT_DISTRIB->Fill(muon_pt[binom[pom].first]);
-			MUONPT_DISTRIB->Fill(muon_pt[binom[pom].second]);
+			//MUONPT_DISTRIB->Fill(muon_pt[binom[pom].second]);
 
 			ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].first]);
-			ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].second]);
-			nbpairZ++;
+			//ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].second]);
+			
 		}
 
 		binom.clear();
 	
-		//cout << "hi" << endl;
+		
 		//ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].first]);
 		//ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].second]);
 		
