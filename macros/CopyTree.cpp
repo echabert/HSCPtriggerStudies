@@ -1,3 +1,5 @@
+#define BOOST_FILESYSTEM_VERSION 3
+#define BOOST_FILESYSTEM_NO_DEPRECATED
 #include <vector>
 #include <TROOT.h>
 #include <TChain.h>
@@ -9,10 +11,10 @@
 #include <iterator>
 #include <algorithm>
 #include <filesystem>
+#include <boost/filesystem.hpp>
 #include "CopyTree.h"
 
-namespace fs = std::filesystem;
-
+namespace fs = boost::filesystem;
 using namespace std; 
 
 CopyTree::CopyTree(){
@@ -136,6 +138,27 @@ CopyTree::~CopyTree(){
 
 
 
+/**
+ * \brief   Return the filenames of all files that have the specified extension
+ *          in the specified directory and all subdirectories.
+ */
+
+
+std::vector<fs::path> CopyTree::get_all(fs::path const & root, std::string const & ext)
+{
+    std::vector<fs::path> paths;
+
+    if (fs::exists(root) && fs::is_directory(root))
+    {
+        for (auto const & entry : fs::recursive_directory_iterator(root))
+        {
+            if (fs::is_regular_file(entry) && entry.path().extension() == ext)
+                paths.emplace_back(entry.path().filename());
+        }
+    }
+
+    return paths;
+}
 
 
 
@@ -155,11 +178,7 @@ void CopyTree::CopyWithSelec(string mode){
 	// Contraintes supplémentaires qui arrivent ici 
 	std::string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/");
 	std::string ext(".root");
-	for (auto &p : fs::recursive_directory_iterator(path))
-	{
-		if (p.path().extension() == ext)
-			std::cout << p.path().stem().string() << '\n';
-	}
+	get_all(path,ext);
 
 	
 	if(mode == "first"){
