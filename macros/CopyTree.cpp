@@ -175,17 +175,17 @@ void CopyTree::CopyWithSelec(string mode){
 		cout << transfer2 <<" line 175 " << endl;
 		pathfile.push_back(transfer2);
 		cout << << " line 177 " << endl;
-		files[i-2] = new TFile(pathfile[i-2]);
+		files[intransf] = new TFile(pathfile[intransf].c_str());
 		cout << " line 179 " << endl;
-		ntuple[i-2] = (TTree*) files[i-2]->Get("stage/ttree");
-		fs[i-2] = new TFile(namesmall[i-2].c_str(),"RECREATE");
+		ntuple[intransf] = (TTree*) files[intransf]->Get("stage/ttree");
+		fs[intransf] = new TFile(namesmall[intransf].c_str(),"RECREATE");
 		cout << " line 182 " << endl;
-		fs[i-2]->cd();
-		fs[i-2]->mkdir("stage");
-		fs[i-2]->cd("stage");
-		small[i-2] = ntuple[i-2]->CopyTree(cuts);
-		small[i-2]->Write();
-		fs[i-2]->Close();
+		fs[intransf]->cd();
+		fs[intransf]->mkdir("stage");
+		fs[intransf]->cd("stage");
+		small[intransf] = ntuple[intransf]->CopyTree(cuts);
+		small[intransf]->Write();
+		fs[intransf]->Close();
 
 		cout << " Copied file " << i << endl;
 	}
