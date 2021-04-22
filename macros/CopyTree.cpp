@@ -19,108 +19,19 @@
 using namespace std; 
 
 CopyTree::CopyTree(){
-	file = 0;
-	f2 = 0;
-	file2 = 0;
-	f22 = 0;
-	file3 = 0;
-	f23 = 0;
-	file4 = 0;
-	f24 = 0;
-	file5 = 0;
-	f25 = 0;
-	file6 = 0;
-	f26 = 0;
-	file7 = 0;
-	f27 = 0;
-	file8 = 0;
-	f28 = 0;
-	file9 = 0;
-	f29 = 0;
-	file10 = 0;
-	f210 = 0;
-	file11 = 0;
-	f211 = 0;
-	file12 = 0;
-	f212 = 0;
+	
 	/*for(int i=0; i < ListTriggers.size() ; i++){
 		EffvsObs[i]=0;
 	}*/
 }
 
 CopyTree::~CopyTree(){ 
-	if(!file){
-		delete file;
-	}
-	if(!f2){
-		delete f2;
-	}
-	if(!file2){
-		delete file2;
-	}
-	if(!f22){
-		delete f22;
-	}
-	if(!file3){
-		delete file3;
-	}
-	if(!f23){
-		delete f23;
-	}
-	if(!file4){
-		delete file4;
-	}
-	if(!f24){
-		delete f24;
-	}
-	if(!file5){
-		delete file5;
-	}
-	if(!f25){
-		delete f25;
-	}
-	if(!file6){
-		delete file6;
-	}
-	if(!f26){
-		delete f26;
-	}
-	if(!file7){
-		delete file7;
-	}
-	if(!f27){
-		delete f27;
-	}
-	if(!file8){
-		delete file8;
-	}
-	if(!f28){
-		delete f28;
-	}
-	if(!file9){
-		delete file9;
-	}
-	if(!f29){
-		delete f29;
-	}
-	if(!file10){
-		delete file10;
-	}
-	if(!f210){
-		delete f210;
-	}
-	if(!file11){
-		delete file11;
-	}
-	if(!f211){
-		delete f211;
-	}
-	if(!file12){
-		delete file12;
-	}
-	if(!f212){
-		delete f212;
-	}
+
+	files.clear();
+	fs.clear();
+	NameFiles.clear();
+	pathfile.clear();
+	namesmall.clear();
 }
 
 
@@ -160,13 +71,15 @@ void CopyTree::CopyWithSelec(string mode){
   	/* could not open directory */
  	cout << "couldn't open directory" << endl;
 	}
+	files.resize(NameFiles.size()-2);
+	fs.resize(NameFiles.size()-2);
 
 	for(int i = 2; i < NameFiles.size() ; i++){
 		cout << NameFiles[i] << endl;
 		string namsmall = "namesmall";
 		cout << " line 167 " << endl;
 		int intransf = i-2;
-		std::string s = std::to_string(intransf);
+		string s = to_string(intransf);
 
 		cout << " line 171 " << endl;
 		string transfer = namsmall + s;
@@ -174,7 +87,7 @@ void CopyTree::CopyWithSelec(string mode){
 		string transfer2 = path + NameFiles[i];
 		cout << transfer2 <<" line 175 " << endl;
 		pathfile.push_back(transfer2);
-		cout << pathfile[intransf].c_str() << " line 177 " << endl;
+		cout << " line 177 " << endl;
 		files[intransf] = new TFile(pathfile[intransf].c_str());
 		cout << " line 179 " << endl;
 		ntuple[intransf] = (TTree*) files[intransf]->Get("stage/ttree");
