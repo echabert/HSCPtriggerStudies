@@ -164,13 +164,17 @@ void CopyTree::CopyWithSelec(string mode){
 	for(int i = 2; i < NameFiles.size() ; i++){
 		cout << NameFiles[i] << endl;
 		string namsmall = "namesmall";
-		string s = to_string(i-2);
+		cout << " line 167 " << endl;
+		int intransf = i-2;
+		std::string s = std::to_string(intransf);
+
+		cout << " line 171 " << endl;
 		string transfer = namsmall + s;
 		namesmall.push_back(transfer);
 		string transfer2 = path + NameFiles[i];
 
 		pathfile.push_back(transfer2);
-
+		
 		files[i-2] = new TFile(pathfile[i-2].c_str());
 		cout << " line 175 " << endl;
 		ntuple[i-2] = (TTree*) files[i-2]->Get("stage/ttree");
