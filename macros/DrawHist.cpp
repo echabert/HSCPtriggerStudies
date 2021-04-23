@@ -6,6 +6,7 @@
 #include <TF1.h>
 #include <iostream>
 #include <fstream>
+#include <ctime>
 #include "DrawHist.h"
 
 
@@ -33,25 +34,29 @@ DrawHist::~DrawHist(){
 
 
 void DrawHist::FitSignalBg(){
+	srand(time(NULL));
 	ofstream InfosPurity;
-	InfosPurity.open ("PurityallMET.txt");
+	InfosPurity.open ("/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/PurityallMET.txt");
 
-	
-	myFile = new TFile("test2_hist.root");
+	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root";
+	myFile = new TFile(filepath);
 	TH1D* HIST_MASSES = (TH1D*)gROOT->FindObject("MASS");
 	
 
-	outputfilename="FIT_ALL.root";
+	outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/FIT_ALL.root";
 
 	OutputHisto = new TFile(outputfilename,"RECREATE");
 
 	
 	TH1D* HIST_FITBG = (TH1D*) HIST_MASSES->Clone();
-	TH1D* HIST_FITSIG = (TH1D*) HIST_MASSES->Clone();
 
+
+	TH1D* HIST_FITSIG = (TH1D*) HIST_MASSES->Clone();
+	
+	HIST_FITBG->SetName("FitBackground");
 	
 	HIST_FITSIG->SetName("FitSignal");
-	HIST_FITBG->SetName("FitBackground");
+
 	
 	HIST_FITBG->GetXaxis()->SetTitle("M [GeV]");
 	HIST_FITBG->GetYaxis()->SetTitle(" # candidates");
@@ -63,13 +68,23 @@ void DrawHist::FitSignalBg(){
 	int nbinxfit = HIST_FITSIG->GetNbinsX();
 	int nbinyfit = HIST_FITSIG->GetNbinsY();
 	int tab[nbinxfit];
+	
 	cout << "nb of bins : " <<  nbinxfit << endl;
 	int nbentriesZ=0;
 
 	for(int x = 0 ; x < nbinxfit ; x++){
+		if(x < 41 || x > 50 ){
+			ValBins.push_back(HIST_FITBG->GetBinContent(x));
+		}
 		tab[x] = HIST_FITBG->GetBinContent(x);
 		//cout << "bin " << x << " = " << tab[x] << endl;
 	}
+	
+	sort(ValBins.begin(),ValBins.end());
+	int valsize = ValBins.size();
+
+	//cout <<  ValBins[valsize-1] << " ,"<< ValBins[0] << endl;
+	
 	for(int x = 0 ; x < 40 ; x++){
 		HIST_FITSIG->SetBinContent(x,0);
 	}
@@ -79,8 +94,13 @@ void DrawHist::FitSignalBg(){
 	
 	for(int x = 40 ; x < 50 ; x++){
 		//compter ici le signal
+		
+		int randombg = rand()%(ValBins[valsize-1]-ValBins[0]+1)+ValBins[0];
+		cout << randombg << endl;
 		nbentriesZ+=HIST_FITSIG->GetBinContent(x);
-		HIST_FITBG->SetBinContent(x,0);
+		//HIST_FITBG->SetBinContent(x,0);
+		HIST_FITBG->SetBinContent(x,randombg);
+		
 
 	}
 	for(int x = 0 ; x < 10 ; x++){

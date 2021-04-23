@@ -32,7 +32,7 @@ class DrawHist
 	TFile* OutputHisto;
 
 	TString outputfilename;
-	
+	vector<int> ValBins;
 };
 
 

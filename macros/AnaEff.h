@@ -196,6 +196,7 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
    Init(tree);
 
 }
+// /home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/all_new.root
 ////home/raph/CMS/prodMarch2021_CMSSW_10_6_2/smallaod.root
 // /opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1059.root
 AnaEff::~AnaEff() //deconstructeur
