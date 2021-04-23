@@ -37,7 +37,7 @@ void DrawHist::FitSignalBg(){
 	InfosPurity.open ("PurityallMET.txt");
 
 	
-	myFile = new TFile("64-00.root");
+	myFile = new TFile("test2_hist.root");
 	TH1D* HIST_MASSES = (TH1D*)gROOT->FindObject("MASS");
 	
 
