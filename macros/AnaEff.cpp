@@ -1,5 +1,4 @@
-
-+#define efficiency_cxx
+#define efficiency_cxx
 #include "AnaEff.h"
 
 

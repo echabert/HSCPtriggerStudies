@@ -167,7 +167,7 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 {
 	distrib=0;
 	MUONPT_DISTRIB=0;
-	ISOR03_DISTRIB=0;
+	ISOR03_DISTRIB=0;s
 	//triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.

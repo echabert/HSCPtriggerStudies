@@ -103,15 +103,15 @@ void DrawHist::FitSignalBg(){
 	
 	double IntegralBg = g->Integral(86,96);
 	
-	cout << "This is the integral of the Signal in bins [40-50]: " << IntegralGauss << endl;
-	cout << "This is the integral of the background with bins [40-50] = 0 : " << IntegralBg << endl;
+	cout << "This is the integral of the Signal for mass between [86-96]: " << IntegralGauss << endl;
+	cout << "This is the integral of the background for mass between [86-96] = 0 : " << IntegralBg << endl;
 	cout << "Ratio signal/total ¦ bins in 40-50 -> 0 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg))*100 << " %" << endl;
 	
 	cout << "There was " << nbentriesZ << " Z pair" << endl;
 
 
 
-	InfosPurity << "Integral of the Signal in bins [40-50] : " << IntegralGauss << " , Integral of the background in bins [40-50] : " << IntegralBg << endl ;
+	InfosPurity << "Integral of the Signal for mass between [86-96] : " << IntegralGauss << " , Integral of the background for mass between [86-96] : " << IntegralBg << endl ;
 
 	InfosPurity << "Ratio signal/total ¦ bins in 40-50 -> 0 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg))*100 << " %" << endl;
 	
