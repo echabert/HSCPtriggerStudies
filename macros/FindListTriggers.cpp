@@ -12,6 +12,9 @@
 
 using namespace std; 
 
+
+
+
 int ListNameTriggers::IsInList(string name){
 	int ct=0;
 	for(int i = 0 ; i < InfoTriggers.size() ; i++){

@@ -55,7 +55,7 @@ void CopyTree::CopyWithSelec(string mode){
 	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/");
 	string ext(".root");
 	
-
+	Long64_t sumentries=0,smallsumentries=0;
 	if(mode=="norm"){
 		DIR *dir;
 		struct dirent *ent;
@@ -85,18 +85,26 @@ void CopyTree::CopyWithSelec(string mode){
 			pathfile.push_back(transfer2);
 			files[intransf] = new TFile(pathfile[intransf].c_str());
 			ntuple[intransf] = (TTree*) files[intransf]->Get("stage/ttree");
+
+			Long64_t nentries = ntuple[intransf]->GetEntriesFast();
+			sumentries+=nentries;
+
 			fs[intransf] = new TFile(namesmall[intransf].c_str(),"RECREATE");
 			fs[intransf]->cd();
 			fs[intransf]->mkdir("stage");
 			fs[intransf]->cd("stage");
 			small[intransf] = ntuple[intransf]->CopyTree(cuts);
+
+			Long64_t smallnentries = small[intransf]->GetEntriesFast();
+			smallsumentries+=smallnentries;
+				
 			small[intransf]->Write();
 			fs[intransf]->Close();
 
 			cout << " Copied file " << intransf << " with name " << namesmall[intransf].c_str() << endl;
 		}
 	
-	
+		cout <<"There was initially " << sumentries << " entries, reduced to " << smallsumentries << " , we took only "<< (smallsumentries*1.0/sumentries) * 100 << " %" << endl;
 
 	}
 	else if(mode == "aod"){
