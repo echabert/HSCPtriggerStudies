@@ -36,14 +36,14 @@ DrawHist::~DrawHist(){
 void DrawHist::FitSignalBg(){
 	srand(time(NULL));
 	ofstream InfosPurity;
-	InfosPurity.open ("/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/PurityallMET.txt");
+	InfosPurity.open ("/home/raph/CMS/HSCPtriggerStudies/PuritySingleMuon.txt");
 
-	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root";
+	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/SingleMuon.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
 	myFile = new TFile(filepath);
 	TH1D* HIST_MASSES = (TH1D*)gROOT->FindObject("MASS");
 	
 
-	outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/FIT_ALL.root";
+	outputfilename="/home/raph/CMS/HSCPtriggerStudies/HIST_SingleMuon.root";
 
 	OutputHisto = new TFile(outputfilename,"RECREATE");
 
