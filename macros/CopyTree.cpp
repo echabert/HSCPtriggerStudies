@@ -102,7 +102,7 @@ void CopyTree::CopyWithSelec(string mode){
 			small[intransf]->Write();
 			fs[intransf]->Close();
 
-			cout << " Copied file " << intransf << " with name " << namesmall[intransf].c_str() << endl;
+			cout << " Copied file " << NamesFiles[i] << " in place " << intransf << " with name " << namesmall[intransf].c_str() << endl;
 		}
 	
 		cout <<"There was initially " << sumentries << " entries, reduced to " << smallsumentries << " , we took only "<< (smallsumentries*1.0/sumentries) * 100 << " %" << endl;
