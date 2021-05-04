@@ -70,19 +70,70 @@ void CopyTree::CopyWithSelec(string mode){
 		else {
  		cout << "couldn't open directory" << endl;
 		}
-		cout << "They are " << NameFiles.size() << " files before removing the first 2" << endl;
+		
 		NameFiles.erase( NameFiles.begin(), NameFiles.size() > 2 ?  NameFiles.begin() + 2 : NameFiles.end() );
-		cout << "They are " << NameFiles.size() << " files after removing the first 2" << endl;
-		cout << NameFiles[0] << endl;
-		files.resize(NameFiles.size()-2);
-		fs.resize(NameFiles.size()-2);
-		small.resize(NameFiles.size()-2);
-		ntuple.resize(NameFiles.size()-2);
+		
 
 
+		files.resize(NameFiles.size());
+		fs.resize(NameFiles.size());
+		small.resize(NameFiles.size());
+		ntuple.resize(NameFiles.size());
 
 
-		cout << "They are " << NameFiles.size() << " files" << endl;
+		int nbsubf = 40;
+		float f = ( NameFiles.size() / 40 );
+		int sizeofsub = (int)f;
+		cout << "There are " << f << " subgroups, and " <<  NamesFiles.size() - (f*nbsubf) << " files remaining " << endl;
+
+		cout << "Which subgroup of 40 files do you want to study ?" << endl;
+		cin >> x ;
+
+		if(x > f){
+
+		}
+		else{
+			for(int j = (x-1)*nbsubf; j < x*nbsubf ; j++){
+				string namsmall = "namesmall";
+				int intransf = j;
+				string s = to_string(intransf);
+				string transfer = namsmall + s + ext;
+				//namesmall[intransf] = transfer;
+				namesmall.push_back(transfer);
+
+
+				string transfer2 = path + NameFiles[j];
+				//pathfile[intransf] = transfer2;
+				pathfile.push_back(transfer2);
+
+
+				int filenumber = intransf%nbsubf;
+
+				files[j] = new TFile(pathfile[filenumber].c_str());
+				ntuple[j] = (TTree*) files[j]->Get("stage/ttree");
+
+				Long64_t nentries = ntuple[j]->GetEntriesFast();
+				sumentries+=nentries;
+
+				fs[j] = new TFile(namesmall[filenumber].c_str(),"RECREATE");
+				fs[j]->cd();
+				fs[j]->mkdir("stage");
+				fs[j]->cd("stage");
+				small[j] = ntuple[j]->CopyTree(cuts);
+
+				Long64_t smallnentries = small[j]->GetEntriesFast();
+				smallsumentries+=smallnentries;
+				
+				small[j]->Write();
+				fs[j]->Close();
+
+			
+				cout << " Copied file " << NameFiles[j] << " in place " << intransf << " with name " << namesmall[filenumber].c_str() << endl;
+			}
+
+		}
+
+		/*cout << "They are " << NameFiles.size() << " files" << endl;
 		for(int i = 0; i < 60 ; i++){
 			
 			string namsmall = "namesmall";
@@ -118,7 +169,7 @@ void CopyTree::CopyWithSelec(string mode){
 			fs[intransf]->Close();
 
 			cout << " Copied file " << NameFiles[i] << " in place " << intransf << " with name " << namesmall[intransf].c_str() << endl;
-		}
+		}*/
 	
 		cout <<"There was initially " << sumentries << " entries, reduced to " << smallsumentries << " , we took only "<< (smallsumentries*1.0/sumentries) * 100 << " %" << endl;
 
