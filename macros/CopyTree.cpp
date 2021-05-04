@@ -70,20 +70,22 @@ void CopyTree::CopyWithSelec(string mode){
  		cout << "couldn't open directory" << endl;
 		}
 
-		files.resize(NameFiles.size()-2);
-		fs.resize(NameFiles.size()-2);
-		small.resize(NameFiles.size()-2);
-		ntuple.resize(NameFiles.size()-2);
+		files.resize(NameFiles.size()-2,0.0);
+		fs.resize(NameFiles.size()-2,0.0);
+		small.resize(NameFiles.size()-2,0.0);
+		ntuple.resize(NameFiles.size()-2,0.0);
 		cout << "They are " << NameFiles.size() << " files" << endl;
-		for(int i = 60; i < 118 ; i++){
+		for(int i = 2; i < NameFiles.size() ; i++){
 			
 			string namsmall = "namesmall";
 			int intransf = i-2;
 			string s = to_string(intransf);
 			string transfer = namsmall + s + ext;
-			namesmall.push_back(transfer);
+			namesmall[intransf] = transfer;
+			//namesmall.push_back(transfer);
 			string transfer2 = path + NameFiles[i];
-			pathfile.push_back(transfer2);
+			pathfile[intransf] = transfer2;
+			//pathfile.push_back(transfer2);
 			files[intransf] = new TFile(pathfile[intransf].c_str());
 			ntuple[intransf] = (TTree*) files[intransf]->Get("stage/ttree");
 
