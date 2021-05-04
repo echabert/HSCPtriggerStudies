@@ -63,20 +63,30 @@ void CopyTree::CopyWithSelec(string mode){
   			while ((ent = readdir (dir)) != NULL) {
 				NameFiles.push_back(ent->d_name);
   			}
-		cout << NameFiles.size() << endl;
+	
   		closedir (dir);
 		} 
+
 		else {
  		cout << "couldn't open directory" << endl;
 		}
+		cout << "They are " << NameFiles.size() << " files before removing the first 2" << endl;
+		NameFiles.erase( NameFiles.begin(), NameFiles.size() > 2 ?  NameFiles.begin() + 2 : NameFiles.end() );
+		cout << "They are " << NameFiles.size() << " files after removing the first 2" << endl;
 
 		files.resize(NameFiles.size()-2);
 		fs.resize(NameFiles.size()-2);
 		small.resize(NameFiles.size()-2);
 		ntuple.resize(NameFiles.size()-2);
 
-		cout << "They are " << NameFiles.size() << " files" << endl;
-		for(int i = 2; i < NameFiles.size() ; i++){
+/*
+int nbsubf = 40;
+float f = ( NameFiles.size() / 40 );
+int sizeofsub = (int)f;
+
+
+We make max 40 files for one pack
+for(int i = 2; i < NameFiles.size() ; i++){
 			
 			string namsmall = "namesmall";
 			int intransf = i-2;
@@ -89,6 +99,51 @@ void CopyTree::CopyWithSelec(string mode){
 			string transfer2 = path + NameFiles[i];
 			//pathfile[intransf] = transfer2;
 			pathfile.push_back(transfer2);
+
+
+
+			files[intransf] = new TFile(pathfile[intransf].c_str());
+			ntuple[intransf] = (TTree*) files[intransf]->Get("stage/ttree");
+
+			Long64_t nentries = ntuple[intransf]->GetEntriesFast();
+			sumentries+=nentries;
+
+			fs[intransf] = new TFile(namesmall[intransf].c_str(),"RECREATE");
+			fs[intransf]->cd();
+			fs[intransf]->mkdir("stage");
+			fs[intransf]->cd("stage");
+			small[intransf] = ntuple[intransf]->CopyTree(cuts);
+
+			Long64_t smallnentries = small[intransf]->GetEntriesFast();
+			smallsumentries+=smallnentries;
+				
+			small[intransf]->Write();
+			fs[intransf]->Close();
+
+			cout << " Copied file " << NameFiles[i] << " in place " << intransf << " with name " << namesmall[intransf].c_str() << endl;
+		}
+
+
+
+*/
+
+
+
+		cout << "They are " << NameFiles.size() << " files" << endl;
+		for(int i = 2; i < 60 ; i++){
+			
+			string namsmall = "namesmall";
+			int intransf = i-2;
+			string s = to_string(intransf);
+			string transfer = namsmall + s + ext;
+			//namesmall[intransf] = transfer;
+			namesmall.push_back(transfer);
+
+
+			string transfer2 = path + NameFiles[i];
+			//pathfile[intransf] = transfer2;
+			pathfile.push_back(transfer2);
+
 
 
 			files[intransf] = new TFile(pathfile[intransf].c_str());
