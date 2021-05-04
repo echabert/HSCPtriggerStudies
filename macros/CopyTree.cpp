@@ -70,10 +70,10 @@ void CopyTree::CopyWithSelec(string mode){
  		cout << "couldn't open directory" << endl;
 		}
 
-		files.resize(NameFiles.size()-2,0.0);
-		fs.resize(NameFiles.size()-2,0.0);
-		small.resize(NameFiles.size()-2,0.0);
-		ntuple.resize(NameFiles.size()-2,0.0);
+		files.resize(NameFiles.size()-2);
+		fs.resize(NameFiles.size()-2);
+		small.resize(NameFiles.size()-2);
+		ntuple.resize(NameFiles.size()-2);
 		cout << "They are " << NameFiles.size() << " files" << endl;
 		for(int i = 2; i < NameFiles.size() ; i++){
 			
