@@ -80,11 +80,11 @@ void CopyTree::CopyWithSelec(string mode){
 		small.resize(NameFiles.size());
 		ntuple.resize(NameFiles.size());
 
-
-		int nbsubf = 40;
+	
+		int nbsubf = 40,x;
 		float f = ( NameFiles.size() / 40 );
 		int sizeofsub = (int)f;
-		cout << "There are " << f << " subgroups, and " <<  NamesFiles.size() - (f*nbsubf) << " files remaining " << endl;
+		cout << "There are " << f << " subgroups, and " <<  NameFiles.size() - (f*nbsubf) << " files remaining " << endl;
 
 		cout << "Which subgroup of 40 files do you want to study ?" << endl;
 		cin >> x ;
