@@ -83,10 +83,10 @@ void CopyTree::CopyWithSelec(string mode){
 
 
 		cout << "They are " << NameFiles.size() << " files" << endl;
-		for(int i = 2; i < 60 ; i++){
+		for(int i = 0; i < 60 ; i++){
 			
 			string namsmall = "namesmall";
-			int intransf = i-2;
+			int intransf = i;
 			string s = to_string(intransf);
 			string transfer = namsmall + s + ext;
 			//namesmall[intransf] = transfer;
