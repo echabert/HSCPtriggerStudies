@@ -89,6 +89,8 @@ void CopyTree::CopyWithSelec(string mode){
 		cout << "Which subgroup of 40 files do you want to study ?" << endl;
 		cin >> x ;
 
+
+		cout << "Copying from file " << NameFiles[(x-1)*nbsubf] << " to file " << NameFiles[(x*nbsubf)-1] << endl;
 		if(x > f){
 
 		}
