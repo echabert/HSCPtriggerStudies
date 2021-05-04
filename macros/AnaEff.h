@@ -66,15 +66,16 @@ public :
    Float_t	prescaleTrigger[1000];
    Bool_t	passTrigger[1000];
   // vector<string>*	triggerName;
-   
+   Bool_t       muon_isMediumMuon[32];
+
    Float_t	track_pt[33]; //[ntracks] augmenter la taille pour pas de overflow, it was 33
    Float_t      track_p[33];   
    Float_t	track_pterr[33];
    Int_t	hscp_track_idx[9];  //[nhscp] it was 9
- 
+   Int_t        ntracks;
 
    Float_t	track_eta[33];
-
+   Float_t	track_phi[33];
    Int_t	track_npixhits[33];
    Int_t	track_nvalidhits[33];
    Float_t	track_validfraction[33];
@@ -92,7 +93,7 @@ public :
    Float_t      muon_pt[32];
    Int_t	nmuons;
    Float_t      muon_isoR03_sumChargedHadronPt[32];
-
+   Int_t        hscp_muon_idx[9];
 
     // List of branches
    TBranch        *b_runNumber;   //!
@@ -128,6 +129,11 @@ public :
    TBranch        *b_muon_pt;
    TBranch        *b_nmuons;
    TBranch        *b_muon_isoR03_sumChargedHadronPt;
+   TBranch        *b_track_phi;
+   TBranch        *b_ntracks;
+   TBranch        *b_hscp_muon_idx;
+   TBranch        *b_muon_isMediumMuon;
+
    //--------------------------------------
    // Methods
    //--------------------------------------
@@ -144,7 +150,8 @@ public :
    virtual double   MuonsInvariantMass();
    virtual double   IsolateMuons(const vector<bool> &passtrig);
    virtual int      fact(int n);
-
+   virtual double   deltaR2(float track_eta,float track_phi, float muon_eta, float muon_phi);
+   virtual double   deltaR(double delta);
 
 private :
 
@@ -172,17 +179,17 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
 	if (tree == 0) {
-		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_new.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/home/raph/CMS/HSCPtriggerStudies/smallaod.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 ///opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/HSCPgluino_M-1600_TuneCP5_13TeV-pythia8/MC17_Gluino1600_runv3/210324_135858/0000
 		
 		//pas dans stage ?
 ///home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_106.root
 		if (!f || !f->IsOpen()) {
-			f = new TFile("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_new.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+			f = new TFile("/home/raph/CMS/HSCPtriggerStudies/smallaod.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 		}
 		
 	
-		TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_new.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
+		TDirectory * dir = (TDirectory*)f->Get("/home/raph/CMS/HSCPtriggerStudies/smallaod.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
 		dir->GetObject("ttree",tree);
 		
 // /home/raph/CMS/HSCPtriggerStudies/all.root
@@ -197,7 +204,7 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 
 }
 // /home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/all_new.root
-////home/raph/CMS/prodMarch2021_CMSSW_10_6_2/smallaod.root
+////home/raph/CMS/HSCPtriggerStudies/smallaod.root
 // /opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/0001/nt_data_aod_1-1059.root
 AnaEff::~AnaEff() //deconstructeur
 {
@@ -282,7 +289,11 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("muon_pt", muon_pt, &b_muon_pt);
    
    fChain->SetBranchAddress("muon_isoR03_sumChargedHadronPt", muon_isoR03_sumChargedHadronPt, &b_muon_isoR03_sumChargedHadronPt);
- //  fChain->SetBranchAddress("hscp_muon_idx", hscp_muon_idx, &b_hscp_muon_idx); 
+   fChain->SetBranchAddress("track_phi", track_phi, &b_track_phi);
+   fChain->SetBranchAddress("ntracks", &ntracks, &b_ntracks);
+   fChain->SetBranchAddress("hscp_muon_idx", hscp_muon_idx, &b_hscp_muon_idx); 
+   fChain->SetBranchAddress("muon_isMediumMuon", muon_isMediumMuon, &b_muon_isMediumMuon);
+
    Notify();
 }
 

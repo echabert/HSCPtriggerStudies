@@ -75,7 +75,7 @@ void CopyTree::CopyWithSelec(string mode){
 		small.resize(NameFiles.size()-2);
 		ntuple.resize(NameFiles.size()-2);
 		cout << "They are " << NameFiles.size() << " files" << endl;
-		for(int i = 2; i < 60 ; i++){
+		for(int i = 60; i < 118 ; i++){
 			
 			string namsmall = "namesmall";
 			int intransf = i-2;

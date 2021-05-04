@@ -79,11 +79,11 @@ void AnaEff::Loop()
 	}
 	inttrigs.close();
 
-	string NameOfFile="MET30Apr.root";
-	string NameOfTxt="AllInfosMET30Apr.txt";
-	string NameOfEff="EffET30Apr.txt";
-	string EntriesFromZ="EntriesFromZET30Apr.txt";
-	TString distribvarZ = "DistribZpeakET30Apr.root";
+	string NameOfFile="SingleMuon0305_2.root";
+	string NameOfTxt="AllInfosSingleMuon0305_2.txt";
+	string NameOfEff="EffSingleMuon0305_2.txt";
+	string EntriesFromZ="EntriesFromZSingleMuon0305_2.txt";
+	TString distribvarZ = "DistribZpeakSingleMuon0305_2.root";
 	
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
@@ -194,7 +194,9 @@ int AnaEff::Selection(){
 	vector<int> positions;
 	vector< pair<float, int > > Muonpt; 
 	bool yon=true;
+	cout << " New event ---------------------------- " << endl;
 	for(int ihs=0; ihs<nhscp;ihs++){
+		cout << nmuons <<endl;
 		//cout << ihs  << endl;
 		//ecal + hcal/p
 		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
@@ -232,6 +234,12 @@ int AnaEff::Selection(){
 		if(hscp_iso2_tk[ihs] >= 100){ //50
 			yon=false;
 		}
+
+		/*if (muon_isMediumMuon[ihs]){
+			cout << " muon index : " << hscp_muon_idx[ihs] << " , with track index : " << hscp_track_idx[ihs] << endl;
+
+		}*/
+
 		if(yon){
 			positions.push_back(ihs); 
 			Muonpt.push_back(make_pair(muon_pt[ihs],ihs));
@@ -246,6 +254,7 @@ int AnaEff::Selection(){
 	if(positions.size() != 0){
 		int siz=Muonpt.size();
 		sort(Muonpt.begin(),Muonpt.end());
+		cout << " returning " << Muonpt[siz-1].second << endl;
 		return Muonpt[siz-1].second;
 	}
 	else{
@@ -257,6 +266,27 @@ int AnaEff::Selection(){
 int AnaEff::fact(int n){
      return (n==0) || (n==1) ? 1 : n* fact(n-1);
 }
+
+
+
+
+double AnaEff::deltaR2(float track_eta,float track_phi, float muon_eta, float muon_phi){
+	float dp = std::abs(track_phi - muon_phi);
+	if (dp > M_PI){
+		dp -= 2.0 * M_PI;
+	}
+	return (track_eta - muon_eta)*(track_eta - muon_eta) + dp * dp;
+
+}
+
+
+double AnaEff::deltaR(double delta) {
+	return std::sqrt(delta);
+}
+
+
+
+
 
 double AnaEff::MuonsInvariantMass(){
 	double InvariantMass,c1pt,c2pt,c1phi,c2phi,c1eta,c2eta;
@@ -303,7 +333,8 @@ double AnaEff::MuonsInvariantMass(){
 
 	else if(nmuons > 2){
 		nbcomb = (fact(nmuons) / (fact(2) * fact(nmuons-2)) );
-		
+
+	
 	
 		//&& muon_pt[j] >= 10 && muon_pt[k] >= 10
 		//cout << nmuons << " muons " << endl; 
@@ -313,6 +344,7 @@ double AnaEff::MuonsInvariantMass(){
 				muonETA.push_back(make_pair(muon_eta[i],i));
 				muonPHI.push_back(make_pair(muon_phi[i],i));
 			}
+			
 		}
 		//cout << "On a sample of " << nmuons << " muons, only " << muonPT.size() << " were picked" << endl;
 		//newcomb = (fact(muonPT.size()) / (fact(2) * fact(muonPT.size()-2)));
@@ -367,40 +399,23 @@ double AnaEff::MuonsInvariantMass(){
 		//cout << "muon " << binom[pom].first << "[pt] :" << muon_pt[binom[pom].first] << " , muon " << binom[pom].second << "[pt] :"  << muon_pt[binom[pom].second] << endl;
 		if(invmass[pom] < massZ + 10 && invmass[pom] > massZ -10){
 			MUONPT_DISTRIB->Fill(muon_pt[binom[pom].first]);
-			//MUONPT_DISTRIB->Fill(muon_pt[binom[pom].second]);
-
-			ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].first]);
-			//ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].second]);
-			
+			ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].first]);	
 		}
-		
 		binom.clear();
 	
-		
-		//ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].first]);
-		//ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].second]);
-		
 		//cout << invmass[pom] << endl;
-		double armass = invmass[pom];
-		
-		//sort(invmass.rbegin(),invmass.rend());
-		//cout << invmass[0] << endl;
-		//cout << pom << " ," << armass << endl;
-		
+		double armass = invmass[pom];	
 		invmass.clear();
 		return armass;
 		}
 
 	mus.clear();
-	
 	muonPT.clear();
 	muonETA.clear();
 	muonPHI.clear();
 	binom.clear();
 	invmass.clear();
 	return 1;
-	//trigEff_selection_obs.MASS->Write();
-	
 }
 
 
