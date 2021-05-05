@@ -104,6 +104,7 @@ void CopyTree::CopyWithSelec(string mode){
 				string transfer2 = path + NameFiles[j];
 				pathfile.push_back(transfer2);
 				int filenumber = j%nbsubf;
+				cout << filenumber << endl;
 				files[j] = new TFile(pathfile[filenumber].c_str());
 				ntuple[j] = (TTree*) files[j]->Get("stage/ttree");
 				Long64_t nentries = ntuple[j]->GetEntriesFast();
