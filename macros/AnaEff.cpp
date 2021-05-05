@@ -78,12 +78,25 @@ void AnaEff::Loop()
    		str.push_back(tmp);
 	}
 	inttrigs.close();
+	
+	string subnum = to_string(2);
+	string extroot = ".root";
+	string exttxt = ".txt";
+	
+	string StudyData="MET0505_";
+	string StudyTxt = "AllInfosMET0505_";
+	string StudyEff="EffMET0505_";
+	string StudyZ="EntriesFromZMET0505_";
+	TString StudyDistribZ = "DistribZpeakMET0505_";
 
-	string NameOfFile="MET0505_1.root";
-	string NameOfTxt="AllInfosMET0505_1.txt";
-	string NameOfEff="EffMET0505_1.txt";
-	string EntriesFromZ="EntriesFromZMET0505_1.txt";
-	TString distribvarZ = "DistribZpeakMET0505_1.root";
+
+	string NameOfFile = StudyData + subnum + extroot;
+
+	string NameOfEff = StudyEff + subnum + exttxt;
+	string NameOfTxt = StudyTxt + subnum + exttxt;
+	string EntriesFromZ = StudyZ + subnum + exttxt;
+	string distribvarZ = StudyDistribZ + subnum + extroot;
+	
 	
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
