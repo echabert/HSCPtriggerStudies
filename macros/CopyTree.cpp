@@ -97,23 +97,15 @@ void CopyTree::CopyWithSelec(string mode){
 		else{
 			for(int j = (x-1)*nbsubf; j < x*nbsubf ; j++){
 				string namsmall = "namesmall";
-				int intransf = j;
-				string s = to_string(intransf);
+				
+				string s = to_string(j);
 				string transfer = namsmall + s + ext;
-				//namesmall[intransf] = transfer;
 				namesmall.push_back(transfer);
-
-
 				string transfer2 = path + NameFiles[j];
-				//pathfile[intransf] = transfer2;
 				pathfile.push_back(transfer2);
-
-
-				int filenumber = intransf%nbsubf;
-
+				int filenumber = j%nbsubf;
 				files[j] = new TFile(pathfile[filenumber].c_str());
 				ntuple[j] = (TTree*) files[j]->Get("stage/ttree");
-
 				Long64_t nentries = ntuple[j]->GetEntriesFast();
 				sumentries+=nentries;
 
@@ -130,7 +122,7 @@ void CopyTree::CopyWithSelec(string mode){
 				fs[j]->Close();
 
 			
-				cout << " Copied file " << NameFiles[j] << " in place " << intransf << " with name " << namesmall[filenumber].c_str() << endl;
+				cout << " Copied file " << NameFiles[j] << " in place " << f << " with name " << namesmall[filenumber].c_str() << endl;
 			}
 
 		}
