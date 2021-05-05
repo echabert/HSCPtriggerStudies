@@ -194,9 +194,7 @@ int AnaEff::Selection(){
 	vector<int> positions;
 	vector< pair<float, int > > Muonpt; 
 	bool yon=true;
-	cout << " New event ---------------------------- " << endl;
 	for(int ihs=0; ihs<nhscp;ihs++){
-		cout << nmuons <<endl;
 		//cout << ihs  << endl;
 		//ecal + hcal/p
 		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
@@ -254,7 +252,7 @@ int AnaEff::Selection(){
 	if(positions.size() != 0){
 		int siz=Muonpt.size();
 		sort(Muonpt.begin(),Muonpt.end());
-		cout << " returning " << Muonpt[siz-1].second << endl;
+		
 		return Muonpt[siz-1].second;
 	}
 	else{
