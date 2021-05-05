@@ -87,7 +87,7 @@ void AnaEff::Loop()
 	string StudyTxt = "AllInfosMET0505_";
 	string StudyEff="EffMET0505_";
 	string StudyZ="EntriesFromZMET0505_";
-	TString StudyDistribZ = "DistribZpeakMET0505_";
+	string StudyDistribZ = "DistribZpeakMET0505_";
 
 
 	string NameOfFile = StudyData + subnum + extroot;
