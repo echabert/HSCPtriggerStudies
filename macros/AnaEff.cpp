@@ -192,7 +192,7 @@ void AnaEff::Loop()
 	
 
 	
-	distrib = new TFile(distribvarZ,"RECREATE");
+	distrib = new TFile(distribvarZ.c_str(),"RECREATE");
 	
 	distrib->cd();
 	MUONPT_DISTRIB->Write();
