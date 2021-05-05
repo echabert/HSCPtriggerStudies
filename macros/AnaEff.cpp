@@ -79,7 +79,7 @@ void AnaEff::Loop()
 	}
 	inttrigs.close();
 	
-	string subnum = to_string(2);
+	string subnum = "all"; //to_string(2);
 	string extroot = ".root";
 	string exttxt = ".txt";
 	
