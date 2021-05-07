@@ -191,7 +191,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	MASS->GetXaxis()->SetTitle("M [GeV]");
 	MASS->GetYaxis()->SetTitle(" # candidates");
 
-
+	cout << "end of load" << endl;
 	MASS->Sumw2();
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
