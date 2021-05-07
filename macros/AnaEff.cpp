@@ -80,12 +80,22 @@ void AnaEff::Loop()
 	string subnum = "all"; //to_string(2);
 	string extroot = ".root";
 	string exttxt = ".txt";
+	string date = "0505_";
 	
-	string StudyData="MET0505_";
-	string StudyTxt = "AllInfosMET0505_";
-	string StudyEff="EffMET0505_";
-	string StudyZ="EntriesFromZMET0505_";
-	string StudyDistribZ = "DistribZpeakMET0505_";
+	
+	
+	string TransferTxt="AllInfos";
+	string TransferEff = "Eff";
+	string TransferZ = "EntriesFromZ";
+	string TransferDistrib = "DistribZpeak";
+	string DataType = "MU";
+	string StudyData = DataType + date;
+	string StudyTxt = TransferTxt + DataType + date;
+	string StudyEff= TransferEff + DataType + date;
+	string StudyZ= TransferZ + DataType + date;
+	string StudyDistribZ = TransferDistrib+ DataType + date;;
+
+	
 
 
 	string NameOfFile = StudyData + subnum + extroot;
@@ -99,7 +109,7 @@ void AnaEff::Loop()
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
 	ISOR03_DISTRIB = new TH1D("ISOR03 close to Z", "ISOR03 close to z peak", 50,0,100);
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,"MET",NameOfFile); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,DataType,NameOfFile); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
 	//a
 	
