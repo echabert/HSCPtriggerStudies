@@ -172,6 +172,9 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			if(NameVar=="MET"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",50,0,2000);
 			}
+			if(NameVar=="MU"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MUPT;#epsilon",50,0,2000);
+			}
 			EffvsObs[j]->SetName(TriggerNames[TestNoMap[j].second].c_str());
 
 			//EffvsObs[j]->Draw("AP");
