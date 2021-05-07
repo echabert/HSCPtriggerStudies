@@ -104,11 +104,36 @@ void ListNameTriggers::FindAllNames(){
 			cout << "muon" << i << " has pt = " << muon_pt[i] << " , phi = " << muon_phi[i] << " and eta = " << muon_eta[i] << endl;
 		}*/
 
-		
+		if(ntrigger > InfoTriggers.size()){
+
+			for(int i=0; i< ntrigger; i++){
+				int b = IsInList(triggerName->at(i));
+				if(b==i){
+					cout << "was in list" << endl;
+				
+				}
+				else if(b==9999){
+					if(prescaleTrigger[i]==1){
+						cout << "Added one vector to the map with prescale 1" << endl;
+						InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(true,false)));
+					}
+					else{
+						InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
+					}
+
+				
+				}
+			}
+
+		}
 		
 
 
-		for(int i=0; i< ntrigger; i++){
+		/*for(int i=0; i< ntrigger; i++){
+
+
+		
+		
 			//auto it = find(InfoTriggers.begin(), InfoTriggers.end(),triggerName->at(i));
 
 			//auto it = std::ranges::find(InfoTriggers, triggerName->at(i), &std::pair<std::string, std::pair<bool,bool> >::first);
@@ -130,7 +155,7 @@ void ListNameTriggers::FindAllNames(){
 					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
 				}
 			}
-		}
+		}*/
 	}
 
 	for ( auto it = 0 ; it != InfoTriggers.size() ; it++){
