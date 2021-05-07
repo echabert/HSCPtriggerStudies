@@ -1,7 +1,5 @@
 #define efficiency_cxx
 #include "AnaEff.h"
-
-
 #include <iostream>
 #include <string>
 #include <TH2.h>
@@ -50,7 +48,7 @@ void AnaEff::Loop()
 	vector<string> SubListPT;
 	
 
-	string s2 = "PFMET";
+	string s2 = "mu";
 	string s3 = "TESTPT";
 
 	

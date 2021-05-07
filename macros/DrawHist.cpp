@@ -175,7 +175,7 @@ void DrawHist::FitSignalBg(){
 	
 	
 
-	TF1 *fitboth = new TF1("fits","gaus(0) +pol1(3)", 80,100);
+	TF1 *fitboth = new TF1("fits","gaus(0) +pol1(3)", 15,140);
 	fitboth->SetLineColor(2);
 	fitboth->SetParameters(m[0],m[1],m[2],m2[0],m2[1]);
 	HIST_FITSUM->Fit(fitboth,"R+");
