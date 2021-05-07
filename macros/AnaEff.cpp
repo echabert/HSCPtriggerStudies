@@ -159,7 +159,10 @@ void AnaEff::Loop()
 				vtrigger.push_back(passTrigger[i]);
 			}
 			passedevent+=1;
-		
+			cout << " new candidate --------------" << endl;
+			for(int s = 0; s<vtrigger.size();s++){
+				cout << vtrigger[s] << endl;
+			}
 			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
