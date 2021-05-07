@@ -103,7 +103,7 @@ void ListNameTriggers::FindAllNames(){
 		for (int i = 0 ; i < nmuons ;i++){
 			cout << "muon" << i << " has pt = " << muon_pt[i] << " , phi = " << muon_phi[i] << " and eta = " << muon_eta[i] << endl;
 		}*/
-
+		cout << "----------------------------- new event -----------------------------" << endl;
 		if(ntrigger > InfoTriggers.size()){
 
 			for(int i=0; i< ntrigger; i++){
@@ -124,6 +124,14 @@ void ListNameTriggers::FindAllNames(){
 				
 				}
 			}
+
+		}
+		else if(ntrigger == InfoTriggers.size()){
+			cout << "All triggers are here" << endl;
+
+		}
+		else if(ntrigger < InfoTriggers.size()){
+			cout << "There are " << ( InfoTriggers.size() - ntrigger ) << " triggers missing in this entry"  << endl;
 
 		}
 		
