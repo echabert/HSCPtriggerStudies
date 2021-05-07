@@ -89,11 +89,13 @@ void AnaEff::Loop()
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
 	string DataType = "MU";
+
+		
 	string StudyData = DataType + date;
 	string StudyTxt = TransferTxt + DataType + date;
 	string StudyEff= TransferEff + DataType + date;
 	string StudyZ= TransferZ + DataType + date;
-	string StudyDistribZ = TransferDistrib+ DataType + date;;
+	string StudyDistribZ = TransferDistrib + DataType + date;
 
 	
 
