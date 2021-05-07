@@ -160,7 +160,7 @@ void AnaEff::Loop()
 			}
 			passedevent+=1;
 		
-			trigEff_selection_obs.FillNoMap(vtrigger,HighestMET,1);
+			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
