@@ -41,6 +41,9 @@ public:
 
    void FillNoMap(vector<bool> &passtrig, float Obs = 0.0, double weight = 1,string mode = "all");
 
+   void FillNoMap2(vector< pair<int, bool > > PosPass, float Obs = 0.0, double weight = 1,string mode = "all");
+
+
    void Compute(string NameOutputFile);
    
    //void CreateHisto(string NameVar="random", const vector<string> &SelectedTriggerNames);

@@ -182,7 +182,7 @@ void AnaEff::Loop()
 					auto pos = std::distance(triggerNames.begin(), iter);
 					//position.push_back(pos);
 					PosPass.push_back(make_pair(pos,vtrigger[p]));
-					cout << "found trigger " << p << " ( " << triggerName->at(p) << " ) " << " in position" << pos << " inside CompleteList" << endl;
+					//cout << "found trigger " << p << " ( " << triggerName->at(p) << " ) " << " in position" << pos << " inside CompleteList" << endl;
 				}
 				
 				
@@ -192,8 +192,12 @@ void AnaEff::Loop()
 			//cout << " new candidate --------------" << endl;
 			cout << vtrigger.size() << endl;
 			
-			
-			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
+
+			trigEff_selection_obs.FillNoMap2(PosPass,HighestPT,1);
+
+
+
+			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			
 
 

@@ -263,7 +263,50 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 	}
 }
 
+//***************************************************************************************************************************
 
+
+void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double weight,string mode){  //const vector<bool> 
+	if(mode== "all"){ 
+		bool trig1,trig2;
+		
+
+		for(int i = 0; i < PosPass.size(); i++){
+			for(int j=0; j< TestNoMap.size(); j++){
+					if(PosPass[i].first == TestNoMap[j].second){
+						DenomEfficiency[PosPass[i].first] +=1;
+						trig1 = PosPass[i].second;
+						if(trig1){
+							NumEfficiency[PosPass[i].first] += 1;
+						}
+						if(Obs!=0.0){
+							EffvsObs[j]->TEfficiency::Fill(PosPass[i].second ,Obs);
+						}
+						break;
+				
+					}
+				}
+			
+			
+		}
+	
+	}
+	else if(mode == "muon"){
+		bool trigmu1,trigmu2;
+		//for(int i = 0; i < TestNoMap.size()  ;i++){
+		
+		//trigmu1 = passtrig.at(TestNoMap[i].second);
+
+		//}
+	}
+}
+
+
+
+
+
+
+//***************************************************************************************************************************
 void TrigEff::StudyTrigvsMass(double mass){
 
 }
