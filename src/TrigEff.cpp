@@ -211,14 +211,14 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string mode){  //const vector<bool> 
 	if(mode== "all"){ 
 		bool trig1,trig2;
-		for(int i = 0; i < TestNoMap.size()  ;i++){
+		for(int i = 0; i < passtrig.size()  ;i++){
 			trig1 = passtrig.at(TestNoMap[i].second);
 			DenomEfficiency[TestNoMap[i].second]+=1;
 			if(trig1){
 				NumEfficiency[TestNoMap[i].second]+=1;
 			}
 
-			for(int j = 0; j < TestNoMap.size()  ;j++){
+			for(int j = 0; j < passtrig.size()  ;j++){
 				trig2 = passtrig.at(TestNoMap[j].second);
 				if(trig1 || trig2){
 					DenomCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
