@@ -61,7 +61,7 @@ void AnaEff::Loop()
 		/*if(strstr(tmp.c_str(),s2.c_str())){
 			SubListMET.push_back(tmp);
 		}*/
-		if(strstr(tmp.c_str(),s4.c_str())){
+		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str())){
 			SubListMET.push_back(tmp);
 		}
 		/*if(strstr(tmp.c_str(),s5.c_str())){
