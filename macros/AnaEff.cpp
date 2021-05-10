@@ -135,7 +135,7 @@ void AnaEff::Loop()
 	ofstream InfosZ;
 	InfosZ.open (EntriesFromZ);
 
-	cout << "Before loop nentries" << endl;
+	//cout << "Before loop nentries" << endl;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%5000==0) cout << "Still here " << endl;
@@ -164,12 +164,17 @@ void AnaEff::Loop()
 		vector< pair<int, bool > > PosPass;
 		float HighestPT,HighestMuonPT,HighestMET;
 		indexcandidate=Selection();
+		cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
 			HighestMET = pfmet_pt[indexcandidate];
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
+				if(passTrigger[i] == true ){
+					cout << " Trigger " << triggerName->at(i) << " was found = 1 on entry " << jentry << endl;
+
+				}
 			}
 			//cout << " size of triggerName : " << ntrigger << endl;
 			for(int p = 0; p < ntrigger; p++){

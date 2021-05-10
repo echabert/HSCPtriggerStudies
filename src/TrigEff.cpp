@@ -136,7 +136,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			auto it = find(triggerNames.begin(), triggerNames.end(), SelectedTriggerNames[j]);
 			auto index = distance(triggerNames.begin(), it);
 			TestNoMap.push_back(make_pair(j,index));
-			cout << "[" << j<< "," << index+1 << "]" << endl; 
+			cout << "[" << j<< "," << index << "]" << endl; 
 			
 		}
 	
@@ -285,7 +285,16 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 						break;
 				
 					}
-				}
+				
+				/*for(int k = 0; k<TestNoMap.size(); k++){
+					
+					
+				}*/
+
+			}
+	
+
+			
 			
 			
 		}
@@ -434,7 +443,7 @@ void TrigEff::PrintNumEff(){
 
 void TrigEff::PrintDenomEff(){
 	for ( int i = 0; i < DenomEfficiency.size(); i++ ){
-      		cout << i << " : " << NumEfficiency[i] << " / " << DenomEfficiency[i] << " +/- " << EffErr[i] << endl ;
+      		cout << i+1 << " : " << NumEfficiency[i] << " / " << DenomEfficiency[i] << " +/- " << EffErr[i] << endl ;
 	}
 }
 
