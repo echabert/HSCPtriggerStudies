@@ -213,9 +213,8 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 	if(mode== "all"){ 
 		bool trig1,trig2;
 		for(int i = 0; i < TestNoMap.size()  ;i++){
-			cout << " no pb untill here " << passtrig.size() << endl;
+			
 			if(TestNoMap[i].second >= passtrig.size()){
-				cout << "problem" << endl;
 				break;
 			}
 			
@@ -229,7 +228,6 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 			for(int j = 0; j < TestNoMap.size()  ;j++){
 
 				if(TestNoMap[j].second >= passtrig.size()){
-					cout << "problem" << endl;
 					break;
 				}
 
