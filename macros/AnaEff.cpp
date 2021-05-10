@@ -49,7 +49,7 @@ void AnaEff::Loop()
 	
 
 	string s2 = "mu";
-	//string s4 = "Mu";
+	string s4 = "Mu";
 	//string s5 = "Muon";
 	string s3 = "TESTPT";
 	string s6 = "testmu";
@@ -61,10 +61,10 @@ void AnaEff::Loop()
 		if(strstr(tmp.c_str(),s2.c_str())){
 			SubListMET.push_back(tmp);
 		}
-		/*if(strstr(tmp.c_str(),s4.c_str())){
+		if(strstr(tmp.c_str(),s4.c_str())){
 			SubListMET.push_back(tmp);
 		}
-		if(strstr(tmp.c_str(),s5.c_str())){
+		/*if(strstr(tmp.c_str(),s5.c_str())){
 			SubListMET.push_back(tmp);
 		}*/
 
