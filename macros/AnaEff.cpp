@@ -171,9 +171,9 @@ void AnaEff::Loop()
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 			}
-			cout << " size of triggerName : " << nameTrigger->size() << endl;
-			for(int k = 0; k < nameTrigger->size(); k++){
-				auto iter = std::find(triggerNames.begin(), triggerNames.end(), nameTrigger->at(k));
+			cout << " size of triggerName : " << ntrigger << endl;
+			for(int p = 0; p < ntrigger; p++){
+				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
 				if(iter == triggerNames.end()){
 
 					cout << " one trigger not found in CompleteList" << endl;
@@ -181,8 +181,8 @@ void AnaEff::Loop()
 				else{
 					auto pos = std::distance(triggerNames.begin(), iter);
 					//position.push_back(pos);
-					PosPass.push_back(make_pair(pos,vtrigger[k]));
-					//cout << "found trigger " << k << " in position" << pos << " inside CompleteList" << endl;
+					PosPass.push_back(make_pair(pos,vtrigger[p]));
+					cout << "found trigger " << p << " ( " << triggerName->at(p) << " ) " << " in position" << pos << " inside CompleteList" << endl;
 				}
 				
 				

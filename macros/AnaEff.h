@@ -65,7 +65,8 @@ public :
 
    Float_t	prescaleTrigger[1000];
    Bool_t	passTrigger[1000];
-   vector<string>*	nameTrigger;
+   vector<string>* triggerName;
+   
    Bool_t       muon_isMediumMuon[32];
 
    Float_t	track_pt[33]; //[ntracks] augmenter la taille pour pas de overflow, it was 33
@@ -102,7 +103,7 @@ public :
    TBranch        *b_ngoodpv;   //!
    TBranch        *b_ntrigger; //!
    TBranch        *b_prescaleTrigger;
-   TBranch	  *b_nameTrigger;
+   TBranch	  *b_triggerName;
    TBranch        *b_passTrigger; //!
    TBranch        *b_track_pt;   //!
    TBranch        *b_track_pterr; //!
@@ -175,7 +176,7 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	distrib=0;
 	MUONPT_DISTRIB=0;
 	ISOR03_DISTRIB=0;
-	nameTrigger = 0;
+	triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
 	if (tree == 0) {
@@ -256,7 +257,7 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("ntrigger", &ntrigger, &b_ntrigger);
    fChain->SetBranchAddress("prescaleTrigger", prescaleTrigger, &b_prescaleTrigger);
 
-   fChain->SetBranchAddress("nameTrigger", &nameTrigger, &b_nameTrigger);
+   fChain->SetBranchAddress("nameTrigger", &triggerName, &b_triggerName);
    fChain->SetBranchAddress("nmuons", &nmuons, &b_nmuons);
    fChain->SetBranchAddress("passTrigger", passTrigger, &b_passTrigger); // & devant PT 1
    fChain->SetBranchAddress("runNumber", &runNumber, &b_runNumber);
