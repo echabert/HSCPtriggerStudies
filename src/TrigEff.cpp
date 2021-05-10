@@ -188,7 +188,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	CORR = new TH2D("Correlation", "Correlation plot",  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
 	
 	MASS = new TH1D("MASS" , " Masses invariante des muons" , nbins , 0 , massmax);
-	MASS->GetXaxis()->SetTitle("M [GeV]");
+	MASS->GetXaxis()->SetTitle("Mass [GeV]");
 	MASS->GetYaxis()->SetTitle(" # candidates");
 
 	cout << "end of load" << endl;
@@ -376,7 +376,7 @@ void TrigEff::PrintNumEff(){
 
 void TrigEff::PrintDenomEff(){
 	for ( int i = 0; i < DenomEfficiency.size(); i++ ){
-      		cout << NumEfficiency[i] << " " << DenomEfficiency[i] << " " <<EffErr[i] << endl ;
+      		cout << i << " : " << NumEfficiency[i] << " / " << DenomEfficiency[i] << " +/- " << EffErr[i] << endl ;
 	}
 }
 
