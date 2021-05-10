@@ -218,17 +218,17 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 				cout << "problem" << endl;
 				break;
 			}
-			else {
-
-
+			
 			trig1 = passtrig.at(TestNoMap[i].second);
 			DenomEfficiency[TestNoMap[i].second]+=1;
+			cout << " after +1 denom" << endl;
 			if(trig1){
 				NumEfficiency[TestNoMap[i].second]+=1;
 			}
 
 			for(int j = 0; j < TestNoMap.size()  ;j++){
 				trig2 = passtrig.at(TestNoMap[j].second);
+
 				if(trig1 || trig2){
 					DenomCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
 				}
@@ -237,7 +237,7 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 				}
 	
 			}
-		}
+		
 		}
 		cout << "before obs =! 0" << endl;
 
