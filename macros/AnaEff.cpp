@@ -171,8 +171,8 @@ void AnaEff::Loop()
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 			}
-			for(int k = 0; k < triggerName.size(); k++){
-				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName[k]);
+			for(int k = 0; k < triggerName->size(); k++){
+				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(k));
 				if(iter == triggerNames.end()){
 
 					cout << " one trigger not found in CompleteList" << endl;
