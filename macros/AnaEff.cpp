@@ -171,7 +171,7 @@ void AnaEff::Loop()
 			}
 			passedevent+=1;
 			//cout << " new candidate --------------" << endl;
-			//cout << vtrigger.size() << endl;
+			cout << vtrigger.size() << endl;
 			cout << "before filnomap " << endl;
 			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			cout << "after fillnomap" << endl;
