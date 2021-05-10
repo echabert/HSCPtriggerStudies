@@ -160,6 +160,8 @@ void AnaEff::Loop()
 		counter+=1;
 		
 		vector<Bool_t> vtrigger; //Convert array into vector
+		vector<int> position;
+		vector< pair<int, bool > > PosPass;
 		float HighestPT,HighestMuonPT,HighestMET;
 		indexcandidate=Selection();
 		if(indexcandidate != 64){
@@ -169,13 +171,31 @@ void AnaEff::Loop()
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 			}
+			for(int k = 0; k < triggerName.size(); k++){
+				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName[k]);
+				if(iter == triggerNames.end()){
+
+					cout << " one trigger not found in CompleteList" << endl;
+				}
+				else{
+					auto pos = std::distance(triggerNames.begin(), iter);
+					//position.push_back(pos);
+					PosPass.push_back(make_pair(pos,vtrigger[k]));
+					cout << "found trigger " << k << " in position" << pos << " inside CompleteList" << endl;
+				}
+				
+				
+			}
+			
 			passedevent+=1;
 			//cout << " new candidate --------------" << endl;
 			cout << vtrigger.size() << endl;
 			
-			cout << "before filnomap " << endl;
+			
 			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
-			cout << "after fillnomap" << endl;
+			
+
+
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}

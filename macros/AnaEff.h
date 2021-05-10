@@ -65,7 +65,7 @@ public :
 
    Float_t	prescaleTrigger[1000];
    Bool_t	passTrigger[1000];
-  // vector<string>*	triggerName;
+   vector<string>*	triggerName;
    Bool_t       muon_isMediumMuon[32];
 
    Float_t	track_pt[33]; //[ntracks] augmenter la taille pour pas de overflow, it was 33
@@ -102,7 +102,7 @@ public :
    TBranch        *b_ngoodpv;   //!
    TBranch        *b_ntrigger; //!
    TBranch        *b_prescaleTrigger;
-   //TBranch	  *b_triggerName;
+   TBranch	  *b_triggerName;
    TBranch        *b_passTrigger; //!
    TBranch        *b_track_pt;   //!
    TBranch        *b_track_pterr; //!
@@ -256,7 +256,7 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("ntrigger", &ntrigger, &b_ntrigger);
    fChain->SetBranchAddress("prescaleTrigger", prescaleTrigger, &b_prescaleTrigger);
 
-   //fChain->SetBranchAddress("nameTrigger", &triggerName, &b_triggerName);
+   fChain->SetBranchAddress("nameTrigger", &triggerName, &b_triggerName);
    fChain->SetBranchAddress("nmuons", &nmuons, &b_nmuons);
    fChain->SetBranchAddress("passTrigger", passTrigger, &b_passTrigger); // & devant PT 1
    fChain->SetBranchAddress("runNumber", &runNumber, &b_runNumber);
