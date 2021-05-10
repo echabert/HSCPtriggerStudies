@@ -171,7 +171,7 @@ void AnaEff::Loop()
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 			}
-			cout << " size of triggerName : " << ntrigger << endl;
+			//cout << " size of triggerName : " << ntrigger << endl;
 			for(int p = 0; p < ntrigger; p++){
 				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
 				if(iter == triggerNames.end()){
@@ -190,7 +190,7 @@ void AnaEff::Loop()
 			
 			passedevent+=1;
 			//cout << " new candidate --------------" << endl;
-			cout << vtrigger.size() << endl;
+			//cout << vtrigger.size() << endl;
 			
 
 			trigEff_selection_obs.FillNoMap2(PosPass,HighestPT,1);
