@@ -217,6 +217,9 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 				cout << "problem" << endl;
 				break;
 			}
+			else {
+
+
 			trig1 = passtrig.at(TestNoMap[i].second);
 			DenomEfficiency[TestNoMap[i].second]+=1;
 			if(trig1){
@@ -233,6 +236,7 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 				}
 	
 			}
+		}
 		}
 
 		if(Obs!=0.0){
