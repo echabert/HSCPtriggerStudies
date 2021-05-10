@@ -228,7 +228,7 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 
 			for(int j = 0; j < TestNoMap.size()  ;j++){
 				trig2 = passtrig.at(TestNoMap[j].second);
-
+				cout << "after trig2 " << endl;
 				if(trig1 || trig2){
 					DenomCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
 				}
