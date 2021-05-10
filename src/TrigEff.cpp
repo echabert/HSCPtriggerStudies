@@ -182,7 +182,8 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
 			}
 	}
-	cout << " TriggerNames size" << TriggerNames.size() << endl;
+	cout << " TriggerNames size " << TriggerNames.size() << endl;
+
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", TriggerNames.size(),0,TriggerNames.size());
 	CORR = new TH2D("Correlation", "Correlation plot",  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
@@ -212,7 +213,7 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 	if(mode== "all"){ 
 		bool trig1,trig2;
 		for(int i = 0; i < TestNoMap.size()  ;i++){
-			cout << " no pb untill here" << passtrig.size() << endl;
+			cout << " no pb untill here " << passtrig.size() << endl;
 			if(TestNoMap[i].second >= passtrig.size()){
 				cout << "problem" << endl;
 				break;
@@ -238,6 +239,7 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 			}
 		}
 		}
+		cout << "before obs =! 0" << endl;
 
 		if(Obs!=0.0){
 			for(int i = 0 ; i < TestNoMap.size(); i++){
