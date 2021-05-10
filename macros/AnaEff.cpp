@@ -174,6 +174,7 @@ void AnaEff::Loop()
 			//cout << vtrigger.size() << endl;
 			cout << "before filnomap " << endl;
 			trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
+			cout << "after fillnomap" << endl;
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
