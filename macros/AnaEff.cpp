@@ -58,9 +58,9 @@ void AnaEff::Loop()
 	string tmp;
 	while(getline(ifile,tmp)){
    		triggerNames.push_back(tmp);
-		if(strstr(tmp.c_str(),s2.c_str())){
+		/*if(strstr(tmp.c_str(),s2.c_str())){
 			SubListMET.push_back(tmp);
-		}
+		}*/
 		if(strstr(tmp.c_str(),s4.c_str())){
 			SubListMET.push_back(tmp);
 		}
