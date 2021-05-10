@@ -182,7 +182,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
 			}
 	}
-	
+	cout << " TriggerNames size" << TriggerNames.size() << endl;
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", TriggerNames.size(),0,TriggerNames.size());
 	CORR = new TH2D("Correlation", "Correlation plot",  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
@@ -238,7 +238,7 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 		}
 
 	}
-	if(mode == "muon"){
+	else if(mode == "muon"){
 		bool trigmu1,trigmu2;
 		//for(int i = 0; i < TestNoMap.size()  ;i++){
 		
