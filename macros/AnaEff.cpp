@@ -164,17 +164,17 @@ void AnaEff::Loop()
 		vector< pair<int, bool > > PosPass;
 		float HighestPT,HighestMuonPT,HighestMET;
 		indexcandidate=Selection();
-		cout << " -------- NEW ENTRY -------- " << endl;
+		//cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
 			HighestMET = pfmet_pt[indexcandidate];
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
-				if(passTrigger[i] == true ){
+				/*if(passTrigger[i] == true ){
 					cout << " Trigger " << triggerName->at(i) << " was found = 1 on entry " << jentry << endl;
 
-				}
+				}*/
 			}
 			//cout << " size of triggerName : " << ntrigger << endl;
 			for(int p = 0; p < ntrigger; p++){
