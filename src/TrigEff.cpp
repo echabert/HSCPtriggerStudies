@@ -227,6 +227,12 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 			}
 
 			for(int j = 0; j < TestNoMap.size()  ;j++){
+
+				if(TestNoMap[j].second >= passtrig.size()){
+					cout << "problem" << endl;
+					break;
+				}
+
 				trig2 = passtrig.at(TestNoMap[j].second);
 				cout << "after trig2 " << endl;
 				if(trig1 || trig2){
