@@ -208,8 +208,8 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 //***************************************************************************************************************************
 
 
-void TrigEff::FillNoMap(const vector<bool> &passtrig, float Obs, double weight,string mode){  
-	if(mode== "all"){
+void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string mode){  //const vector<bool> 
+	if(mode== "all"){ 
 		bool trig1,trig2;
 		for(int i = 0; i < TestNoMap.size()  ;i++){
 			trig1 = passtrig.at(TestNoMap[i].second);
