@@ -151,7 +151,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	EffErr.resize(triggerNames.size(), 0.0);
 	EffvsObs.resize(triggerNames.size());
 
-	this->TriggerNames = triggerNames;
+	//this->TriggerNames = triggerNames;
 	
 	TString outputfilename=FileName.c_str();
 
