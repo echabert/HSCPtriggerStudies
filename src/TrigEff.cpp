@@ -429,7 +429,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
     	}
 
 	//sort(TransferVec.begin(), TransferVec.end());
-		
+		sort(AllCondensed.begin(), AllCondensed.end());
 	for(int i = 0; i < TransferVec.size(); i++){ 
 
 		TriggersOfInterest << (AllCondensed[i].first.first) * 100 << " +/- " << (AllCondensed[i].second.first) *100  << "  " << (AllCondensed[i].first.second.second.first) << " / " << (AllCondensed[i].first.second.second.second) << (AllCondensed[i].second.second) << endl;
