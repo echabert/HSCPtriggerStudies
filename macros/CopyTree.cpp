@@ -52,14 +52,14 @@ void CopyTree::CopyWithSelec(string mode){
 	//&& ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]
 	// && muon_pt[0] >= 10 && muon_pt[1] >= 10 && (track_charge[0]*track_charge[1] == -1) && track_qual[0] >= 2 && track_qual[1] >= 2 && muon_isMediumMuon[0]"
 
-	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/30Apr/");
+	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/SingleMuon/test1000ev/");
 	string ext(".root");
 	
 	Long64_t sumentries=0,smallsumentries=0;
 	if(mode=="norm"){
 		DIR *dir;
 		struct dirent *ent;
-		if ((dir = opendir ("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/30Apr/")) != NULL) {
+		if ((dir = opendir ("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/SingleMuon/test1000ev/")) != NULL) {
   			while ((ent = readdir (dir)) != NULL) {
 				NameFiles.push_back(ent->d_name);
   			}
@@ -80,51 +80,29 @@ void CopyTree::CopyWithSelec(string mode){
 		small.resize(NameFiles.size());
 		ntuple.resize(NameFiles.size());
 
+		string namsmall = "namesmall";
+		int nbsubf = 40,x;
+		float f = ( NameFiles.size() / 40 );
+		int sizeofsub = (int)f;
 
 		if(NameFiles.size() < 40){
 			cout << "There are " << NameFiles.size() << " files, we will merge them all" << endl;
 
 
 			for(int j = 0 ; j < NameFiles.size() ; j++){
-
-
-
-			}
-
-		}
-
-
-	
-		int nbsubf = 40,x;
-		float f = ( NameFiles.size() / 40 );
-		int sizeofsub = (int)f;
-		cout << "There are " << f << " subgroups, and " <<  NameFiles.size() - (f*nbsubf) << " files remaining " << endl;
-
-		cout << "Which subgroup of 40 files do you want to study ?" << endl;
-		cin >> x ;
-
-
-		cout << "Copying from file " << NameFiles[(x-1)*nbsubf] << " to file " << NameFiles[(x*nbsubf)-1] << endl;
-		if(x > f){
-
-		}
-		else{
-			for(int j = (x-1)*nbsubf; j < x*nbsubf ; j++){
-				string namsmall = "namesmall";
+				
 				
 				string s = to_string(j);
 				string transfer = namsmall + s + ext;
 				namesmall.push_back(transfer);
 				string transfer2 = path + NameFiles[j];
 				pathfile.push_back(transfer2);
-				int filenumber = j%nbsubf;
-				cout << filenumber << endl;
-				files[j] = new TFile(pathfile[filenumber].c_str());
+				files[j] = new TFile(pathfile[j].c_str());
 				ntuple[j] = (TTree*) files[j]->Get("stage/ttree");
 				Long64_t nentries = ntuple[j]->GetEntriesFast();
 				sumentries+=nentries;
 
-				fs[j] = new TFile(namesmall[filenumber].c_str(),"RECREATE");
+				fs[j] = new TFile(namesmall[j].c_str(),"RECREATE");
 				fs[j]->cd();
 				fs[j]->mkdir("stage");
 				fs[j]->cd("stage");
@@ -138,9 +116,59 @@ void CopyTree::CopyWithSelec(string mode){
 
 			
 				cout << " Copied file " << NameFiles[j] << " in place " << filenumber << " with name " << namesmall[filenumber].c_str() << endl;
+
+
 			}
 
 		}
+
+		else {
+			cout << "There are " << f << " subgroups, and " <<  NameFiles.size() - (f*nbsubf) << " files remaining " << endl;
+
+			cout << "Which subgroup of 40 files do you want to study ?" << endl;
+			cin >> x ;
+
+
+			cout << "Copying from file " << NameFiles[(x-1)*nbsubf] << " to file " << NameFiles[(x*nbsubf)-1] << endl;
+			if(x > f){
+
+			}
+			else{
+				for(int j = (x-1)*nbsubf; j < x*nbsubf ; j++){
+					string s = to_string(j);
+					string transfer = namsmall + s + ext;
+					namesmall.push_back(transfer);
+					string transfer2 = path + NameFiles[j];
+					pathfile.push_back(transfer2);
+					int filenumber = j%nbsubf;
+					cout << filenumber << endl;
+					files[j] = new TFile(pathfile[filenumber].c_str());
+					ntuple[j] = (TTree*) files[j]->Get("stage/ttree");
+					Long64_t nentries = ntuple[j]->GetEntriesFast();
+					sumentries+=nentries;
+
+					fs[j] = new TFile(namesmall[filenumber].c_str(),"RECREATE");
+					fs[j]->cd();
+					fs[j]->mkdir("stage");
+					fs[j]->cd("stage");
+					small[j] = ntuple[j]->CopyTree(cuts);
+
+					Long64_t smallnentries = small[j]->GetEntriesFast();
+					smallsumentries+=smallnentries;
+				
+					small[j]->Write();
+					fs[j]->Close();
+
+			
+					cout << " Copied file " << NameFiles[j] << " in place " << filenumber << " with name " << namesmall[filenumber].c_str() << endl;
+				}
+
+			}
+
+
+
+		}
+		
 		cout <<"There was initially " << sumentries << " entries, reduced to " << smallsumentries << " , we took only "<< (smallsumentries*1.0/sumentries) * 100 << " %" << endl;
 
 	}
