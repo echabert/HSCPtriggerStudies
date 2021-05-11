@@ -418,14 +418,23 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 
 	for (int i = 0; i < TestNoMap.size(); i++){ 	
 		TransferVec.push_back(make_pair(make_pair(Efficiency[TestNoMap[i].second],TestNoMap[i].second), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second])));
-		cout << setprecision (8) << (TransferVec[i].first.first)*100 << "\t\t" << setprecision (8) << (TransferVec[i].second.first)*100 << "\t\t" << TransferVec[i].second.second << endl; 		
+		cout << setprecision (8) << (TransferVec[i].first.first)*100 << "\t\t" << setprecision (8) << (TransferVec[i].second.first)*100 << "\t\t" << TransferVec[i].second.second << endl; 
+
+		AllCondensed.push_back(make_pair( make_pair(Efficiency[TestNoMap[i].second] ,make_pair(TestNoMap[i].second, make_pair( NumEfficiency[TestNoMap[i].second], DenomEfficiency[TestNoMap[i].second])) ), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second]));	
+
+			
+
+		
 		//TriggersOfInterest << (TransferVec[i].first.first)*100 << " " << (TransferVec[i].second.first)*100 << " " << TransferVec[i].second.second << "\n";
     	}
 
-	sort(TransferVec.begin(), TransferVec.end());
+	//sort(TransferVec.begin(), TransferVec.end());
 		
 	for(int i = 0; i < TransferVec.size(); i++){ 
-		TriggersOfInterest << (TransferVec[i].first.first)*100 << " +/-" << (TransferVec[i].second.first)*100 << "   " << NumEfficiency[TestNoMap[i].second] << " / " << DenomEfficiency[TestNoMap[i].second] << "  " << TransferVec[i].second.second << "\n";
+
+		TriggersOfInterest << (AllCondensed[i].first.first) * 100 << " +/- " << (AllCondensed[i].second.first) *100  << "  " << (AllCondensed[i].first.second.second.first) << " / " << (AllCondensed[i].first.second.second.second) << (AllCondensed[i].second.second) << endl;
+
+		//TriggersOfInterest << (TransferVec[i].first.first)*100 << " +/-" << (TransferVec[i].second.first)*100  << "  " << TransferVec[i].second.second << "\n";
 	}
 
 	TransferVec.clear();

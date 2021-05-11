@@ -152,6 +152,8 @@ public:
    vector< pair<pair<double,int>, pair<double,string> > > TransferVec;
 
 
+   vector< pair<pair<double, pair<int,pair<int,int> > >, pair<double,string> > > AllCondensed;
+
    vector< pair<int, int > > TestNoMap; 
 
 
