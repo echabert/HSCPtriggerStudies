@@ -420,7 +420,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 		TransferVec.push_back(make_pair(make_pair(Efficiency[TestNoMap[i].second],TestNoMap[i].second), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second])));
 		cout << setprecision (8) << (TransferVec[i].first.first)*100 << "\t\t" << setprecision (8) << (TransferVec[i].second.first)*100 << "\t\t" << TransferVec[i].second.second << endl; 
 
-		AllCondensed.push_back(make_pair( make_pair(Efficiency[TestNoMap[i].second] ,make_pair(TestNoMap[i].second, make_pair( NumEfficiency[TestNoMap[i].second], DenomEfficiency[TestNoMap[i].second])) ), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second]));	
+		AllCondensed.push_back(make_pair( make_pair(Efficiency[TestNoMap[i].second] ,make_pair(TestNoMap[i].second, make_pair( NumEfficiency[TestNoMap[i].second], DenomEfficiency[TestNoMap[i].second])) ), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second])));	
 
 			
 
