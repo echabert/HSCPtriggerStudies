@@ -425,7 +425,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 	sort(TransferVec.begin(), TransferVec.end());
 		
 	for(int i = 0; i < TransferVec.size(); i++){ 
-		TriggersOfInterest << (TransferVec[i].first.first)*100 << " " << (TransferVec[i].second.first)*100 << " " << TransferVec[i].second.second << "\n";
+		TriggersOfInterest << (TransferVec[i].first.first)*100 << " +/-" << (TransferVec[i].second.first)*100 << "   " << NumEfficiency[TestNoMap[i].second] << " / " << DenumEfficiency[TestNoMap[i].second] << "  " << TransferVec[i].second.second << "\n";
 	}
 
 	TransferVec.clear();

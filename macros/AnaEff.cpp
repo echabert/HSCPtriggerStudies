@@ -497,9 +497,6 @@ double AnaEff::IsolateMuons(const vector<bool> &passtrig){
 
 
 
-
-
-
 int main(){
 
 	AnaEff ana;
