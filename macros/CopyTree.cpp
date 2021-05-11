@@ -51,7 +51,7 @@ void CopyTree::CopyWithSelec(string mode){
 	TString cuts = "nmuons>=2 && muon_pt[0] >= 20 && muon_pt[1] >= 20 && (track_charge[0]*track_charge[1] == -1) && track_qual[0] >= 3 && track_qual[1] >= 3 && muon_isMediumMuon[0]"; //(track_charge[0]*track_charge[1]) == -1 && muon_isMediumMuon[1] && track_qual[0] >= 2 && track_qual[1] >= 2
 	//&& ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]
 	// && muon_pt[0] >= 10 && muon_pt[1] >= 10 && (track_charge[0]*track_charge[1] == -1) && track_qual[0] >= 2 && track_qual[1] >= 2 && muon_isMediumMuon[0]"
-
+	// /opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/HSCPppstau_M-494_TuneZ2star_13TeV-pythia6/MC17_Stau494/210510_161454/0000
 	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/SingleMuon/test1000ev/");
 	string ext(".root");
 	
@@ -59,7 +59,7 @@ void CopyTree::CopyWithSelec(string mode){
 	if(mode=="norm"){
 		DIR *dir;
 		struct dirent *ent;
-		if ((dir = opendir ("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/SingleMuon/test1000ev/")) != NULL) {
+		if ((dir = opendir (path)) != NULL) {
   			while ((ent = readdir (dir)) != NULL) {
 				NameFiles.push_back(ent->d_name);
   			}
