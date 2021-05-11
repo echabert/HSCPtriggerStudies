@@ -109,12 +109,12 @@ void ListNameTriggers::FindAllNames(){
 			cout << "muon" << i << " has pt = " << muon_pt[i] << " , phi = " << muon_phi[i] << " and eta = " << muon_eta[i] << endl;
 		}*/
 		cout << "----------------------------- new event -----------------------------" << endl;
-		if(ntrigger > InfoTriggers.size()){
+		//if(ntrigger > InfoTriggers.size()){
 
 			for(int i=0; i< ntrigger; i++){
 				int b = IsInList(triggerName->at(i));
 				if(b==i){
-					cout << "was in list" << endl;
+				//	cout << "was in list" << endl;
 				
 				}
 				else if(b==9999){
@@ -130,15 +130,15 @@ void ListNameTriggers::FindAllNames(){
 				}
 			}
 
-		}
-		else if(ntrigger == InfoTriggers.size()){
+		//}
+		/*else if(ntrigger == InfoTriggers.size()){
 			cout << "All triggers are here" << endl;
 
 		}
 		else if(ntrigger < InfoTriggers.size()){
 			cout << "There are " << ( InfoTriggers.size() - ntrigger ) << " triggers missing in this entry"  << endl;
 
-		}
+		}*/
 		
 
 
