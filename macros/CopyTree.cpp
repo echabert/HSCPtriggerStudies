@@ -59,7 +59,7 @@ void CopyTree::CopyWithSelec(string mode){
 	if(mode=="norm"){
 		DIR *dir;
 		struct dirent *ent;
-		if ((dir = opendir (path)) != NULL) {
+		if ((dir = opendir (path.c_str())) != NULL) {
   			while ((ent = readdir (dir)) != NULL) {
 				NameFiles.push_back(ent->d_name);
   			}
