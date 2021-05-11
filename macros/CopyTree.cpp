@@ -52,14 +52,14 @@ void CopyTree::CopyWithSelec(string mode){
 	//&& ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]
 	// && muon_pt[0] >= 10 && muon_pt[1] >= 10 && (track_charge[0]*track_charge[1] == -1) && track_qual[0] >= 2 && track_qual[1] >= 2 && muon_isMediumMuon[0]"
 
-	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/30Apr/");
+	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/SingleMuon/test1000/");
 	string ext(".root");
 	
 	Long64_t sumentries=0,smallsumentries=0;
 	if(mode=="norm"){
 		DIR *dir;
 		struct dirent *ent;
-		if ((dir = opendir ("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/30Apr/")) != NULL) {
+		if ((dir = opendir ("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/SingleMuon/test1000/")) != NULL) {
   			while ((ent = readdir (dir)) != NULL) {
 				NameFiles.push_back(ent->d_name);
   			}

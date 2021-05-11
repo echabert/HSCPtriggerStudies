@@ -89,7 +89,7 @@ void AnaEff::Loop()
 	string subnum = "all"; //to_string(2);
 	string extroot = ".root";
 	string exttxt = ".txt";
-	string date = "0505_";
+	string date = "1105_";
 	
 	
 	
@@ -97,7 +97,7 @@ void AnaEff::Loop()
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "MU";
+	string DataType = "SingleMuon";
 
 		
 	string StudyData = DataType + date;
@@ -176,7 +176,6 @@ void AnaEff::Loop()
 
 				}*/
 			}
-			//cout << " size of triggerName : " << ntrigger << endl;
 			for(int p = 0; p < ntrigger; p++){
 				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
 				if(iter == triggerNames.end()){
@@ -186,7 +185,7 @@ void AnaEff::Loop()
 				else{
 					auto pos = std::distance(triggerNames.begin(), iter);
 					//position.push_back(pos);
-					PosPass.push_back(make_pair(pos,vtrigger[pos]));
+					PosPass.push_back(make_pair(pos,vtrigger[p])); // [pos] ?
 					//cout << "found trigger " << p << " ( " << triggerName->at(p) << " ) " << " in position" << pos << " inside CompleteList" << endl;
 				}
 				
@@ -194,18 +193,9 @@ void AnaEff::Loop()
 			}
 			
 			passedevent+=1;
-			//cout << " new candidate --------------" << endl;
-			//cout << vtrigger.size() << endl;
-			
-
 			trigEff_selection_obs.FillNoMap2(PosPass,HighestPT,1);
 
-
-
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
-			
-
-
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}	
 	}
