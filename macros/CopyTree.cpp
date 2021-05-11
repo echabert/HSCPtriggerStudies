@@ -66,7 +66,7 @@ void CopyTree::CopyWithSelec(string mode){
 	
   		closedir (dir);
 		} 
-
+		cout << NameFiles.size() << endl;
 		else {
  		cout << "couldn't open directory" << endl;
 		}
