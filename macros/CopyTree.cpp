@@ -52,14 +52,14 @@ void CopyTree::CopyWithSelec(string mode){
 	//&& ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]
 	// && muon_pt[0] >= 10 && muon_pt[1] >= 10 && (track_charge[0]*track_charge[1] == -1) && track_qual[0] >= 2 && track_qual[1] >= 2 && muon_isMediumMuon[0]"
 
-	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/SingleMuon/test1000/");
+	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/30Apr/");
 	string ext(".root");
 	
 	Long64_t sumentries=0,smallsumentries=0;
 	if(mode=="norm"){
 		DIR *dir;
 		struct dirent *ent;
-		if ((dir = opendir ("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/SingleMuon/test1000/")) != NULL) {
+		if ((dir = opendir ("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodApril2021_CMSSW_10_6_2/MET/30Apr/")) != NULL) {
   			while ((ent = readdir (dir)) != NULL) {
 				NameFiles.push_back(ent->d_name);
   			}
@@ -141,45 +141,6 @@ void CopyTree::CopyWithSelec(string mode){
 			}
 
 		}
-
-		/*cout << "They are " << NameFiles.size() << " files" << endl;
-		for(int i = 0; i < 60 ; i++){
-			
-			string namsmall = "namesmall";
-			int intransf = i;
-			string s = to_string(intransf);
-			string transfer = namsmall + s + ext;
-			//namesmall[intransf] = transfer;
-			namesmall.push_back(transfer);
-
-
-			string transfer2 = path + NameFiles[i];
-			//pathfile[intransf] = transfer2;
-			pathfile.push_back(transfer2);
-
-
-
-			files[intransf] = new TFile(pathfile[intransf].c_str());
-			ntuple[intransf] = (TTree*) files[intransf]->Get("stage/ttree");
-
-			Long64_t nentries = ntuple[intransf]->GetEntriesFast();
-			sumentries+=nentries;
-
-			fs[intransf] = new TFile(namesmall[intransf].c_str(),"RECREATE");
-			fs[intransf]->cd();
-			fs[intransf]->mkdir("stage");
-			fs[intransf]->cd("stage");
-			small[intransf] = ntuple[intransf]->CopyTree(cuts);
-
-			Long64_t smallnentries = small[intransf]->GetEntriesFast();
-			smallsumentries+=smallnentries;
-				
-			small[intransf]->Write();
-			fs[intransf]->Close();
-
-			cout << " Copied file " << NameFiles[i] << " in place " << intransf << " with name " << namesmall[intransf].c_str() << endl;
-		}*/
-	
 		cout <<"There was initially " << sumentries << " entries, reduced to " << smallsumentries << " , we took only "<< (smallsumentries*1.0/sumentries) * 100 << " %" << endl;
 
 	}
