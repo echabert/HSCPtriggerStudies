@@ -142,7 +142,7 @@ void AnaEff::Loop()
 	ofstream InfosZ;
 	InfosZ.open (EntriesFromZ);
 
-	//cout << "Before loop nentries" << endl;
+	cout << "Before loop nentries" << endl;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%5000==0) cout << "Still here " << endl;
