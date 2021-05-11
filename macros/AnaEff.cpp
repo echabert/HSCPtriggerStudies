@@ -97,7 +97,7 @@ void AnaEff::Loop()
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "SingleMuon";
+	string DataType = "Stau";
 
 		
 	string StudyData = DataType + date;

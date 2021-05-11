@@ -30,7 +30,12 @@ int ListNameTriggers::IsInList(string name){
 void ListNameTriggers::FindAllNames(){
 	
 	ofstream CompleteList;
-	CompleteList.open ("CompleteList.txt"); //change name
+	string DataType = "Stau";
+	string NameList = "CompleteList";
+	string ExtTxt = ".txt";
+
+	string NameCompleteList = NameList + DataType + ExtTxt;
+	CompleteList.open (NameCompleteList.c_str()); //change name
 
 	ofstream PrescaledSubList;
 	PrescaledSubList.open ("PrescaledSubList.txt");
