@@ -186,7 +186,7 @@ void AnaEff::Loop()
 				else{
 					auto pos = std::distance(triggerNames.begin(), iter);
 					//position.push_back(pos);
-					PosPass.push_back(make_pair(pos,vtrigger[p]));
+					PosPass.push_back(make_pair(pos,vtrigger[pos]));
 					//cout << "found trigger " << p << " ( " << triggerName->at(p) << " ) " << " in position" << pos << " inside CompleteList" << endl;
 				}
 				
