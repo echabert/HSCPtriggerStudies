@@ -115,7 +115,7 @@ void CopyTree::CopyWithSelec(string mode){
 				fs[j]->Close();
 
 			
-				cout << " Copied file " << NameFiles[j] << " in place " << filenumber << " with name " << namesmall[filenumber].c_str() << endl;
+				cout << " Copied file " << NameFiles[j] << " in place " << j << " with name " << namesmall[j].c_str() << endl;
 
 
 			}
