@@ -65,10 +65,10 @@ void CopyTree::CopyWithSelec(string mode){
   			}
 	
   		closedir (dir);
-		} 
-		cout << NameFiles.size() << endl;
-		else {
- 		cout << "couldn't open directory" << endl;
+		}
+
+		else{
+ 			cout << "couldn't open directory" << endl;
 		}
 		
 		NameFiles.erase( NameFiles.begin(), NameFiles.size() > 2 ?  NameFiles.begin() + 2 : NameFiles.end() );
@@ -79,6 +79,20 @@ void CopyTree::CopyWithSelec(string mode){
 		fs.resize(NameFiles.size());
 		small.resize(NameFiles.size());
 		ntuple.resize(NameFiles.size());
+
+
+		if(NameFiles.size() < 40){
+			cout << "There are " << NameFiles.size() << " files, we will merge them all" << endl;
+
+
+			for(int j = 0 ; j < NameFiles.size() ; j++){
+
+
+
+			}
+
+		}
+
 
 	
 		int nbsubf = 40,x;
