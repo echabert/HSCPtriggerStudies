@@ -42,7 +42,23 @@ void AnaEff::Loop()
 	cout << "Number of triggers for this file  : " << ntrigger << endl;
 	cout << " Number of events for this file : " << nentries << endl;
 
-	ifstream ifile("CompleteList.txt"); 
+	
+	string NameList = "CompleteList";
+
+	string subnum = "all"; //to_string(2);
+	string extroot = ".root";
+	string exttxt = ".txt";
+	string date = "1105_";
+	
+	string TransferTxt="AllInfos";
+	string TransferEff = "Eff";
+	string TransferZ = "EntriesFromZ";
+	string TransferDistrib = "DistribZpeak";
+	string DataType = "Stau";
+
+	string NameCompleteList = NameList + DataType + exttxt;
+
+	ifstream ifile(NameCompleteList.c_str()); 
 	vector<string> triggerNames;
 	vector<string> SubListMET;
 	vector<string> SubListPT;
@@ -50,7 +66,8 @@ void AnaEff::Loop()
 
 	string s2 = "mu";
 	string s4 = "Mu";
-	//string s5 = "Muon";
+	string s5 = "Muon";
+
 	string s3 = "TESTPT";
 	string s6 = "testmu";
 	
@@ -61,7 +78,7 @@ void AnaEff::Loop()
 		/*if(strstr(tmp.c_str(),s2.c_str())){
 			SubListMET.push_back(tmp);
 		}*/
-		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str())){
+		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) ){
 			SubListMET.push_back(tmp);
 		}
 		/*if(strstr(tmp.c_str(),s5.c_str())){
@@ -86,18 +103,7 @@ void AnaEff::Loop()
 	}
 	inttrigs.close();
 	
-	string subnum = "all"; //to_string(2);
-	string extroot = ".root";
-	string exttxt = ".txt";
-	string date = "1105_";
 	
-	
-	
-	string TransferTxt="AllInfos";
-	string TransferEff = "Eff";
-	string TransferZ = "EntriesFromZ";
-	string TransferDistrib = "DistribZpeak";
-	string DataType = "Stau";
 
 		
 	string StudyData = DataType + date;
