@@ -89,6 +89,7 @@ public :
    Bool_t	muon_isTrackerMuon[32];
    Float_t      muon_comb_inversebeta[32];
    Float_t      track_ih_ampl[33];
+   Float_t      track_ias_ampl[33];
    Float_t      muon_phi[32];
    Float_t      muon_eta[32];
    Float_t      muon_pt[32];
@@ -125,6 +126,7 @@ public :
    TBranch        *b_muon_comb_inversebeta;
    TBranch        *b_track_p;
    TBranch        *b_track_ih_ampl;
+   TBranch        *b_track_ias_ampl;
    TBranch        *b_muon_eta;   //!
    TBranch        *b_muon_phi;
    TBranch        *b_muon_pt;
@@ -320,6 +322,7 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("muon_comb_inversebeta", muon_comb_inversebeta, &b_muon_comb_inversebeta);
    fChain->SetBranchAddress("track_p", track_p, &b_track_p);
    fChain->SetBranchAddress("track_ih_ampl", track_ih_ampl, &b_track_ih_ampl);
+   fChain->SetBranchAddress("track_ias_ampl", track_ias_ampl, &b_track_ias_ampl);
    fChain->SetBranchAddress("muon_phi", muon_phi, &b_muon_phi);
    fChain->SetBranchAddress("muon_eta", muon_eta, &b_muon_eta);
    fChain->SetBranchAddress("muon_pt", muon_pt, &b_muon_pt);
