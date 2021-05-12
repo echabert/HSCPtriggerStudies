@@ -170,6 +170,7 @@ void CopyTree::CopyWithSelec(string mode){
 
 		}
 		
+		
 		cout <<"There was initially " << sumentries << " entries, reduced to " << smallsumentries << " , we took only "<< (smallsumentries*1.0/sumentries) * 100 << " %" << endl;
 
 	}
