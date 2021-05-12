@@ -128,12 +128,13 @@ void AnaEff::Loop()
 
 	DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 620,0,1550);
 	DISTRIB_ETA = new TH1D("DISTRIB_ETA", "( ETA )", 400,-8,8);
-	DISTRIB_IH = new TH1D("DISTRIB_IH", "( IH )", 400,0,80);
+	DISTRIB_IH = new TH1D("DISTRIB_IH", "( IH )", 400,0,8);
 	DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 1240,0,3100);
-	
+	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",400,0,8);
 	DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 
 	DISTRIB_PT->Sumw2();
+	DISTRIB_IAS->Sumw2();
 	DISTRIB_ETA->Sumw2();
 	DISTRIB_IH->Sumw2();
 	DISTRIB_P->Sumw2();
@@ -175,20 +176,10 @@ void AnaEff::Loop()
 			DISTRIB_ETA->Fill(track_eta[jtrack]);
 			DISTRIB_IH->Fill(track_ih_ampl[jtrack]);
 			DISTRIB_P->Fill(track_p[jtrack]);
-
+			DISTRIB_IAS->Fill(track_ias_ampl[jtrack]);
 			DISTRIB_IH_IAS->Fill(track_ias_ampl[jtrack],track_ih_ampl[jtrack]);
 
 		}
-
-
-
-
-
-
-
-
-
-
 
 		//double IsoInvMass = MuonInvariantMass();
 		if(InvMass!=1){
@@ -244,10 +235,10 @@ void AnaEff::Loop()
 
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
-		}	*/
+		}*/	
 	}
 	
-	InfosZ.close();
+	/*InfosZ.close();
 	ofstream InfosData;
 	InfosData.open (NameOfTxt);
 
@@ -274,13 +265,13 @@ void AnaEff::Loop()
 
 
 	InfosData.close();
-	//trigEff_selection_obs.Compute(NameOfEff);
+	trigEff_selection_obs.Compute(NameOfEff);
 
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
 	
-	//trigEff_selection_obs.WritePlots("",NameOfFile);
+	trigEff_selection_obs.WritePlots("",NameOfFile);*/
 
 	
 
@@ -292,6 +283,7 @@ void AnaEff::Loop()
 	ISOR03_DISTRIB->Write();
 	DISTRIB_PT->Write();
 	DISTRIB_IH->Write();
+	DISTRIB_IAS->Write();
 	DISTRIB_ETA->Write();
 	DISTRIB_P->Write();
 	DISTRIB_IH_IAS->Write();
