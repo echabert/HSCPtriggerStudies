@@ -45,18 +45,18 @@ void AnaEff::Loop()
 	
 	string NameList = "CompleteList";
 
-	string subnum = "all"; //to_string(2);
-	string extroot = ".root";
-	string exttxt = ".txt";
-	string date = "1105_";
+	string SubNum = "all"; //to_string(2);
+	string ExtRoot = ".root";
+	string ExtTxt = ".txt";
+	string Date = "1105_";
 	
 	string TransferTxt="AllInfos";
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "Stau";
+	string DataType = "MU";
 
-	string NameCompleteList = NameList + DataType + exttxt;
+	string NameCompleteList = NameList + ExtTxt; // + DataType for others
 
 	ifstream ifile(NameCompleteList.c_str()); 
 	vector<string> triggerNames;
@@ -107,23 +107,38 @@ void AnaEff::Loop()
 	
 
 		
-	string StudyData = DataType + date;
-	string StudyTxt = TransferTxt + DataType + date;
-	string StudyEff= TransferEff + DataType + date;
-	string StudyZ= TransferZ + DataType + date;
-	string StudyDistribZ = TransferDistrib + DataType + date;
+	string StudyData = DataType + Date;
+	string StudyTxt = TransferTxt + DataType + Date;
+	string StudyEff= TransferEff + DataType + Date;
+	string StudyZ= TransferZ + DataType + Date;
+	string StudyDistribZ = TransferDistrib + DataType + Date;
 
 	
 
 
-	string NameOfFile = StudyData + subnum + extroot;
+	string NameOfFile = StudyData + SubNum + ExtRoot;
 
-	string NameOfEff = StudyEff + subnum + exttxt;
-	string NameOfTxt = StudyTxt + subnum + exttxt;
-	string EntriesFromZ = StudyZ + subnum + exttxt;
-	string distribvarZ = StudyDistribZ + subnum + extroot;
+	string NameOfEff = StudyEff + SubNum + ExtTxt;
+	string NameOfTxt = StudyTxt + SubNum + ExtTxt;
+	string EntriesFromZ = StudyZ + SubNum + ExtTxt;
+	string distribvarZ = StudyDistribZ + SubNum + ExtRoot;
 	
 	
+
+
+	DISTRIB_PT = new TH1D("PT distribution", "( PT )", 155,0,1550);
+	DISTRIB_ETA = new TH1D("ETA distribution", "( ETA )", 100,-8,8);
+	DISTRIB_IH = new TH1D("IH distribution", "( IH )", 100,0,80);
+	DISTRIB_P = new TH1D("P distribution", "( P )", 310,0,3100);
+	
+	DISTRIB_IH_IAS = new TH2D("HSCP_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
+
+	DISTRIB_PT->Sumw2();
+	DISTRIB_ETA->Sumw2();
+	DISTRIB_IH->Sumw2();
+	DISTRIB_P->Sumw2();
+	DISTRIB_IH_IAS->Sumw2();
+
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
 	ISOR03_DISTRIB = new TH1D("ISOR03 close to Z", "ISOR03 close to z peak", 50,0,100);
@@ -151,6 +166,30 @@ void AnaEff::Loop()
 		
 		InvMass = MuonsInvariantMass();
 
+
+
+
+		for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
+			
+			DISTRIB_PT->Fill(track_pt[jtrack]);
+			DISTRIB_ETA->Fill(track_eta[jtrack]);
+			DISTRIB_IH->Fill(track_ih_ampl[jtrack]);
+			DISTRIB_P->Fill(track_p[jtrack]);
+
+			DISTRIB_IH_IAS->Fill(track_ias_ampl[jtrack],track_ih_ampl[jtrack]);
+
+		}
+
+
+
+
+
+
+
+
+
+
+
 		//double IsoInvMass = MuonInvariantMass();
 		if(InvMass!=1){
 			if(InvMass < massZ + 10 && InvMass > massZ - 10){ // 10 
@@ -172,6 +211,7 @@ void AnaEff::Loop()
 		float HighestPT,HighestMuonPT,HighestMET;
 		indexcandidate=Selection();
 		//cout << " -------- NEW ENTRY -------- " << endl;
+		
 		if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
@@ -249,6 +289,11 @@ void AnaEff::Loop()
 	distrib->cd();
 	MUONPT_DISTRIB->Write();
 	ISOR03_DISTRIB->Write();
+	DISTRIB_PT->Write();
+	DISTRIB_IH->Write();
+	DISTRIB_ETA->Write();
+	DISTRIB_P->Write();
+	DISTRIB_IH_IAS->Write();
 	distrib->Close();
 	//trigEff_presel.WritePlots("");
 

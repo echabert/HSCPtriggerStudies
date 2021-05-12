@@ -39,16 +39,27 @@ DrawHist::~DrawHist(){
 void DrawHist::FitSignalBg(){
 	srand(time(NULL));
 	ofstream InfosPurity;
-	InfosPurity.open ("/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/PurityMET.txt");
 
-	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/MET0505_all.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
+	string Purity = "Purity";
+	string DataType = "Stau";
+	string ExtTxt = ".txt";
+	string Date = "1105_";
+	string SubNum = "all";
+	
+	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/";
+	string OutPutName = Path + Purity + DataType + Date + SubNum + ExtTxt;
+
+
+	InfosPurity.open (OutPutName.c_str());
+
+	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/Stau1105_all.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
 	myFile = new TFile(filepath);
 	TH1D* HIST_MASSES = (TH1D*)gROOT->FindObject("MASS");
 	HIST_MASSES->SetTitle("Invariant mass of candidates");
 	//HIST_MASSES->SetMarkerColor(1);
 
 
-	outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/HIST_MET30Apr.root";
+	outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/HIST_STAU30Apr.root";
 
 	OutputHisto = new TFile(outputfilename,"RECREATE");
 
