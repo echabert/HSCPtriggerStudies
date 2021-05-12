@@ -29,9 +29,14 @@ class DrawHist
  private :
 
 	TFile *myFile; 
+	TFile *myFile2;
+
 	TFile* OutputHisto;
+	TFile* OutputHisto2;
 
 	TString outputfilename;
+	TString outputfilename2;
+
 	vector<int> ValBins;
 };
 

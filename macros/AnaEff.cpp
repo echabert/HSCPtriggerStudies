@@ -54,7 +54,7 @@ void AnaEff::Loop()
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "MU";
+	string DataType = "MET";
 
 	string NameCompleteList = NameList + ExtTxt; // + DataType for others
 
@@ -126,12 +126,12 @@ void AnaEff::Loop()
 	
 
 
-	DISTRIB_PT = new TH1D("PT distribution", "( PT )", 155,0,1550);
-	DISTRIB_ETA = new TH1D("ETA distribution", "( ETA )", 100,-8,8);
-	DISTRIB_IH = new TH1D("IH distribution", "( IH )", 100,0,80);
-	DISTRIB_P = new TH1D("P distribution", "( P )", 310,0,3100);
+	DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 155,0,1550);
+	DISTRIB_ETA = new TH1D("DISTRIB_ETA", "( ETA )", 100,-8,8);
+	DISTRIB_IH = new TH1D("DISTRIB_IH", "( IH )", 100,0,80);
+	DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 310,0,3100);
 	
-	DISTRIB_IH_IAS = new TH2D("HSCP_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
+	DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 
 	DISTRIB_PT->Sumw2();
 	DISTRIB_ETA->Sumw2();
@@ -356,9 +356,6 @@ int AnaEff::Selection(){
 		
 	}
 
-	
-	//cout << "nhscp:" << nhscp <<endl;
-	
 	if(positions.size() != 0){
 		int siz=Muonpt.size();
 		sort(Muonpt.begin(),Muonpt.end());
@@ -525,7 +522,6 @@ double AnaEff::MuonsInvariantMass(){
 	invmass.clear();
 	return 1;
 }
-
 
 
 double AnaEff::IsolateMuons(const vector<bool> &passtrig){
