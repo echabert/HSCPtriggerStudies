@@ -212,16 +212,16 @@ void AnaEff::Loop()
 		indexcandidate=Selection();
 		//cout << " -------- NEW ENTRY -------- " << endl;
 		
-		if(indexcandidate != 64){
+		/*if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
 			HighestMET = pfmet_pt[indexcandidate];
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
-				/*if(passTrigger[i] == true ){
-					cout << " Trigger " << triggerName->at(i) << " was found = 1 on entry " << jentry << endl;
+				//if(passTrigger[i] == true ){
+				//	cout << " Trigger " << triggerName->at(i) << " was found = 1 on entry " << jentry << endl;
 
-				}*/
+				//}
 			}
 			for(int p = 0; p < ntrigger; p++){
 				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
@@ -244,7 +244,7 @@ void AnaEff::Loop()
 
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
-		}	
+		}	*/
 	}
 	
 	InfosZ.close();
@@ -274,12 +274,13 @@ void AnaEff::Loop()
 
 
 	InfosData.close();
-	trigEff_selection_obs.Compute(NameOfEff);
+	//trigEff_selection_obs.Compute(NameOfEff);
+
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
 	triggerNames.clear();
 	
-	trigEff_selection_obs.WritePlots("",NameOfFile);
+	//trigEff_selection_obs.WritePlots("",NameOfFile);
 
 	
 
