@@ -126,10 +126,10 @@ void AnaEff::Loop()
 	
 
 
-	DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 155,0,1550);
-	DISTRIB_ETA = new TH1D("DISTRIB_ETA", "( ETA )", 100,-8,8);
-	DISTRIB_IH = new TH1D("DISTRIB_IH", "( IH )", 100,0,80);
-	DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 310,0,3100);
+	DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 620,0,1550);
+	DISTRIB_ETA = new TH1D("DISTRIB_ETA", "( ETA )", 400,-8,8);
+	DISTRIB_IH = new TH1D("DISTRIB_IH", "( IH )", 400,0,80);
+	DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 1240,0,3100);
 	
 	DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 
