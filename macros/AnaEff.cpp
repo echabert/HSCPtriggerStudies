@@ -54,9 +54,9 @@ void AnaEff::Loop()
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "MET";
+	string DataType = "SingleMuon";
 
-	string NameCompleteList = NameList + ExtTxt; // + DataType for others
+	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
 
 	ifstream ifile(NameCompleteList.c_str()); 
 	vector<string> triggerNames;
@@ -130,7 +130,7 @@ void AnaEff::Loop()
 	DISTRIB_ETA = new TH1D("DISTRIB_ETA", "( ETA )", 400,-8,8);
 	DISTRIB_IH = new TH1D("DISTRIB_IH", "( IH )", 400,0,8);
 	DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 1240,0,3100);
-	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",400,0,8);
+	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",400,0,1.2);
 	DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 	DISTRIB_PT_P = new TH2D("DISTRIB_PT_P", "PT ( P ) ", 620 , 0 , 1550 , 1240, 0 , 3100 );
 
@@ -203,7 +203,7 @@ void AnaEff::Loop()
 		indexcandidate=Selection();
 		//cout << " -------- NEW ENTRY -------- " << endl;
 		
-		/*if(indexcandidate != 64){
+		if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
 			HighestMET = pfmet_pt[indexcandidate];
@@ -235,10 +235,10 @@ void AnaEff::Loop()
 
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
-		}*/	
+		}*
 	}
 	
-	/*InfosZ.close();
+	InfosZ.close();
 	ofstream InfosData;
 	InfosData.open (NameOfTxt);
 
@@ -271,7 +271,7 @@ void AnaEff::Loop()
 	
 	triggerNames.clear();
 	
-	trigEff_selection_obs.WritePlots("",NameOfFile);*/
+	trigEff_selection_obs.WritePlots("",NameOfFile);
 
 	distrib = new TFile(distribvarZ.c_str(),"RECREATE");
 	

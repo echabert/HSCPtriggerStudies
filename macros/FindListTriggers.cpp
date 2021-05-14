@@ -30,7 +30,7 @@ int ListNameTriggers::IsInList(string name){
 void ListNameTriggers::FindAllNames(){
 	
 	ofstream CompleteList;
-	string DataType = "Stau";
+	string DataType = "SingleMuon";
 	string NameList = "CompleteList";
 	string ExtTxt = ".txt";
 
