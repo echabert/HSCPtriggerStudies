@@ -54,7 +54,7 @@ void AnaEff::Loop()
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "Gluino1600";
+	string DataType = "Gluino2000";
 
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
 
