@@ -54,7 +54,7 @@ void AnaEff::Loop()
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "SingleMuon";
+	string DataType = "Gluino1600";
 
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
 
@@ -171,7 +171,7 @@ void AnaEff::Loop()
 
 
 
-		for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
+		/*for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
 			DISTRIB_PT->Fill(track_pt[jtrack]);
 			DISTRIB_ETA->Fill(track_eta[jtrack]);
 			DISTRIB_IH->Fill(track_ih_ampl[jtrack]);
@@ -179,7 +179,7 @@ void AnaEff::Loop()
 			DISTRIB_IAS->Fill(track_ias_ampl[jtrack]);
 			DISTRIB_IH_IAS->Fill(track_ias_ampl[jtrack],track_ih_ampl[jtrack]);
 			DISTRIB_PT_P->Fill(track_p[jtrack],track_pt[jtrack]);
-		}
+		}*/
 
 		//double IsoInvMass = MuonInvariantMass();
 		if(InvMass!=1){
@@ -278,13 +278,13 @@ void AnaEff::Loop()
 	distrib->cd();
 	MUONPT_DISTRIB->Write();
 	ISOR03_DISTRIB->Write();
-	DISTRIB_PT->Write();
+	/*DISTRIB_PT->Write();
 	DISTRIB_IH->Write();
 	DISTRIB_IAS->Write();
 	DISTRIB_ETA->Write();
 	DISTRIB_P->Write();
 	DISTRIB_IH_IAS->Write();
-	DISTRIB_PT_P->Write();
+	DISTRIB_PT_P->Write();*/
 	distrib->Close();
 	//trigEff_presel.WritePlots("");
 
