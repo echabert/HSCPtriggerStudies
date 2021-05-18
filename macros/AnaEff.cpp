@@ -54,7 +54,7 @@ void AnaEff::Loop()
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "Gluino2000";
+	string DataType = "Stop1600";
 
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
 
@@ -126,7 +126,7 @@ void AnaEff::Loop()
 	
 
 
-	DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 620,0,1550);
+	/*DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 620,0,1550);
 	DISTRIB_ETA = new TH1D("DISTRIB_ETA", "( ETA )", 400,-8,8);
 	DISTRIB_IH = new TH1D("DISTRIB_IH", "( IH )", 400,0,8);
 	DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 1240,0,3100);
@@ -140,7 +140,7 @@ void AnaEff::Loop()
 	DISTRIB_IH->Sumw2();
 	DISTRIB_P->Sumw2();
 	DISTRIB_IH_IAS->Sumw2();
-	DISTRIB_PT_P->Sumw2();
+	DISTRIB_PT_P->Sumw2();*/
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
 	ISOR03_DISTRIB = new TH1D("ISOR03 close to Z", "ISOR03 close to z peak", 50,0,100);
@@ -162,14 +162,11 @@ void AnaEff::Loop()
 	cout << "Before loop nentries" << endl;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
-		if(jentry!=0 && jentry%5000==0) cout << "Still here " << endl;
+		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << endl;
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		
 		InvMass = MuonsInvariantMass();
-
-
-
 
 		/*for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
 			DISTRIB_PT->Fill(track_pt[jtrack]);

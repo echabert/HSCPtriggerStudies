@@ -30,7 +30,7 @@ int ListNameTriggers::IsInList(string name){
 void ListNameTriggers::FindAllNames(){
 	
 	ofstream CompleteList;
-	string DataType = "Gluino2000";
+	string DataType = "Stop1600";
 	string NameList = "CompleteList";
 	string ExtTxt = ".txt";
 
@@ -87,7 +87,7 @@ void ListNameTriggers::FindAllNames(){
 	
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
-		if(jentry!=0 && jentry%5000==0) cout << "Still here " << endl;
+		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << endl;
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		testcount+=1;
@@ -108,7 +108,7 @@ void ListNameTriggers::FindAllNames(){
 		for (int i = 0 ; i < nmuons ;i++){
 			cout << "muon" << i << " has pt = " << muon_pt[i] << " , phi = " << muon_phi[i] << " and eta = " << muon_eta[i] << endl;
 		}*/
-		cout << "----------------------------- new event -----------------------------" << endl;
+		//cout << "----------------------------- new event -----------------------------" << endl;
 		//if(ntrigger > InfoTriggers.size()){
 
 			for(int i=0; i< ntrigger; i++){
