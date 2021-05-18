@@ -181,8 +181,8 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			if(NameVar=="SingleMuon"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;SingleMuonPT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Gluino"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;GluinoPT;#epsilon",50,0,2000);
+			if(NameVar=="Gluino1600"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600PT;#epsilon",50,0,2000);
 			}
 			if(NameVar=="Stop"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;StopPT;#epsilon",50,0,2000);
