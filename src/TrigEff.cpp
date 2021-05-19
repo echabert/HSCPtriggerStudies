@@ -175,8 +175,11 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			if(NameVar=="MU"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MUPT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Stau"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;StauPT;#epsilon",50,0,2000);
+			if(NameVar=="Stau494"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stau494PT;#epsilon",50,0,2000);
+			}
+			if(NameVar=="Stau1599"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stau1599PT;#epsilon",50,0,2000);
 			}
 			if(NameVar=="SingleMuon"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;SingleMuonPT;#epsilon",50,0,2000);
@@ -193,7 +196,6 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			if(NameVar=="Gluino2600"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2600PT;#epsilon",50,0,2000);
 			}
-
 			if(NameVar=="Stop1600"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stop1600PT;#epsilon",50,0,2000);
 			}
