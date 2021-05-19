@@ -319,7 +319,7 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 				
 				}
 				
-				for(int k = 0; k<PosPass.size(); k++){
+				/*for(int k = 0; k<PosPass.size(); k++){
 					if(PosPass[k].first == TestNoMap[j].second){
 						trig2 = PosPass[k].second;
 						
@@ -332,7 +332,7 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 					}
 
 					
-				}
+				}*/
 
 			}
 	
@@ -550,8 +550,8 @@ void TrigEff::Compute(string NameOutputFile){
 
 	ComputeCorr();
 
-	//PrintDenomCorr();
-	//PrintCorr();
+	PrintDenomCorr();
+	PrintCorr();
 
 }
 
