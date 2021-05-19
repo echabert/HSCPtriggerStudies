@@ -155,7 +155,7 @@ public :
    virtual int      fact(int n);
    virtual double   deltaR2(float track_eta,float track_phi, float muon_eta, float muon_phi);
    virtual double   deltaR(double delta);
-
+   virtual double   MuonsMissingET();
 private :
 
    Int_t muon1;
