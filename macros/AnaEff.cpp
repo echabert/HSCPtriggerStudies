@@ -215,7 +215,7 @@ void AnaEff::Loop()
 				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
 				if(iter == triggerNames.end()){
 
-					cout << " one trigger not found in CompleteList" << endl;
+					//cout << " one trigger not found in CompleteList" << endl;
 				}
 				else{
 					auto pos = std::distance(triggerNames.begin(), iter);
