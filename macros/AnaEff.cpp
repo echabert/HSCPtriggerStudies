@@ -54,7 +54,7 @@ void AnaEff::Loop()
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "Stop1600";
+	string DataType = "Stop2000";
 
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
 
