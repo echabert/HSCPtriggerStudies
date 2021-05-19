@@ -54,9 +54,12 @@ void AnaEff::Loop()
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "Stau1599";
+	string DataType = "Gluino1600test";
 
-	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
+	string NameCompleteList = "CompleteListTest.txt";
+
+
+	//string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
 
 	ifstream ifile(NameCompleteList.c_str()); 
 	vector<string> triggerNames;

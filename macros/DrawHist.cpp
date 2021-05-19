@@ -236,7 +236,12 @@ void DrawHist::FitSignalBg(){
 
 
 	//get the Tefficiency we want (string, all names = name of trigger)
-	//TEfficiency hltmu_45->GetEfficiency(int bin), for a given bin. If we have 4 different mass points 
+	//TEfficiency hltmu_45->GetEfficiency(int bin), for a given bin.
+	// If we have 4 different mass points, only 4 bins to consider ?
+
+	//Get in those bins, then TGRaph, new TEfficiency -> SetEff in bin x with value obtained ?
+
+	//
 	
 
 
