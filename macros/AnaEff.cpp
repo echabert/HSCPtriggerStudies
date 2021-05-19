@@ -103,9 +103,6 @@ void AnaEff::Loop()
    		str.push_back(tmp);
 	}
 	inttrigs.close();
-	
-	
-
 		
 	string StudyData = DataType + Date;
 	string StudyTxt = TransferTxt + DataType + Date;
@@ -113,18 +110,12 @@ void AnaEff::Loop()
 	string StudyZ= TransferZ + DataType + Date;
 	string StudyDistribZ = TransferDistrib + DataType + Date;
 
-	
-
-
 	string NameOfFile = StudyData + SubNum + ExtRoot;
 
 	string NameOfEff = StudyEff + SubNum + ExtTxt;
 	string NameOfTxt = StudyTxt + SubNum + ExtTxt;
 	string EntriesFromZ = StudyZ + SubNum + ExtTxt;
 	string distribvarZ = StudyDistribZ + SubNum + ExtRoot;
-	
-	
-
 
 	/*DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 620,0,1550);
 	DISTRIB_ETA = new TH1D("DISTRIB_ETA", "( ETA )", 400,-8,8);
@@ -152,7 +143,7 @@ void AnaEff::Loop()
 	SubListMET.clear();
 	SubListPT.clear();
 
-	int counter=0,passedevent=0,nbofpairs=0,nbofpairsZ=0,nbmuons=0;
+	int counter=0,passedevent=0,nbofpairs=0,nbofpairsZ=0,nbmuons=0,nbwrong=0;
 	int indexcandidate;
 	double InvMass;
 	//nentries=30;
@@ -197,6 +188,7 @@ void AnaEff::Loop()
 		vector<int> position;
 		vector< pair<int, bool > > PosPass;
 		float HighestPT,HighestMuonPT,HighestMET;
+		int trignull=0;
 		indexcandidate=Selection();
 		//cout << " -------- NEW ENTRY -------- " << endl;
 		
@@ -208,8 +200,13 @@ void AnaEff::Loop()
 				vtrigger.push_back(passTrigger[i]);
 				//if(passTrigger[i] == true ){
 				//	cout << " Trigger " << triggerName->at(i) << " was found = 1 on entry " << jentry << endl;
-
+				if(vtrigger[i] == 0){
+					trignull+=1;
+				}
 				//}
+			}
+			if(trignull==ntrigger){
+				nbwrong+=1;
 			}
 			for(int p = 0; p < ntrigger; p++){
 				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
@@ -229,7 +226,6 @@ void AnaEff::Loop()
 			
 			passedevent+=1;
 			trigEff_selection_obs.FillNoMap2(PosPass,HighestPT,1);
-
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}
@@ -257,7 +253,7 @@ void AnaEff::Loop()
 	cout << " # muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << " , Ratio :" << (nbofpairsZ*2.0/nbmuons)*100 << " %" << endl << endl << " Total number of pairs = " << nbofpairs  <<" Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 
-
+	cout << " # of times all triggers = 0 : " << nbwrong << endl;
 	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << " , Ratio :" << (nbofpairsZ*2.0/nbmuons)*100 << " %" << endl << endl <<  "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 
@@ -360,9 +356,6 @@ int AnaEff::fact(int n){
      return (n==0) || (n==1) ? 1 : n* fact(n-1);
 }
 
-
-
-
 double AnaEff::deltaR2(float track_eta,float track_phi, float muon_eta, float muon_phi){
 	float dp = std::abs(track_phi - muon_phi);
 	if (dp > M_PI){
@@ -372,11 +365,20 @@ double AnaEff::deltaR2(float track_eta,float track_phi, float muon_eta, float mu
 
 }
 
-
 double AnaEff::deltaR(double delta) {
 	return std::sqrt(delta);
 }
 
+
+double AnaEff::MuonsMissingET(){
+
+	double MissingET;
+	TLorentzVector mu1,mu2,sum;
+	vector<double> missingET;
+
+
+
+}
 
 
 
@@ -426,9 +428,6 @@ double AnaEff::MuonsInvariantMass(){
 
 	else if(nmuons > 2){
 		nbcomb = (fact(nmuons) / (fact(2) * fact(nmuons-2)) );
-
-	
-	
 		//&& muon_pt[j] >= 10 && muon_pt[k] >= 10
 		//cout << nmuons << " muons " << endl; 
 		for(int i = 0; i < nmuons ; i++){

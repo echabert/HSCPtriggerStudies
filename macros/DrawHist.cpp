@@ -133,8 +133,8 @@ void DrawHist::FitSignalBg(){
 		int randombg = rand()%(ValBins[valsize-1]-ValBins[0]+1)+ValBins[0];
 		//cout << randombg << endl;
 		nbentriesZ+=HIST_FITSIG->GetBinContent(x);
-		//HIST_FITBG->SetBinContent(x,0);
-		HIST_FITBG->SetBinContent(x,randombg);
+		HIST_FITBG->SetBinContent(x,0);
+		//HIST_FITBG->SetBinContent(x,randombg);
 		
 
 	}
