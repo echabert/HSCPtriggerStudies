@@ -400,7 +400,7 @@ void TrigEff::PrintDenomCorr(){
 
 	for ( int i = 0; i < DenomCorr.size(); i++ ){
    		for ( int j = 0; j < DenomCorr[i].size(); j++ ){
-      			cout << "num:" << NumCorr[i][j] << "denom: " << DenomCorr[i][j] << ' ';
+      			cout <<  << NumCorr[i][j] << " / " << DenomCorr[i][j] << "  ";
    		}
    	cout << endl;
 	}
