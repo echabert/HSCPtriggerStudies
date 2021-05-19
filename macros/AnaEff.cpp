@@ -221,7 +221,6 @@ void AnaEff::Loop()
 					//cout << "found trigger " << p << " ( " << triggerName->at(p) << " ) " << " in position" << pos << " inside CompleteList" << endl;
 				}
 				
-				
 			}
 			
 			passedevent+=1;
@@ -373,12 +372,21 @@ double AnaEff::deltaR(double delta) {
 double AnaEff::MuonsMissingET(){
 
 	double MissingET;
-	TLorentzVector mu1,mu2,sum;
+	TLorentzVector mu,sum;
 	vector<double> missingET;
-
-
+	// indications eric : pz = 0, pas d'infos sur pz,px,py ? muon_p / muon_pt peut donner px ?
+	
+	// recuperer px py pz de ce vecteur
+	// 
+	//dylan : mu.SetPtEtaPhiM(muon_pt,muon_eta,muon_phi,massMu);
+	//trouver la MET si il y en a dans une trace opposée pi/2
+	//sum both to get mass,  W probably (10% mu+nu in W) 
+	
+	//
 
 }
+
+
 
 
 

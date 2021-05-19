@@ -300,31 +300,40 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 		
 
 		for(int i = 0; i < PosPass.size(); i++){
+
+
 			for(int j=0; j< TestNoMap.size(); j++){
-					if(PosPass[i].first == TestNoMap[j].second){
-						DenomEfficiency[PosPass[i].first] +=1;
-						trig1 = PosPass[i].second;
-						if(trig1){
-							NumEfficiency[PosPass[i].first] += 1;
-						}
-						if(Obs!=0.0){
-							EffvsObs[j]->TEfficiency::Fill(PosPass[i].second ,Obs);
-						}
-						break;
-				
+
+				if(PosPass[i].first == TestNoMap[j].second){
+					DenomEfficiency[PosPass[i].first] +=1;
+					trig1 = PosPass[i].second;
+					if(trig1){
+						NumEfficiency[PosPass[i].first] += 1;
 					}
+					if(Obs!=0.0){
+						EffvsObs[j]->TEfficiency::Fill(PosPass[i].second ,Obs);
+					}
+						//break;
 				
-				/*for(int k = 0; k<TestNoMap.size(); k++){
+				}
+				
+				for(int k = 0; k<PosPass.size(); k++){
+					if(PosPass[k].first == TestNoMap[j].second){
+						trig2 = PosPass[k].second;
+						
+						if(trig1 || trig2){
+							DenomCorr[PosPass[i].first][PosPass[k].first]+=1;
+						}
+						if(trig1 && trig2){
+							NumCorr[PosPass[i].first][PosPass[k].first]+=1;
+						}
+					}
+
 					
-					
-				}*/
+				}
 
 			}
 	
-
-			
-			
-			
 		}
 	
 	}

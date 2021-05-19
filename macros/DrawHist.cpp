@@ -226,6 +226,22 @@ void DrawHist::FitSignalBg(){
 	TLegendEntry *header2 = (TLegendEntry*)leg2->GetListOfPrimitives()->First();
 	header2->SetTextColor(1);
 	header2->SetTextSize(.04);*/
+	
+
+	//------------------------------------------------------------------plot efficiency vs mass----------------------------------------
+
+
+
+
+
+
+	//get the Tefficiency we want (string, all names = name of trigger)
+	//TEfficiency hltmu_45->GetEfficiency(int bin), for a given bin. If we have 4 different mass points 
+	
+
+
+
+
 
 
 	cout << "Integral of the Signal for mass between [86-96] GeV: " << IntegralGauss << endl;
