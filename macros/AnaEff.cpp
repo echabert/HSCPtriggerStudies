@@ -104,7 +104,7 @@ void AnaEff::Loop()
 	}
 	for(int i = 0; i < triggerNames.size() ; i++){
 
-		cout << triggerName[i] << endl;
+		cout << triggerNames[i] << endl;
 	
 	}
 	ifile.close();
