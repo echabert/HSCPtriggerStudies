@@ -329,7 +329,7 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 						NumEfficiency[PosPass[i].first] += 1;
 					}
 					if(Obs!=0.0){
-						EffvsObs[j]->TEfficiency::Fill(PosPass[i].second ,Obs);
+						EffvsObs[i]->TEfficiency::Fill(PosPass[i].second ,Obs);
 					}
 						//break;
 				
