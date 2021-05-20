@@ -227,7 +227,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", TriggerNames.size(),0,TriggerNames.size());
 	CORR = new TH2D("Correlation", "Correlation plot",  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
 	
-	MASSW = new TH1D("MASS" , " Masses invariante des muons enrichi en W" , nbins , 0 , massmax);
+	MASSW = new TH1D("MASSW" , " Masses invariante des muons enrichi en W" , nbins , 0 , massmax);
 
 	MASS = new TH1D("MASS" , " Masses invariante des muons" , nbins , 0 , massmax);
 
