@@ -149,6 +149,7 @@ void AnaEff::Loop()
 	int counter=0,passedevent=0,nbofpairs=0,nbofpairsZ=0,nbmuons=0,nbwrong=0;
 	int indexcandidate;
 	double InvMass;
+	double MissingW;
 	//nentries=30;
 	ofstream InfosZ;
 	InfosZ.open (EntriesFromZ);
@@ -161,7 +162,7 @@ void AnaEff::Loop()
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		
 		InvMass = MuonsInvariantMass();
-
+		MissingW = MuonsMissingET();
 		/*for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
 			DISTRIB_PT->Fill(track_pt[jtrack]);
 			DISTRIB_ETA->Fill(track_eta[jtrack]);
@@ -374,8 +375,8 @@ double AnaEff::deltaR(double delta) {
 
 double AnaEff::MuonsMissingET(){
 
-	double MissingET;
-	TLorentzVector mu,sum;
+	double MissingET,mu_phi,mu_eta,mu_pt,mu_px,mu_py,mu_pz,;
+	TLorentzVector mu,sum,transf;
 	vector<double> missingET;
 	// indications eric : pz = 0, pas d'infos sur pz,px,py ? muon_p / muon_pt peut donner px ?
 	
@@ -386,6 +387,52 @@ double AnaEff::MuonsMissingET(){
 	//sum both to get mass,  W probably (10% mu+nu in W) 
 	
 	//
+	if(nmuons>1){
+		for(int i = 0; i < nmuons ; i++){
+			if(muon_pt[i] > 10){
+				muonPT.push_back(make_pair(muon_pt[i],i));
+				muonETA.push_back(make_pair(muon_eta[i],i));
+				muonPHI.push_back(make_pair(muon_phi[i],i));
+			}
+			
+		}
+
+	}
+	sort(muonPT.begin(),muonPT.end());
+	int index = muonPT[muonPT.size()-1].second;
+	
+	for(int k = 0; k < muonPT.size(); k++){
+		if(index == muonETA[k].second){
+			mu_eta = muonETA[k].first;
+		}
+
+		if(index == muonPHI[k].second){
+			mu_phi = muonPHI[k].first;
+
+		}
+	}
+	mu_pt = muonPT[index].first;
+	
+	if(muonPT.size() < 2){
+		return 1;
+	}
+	else{
+		transf.SetPtEtaPhiM(mu_pt,mu_eta,mu_phi,massMu);
+		mu_px = transf.Px();
+		mu_py = transf.Py();
+		mu_pz = transf.Pz();
+
+		mu.SetPx(mu_px);
+		mu.SetPy(mu_py);
+		mu.SetPz(0);
+		mu.SetM(massMu);
+
+		cout << " [px,py,pz,M] = " <<"{" << mu_px << "," << mu_py << "," << mu_pz << "," << massMu << "]" << endl;
+		double invmass = mu.M();
+		cout << "InvMass = " << invmass << endl;
+		return invmass;
+
+	}
 	return 0;
 }
 
