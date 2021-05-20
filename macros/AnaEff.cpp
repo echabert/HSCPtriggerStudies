@@ -102,8 +102,11 @@ void AnaEff::Loop()
 		}
 		
 	}
+	for(int i = 0; i < triggerNames.size() ; i++){
+
+		cout << triggerName[i] << endl;
 	
-	
+	}
 	ifile.close();
 
 	vector<string> str;
