@@ -457,9 +457,9 @@ double AnaEff::MuonsMissingET(){
 		mu.SetPz(0);
 		mu.SetM(massMu);*/
 
-		cout << " [px,py,pz,M] = " <<"{" << test.Px() << "," << test.Py() << "," << test.Pz() << "," << test.M() << "]" << endl;
-		double invmassw = test.Mt();
-		cout << "InvMass transverse = " << invmassw << " and MET associated to this track : " << endl;
+		cout << " [px,py,pz] = " <<"{" << test.px() << "," << test.py() << "," << test.pz() << "]" << endl;
+		//double invmassw = test.Mt();
+		//cout << "InvMass transverse = " << invmassw << " and MET associated to this track : " << endl;
 		//return invmass;
 
 	}
