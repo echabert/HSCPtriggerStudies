@@ -444,20 +444,13 @@ double AnaEff::MuonsMissingET(){
 		mu_py = transf.Py();
 		mu_pz = transf.Pz();
 
-		cout << "before set pxpypzm" << endl;
 		test.SetPx(mu_px);
 		test.SetPy(mu_py);
 		test.SetPz(0.);
-		//test.SetM(massMu);
-		//mu.SetVectM(mu(mu_px,mu_py,0.),massMu);
-		//muon.SetCoordinates(mu_px,mu_py,0,massMu);
+		//test.SetM(0);
+		
 
-		/*mu.SetPx(mu_px);
-		mu.SetPy(mu_py);
-		mu.SetPz(0);
-		mu.SetM(massMu);*/
-
-		cout << " [px,py,pz] = " <<"{" << test.px() << "," << test.py() << "," << test.pz() << "]" << endl;
+		cout << " [px,py,pz] = " << "{" << test.px() << "," << test.py() << "," << test.pz() << "]" << test.M() << endl;
 		//double invmassw = test.Mt();
 		//cout << "InvMass transverse = " << invmassw << " and MET associated to this track : " << endl;
 		//return invmass;
