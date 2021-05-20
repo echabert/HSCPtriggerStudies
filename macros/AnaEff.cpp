@@ -17,10 +17,12 @@
 #include <vector>
 #include <TMath.h>
 #include <TLorentzVector.h>
-#include <LorentzVector.h>
+#include <Math/Vector4D.h>
+#include <Math/Vector4Dfwd.h>
+//#include <LorentzVector.h>
 //#include <LorentzVector.h>
 //#include <Math/Vector4D.h>
-
+#include <Math/GenVector/LorentzVector.h>
 //#include <Math/GenVector/LorentzVector.h>
 
 //#include <Vector4Dfwd.h>
@@ -89,7 +91,7 @@ void AnaEff::Loop()
 		/*if(strstr(tmp.c_str(),s2.c_str())){
 			SubListMET.push_back(tmp);
 		}*/
-		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) || strstr(tmp.c_str(),s7.c_str()) ){
+		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) ){
 			SubListMET.push_back(tmp);
 		}
 		
@@ -97,7 +99,7 @@ void AnaEff::Loop()
 			SubListMET.push_back(tmp);
 		}*/
 
-		if(strstr(tmp.c_str(),s3.c_str())){
+		if(strstr(tmp.c_str(),s7.c_str())){
 			SubListPT.push_back(tmp);
 		}
 		
@@ -151,7 +153,7 @@ void AnaEff::Loop()
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
 	ISOR03_DISTRIB = new TH1D("ISOR03 close to Z", "ISOR03 close to z peak", 50,0,100);
 	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,DataType,NameOfFile); 
-	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,"MET","test_MET_nomap.root");
+	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,DataType2,NameOfFile);
 	//a
 	
 	str.clear();
@@ -392,8 +394,10 @@ double AnaEff::MuonsMissingET(){
 	double MissingET,mu_phi,mu_eta,mu_pt,mu_px,mu_py,mu_pz;
 	//ROOT::Math::PxPyPzMVector muon;
 	//ROOT::Math::LorentzVector<ROOT::Math::PxPyPzM4D<double> > mu;
-	TLorentzVector mu,sum,transf;
-	LorentzVector test;
+	TLorentzVector sum,transf;
+	//LorentzVector<PxPyPzM4D<double> > ROOT::Math::PxPyPzMVector
+	ROOT::Math::PxPyPzMVector test;
+	//LorentzVector test;
 	//PxPyPzMVector mu;
 	vector<double> missingET;
 	// indications eric : pz = 0, pas d'infos sur pz,px,py ? muon_p / muon_pt peut donner px ?
@@ -440,10 +444,11 @@ double AnaEff::MuonsMissingET(){
 		mu_py = transf.Py();
 		mu_pz = transf.Pz();
 
-		
-		mu.SetPx(mu_px);
-		mu.SetPy(mu_py);
-		mu.SetPz(0.);
+		cout << "before set pxpypzm" << endl;
+		test.SetPx(mu_px);
+		test.SetPy(mu_py);
+		test.SetPz(0.);
+		//test.SetM(massMu);
 		//mu.SetVectM(mu(mu_px,mu_py,0.),massMu);
 		//muon.SetCoordinates(mu_px,mu_py,0,massMu);
 
@@ -453,9 +458,9 @@ double AnaEff::MuonsMissingET(){
 		mu.SetM(massMu);*/
 
 		cout << " [px,py,pz,M] = " <<"{" << mu_px << "," << mu_py << "," << mu_pz << "," << massMu << "]" << endl;
-		double invmass = mu.M();
-		cout << "InvMass = " << invmass << endl;
-		return invmass;
+		double invmass = test.M();
+		cout << "InvMass = " << invmass << " and MET associated to this track : " << endl;
+		//return invmass;
 
 	}
 	return 0;
