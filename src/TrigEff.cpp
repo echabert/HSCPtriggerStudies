@@ -379,7 +379,7 @@ void TrigEff::PrintCorr(){
 	cout << endl;
 	for ( int i = 0; i < Correlation.size(); i++ ){
    		for ( int j = 0; j < Correlation[i].size(); j++ ){
-      			cout << "[" << i+1 << "," << j+1 << "] : " << NumCorr[i][j] << " / " << DenomCorr[i][j] << " = " << Correlation[i][j] * 100  << "% ";
+      			cout << setprecision(5) << "[" << i+1 << "," << j+1 << "] : " << NumCorr[i][j] << " / " << DenomCorr[i][j] << " = " << Correlation[i][j] * 100  << "% ";
    		}
    	cout << endl;
 	}
