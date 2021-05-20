@@ -374,8 +374,8 @@ double AnaEff::deltaR(double delta) {
 
 
 double AnaEff::MuonsMissingET(){
-
-	double MissingET,mu_phi,mu_eta,mu_pt,mu_px,mu_py,mu_pz,;
+	vector< pair<float, int > > muonPT,muonPHI,muonETA;
+	double MissingET,mu_phi,mu_eta,mu_pt,mu_px,mu_py,mu_pz;
 	TLorentzVector mu,sum,transf;
 	vector<double> missingET;
 	// indications eric : pz = 0, pas d'infos sur pz,px,py ? muon_p / muon_pt peut donner px ?
