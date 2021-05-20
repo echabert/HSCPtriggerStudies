@@ -23,6 +23,8 @@
 //#include <LorentzVector.h>
 //#include <Math/Vector4D.h>
 #include <Math/GenVector/LorentzVector.h>
+#include <Math/GenVector/PxPyPzM4D.h>
+
 //#include <Math/GenVector/LorentzVector.h>
 
 //#include <Vector4Dfwd.h>
@@ -392,13 +394,13 @@ double AnaEff::deltaR(double delta) {
 double AnaEff::MuonsMissingET(){
 	vector< pair<float, int > > muonPT,muonPHI,muonETA;
 	double MissingET,mu_phi,mu_eta,mu_pt,mu_px,mu_py,mu_pz;
-	//ROOT::Math::PxPyPzMVector muon;
-	//ROOT::Math::LorentzVector<ROOT::Math::PxPyPzM4D<double> > mu;
+	
 	TLorentzVector sum,transf;
-	//LorentzVector<PxPyPzM4D<double> > ROOT::Math::PxPyPzMVector
-	ROOT::Math::PxPyPzMVector test;
-	//LorentzVector test;
-	//PxPyPzMVector mu;
+	
+	ROOT::Math::PxPyPzMVector test,test2;
+
+	
+	//ROOT::Math::PxPyPzM4D test3;
 	vector<double> missingET;
 	// indications eric : pz = 0, pas d'infos sur pz,px,py ? muon_p / muon_pt peut donner px ?
 	
@@ -443,18 +445,22 @@ double AnaEff::MuonsMissingET(){
 		mu_px = transf.Px();
 		mu_py = transf.Py();
 		mu_pz = transf.Pz();
-
-		test.SetPx(mu_px);
-		test.SetPy(mu_py);
-		test.SetPz(0.);
-		//test.SetM(0);
+		
+		ROOT::Math::PxPyPzM4D<double> test3;
+		
+		//test3.SetCoordinates(mu_px,mu_py,0.,0.1056583745);
+		
+		test3.SetPx(500);
+		test3.SetPy(200);
+		test3.SetPz(0.);
+		//test3.SetM(800000);
 		
 
-		cout << " [px,py,pz] = " << "{" << test.px() << "," << test.py() << "," << test.pz() << "]" << test.M() << endl;
+		cout << " [px,py,pz] = " << "{" << test3.Px() << "," << test3.Py() << "," << test3.Pz() << "]" << test3.M() << endl;
 		//double invmassw = test.Mt();
 		//cout << "InvMass transverse = " << invmassw << " and MET associated to this track : " << endl;
 		//return invmass;
-
+		return 0;
 	}
 	return 0;
 }
