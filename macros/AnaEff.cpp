@@ -102,6 +102,7 @@ void AnaEff::Loop()
 		}
 		
 	}
+	cout << triggerNames.size() << endl;
 	for(int i = 0; i < triggerNames.size() ; i++){
 
 		cout << triggerNames[i] << endl;
