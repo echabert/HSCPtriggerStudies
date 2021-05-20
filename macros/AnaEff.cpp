@@ -421,11 +421,11 @@ double AnaEff::MuonsMissingET(){
 		mu_px = transf.Px();
 		mu_py = transf.Py();
 		mu_pz = transf.Pz();
-
-		mu.SetPx(mu_px);
+		mu.SetCoordinates(mu_px,mu_py,0,massMu);
+		/*mu.SetPx(mu_px);
 		mu.SetPy(mu_py);
 		mu.SetPz(0);
-		mu.SetM(massMu);
+		mu.SetM(massMu);*/
 
 		cout << " [px,py,pz,M] = " <<"{" << mu_px << "," << mu_py << "," << mu_pz << "," << massMu << "]" << endl;
 		double invmass = mu.M();
