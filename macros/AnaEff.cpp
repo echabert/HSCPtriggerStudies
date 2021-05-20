@@ -392,15 +392,11 @@ double AnaEff::deltaR(double delta) {
 
 
 double AnaEff::MuonsMissingET(){
-	vector< pair<float, int > > muonPT,muonPHI,muonETA;
-	double MissingET,mu_phi,mu_eta,mu_pt,mu_px,mu_py,mu_pz;
+	vector< pair<float, int > > muonPT,muonPHI,muonETA,muonP;
+	double MissingET,mu_phi,mu_eta,mu_pt,mu_px,mu_py,mu_pz,mu_p;
 	
-	TLorentzVector sum,transf;
+	TLorentzVector muon,sum,transf;
 	
-	ROOT::Math::PxPyPzMVector test,test2;
-
-	
-	//ROOT::Math::PxPyPzM4D test3;
 	vector<double> missingET;
 	// indications eric : pz = 0, pas d'infos sur pz,px,py ? muon_p / muon_pt peut donner px ?
 	
@@ -417,6 +413,7 @@ double AnaEff::MuonsMissingET(){
 				muonPT.push_back(make_pair(muon_pt[i],i));
 				muonETA.push_back(make_pair(muon_eta[i],i));
 				muonPHI.push_back(make_pair(muon_phi[i],i));
+				muonP.push_back(make_pair(muon_p[i],i));
 			}
 			
 		}
@@ -434,6 +431,11 @@ double AnaEff::MuonsMissingET(){
 			mu_phi = muonPHI[k].first;
 
 		}
+		if(index == muonP[k].second){
+			mu_p = muonP[k].first;
+
+		}
+
 	}
 	mu_pt = muonPT[index].first;
 	
@@ -445,21 +447,20 @@ double AnaEff::MuonsMissingET(){
 		mu_px = transf.Px();
 		mu_py = transf.Py();
 		mu_pz = transf.Pz();
-		
-		ROOT::Math::PxPyPzM4D<double> test3;
+		double Energy = sqrt((massMu*massMu)+mu_p*mu_p);
+		cout << " energy = " << Energy << endl;
+		muon.SetPxPyPzE(mu_px,mu_py,0,Energy);
 		
 		//test3.SetCoordinates(mu_px,mu_py,0,0.105);
+		//get E from m p 
 		
-		test3.SetPx(mu_px);
-		test3.SetPy(mu_py);
-		test3.SetPz(mu_pz);
 		//test3.SetM(0.105);
 		
 
-		cout << " [px,py,pz] = " << "{" << test3.Px() << "," << test3.Py() << "," << test3.Pz() << "]" << test3.M2() << endl;
-		//double invmassw = test.Mt();
-		//cout << "InvMass transverse = " << invmassw << " and MET associated to this track : " << endl;
-		//return invmass;
+		cout << " [px,py,pz,M] = " << "{" << muon.Px() << "," << muon.Py() << "," << muon.Pz() << "," << muon.M() << "]" << endl;
+		double invmassw = muon.M();
+		//cout << "InvMass transverse = " << invmassw << endl;
+		return invmassw;
 		return 0;
 	}
 	return 0;

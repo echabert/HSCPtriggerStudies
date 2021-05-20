@@ -93,6 +93,7 @@ public :
    Float_t      muon_phi[32];
    Float_t      muon_eta[32];
    Float_t      muon_pt[32];
+   Float_t      muon_p[32];
    Int_t	nmuons;
    Float_t      muon_isoR03_sumChargedHadronPt[32];
    Int_t        hscp_muon_idx[9];
@@ -130,6 +131,7 @@ public :
    TBranch        *b_muon_eta;   //!
    TBranch        *b_muon_phi;
    TBranch        *b_muon_pt;
+   TBranch        *b_muon_p;
    TBranch        *b_nmuons;
    TBranch        *b_muon_isoR03_sumChargedHadronPt;
    TBranch        *b_track_phi;
@@ -333,7 +335,7 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("ntracks", &ntracks, &b_ntracks);
    fChain->SetBranchAddress("hscp_muon_idx", hscp_muon_idx, &b_hscp_muon_idx); 
    fChain->SetBranchAddress("muon_isMediumMuon", muon_isMediumMuon, &b_muon_isMediumMuon);
-
+   fChain->SetBranchAddress("muon_p", muon_p, &b_muon_p);
    Notify();
 }
 
