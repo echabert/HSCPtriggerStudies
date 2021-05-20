@@ -448,15 +448,15 @@ double AnaEff::MuonsMissingET(){
 		
 		ROOT::Math::PxPyPzM4D<double> test3;
 		
-		//test3.SetCoordinates(mu_px,mu_py,0.,0.1056583745);
+		//test3.SetCoordinates(mu_px,mu_py,0,0.105);
 		
-		test3.SetPx(500);
-		test3.SetPy(200);
+		test3.SetPx(mu_px);
+		test3.SetPy(mu_py);
 		test3.SetPz(0.);
-		//test3.SetM(800000);
+		//test3.SetM(0.105);
 		
 
-		cout << " [px,py,pz] = " << "{" << test3.Px() << "," << test3.Py() << "," << test3.Pz() << "]" << test3.M() << endl;
+		cout << " [px,py,pz] = " << "{" << test3.Px() << "," << test3.Py() << "," << test3.Pz() << "]" << test3.M2() << endl;
 		//double invmassw = test.Mt();
 		//cout << "InvMass transverse = " << invmassw << " and MET associated to this track : " << endl;
 		//return invmass;
