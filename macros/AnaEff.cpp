@@ -390,6 +390,7 @@ double AnaEff::deltaR(double delta) {
 double AnaEff::MuonsMissingET(){
 	vector< pair<float, int > > muonPT,muonPHI,muonETA;
 	double MissingET,mu_phi,mu_eta,mu_pt,mu_px,mu_py,mu_pz;
+	//ROOT::Math::PxPyPzMVector muon;
 	//ROOT::Math::LorentzVector<ROOT::Math::PxPyPzM4D<double> > mu;
 	TLorentzVector sum,transf;
 	//PxPyPzMVector mu;
@@ -437,7 +438,8 @@ double AnaEff::MuonsMissingET(){
 		mu_px = transf.Px();
 		mu_py = transf.Py();
 		mu_pz = transf.Pz();
-		//mu.SetCoordinates(mu_px,mu_py,0,massMu);
+		//muon.SetCoordinates(mu_px,mu_py,0,massMu);
+
 		/*mu.SetPx(mu_px);
 		mu.SetPy(mu_py);
 		mu.SetPz(0);

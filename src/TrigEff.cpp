@@ -379,7 +379,7 @@ void TrigEff::PrintCorr(){
 	cout << endl;
 	for ( int i = 0; i < Correlation.size(); i++ ){
    		for ( int j = 0; j < Correlation[i].size(); j++ ){
-      			cout << "[" << i+1 << "," << j+1 << "] : " <<Correlation[i][j] * 100  << "% ";
+      			cout << "[" << i+1 << "," << j+1 << "] : " << NumCorr[i][j] << " / " << DenomCorr[i][j] << " = " << Correlation[i][j] * 100  << "% ";
    		}
    	cout << endl;
 	}
@@ -471,7 +471,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 		sort(AllCondensed.begin(), AllCondensed.end());
 	for(int i = 0; i < TransferVec.size(); i++){ 
 
-		TriggersOfInterest << "i+1" << " " <<(AllCondensed[i].first.first) * 100 << " +/- " << (AllCondensed[i].second.first) *100  << "  " << (AllCondensed[i].first.second.second.first) << " / " << (AllCondensed[i].first.second.second.second) << (AllCondensed[i].second.second) << endl;
+		TriggersOfInterest << i+1 << " " <<(AllCondensed[i].first.first) * 100 << " +/- " << (AllCondensed[i].second.first) *100  << "  " << (AllCondensed[i].first.second.second.first) << " / " << (AllCondensed[i].first.second.second.second) << " " << (AllCondensed[i].second.second) << endl;
 
 		//TriggersOfInterest << (TransferVec[i].first.first)*100 << " +/-" << (TransferVec[i].second.first)*100  << "  " << TransferVec[i].second.second << "\n";
 	}
@@ -550,7 +550,7 @@ void TrigEff::Compute(string NameOutputFile){
 
 	ComputeCorr();
 
-	PrintDenomCorr();
+	//PrintDenomCorr();
 	PrintCorr();
 
 }
