@@ -58,13 +58,13 @@ void AnaEff::Loop()
 	string SubNum = "all"; //to_string(2);
 	string ExtRoot = ".root";
 	string ExtTxt = ".txt";
-	string Date = "1105_";
+	string Date = "2021";
 	
 	string TransferTxt="AllInfos";
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferDistrib = "DistribZpeak";
-	string DataType = "Gluino1600test2";
+	string DataType = "Gluino1800av";
 
 	string NameCompleteList = "CompleteListTest.txt";
 
@@ -178,7 +178,7 @@ void AnaEff::Loop()
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		
 		InvMass = MuonsInvariantMass();
-		MissingW = MuonsMissingET();
+		//MissingW = MuonsMissingET();
 
 
 		/*for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
@@ -452,7 +452,7 @@ double AnaEff::MuonsMissingET(){
 		
 		test3.SetPx(mu_px);
 		test3.SetPy(mu_py);
-		test3.SetPz(0.);
+		test3.SetPz(mu_pz);
 		//test3.SetM(0.105);
 		
 
