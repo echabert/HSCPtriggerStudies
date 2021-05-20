@@ -17,9 +17,9 @@
 #include <vector>
 #include <TMath.h>
 #include <TLorentzVector.h>
-
+#include <LorentzVector.h>
 //#include <LorentzVector.h>
-#include <Math/Vector4D.h>
+//#include <Math/Vector4D.h>
 
 //#include <Math/GenVector/LorentzVector.h>
 
@@ -392,7 +392,8 @@ double AnaEff::MuonsMissingET(){
 	double MissingET,mu_phi,mu_eta,mu_pt,mu_px,mu_py,mu_pz;
 	//ROOT::Math::PxPyPzMVector muon;
 	//ROOT::Math::LorentzVector<ROOT::Math::PxPyPzM4D<double> > mu;
-	TLorentzVector sum,transf;
+	TLorentzVector mu,sum,transf;
+	LorentzVector test;
 	//PxPyPzMVector mu;
 	vector<double> missingET;
 	// indications eric : pz = 0, pas d'infos sur pz,px,py ? muon_p / muon_pt peut donner px ?
@@ -438,6 +439,12 @@ double AnaEff::MuonsMissingET(){
 		mu_px = transf.Px();
 		mu_py = transf.Py();
 		mu_pz = transf.Pz();
+
+		
+		mu.SetPx(mu_px);
+		mu.SetPy(mu_py);
+		mu.SetPz(0.);
+		//mu.SetVectM(mu(mu_px,mu_py,0.),massMu);
 		//muon.SetCoordinates(mu_px,mu_py,0,massMu);
 
 		/*mu.SetPx(mu_px);
@@ -446,9 +453,9 @@ double AnaEff::MuonsMissingET(){
 		mu.SetM(massMu);*/
 
 		cout << " [px,py,pz,M] = " <<"{" << mu_px << "," << mu_py << "," << mu_pz << "," << massMu << "]" << endl;
-		//double invmass = mu.M();
-		//cout << "InvMass = " << invmass << endl;
-		//return invmass;
+		double invmass = mu.M();
+		cout << "InvMass = " << invmass << endl;
+		return invmass;
 
 	}
 	return 0;
