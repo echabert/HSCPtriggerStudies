@@ -80,6 +80,7 @@ void AnaEff::Loop()
 
 	string s3 = "TESTPT";
 	string s6 = "testmu";
+	string s7 = "MET";
 	
 	
 	string tmp;
@@ -88,9 +89,10 @@ void AnaEff::Loop()
 		/*if(strstr(tmp.c_str(),s2.c_str())){
 			SubListMET.push_back(tmp);
 		}*/
-		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) ){
+		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) || strstr(tmp.c_str(),s7.c_str()) ){
 			SubListMET.push_back(tmp);
 		}
+		
 		/*if(strstr(tmp.c_str(),s5.c_str())){
 			SubListMET.push_back(tmp);
 		}*/
@@ -168,7 +170,9 @@ void AnaEff::Loop()
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		
 		InvMass = MuonsInvariantMass();
-		MissingW = MuonsMissingET();
+		//MissingW = MuonsMissingET();
+
+
 		/*for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
 			DISTRIB_PT->Fill(track_pt[jtrack]);
 			DISTRIB_ETA->Fill(track_eta[jtrack]);
