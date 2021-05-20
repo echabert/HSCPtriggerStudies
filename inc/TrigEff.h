@@ -119,6 +119,7 @@ public:
    TH1D* EFF_TRIG;
    TH1D* EFF_DISTRIB;
    TH1D* MASS;
+   TH1D* MASSW;
    TH1D* SOLOM;
    
    TH1D* FITSIG;

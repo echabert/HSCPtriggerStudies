@@ -38,6 +38,8 @@ const double uncertaintyZ = 0.0021;
 const double massMu = 0.1056583745;
 const double uncertaintyMu = 0.0000000024;
 
+const double massW = 80.379;
+const double uncertaintyW = 0.012;
 void AnaEff::Loop()
 {
 	
@@ -63,7 +65,10 @@ void AnaEff::Loop()
 	string TransferTxt="AllInfos";
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
-	string TransferDistrib = "DistribZpeak";
+	string TransferW = "EntriesFromW";
+
+	string TransferDistribZ = "DistribZpeak";
+	string TransferDistribW = "DistribWpeak";
 	string DataType = "Gluino1800av";
 
 	string NameCompleteList = "CompleteListTest.txt";
@@ -127,13 +132,15 @@ void AnaEff::Loop()
 	string StudyTxt = TransferTxt + DataType + Date;
 	string StudyEff= TransferEff + DataType + Date;
 	string StudyZ= TransferZ + DataType + Date;
-	string StudyDistribZ = TransferDistrib + DataType + Date;
+	string StudyW = TransferW + DataType + Date;
+	string StudyDistribZ = TransferDistribZ + DataType + Date;
 
 	string NameOfFile = StudyData + SubNum + ExtRoot;
 
 	string NameOfEff = StudyEff + SubNum + ExtTxt;
 	string NameOfTxt = StudyTxt + SubNum + ExtTxt;
 	string EntriesFromZ = StudyZ + SubNum + ExtTxt;
+	string EntriesFromW = StudyW + SubNum + ExtTxt;
 	string distribvarZ = StudyDistribZ + SubNum + ExtRoot;
 
 	/*DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 620,0,1550);
@@ -162,13 +169,17 @@ void AnaEff::Loop()
 	SubListMET.clear();
 	SubListPT.clear();
 
-	int counter=0,passedevent=0,nbofpairs=0,nbofpairsZ=0,nbmuons=0,nbwrong=0;
+	int counter=0,passedevent=0,nbofpairs=0,nbofpairsZ=0,nbofWpairs=0,nbofmuonsW=0,nbmuons=0,nbwrong=0;
 	int indexcandidate;
 	double InvMass;
 	double MissingW;
 	//nentries=30;
 	ofstream InfosZ;
 	InfosZ.open (EntriesFromZ);
+
+	ofstream InfosW;
+	InfosW.open (EntriesFromW);
+
 
 	cout << "Before loop nentries" << endl;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
@@ -178,7 +189,8 @@ void AnaEff::Loop()
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		
 		InvMass = MuonsInvariantMass();
-		//MissingW = MuonsMissingET();
+
+		MissingW = MuonsMissingET();
 
 
 		/*for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
@@ -203,6 +215,21 @@ void AnaEff::Loop()
 				trigEff_selection_obs.FillMass(InvMass,1);
 			}
 		}
+
+		if(MissingW!=1){
+			if(MissingW < massW + 10 && MissingW > massW - 10){ // 10 
+				InfosW << "W found entry " << jentry << " muon " << muonW << endl;
+				nbofmuonsW+=1;
+			}
+			//cout << InvMass << endl;
+			nbofWpairs+=1;
+			if(MissingW > 15){
+				trigEff_selection_obs.FillMass(MissingW,2);
+			}
+		}
+
+
+
 		nbmuons+=nmuons;
 		counter+=1;
 		
@@ -253,6 +280,7 @@ void AnaEff::Loop()
 	}
 	
 	InfosZ.close();
+	InfosW.close();
 	ofstream InfosData;
 	InfosData.open (NameOfTxt);
 
@@ -450,20 +478,19 @@ double AnaEff::MuonsMissingET(){
 		double Energy = sqrt((massMu*massMu)+mu_p*mu_p);
 		cout << " energy = " << Energy << endl;
 		muon.SetPxPyPzE(mu_px,mu_py,0,Energy);
-		
+		muonW = index; 
 		//test3.SetCoordinates(mu_px,mu_py,0,0.105);
 		//get E from m p 
 		
 		//test3.SetM(0.105);
 		
 
-		cout << " [px,py,pz,M] = " << "{" << muon.Px() << "," << muon.Py() << "," << muon.Pz() << "," << muon.M() << "]" << endl;
+		//cout << " [px,py,pz,M] = " << "{" << muon.Px() << "," << muon.Py() << "," << muon.Pz() << "," << muon.M() << "]" << endl;
 		double invmassw = muon.M();
 		//cout << "InvMass transverse = " << invmassw << endl;
 		return invmassw;
-		return 0;
 	}
-	return 0;
+	return 1;
 }
 
 

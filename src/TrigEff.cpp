@@ -31,6 +31,7 @@ TrigEff::TrigEff(){
 	OutputHisto=0;
 	FITBG2=0;
 	MASS=0;
+	MASSW=0;
 	SOLOM=0;
 	/*for(int i=0; i < ListTriggers.size() ; i++){
 		EffvsObs[i]=0;
@@ -85,6 +86,9 @@ TrigEff::~TrigEff(){
 	}
 	if(!MASS){
 		delete MASS;
+	}
+	if(!MASSW){
+		delete MASSW;
 	}
 	if(!FITBG2){
 		delete FITBG2;
@@ -223,12 +227,21 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", TriggerNames.size(),0,TriggerNames.size());
 	CORR = new TH2D("Correlation", "Correlation plot",  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
 	
+	MASSW = new TH1D("MASS" , " Masses invariante des muons enrichi en W" , nbins , 0 , massmax);
+
 	MASS = new TH1D("MASS" , " Masses invariante des muons" , nbins , 0 , massmax);
+
 	MASS->GetXaxis()->SetTitle("Mass [GeV]");
 	MASS->GetYaxis()->SetTitle(" # candidates");
 
+	MASSW->GetXaxis()->SetTitle("Mass [GeV]");
+	MASSW->GetYaxis()->SetTitle(" # candidates");
+
+
+
 	cout << "end of load" << endl;
 	MASS->Sumw2();
+	MASSW->Sumw2();
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
 	CORR->Sumw2();
@@ -531,6 +544,7 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	//CORR->SetDirectory("Correlations");
 	CORR->Write();
 	MASS->Write();
+	MASSW->Write();
 	OutputHisto->Close();
 
 
@@ -540,6 +554,9 @@ void TrigEff::FillMass(double INVMASS,int choice){
 	if(choice==1){
 		MASS->Fill(INVMASS);
 	}
+	if(choice==2){
+		MASSW->Fill(INVMASS);
+	}	
 }
 
 void TrigEff::Compute(string NameOutputFile){
