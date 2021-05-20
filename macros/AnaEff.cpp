@@ -457,11 +457,9 @@ double AnaEff::MuonsMissingET(){
 
 		if(index == muonPHI[k].second){
 			mu_phi = muonPHI[k].first;
-
 		}
 		if(index == muonP[k].second){
 			mu_p = muonP[k].first;
-
 		}
 
 	}

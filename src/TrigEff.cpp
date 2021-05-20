@@ -318,11 +318,11 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 	if(mode== "all"){ 
 		bool trig1,trig2;
 		
-		for(int j=0; j< TestNoMap.size(); j++){
+		//for(int j=0; j< TestNoMap.size(); j++){
 		
 			for(int i = 0; i < PosPass.size(); i++){
 
-				if(PosPass[i].first == TestNoMap[j].second){
+				//if(PosPass[i].first == TestNoMap[j].second){
 					DenomEfficiency[PosPass[i].first] +=1;
 					trig1 = PosPass[i].second;
 					if(trig1){
@@ -333,10 +333,10 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 					}
 						//break;
 				
-				}
+				//}
 				
 				for(int k = 0; k<PosPass.size(); k++){
-					if(PosPass[k].first == TestNoMap[j].second){
+					//if(PosPass[k].first == TestNoMap[j].second){
 						trig2 = PosPass[k].second;
 						
 						if(trig1 || trig2){
@@ -345,14 +345,14 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 						if(trig1 && trig2){
 							NumCorr[PosPass[i].first][PosPass[k].first]+=1;
 						}
-					}
+					//}
 
 					
 				}
 
 			}
 	
-		}
+		//}
 	
 	}
 	else if(mode == "muon"){
