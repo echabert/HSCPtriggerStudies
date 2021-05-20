@@ -318,11 +318,9 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 	if(mode== "all"){ 
 		bool trig1,trig2;
 		
-
-		for(int i = 0; i < PosPass.size(); i++){
-
-
-			for(int j=0; j< TestNoMap.size(); j++){
+		for(int j=0; j< TestNoMap.size(); j++){
+		
+			for(int i = 0; i < PosPass.size(); i++){
 
 				if(PosPass[i].first == TestNoMap[j].second){
 					DenomEfficiency[PosPass[i].first] +=1;

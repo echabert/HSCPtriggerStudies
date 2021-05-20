@@ -184,7 +184,7 @@ void AnaEff::Loop()
 	cout << "Before loop nentries" << endl;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
-		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << endl;
+		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << " , "<<(jentry/nentries)*100 << " %" << endl;
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		
@@ -476,7 +476,7 @@ double AnaEff::MuonsMissingET(){
 		mu_py = transf.Py();
 		mu_pz = transf.Pz();
 		double Energy = sqrt((massMu*massMu)+mu_p*mu_p);
-		cout << " energy = " << Energy << endl;
+		//cout << " energy = " << Energy << endl;
 		muon.SetPxPyPzE(mu_px,mu_py,0,Energy);
 		muonW = index; 
 		//test3.SetCoordinates(mu_px,mu_py,0,0.105);
