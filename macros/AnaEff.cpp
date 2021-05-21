@@ -69,12 +69,12 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Stop1600test";
+	string DataType = "Gluino1600";
 
-	string NameCompleteList = "CompleteListTest.txt";
+	//string NameCompleteList = "CompleteListTest.txt";
 
-
-	//string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
+	string NameListEff = TransferEff + DataType + ExtTxt;
+	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
 
 	ifstream ifile(NameCompleteList.c_str()); 
 	vector<string> triggerNames;
@@ -307,7 +307,7 @@ void AnaEff::Loop()
 
 
 	InfosData.close();
-	trigEff_selection_obs.Compute(NameOfEff);
+	trigEff_selection_obs.Compute(NameOfEff,NameListEff);
 
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	

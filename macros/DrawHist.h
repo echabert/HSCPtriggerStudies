@@ -39,8 +39,13 @@ class DrawHist
 	TString outputfilename;
 	TString outputfilename2;
 
+	
+
 	vector<int> ValBins;
 	vector <TEfficiency*> EffList;
+	vector <TEfficiency*> EffListvsObs;
+
+	vector <TH1D*> Efficiencies;
 };
 
 

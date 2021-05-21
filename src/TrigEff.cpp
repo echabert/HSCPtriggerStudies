@@ -453,37 +453,35 @@ void TrigEff::PrintEff(){
 }
 
 
-void TrigEff::SaveIntTrigs(string NameOutputFile){
+void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff){
 	
 	ofstream TriggersOfInterest;
 	ofstream AllTriggers;
+	ofstream EffOnly;
+	
 	
 	TriggersOfInterest.open (NameOutputFile.c_str());
 	AllTriggers.open ("ListOfAllTriggersEff.txt");
-	
+	EffOnly.open (NameListEff.c_str());
 	for (int i = 0; i < Efficiency.size(); i++){
 		EffList.push_back(make_pair(make_pair(Efficiency[i],i), make_pair(EffErr[i],TriggerNames[i])));
-		//if(EffList[i].first >= 0.5 ){
-		
-		//}
     	}
 
 	sort(EffList.begin(),EffList.end());
 
-	for (int i = 0; i < Efficiency.size(); i++){
-		//cout << setprecision (8) << (EffList[i].first.first)*100 << "\t\t" << setprecision (8) << (EffList[i].second.first)*100 << "\t\t" << EffList[i].second.second << endl; 
+	for (int i = 0; i < Efficiency.size(); i++){ 
 		AllTriggers << EffList[i].first.first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
 	}
 
 	AllTriggers.close();
-
+	
 	for (int i = 0; i < TestNoMap.size(); i++){ 	
 		TransferVec.push_back(make_pair(make_pair(Efficiency[TestNoMap[i].second],TestNoMap[i].second), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second])));
 		cout << setprecision (8) << (TransferVec[i].first.first)*100 << "\t\t" << setprecision (8) << (TransferVec[i].second.first)*100 << "\t\t" << TransferVec[i].second.second << endl; 
 
 		AllCondensed.push_back(make_pair( make_pair(Efficiency[TestNoMap[i].second] ,make_pair(TestNoMap[i].second, make_pair( NumEfficiency[TestNoMap[i].second], DenomEfficiency[TestNoMap[i].second])) ), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second])));	
 
-			
+		EffOnly << (AllCondensed[i].first.first) * 100 << endl;
 
 		
 		//TriggersOfInterest << (TransferVec[i].first.first)*100 << " " << (TransferVec[i].second.first)*100 << " " << TransferVec[i].second.second << "\n";
@@ -495,12 +493,13 @@ void TrigEff::SaveIntTrigs(string NameOutputFile){
 
 		TriggersOfInterest << i+1 << " " <<(AllCondensed[i].first.first) * 100 << " +/- " << (AllCondensed[i].second.first) *100  << "  " << (AllCondensed[i].first.second.second.first) << " / " << (AllCondensed[i].first.second.second.second) << " " << (AllCondensed[i].second.second) << endl;
 
+		
 		//TriggersOfInterest << (TransferVec[i].first.first)*100 << " +/-" << (TransferVec[i].second.first)*100  << "  " << TransferVec[i].second.second << "\n";
 	}
 
 	TransferVec.clear();
 	TriggersOfInterest.close();
-
+	EffOnly.close();
 	
 }
 
@@ -563,7 +562,7 @@ void TrigEff::FillMass(double INVMASS,int choice){
 	}	
 }
 
-void TrigEff::Compute(string NameOutputFile){
+void TrigEff::Compute(string NameOutputFile,string NameListEff){
 	
 	ComputeEff();
 	ComputeError();
@@ -572,7 +571,7 @@ void TrigEff::Compute(string NameOutputFile){
 	PrintDenomEff();
 	//PrintEff();
 
-	SaveIntTrigs(NameOutputFile);
+	SaveIntTrigs(NameOutputFile,NameListEff);
 
 	ComputeCorr();
 

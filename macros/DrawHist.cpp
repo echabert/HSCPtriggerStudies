@@ -5,6 +5,7 @@
 #include <TFile.h>
 #include <TF1.h>
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <ctime>
 #include "DrawHist.h"
@@ -41,13 +42,14 @@ void DrawHist::FitSignalBg(){
 	ofstream InfosPurity;
 
 	string Purity = "Purity";
-	string DataType = "Gluino";
+	string DataType = "Gluino1600";
+
 	string ExtTxt = ".txt";
 	string Date = "1105_";
 	string SubNum = "all";
 	
 	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/";
-	string Directory = 
+	
 	string OutPutName = Path + Purity + DataType + Date + SubNum + ExtTxt;
 
 
@@ -59,30 +61,73 @@ void DrawHist::FitSignalBg(){
 	string s5 = "Muon";
 	string s7 = "MET";
 
-	string NameCompleteList = "CompleteListTest.txt";
-	ifstream ifile(NameCompleteList.c_str());
+	string NameList = "CompleteList";
+
+//	string NameCompleteList = "CompleteListTest.txt";
+
+	string NameCompleteList = NameList + DataType + ExtTxt;
 	vector<string> triggerNames;
 	vector<string> SubListMET;
 	vector<string> SubListPT;
 
 
-	string tmp;
-	while(getline(ifile,tmp)){
-   		triggerNames.push_back(tmp);
-		
-		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) ||  strstr(tmp.c_str(),s7.c_str())){
-			SubListMET.push_back(tmp);
-		}
-		
-		/*if(strstr(tmp.c_str(),s5.c_str())){
-			SubListMET.push_back(tmp);
-		}*/
+	string tmpp;
 
-		if(strstr(tmp.c_str(),s6.c_str())){
-			SubListPT.push_back(tmp);
-		}
-		
+	ifstream EffFile(NameCompleteList.c_str(), std::ios::in);
+	while(getline(EffFile,tmpp)){
+   		triggerNames.push_back(tmpp);
 	}
+
+	vector<double> EffNotOrdered;
+
+	//HIST_MASSES->SetMarkerColor(1);
+
+	
+	//Test efficiency fct mass
+
+	
+	
+
+	string EffList = "Eff";
+	string allgluino = "all_gluino";
+	string pointofmass;
+	string ExtRoot = ".root";
+
+
+	Efficiencies.resize(triggerNames.size());
+	EffList.resize(triggerNames.size());
+	EffNotOrdered.resize(triggerNames.size());
+	for(int k = 1600; k <= 2600 ; k+=200){
+		pointofmass = to_string(k);
+		string DataPom = allgluino + pointofmass + ExtRoot;
+		string PathPom = Path + DataPom;
+		int BinCt = 0;
+		string FromList = Path + EffList + DataType + pointofmass + ExtTxt;
+		
+		ifstream ifile(FromList.c_str(), std::ios::in);
+		
+		
+		if (!ifile.is_open()) {
+			cout << "There was a problem opening the input file!" << FromList << endl;
+	   	}
+
+		double num = 0.0;
+		while (ifile >> num) {
+        		EffNotOrdered.push_back(num);
+		}
+	
+
+		myFileEff = new TFile(PathPom.c_str());
+		
+		for(int l = 0; l < triggerNames.size(); l++){
+			Efficiencies[l] = new TH1D(triggerNames[l].c_str(), triggerNames[l].c_str(), 1200,1400,2600);
+			Efficiencies[l]->SetBinContent(BinCt,EffNotOrdered[l]);
+		}
+		BinCt +=200;
+	}
+	
+
+	
 
 	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/SingleMuon/SingleMuon1105_all.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
 	
@@ -90,53 +135,6 @@ void DrawHist::FitSignalBg(){
 	myFile = new TFile(filepath);
 	TH1D* HIST_MASSES = (TH1D*)gROOT->FindObject("MASS");
 	HIST_MASSES->SetTitle("Invariant mass of candidates");
-	//HIST_MASSES->SetMarkerColor(1);
-
-	
-	//Test efficiency fct mass
-
-	/*
-	string allgluino = "all_gluino";
-	string pointofmass;
-	string ExtRoot = ".root";
-
-	for(int k = 1600; k <= 2600 ; k+=200){
-		pointofmass = to_string(k);
-		string DataPom = allgluino + pointofmass + ExtRoot;
-		string PathPom = Path + DataPom;
-		myFileEff = new TFile(
-		TEfficiency* EffList = (TEfficiency*)gROOT->FindObject(D);
-
-
-
-		for(int l = 0; l < triggerNames.size(); l++){
-			
-		}
-
-	}
-	
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	*/
-
-
-
-
-
-
 
 
 	outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/SingleMuon/HIST_SingleMuon1105.root";
@@ -345,6 +343,9 @@ void DrawHist::FitSignalBg(){
 
 	OutputHisto->cd();
 
+	for(int i=0 ; i < Efficiencies.size() ; i++){
+		Efficiencies[i]->Write();
+	}
 	c1->Write();
 	HIST_FITSUM->Write();
 	HIST_FIT->Write();
