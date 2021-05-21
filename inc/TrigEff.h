@@ -94,7 +94,7 @@ public:
 
    void SavePlots(); // en png/hist ou whatever
 
-   void SaveIntTrigs(string NameOutputFile); // Saves the list of interesting triggers (efficiency > threshold)
+   void SaveIntTrigs(string NameOutputFile, string NameListEff); // Saves the list of interesting triggers (efficiency > threshold)
 
    void StudyTrigvsMass(double mass); 
 
