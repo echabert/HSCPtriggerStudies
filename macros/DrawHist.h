@@ -30,6 +30,8 @@ class DrawHist
 
 	TFile *myFile; 
 	TFile *myFile2;
+	TFile *myFileEff;
+
 
 	TFile* OutputHisto;
 	TFile* OutputHisto2;
@@ -38,6 +40,7 @@ class DrawHist
 	TString outputfilename2;
 
 	vector<int> ValBins;
+	vector <TEfficiency*> EffList;
 };
 
 

@@ -41,16 +41,48 @@ void DrawHist::FitSignalBg(){
 	ofstream InfosPurity;
 
 	string Purity = "Purity";
-	string DataType = "Gluino1600";
+	string DataType = "Gluino";
 	string ExtTxt = ".txt";
 	string Date = "1105_";
 	string SubNum = "all";
 	
-	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/SingleMuon/";
+	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/";
+	string Directory = 
 	string OutPutName = Path + Purity + DataType + Date + SubNum + ExtTxt;
 
 
 	InfosPurity.open (OutPutName.c_str());
+
+
+	string s2 = "mu";
+	string s4 = "Mu";
+	string s5 = "Muon";
+	string s7 = "MET";
+
+	string NameCompleteList = "CompleteListTest.txt";
+	ifstream ifile(NameCompleteList.c_str());
+	vector<string> triggerNames;
+	vector<string> SubListMET;
+	vector<string> SubListPT;
+
+
+	string tmp;
+	while(getline(ifile,tmp)){
+   		triggerNames.push_back(tmp);
+		
+		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) ||  strstr(tmp.c_str(),s7.c_str())){
+			SubListMET.push_back(tmp);
+		}
+		
+		/*if(strstr(tmp.c_str(),s5.c_str())){
+			SubListMET.push_back(tmp);
+		}*/
+
+		if(strstr(tmp.c_str(),s6.c_str())){
+			SubListPT.push_back(tmp);
+		}
+		
+	}
 
 	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/SingleMuon/SingleMuon1105_all.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
 	
@@ -59,6 +91,52 @@ void DrawHist::FitSignalBg(){
 	TH1D* HIST_MASSES = (TH1D*)gROOT->FindObject("MASS");
 	HIST_MASSES->SetTitle("Invariant mass of candidates");
 	//HIST_MASSES->SetMarkerColor(1);
+
+	
+	//Test efficiency fct mass
+
+	/*
+	string allgluino = "all_gluino";
+	string pointofmass;
+	string ExtRoot = ".root";
+
+	for(int k = 1600; k <= 2600 ; k+=200){
+		pointofmass = to_string(k);
+		string DataPom = allgluino + pointofmass + ExtRoot;
+		string PathPom = Path + DataPom;
+		myFileEff = new TFile(
+		TEfficiency* EffList = (TEfficiency*)gROOT->FindObject(D);
+
+
+
+		for(int l = 0; l < triggerNames.size(); l++){
+			
+		}
+
+	}
+	
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	*/
+
+
+
+
+
+
 
 
 	outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/SingleMuon/HIST_SingleMuon1105.root";
