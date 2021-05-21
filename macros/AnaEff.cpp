@@ -72,7 +72,7 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino1600";
+	string DataType = "Gluino2000";
 
 	string ListAllTriggers = ListAll + DataType + ExtTxt;
 	//string NameCompleteList = "CompleteListTest.txt";
@@ -80,22 +80,20 @@ void AnaEff::Loop()
 	string NameListEff = TransferEff + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
 
-	ifstream ifile(NameCompleteList.c_str()); 
-	vector<string> triggerNames;
-	vector<string> SubListMET;
-	vector<string> SubListPT;
-	
+
 
 	string s2 = "mu";
 	string s4 = "Mu";
 	string s5 = "Muon";
 
-
 	string s3 = "TESTPT";
 	string s6 = "testmu";
 	string s7 = "MET";
 	
-	
+	ifstream ifile(NameCompleteList.c_str()); 
+	vector<string> triggerNames;
+	vector<string> SubListMET;
+	vector<string> SubListPT;
 	string tmp;
 	while(getline(ifile,tmp)){
    		triggerNames.push_back(tmp);
