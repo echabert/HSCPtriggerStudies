@@ -273,7 +273,8 @@ void AnaEff::Loop()
 			}
 			
 			passedevent+=1;
-			cout << "Before fill" << endl;
+			cout << "Before fill" << ntrigger << " " <<PosPass.size() <<endl;
+			
 			trigEff_selection_obs.FillNoMap2(PosPass,HighestPT,1);
 			cout << "After fill" << endl;
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
