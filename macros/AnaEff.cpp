@@ -57,7 +57,6 @@ void AnaEff::Loop()
 	
 	string NameList = "CompleteList";
 	string ListAll = "ListOfAllTriggersEff";
-	
 	string SubNum = "all"; //to_string(2);
 	string ExtRoot = ".root";
 	string ExtTxt = ".txt";
@@ -79,7 +78,7 @@ void AnaEff::Loop()
 
 	string NameListEff = TransferEff + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
-
+	string EffTriggers = TransferEff + DataType + SubNum + ExtTxt;
 
 
 	string s2 = "mu";
@@ -231,10 +230,8 @@ void AnaEff::Loop()
 		}
 
 
-
 		nbmuons+=nmuons;
 		counter+=1;
-		
 		vector<Bool_t> vtrigger; //Convert array into vector
 		vector<int> position;
 		vector< pair<int, bool > > PosPass;
@@ -242,19 +239,15 @@ void AnaEff::Loop()
 		int trignull=0;
 		indexcandidate=Selection();
 		//cout << " -------- NEW ENTRY -------- " << endl;
-		//cout << "Before presel" << endl;
 		if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
 			HighestMET = pfmet_pt[indexcandidate];
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
-				//if(passTrigger[i] == true ){
-				//	cout << " Trigger " << triggerName->at(i) << " was found = 1 on entry " << jentry << endl;
 				if(vtrigger[i] == 0){
 					trignull+=1;
 				}
-				//}
 			}
 			if(trignull==ntrigger){
 				nbwrong+=1;
@@ -262,12 +255,10 @@ void AnaEff::Loop()
 			for(int p = 0; p < ntrigger; p++){
 				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
 				if(iter == triggerNames.end()){
-
 					//cout << " one trigger not found in CompleteList" << endl;
 				}
 				else{
 					auto pos = std::distance(triggerNames.begin(), iter);
-					//position.push_back(pos);
 					PosPass.push_back(make_pair(pos,vtrigger[p])); // [pos] ?
 					//cout << "found trigger " << p << " ( " << triggerName->at(p) << " ) " << " in position" << pos << " inside CompleteList" << endl;
 				}
@@ -275,8 +266,6 @@ void AnaEff::Loop()
 			}
 			
 			passedevent+=1;
-			//cout << "Before fill" << ntrigger << " " <<PosPass.size() <<endl;
-			
 			trigEff_selection_obs.FillNoMap2(PosPass,HighestPT,1);
 			//cout << "After fill" << endl;
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
@@ -312,7 +301,7 @@ void AnaEff::Loop()
 
 
 	InfosData.close();
-	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers);
+	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers,EffTriggers);
 
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	

@@ -513,24 +513,34 @@ void TrigEff::PrintEff(){
 }
 
 
-void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers){
+void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers){ // triggersofinterest = EffGluino16001105all.txt
 	
 	ofstream TriggersOfInterest;
 	ofstream AllTriggers;
 	ofstream EffOnly;
+	ofstream EffAll;
 	
 	
 	TriggersOfInterest.open (NameOutputFile.c_str());
 	AllTriggers.open (ListAllTriggers.c_str());
 	EffOnly.open (NameListEff.c_str());
+	EffAll.open (EffTriggers.c_str());
+
 	for (int i = 0; i < Efficiency.size(); i++){
 		EffList.push_back(make_pair(make_pair(Efficiency[i],i), make_pair(EffErr[i],TriggerNames[i])));
     	}
+
+	for (int i = 0; i < Efficiency.size(); i++){ 
+		EffAll << EffList[i].first.first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
+		
+	}
+
 
 	sort(EffList.begin(),EffList.end());
 
 	for (int i = 0; i < Efficiency.size(); i++){ 
 		AllTriggers << EffList[i].first.first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
+		
 	}
 
 	AllTriggers.close();
@@ -541,14 +551,14 @@ void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string Lis
 
 		AllCondensed.push_back(make_pair( make_pair(Efficiency[TestNoMap[i].second] ,make_pair(TestNoMap[i].second, make_pair( NumEfficiency[TestNoMap[i].second], DenomEfficiency[TestNoMap[i].second])) ), make_pair(EffErr[TestNoMap[i].second],TriggerNames[TestNoMap[i].second])));	
 
-		EffOnly << (AllCondensed[i].first.first) * 100 << endl;
+		EffOnly << (AllCondensed[i].first.first) * 100 << " " << (AllCondensed[i].second.second) << endl;
 
 		
 		//TriggersOfInterest << (TransferVec[i].first.first)*100 << " " << (TransferVec[i].second.first)*100 << " " << TransferVec[i].second.second << "\n";
     	}
 
 	//sort(TransferVec.begin(), TransferVec.end());
-		sort(AllCondensed.begin(), AllCondensed.end());
+	sort(AllCondensed.begin(), AllCondensed.end());
 	for(int i = 0; i < TransferVec.size(); i++){ 
 
 		TriggersOfInterest << i+1 << " " <<(AllCondensed[i].first.first) * 100 << " +/- " << (AllCondensed[i].second.first) *100  << "  " << (AllCondensed[i].first.second.second.first) << " / " << (AllCondensed[i].first.second.second.second) << " " << (AllCondensed[i].second.second) << endl;
@@ -560,7 +570,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string Lis
 	TransferVec.clear();
 	TriggersOfInterest.close();
 	EffOnly.close();
-	
+	EffAll.close();
 }
 
 void TrigEff::PrintNumEff(){
@@ -622,7 +632,7 @@ void TrigEff::FillMass(double INVMASS,int choice){
 	}	
 }
 
-void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTriggers){
+void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTriggers, string EffTriggers){
 	
 	ComputeEff();
 	ComputeError();
@@ -631,7 +641,7 @@ void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTr
 	PrintDenomEff();
 	//PrintEff();
 
-	SaveIntTrigs(NameOutputFile,NameListEff,ListAllTriggers);
+	SaveIntTrigs(NameOutputFile,NameListEff,ListAllTriggers,EffTriggers);
 
 	ComputeCorr();
 

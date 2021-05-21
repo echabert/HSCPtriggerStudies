@@ -42,7 +42,7 @@ void DrawHist::FitSignalBg(){
 	ofstream InfosPurity;
 
 	string Purity = "Purity";
-	string DataType = "Gluino1600";
+	string DataType = "Gluino";
 
 	string ExtTxt = ".txt";
 	string Date = "1105_";
@@ -89,7 +89,8 @@ void DrawHist::FitSignalBg(){
 	
 
 	string EffList = "Eff";
-	string allgluino = "all_gluino";
+	string allgluino = "Gluino";
+	strind Date = "1105all";
 	string pointofmass;
 	string ExtRoot = ".root";
 
@@ -99,7 +100,7 @@ void DrawHist::FitSignalBg(){
 	EffNotOrdered.resize(triggerNames.size());
 	for(int k = 1600; k <= 2600 ; k+=200){
 		pointofmass = to_string(k);
-		string DataPom = allgluino + pointofmass + ExtRoot;
+		string DataPom = allgluino + pointofmass + Date + ExtRoot;
 		string PathPom = Path + DataPom;
 		int BinCt = 0;
 		string FromList = Path + EffList + DataType + pointofmass + ExtTxt;

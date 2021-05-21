@@ -44,7 +44,7 @@ public:
    void FillNoMap2(vector< pair<int, bool > > PosPass, float Obs = 0.0, double weight = 1,string mode = "all");
 
 
-   void Compute(string NameOutputFile, string NameListEff, string ListAllTriggers);
+   void Compute(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers);
    
    //void CreateHisto(string NameVar="random", const vector<string> &SelectedTriggerNames);
 
@@ -94,7 +94,7 @@ public:
 
    void SavePlots(); // en png/hist ou whatever
 
-   void SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers); // Saves the list of interesting triggers (efficiency > threshold)
+   void SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers); // Saves the list of interesting triggers (efficiency > threshold)
 
    void StudyTrigvsMass(double mass); 
 
