@@ -513,7 +513,7 @@ void TrigEff::PrintEff(){
 }
 
 
-void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff){
+void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers){
 	
 	ofstream TriggersOfInterest;
 	ofstream AllTriggers;
@@ -521,7 +521,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff){
 	
 	
 	TriggersOfInterest.open (NameOutputFile.c_str());
-	AllTriggers.open ("ListOfAllTriggersEff.txt");
+	AllTriggers.open (ListAllTriggers.c_str());
 	EffOnly.open (NameListEff.c_str());
 	for (int i = 0; i < Efficiency.size(); i++){
 		EffList.push_back(make_pair(make_pair(Efficiency[i],i), make_pair(EffErr[i],TriggerNames[i])));
@@ -622,7 +622,7 @@ void TrigEff::FillMass(double INVMASS,int choice){
 	}	
 }
 
-void TrigEff::Compute(string NameOutputFile,string NameListEff){
+void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTriggers){
 	
 	ComputeEff();
 	ComputeError();
@@ -631,7 +631,7 @@ void TrigEff::Compute(string NameOutputFile,string NameListEff){
 	PrintDenomEff();
 	//PrintEff();
 
-	SaveIntTrigs(NameOutputFile,NameListEff);
+	SaveIntTrigs(NameOutputFile,NameListEff,ListAllTriggers);
 
 	ComputeCorr();
 

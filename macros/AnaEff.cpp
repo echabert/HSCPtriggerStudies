@@ -56,21 +56,25 @@ void AnaEff::Loop()
 
 	
 	string NameList = "CompleteList";
-
+	string ListAll = "ListOfAllTriggersEff";
+	
 	string SubNum = "all"; //to_string(2);
 	string ExtRoot = ".root";
 	string ExtTxt = ".txt";
 	string Date = "1105";
 	
+
 	string TransferTxt="AllInfos";
 	string TransferEff = "Eff";
 	string TransferZ = "EntriesFromZ";
 	string TransferW = "EntriesFromW";
 
+
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
 	string DataType = "Gluino1600";
 
+	string ListAllTriggers = ListAll + DataType + ExtTxt;
 	//string NameCompleteList = "CompleteListTest.txt";
 
 	string NameListEff = TransferEff + DataType + ExtTxt;
@@ -310,7 +314,7 @@ void AnaEff::Loop()
 
 
 	InfosData.close();
-	trigEff_selection_obs.Compute(NameOfEff,NameListEff);
+	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers);
 
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	
