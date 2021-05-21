@@ -93,7 +93,7 @@ void DrawHist::FitSignalBg(){
 	strind Date = "1105all";
 	string pointofmass;
 	string ExtRoot = ".root";
-
+	string All = "all";
 
 	Efficiencies.resize(triggerNames.size());
 	EffList.resize(triggerNames.size());
@@ -103,7 +103,7 @@ void DrawHist::FitSignalBg(){
 		string DataPom = allgluino + pointofmass + Date + ExtRoot;
 		string PathPom = Path + DataPom;
 		int BinCt = 0;
-		string FromList = Path + EffList + DataType + pointofmass + ExtTxt;
+		string FromList = Path + EffList + DataType + pointofmass + All + ExtTxt;
 		
 		ifstream ifile(FromList.c_str(), std::ios::in);
 		
@@ -111,22 +111,23 @@ void DrawHist::FitSignalBg(){
 		if (!ifile.is_open()) {
 			cout << "There was a problem opening the input file!" << FromList << endl;
 	   	}
-		break;
-		double num = 0.0;
-		while (ifile >> num) {
-        		EffNotOrdered.push_back(num);
-		}
+		else{
+
+			double num = 0.0;
+			while (ifile >> num) {
+        			EffNotOrdered.push_back(num);
+			}
 	
 
-		myFileEff = new TFile(PathPom.c_str());
+			myFileEff = new TFile(PathPom.c_str());
 		
-		for(int l = 0; l < triggerNames.size(); l++){
-			Efficiencies[l] = new TH1D(triggerNames[l].c_str(), triggerNames[l].c_str(), 1200,1400,2600);
-			Efficiencies[l]->SetBinContent(BinCt,EffNotOrdered[l]);
+			for(int l = 0; l < triggerNames.size(); l++){
+				Efficiencies[l] = new TH1D(triggerNames[l].c_str(), triggerNames[l].c_str(), 1200,1400,2600);
+				Efficiencies[l]->SetBinContent(BinCt,EffNotOrdered[l]);
+			}
+			BinCt +=200;
 		}
-		BinCt +=200;
 	}
-	
 
 	
 
