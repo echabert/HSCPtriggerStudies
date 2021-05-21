@@ -56,6 +56,7 @@ void AnaEff::Loop()
 
 	
 	string NameList = "CompleteList";
+	string PrescaledList = "PrescaledList";
 	string ListAll = "ListOfAllTriggersEff";
 	string SubNum = "all"; //to_string(2);
 	string ExtRoot = ".root";
@@ -78,6 +79,7 @@ void AnaEff::Loop()
 
 	string NameListEff = TransferEff + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
+	string NameCompletePrescaledList = PrescaledList + DataType + ExtTxt;
 	string EffTriggers = TransferEff + DataType + SubNum + ExtTxt;
 
 
@@ -94,30 +96,36 @@ void AnaEff::Loop()
 	vector<string> SubListMET;
 	vector<string> SubListPT;
 	string tmp;
+
 	while(getline(ifile,tmp)){
    		triggerNames.push_back(tmp);
-		/*if(strstr(tmp.c_str(),s2.c_str())){
-			SubListMET.push_back(tmp);
-		}*/
 		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) ||  strstr(tmp.c_str(),s7.c_str())){
 			SubListMET.push_back(tmp);
 		}
-		
-		/*if(strstr(tmp.c_str(),s5.c_str())){
-			SubListMET.push_back(tmp);
-		}*/
-
 		if(strstr(tmp.c_str(),s6.c_str())){
 			SubListPT.push_back(tmp);
 		}
 		
 	}
 	cout << triggerNames.size() << endl;
+
+	ofstream PrescaledList;
+	PrescaledList.open(NameCompletePrescaledList);
+
+	
 	for(int i = 0; i < triggerNames.size() ; i++){
 
-		cout << triggerNames[i] << endl;
-	
+		//cout << triggerNames[i] << endl;
+		if(passTrigger[i] != 1 ){
+			cout << triggerNames[i] << " has prescale = " << passTrigger[i] << endl;
+		}
+		else{
+			PrescaledList << triggerNames[i] << " has prescale 1" << endl;
+
+		}
+
 	}
+	PrescaledList.close();
 	ifile.close();
 
 	vector<string> str;
