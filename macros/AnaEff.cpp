@@ -109,8 +109,8 @@ void AnaEff::Loop()
 	}
 	cout << triggerNames.size() << endl;
 
-	ofstream PrescaledList;
-	PrescaledList.open(NameCompletePrescaledList);
+	ofstream TrigPrescaledList;
+	TrigPrescaledList.open(NameCompletePrescaledList);
 
 	
 	for(int i = 0; i < triggerNames.size() ; i++){
@@ -120,12 +120,13 @@ void AnaEff::Loop()
 			cout << triggerNames[i] << " has prescale = " << passTrigger[i] << endl;
 		}
 		else{
-			PrescaledList << triggerNames[i] << " has prescale 1" << endl;
+			TrigPrescaledList << triggerNames[i] << " has prescale 1" << endl;
 
 		}
 
 	}
-	PrescaledList.close();
+
+	TrigPrescaledList.close();
 	ifile.close();
 
 	vector<string> str;
