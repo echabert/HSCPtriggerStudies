@@ -60,7 +60,7 @@ void AnaEff::Loop()
 	string SubNum = "all"; //to_string(2);
 	string ExtRoot = ".root";
 	string ExtTxt = ".txt";
-	string Date = "2021";
+	string Date = "1105";
 	
 	string TransferTxt="AllInfos";
 	string TransferEff = "Eff";
