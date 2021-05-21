@@ -173,46 +173,52 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			if(NameVar=="PT"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",50,0,2000); 
 			}
-			if(NameVar=="MET"){
+			else if(NameVar=="MET"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",50,0,2000);
 			}
-			if(NameVar=="MU"){
+			else if(NameVar=="MU"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MUPT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Stau494"){
+			else if(NameVar=="Stau494"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stau494PT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Stau1599"){
+			else if(NameVar=="Stau1599"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stau1599PT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="SingleMuon"){
+			else if(NameVar=="SingleMuon"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;SingleMuonPT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Gluino1600"){
+			else if(NameVar=="Gluino1600"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600PT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Gluino2000"){
+			else if(NameVar=="Gluino2000"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2000PT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Gluino2400"){
+			else if(NameVar=="Gluino2000test"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2000PT;#epsilon",50,0,2000);
+			}
+			else if(NameVar=="Gluino2400"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2400PT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Gluino2600"){
+			else if(NameVar=="Gluino2600"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2600PT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Stop1600"){
+			else if(NameVar=="Stop1600"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stop1600PT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Stop2000"){
+			else if(NameVar=="Stop2000"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stop2000PT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Gluino1600test2"){
+			else if(NameVar=="Gluino1600test2"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600test2PT;#epsilon",50,0,2000);
 			}
-			if(NameVar=="Gluino1800av"){
+			else if(NameVar=="Gluino1800av"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600test2PT;#epsilon",50,0,2000);
 			}
+			else{
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;TestPT;#epsilon",50,0,2000);
 
+			}
 
 			EffvsObs[j]->SetName(TriggerNames[TestNoMap[j].second].c_str());
 			

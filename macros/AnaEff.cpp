@@ -69,7 +69,7 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino1800av";
+	string DataType = "Gluino2000test";
 
 	string NameCompleteList = "CompleteListTest.txt";
 
@@ -98,7 +98,7 @@ void AnaEff::Loop()
 		/*if(strstr(tmp.c_str(),s2.c_str())){
 			SubListMET.push_back(tmp);
 		}*/
-		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) ){
+		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) ||  strstr(tmp.c_str(),s7.c_str())){
 			SubListMET.push_back(tmp);
 		}
 		
@@ -106,7 +106,7 @@ void AnaEff::Loop()
 			SubListMET.push_back(tmp);
 		}*/
 
-		if(strstr(tmp.c_str(),s7.c_str())){
+		if(strstr(tmp.c_str(),s6.c_str())){
 			SubListPT.push_back(tmp);
 		}
 		
