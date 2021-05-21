@@ -240,7 +240,7 @@ void AnaEff::Loop()
 		int trignull=0;
 		indexcandidate=Selection();
 		//cout << " -------- NEW ENTRY -------- " << endl;
-		
+		cout << "Before presel" << endl;
 		if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
