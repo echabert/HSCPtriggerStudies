@@ -69,7 +69,7 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino2000test";
+	string DataType = "Gluino1600test";
 
 	string NameCompleteList = "CompleteListTest.txt";
 
