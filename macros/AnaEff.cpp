@@ -240,7 +240,7 @@ void AnaEff::Loop()
 		int trignull=0;
 		indexcandidate=Selection();
 		//cout << " -------- NEW ENTRY -------- " << endl;
-		cout << "Before presel" << endl;
+		//cout << "Before presel" << endl;
 		if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
@@ -273,10 +273,10 @@ void AnaEff::Loop()
 			}
 			
 			passedevent+=1;
-			cout << "Before fill" << ntrigger << " " <<PosPass.size() <<endl;
+			//cout << "Before fill" << ntrigger << " " <<PosPass.size() <<endl;
 			
 			trigEff_selection_obs.FillNoMap2(PosPass,HighestPT,1);
-			cout << "After fill" << endl;
+			//cout << "After fill" << endl;
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}
