@@ -111,7 +111,7 @@ void DrawHist::FitSignalBg(){
 		if (!ifile.is_open()) {
 			cout << "There was a problem opening the input file!" << FromList << endl;
 	   	}
-
+		break;
 		double num = 0.0;
 		while (ifile >> num) {
         		EffNotOrdered.push_back(num);

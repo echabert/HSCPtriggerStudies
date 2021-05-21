@@ -531,7 +531,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string Lis
     	}
 
 	for (int i = 0; i < Efficiency.size(); i++){ 
-		EffAll << EffList[i].first.first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
+		EffAll << EffList[i].first.first*100 << endl; //TestNoMap[i].second
 		
 	}
 
