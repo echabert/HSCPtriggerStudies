@@ -12,6 +12,7 @@
 #include <TFile.h>
 #include <map>
 #include <TEfficiency.h>
+#include <TGraph.h>
 
 using namespace std;
 
@@ -35,6 +36,7 @@ class DrawHist
 
 	TFile* OutputHisto;
 	TFile* OutputHisto2;
+	
 
 	TString outputfilename;
 	TString outputfilename2;
@@ -42,10 +44,12 @@ class DrawHist
 	
 
 	vector<int> ValBins;
-	vector <TEfficiency*> EffList;
+	vector <TEfficiency*> EffList2;
 	vector <TEfficiency*> EffListvsObs;
 
 	vector <TH1D*> Efficiencies;
+	vector <TGraph*> Efficiencies2;
+	vector <TGraph*> Efficiencies3;
 };
 
 

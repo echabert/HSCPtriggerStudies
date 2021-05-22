@@ -10,6 +10,7 @@
 #include <ctime>
 #include "DrawHist.h"
 #include <TCanvas.h>
+#include <vector>
 #include <TLegend.h>
 #include <TGraph.h>
 #include <TMultiGraph.h>
@@ -18,7 +19,7 @@ using namespace std;
 
 DrawHist::DrawHist(){
 	OutputHisto = 0;
-	
+	OutputHisto2 = 0;
 	myFile=0;
 	
 	/*for(int i=0; i < ListTriggers.size() ; i++){
@@ -29,6 +30,9 @@ DrawHist::DrawHist(){
 DrawHist::~DrawHist(){ 
 	if(!OutputHisto){
 		delete OutputHisto;
+	}
+	if(!OutputHisto2){
+		delete OutputHisto2;
 	}
 	if(!myFile){
 		delete myFile;
@@ -45,10 +49,17 @@ void DrawHist::FitSignalBg(){
 	string DataType = "Gluino";
 
 	string ExtTxt = ".txt";
-	string Date = "1105_";
+	
 	string SubNum = "all";
+	string EffList = "Eff";
+	string Mass = "1600";
+	string Date = "1105all";
+	string pointofmass;
+	string ExtRoot = ".root";
+	string All = "all";
 	
 	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/";
+	
 	
 	string OutPutName = Path + Purity + DataType + Date + SubNum + ExtTxt;
 
@@ -62,49 +73,70 @@ void DrawHist::FitSignalBg(){
 	string s7 = "MET";
 
 	string NameList = "CompleteList";
-
+	
 //	string NameCompleteList = "CompleteListTest.txt";
 
-	string NameCompleteList = NameList + DataType + ExtTxt;
-	vector<string> triggerNames;
+	string NameCompleteList = NameList + DataType + Mass + ExtTxt;
+	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/" + NameCompleteList;
+
+
+	vector<string> AlltriggerNames;
 	vector<string> SubListMET;
 	vector<string> SubListPT;
-
-
+	
+	
+	
+	cout << NameCompleteList << endl;
+	ifstream EfficiencyFile(PathEffFile.c_str());
+	
+	if(!EfficiencyFile)
+		cout  << " cannot open file"  << endl;
 	string tmpp;
 
-	ifstream EffFile(NameCompleteList.c_str(), std::ios::in);
-	while(getline(EffFile,tmpp)){
-   		triggerNames.push_back(tmpp);
+	while(std::getline(EfficiencyFile,tmpp)){
+		AlltriggerNames.push_back(tmpp);
 	}
-
-	vector<double> EffNotOrdered;
+	EfficiencyFile.close();
+	cout << "size : " <<AlltriggerNames.size() << endl;
+	
 
 	//HIST_MASSES->SetMarkerColor(1);
 
 	
 	//Test efficiency fct mass
 
+	outputfilename2="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/HIST_EffGluino.root";
 	
+	OutputHisto2 = new TFile(outputfilename2,"RECREATE");
 	
+	//auto mg = new TMultiGraph();
 
-	string EffList = "Eff";
-	string allgluino = "Gluino";
-	strind Date = "1105all";
-	string pointofmass;
-	string ExtRoot = ".root";
-	string All = "all";
+	Efficiencies2.resize(AlltriggerNames.size());
 
-	Efficiencies.resize(triggerNames.size());
-	EffList.resize(triggerNames.size());
-	EffNotOrdered.resize(triggerNames.size());
+	for(int l = 0; l < AlltriggerNames.size(); l++){
+		Efficiencies2[l] = new TGraph();
+		Efficiencies2[l]->SetName(AlltriggerNames[l].c_str());
+
+
+	}
+
+	Efficiencies.resize(AlltriggerNames.size());
+	
+	Efficiencies3.resize(6);
+	int BinCt = 0;
 	for(int k = 1600; k <= 2600 ; k+=200){
-		pointofmass = to_string(k);
-		string DataPom = allgluino + pointofmass + Date + ExtRoot;
-		string PathPom = Path + DataPom;
-		int BinCt = 0;
-		string FromList = Path + EffList + DataType + pointofmass + All + ExtTxt;
+		vector<double> EffNotOrdered;
+		//EffNotOrdered.resize(AlltriggerNames.size());
 		
+		pointofmass = to_string(k);
+		string grname = "gr" + pointofmass ;
+		
+		
+		string DataPom = DataType + pointofmass + Date + ExtRoot;
+		string PathPom = Path + DataPom;
+		
+		string FromList = Path + EffList + DataType + pointofmass + All + ExtTxt;
+		cout << FromList << endl;
 		ifstream ifile(FromList.c_str(), std::ios::in);
 		
 		
@@ -113,25 +145,41 @@ void DrawHist::FitSignalBg(){
 	   	}
 		else{
 
-			double num = 0.0;
+			double num;
 			while (ifile >> num) {
+				//cout << num << endl;
         			EffNotOrdered.push_back(num);
 			}
 	
+			cout << " Eff size : " << EffNotOrdered.size() << endl;
+			//myFileEff = new TFile(PathPom.c_str());
+			int counter=1;
+	
+			
 
-			myFileEff = new TFile(PathPom.c_str());
-		
-			for(int l = 0; l < triggerNames.size(); l++){
-				Efficiencies[l] = new TH1D(triggerNames[l].c_str(), triggerNames[l].c_str(), 1200,1400,2600);
-				Efficiencies[l]->SetBinContent(BinCt,EffNotOrdered[l]);
+
+			for(int l = 0; l < AlltriggerNames.size(); l++){
+				//Efficiencies[l] = new TH1D(AlltriggerNames[l].c_str(), AlltriggerNames[l].c_str(), 1200,1400,2600);
+				//cout << "eff : " <<EffNotOrdered[l] << endl;
+				//Efficiencies[l]->SetBinContent(BinCt,EffNotOrdered[l]);
+				cout << counter << " ," << k << " ," << EffNotOrdered[l] <<  endl;
+				Efficiencies2[l]->SetPoint(counter,k,EffNotOrdered[l]);
+				counter+=1;
 			}
+			
+			EffNotOrdered.clear();
 			BinCt +=200;
 		}
-	}
-
 	
-
-	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/SingleMuon/SingleMuon1105_all.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
+	}
+	OutputHisto2->cd();
+	for(int l = 0; l < Efficiencies2.size(); l++){
+		Efficiencies2[l]->Write();
+	}
+	
+	
+	OutputHisto2->Close();
+	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Gluino16001105all.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
 	
 	
 	myFile = new TFile(filepath);
@@ -139,7 +187,12 @@ void DrawHist::FitSignalBg(){
 	HIST_MASSES->SetTitle("Invariant mass of candidates");
 
 
-	outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/30Apr_All/SingleMuon/HIST_SingleMuon1105.root";
+
+
+
+
+
+	outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/HIST_Gluino.root";
 
 	
 
@@ -345,9 +398,7 @@ void DrawHist::FitSignalBg(){
 
 	OutputHisto->cd();
 
-	for(int i=0 ; i < Efficiencies.size() ; i++){
-		Efficiencies[i]->Write();
-	}
+
 	c1->Write();
 	HIST_FITSUM->Write();
 	HIST_FIT->Write();

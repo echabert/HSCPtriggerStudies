@@ -30,15 +30,18 @@ int ListNameTriggers::IsInList(string name){
 void ListNameTriggers::FindAllNames(){
 	
 	ofstream CompleteList;
-	string DataType = "Gluino1600";
+	string DataType = "SingleMuon";
 	string NameList = "CompleteList";
 	string ExtTxt = ".txt";
-
+	string PresList = "PrescaledSubList";
+	string NamePrescaledList = PresList + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + ExtTxt;
+
 	CompleteList.open (NameCompleteList.c_str()); //change name
 
+
 	ofstream PrescaledSubList;
-	PrescaledSubList.open ("PrescaledSubList.txt");
+	PrescaledSubList.open (NamePrescaledList.c_str());
 
 	ofstream PrescaledTurnedBad;
 	PrescaledTurnedBad.open ("PrescaledTurnedBad.txt");
@@ -116,6 +119,20 @@ void ListNameTriggers::FindAllNames(){
 				if(b==i){
 				//	cout << "was in list" << endl;
 				
+					if(prescaleTrigger[i]==1){
+						
+					}
+					else{
+						InfoTriggers[i] = make_pair(triggerName->at(i) , make_pair(false,true));
+					}
+				// transcript 
+				//si prescale!=1 false
+
+
+				
+
+				//
+				
 				}
 				else if(b==9999){
 					if(prescaleTrigger[i]==1){
@@ -127,6 +144,10 @@ void ListNameTriggers::FindAllNames(){
 					}
 
 				
+				}
+				else{
+					
+
 				}
 			}
 
