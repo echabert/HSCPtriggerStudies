@@ -192,7 +192,7 @@ void ListNameTriggers::FindAllNames(){
 		}*/
 	}
 
-	for ( auto it = 0 ; it != InfoTriggers.size() ; it++){
+	for ( int it = 0 ; it < InfoTriggers.size() ; it++){
 		CompleteList << InfoTriggers[it].first << endl;
 		if(InfoTriggers[it].second.first){
 			PrescaledSubList << InfoTriggers[it].first << endl; //<< " " << itr->second.first << " " << itr->second.second

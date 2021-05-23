@@ -118,7 +118,7 @@ void AnaEff::Loop()
 
 		//cout << triggerNames[i] << endl;
 		if(passTrigger[i] != 1 ){
-			cout << triggerNames[i] << " has prescale = " << passTrigger[i] << endl;
+			TrigPrescaledList << triggerNames[i] << " has prescale = " << passTrigger[i] << endl;
 		}
 		else{
 			TrigPrescaledList << triggerNames[i] << " has prescale 1" << endl;

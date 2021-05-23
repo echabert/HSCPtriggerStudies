@@ -46,7 +46,7 @@ void DrawHist::FitSignalBg(){
 	ofstream InfosPurity;
 
 	string Purity = "Purity";
-	string DataType = "Gluino";
+	string DataType = "SingleMuon";
 
 	string ExtTxt = ".txt";
 	
@@ -76,9 +76,10 @@ void DrawHist::FitSignalBg(){
 	
 //	string NameCompleteList = "CompleteListTest.txt";
 
+	string NameCompleteListSingleMuon = NameList + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + Mass + ExtTxt;
-	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/" + NameCompleteList;
-
+	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/" + NameCompleteListSingleMuon;
+	
 
 	vector<string> AlltriggerNames;
 	vector<string> SubListMET;
@@ -179,7 +180,7 @@ void DrawHist::FitSignalBg(){
 	
 	
 	OutputHisto2->Close();
-	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Gluino16001105all.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
+	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/SingleMuon/SingleMuon1105all.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
 	
 	
 	myFile = new TFile(filepath);
@@ -192,7 +193,7 @@ void DrawHist::FitSignalBg(){
 
 
 
-	outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/HIST_Gluino.root";
+	outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/SingleMuon/HIST_SingleMuon.root";
 
 	
 
@@ -277,7 +278,7 @@ void DrawHist::FitSignalBg(){
 
 	auto c1 = new TCanvas("c1","Fits for background and signal",1300,700);
 	auto pad = new TPad("pad","",0,0,1,1);
-	pad->SetGrid();
+	//pad->SetGrid();
 	pad->Draw();
 	pad->cd();
 
