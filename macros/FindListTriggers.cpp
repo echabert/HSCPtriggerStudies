@@ -124,7 +124,7 @@ void ListNameTriggers::FindAllNames(){
 					}
 					else{
 						InfoTriggers[i] = make_pair(triggerName->at(i) , make_pair(false,true));
-						cout << triggerName->at(i) << " has prescale " << prescaleTrigger[i] << endl;
+						//cout << triggerName->at(i) << " has prescale " << prescaleTrigger[i] << endl;
 					}
 				// transcript 
 				//si prescale!=1 false
