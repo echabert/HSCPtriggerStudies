@@ -116,14 +116,14 @@ void ListNameTriggers::FindAllNames(){
 
 			for(int i=0; i< ntrigger; i++){
 				int b = IsInList(triggerName->at(i));
-				if(b==i){
+				//if(b==i){
 				//	cout << "was in list" << endl;
-				
+				if(b!=9999){
 					if(prescaleTrigger[i]==1){
 						//cout << triggerName->at(i) << " has prescale 1"  << endl;
 					}
 					else{
-						InfoTriggers[i] = make_pair(triggerName->at(i) , make_pair(false,true));
+						InfoTriggers[b] = make_pair(triggerName->at(i) , make_pair(false,true));
 						//cout << triggerName->at(i) << " has prescale " << prescaleTrigger[i] << endl;
 					}
 				// transcript 
