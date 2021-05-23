@@ -224,7 +224,9 @@ void DrawHist::FitSignalBg(){
 
 	HIST_FITSUM->GetXaxis()->SetTitle("Mass [GeV]");
 	HIST_FITSUM->GetYaxis()->SetTitle(" # candidates");
-	
+	HIST_FITSUM->SetMarkerStyle(8);
+
+
 	HIST_FITBG->GetXaxis()->SetTitle("Mass [GeV]");
 	HIST_FITBG->GetYaxis()->SetTitle(" # candidates");
 	
@@ -257,7 +259,7 @@ void DrawHist::FitSignalBg(){
 	for(int x = 0 ; x < 40 ; x++){
 		HIST_FITSIG->SetBinContent(x,0);
 	}
-	for(int x = 50; x < 70 ; x++){
+	for(int x = 60; x < 70 ; x++){
 		HIST_FITSIG->SetBinContent(x,0);
 	}
 
@@ -292,7 +294,7 @@ void DrawHist::FitSignalBg(){
 	g2->SetLineWidth(2);
 
 
-	TF1 *g1 = new TF1("g1","gaus", 75,105);
+	TF1 *g1 = new TF1("g1","gaus", 50,130);
 	g1->SetLineColor(kRed);
 	g1->SetLineStyle(1);
 	g1->SetLineWidth(3);
@@ -306,10 +308,10 @@ void DrawHist::FitSignalBg(){
 	HIST_FIT->Fit(g1,"R+");
 
 
-	TF1 *g = (TF1*)HIST_FIT->GetListOfFunctions()->FindObject(g2);
+	/*TF1 *g = (TF1*)HIST_FIT->GetListOfFunctions()->FindObject(g2);
 	double IntegralBg = g2->Integral(86,96);
 	TF1 *s = (TF1*)HIST_FIT->GetListOfFunctions()->FindObject(g1);
-	double IntegralGauss = g1->Integral(86,96);
+	double IntegralGauss = g1->Integral(86,96);*/
 	
 	for (int i =0 ; i < sizeparamgaus ; i++){
 		m[i] = g1->GetParameter(i);
@@ -322,19 +324,20 @@ void DrawHist::FitSignalBg(){
 	
 	
 
-	TF1 *fitboth = new TF1("fits","gaus(0) +pol1(3)", 15,140);
+	TF1 *fitboth = new TF1("fits","gaus(0) +pol1(3)", 20,140);
 	fitboth->SetLineColor(2);
+	fitboth->SetLineWidth(1);
 	fitboth->SetParameters(m[0],m[1],m[2],m2[0],m2[1]);
 	HIST_FITSUM->Fit(fitboth,"R+");
 
 	auto leg1 =new TLegend(0.13,0.45,0.48,0.65);
 	
 	leg1->SetHeader("Background and signal fits");
-	leg1->AddEntry(fitboth,"Sum of background and signal in the region of interest","l");
+	leg1->AddEntry(fitboth,"Fit background + signal","l");
 	//leg1->AddEntry(g1,"Signal : gaussian","l");
 	//leg1->SetLegendFont(42);
 	leg1->SetTextFont(42);
-	leg1->SetTextSize(0.03);
+	leg1->SetTextSize(0.04);
 	leg1->SetBorderSize(0);
 	leg1->SetFillStyle(0);
 	leg1->Draw();
@@ -381,7 +384,7 @@ void DrawHist::FitSignalBg(){
 
 
 
-	cout << "Integral of the Signal for mass between [86-96] GeV: " << IntegralGauss << endl;
+	/*cout << "Integral of the Signal for mass between [86-96] GeV: " << IntegralGauss << endl;
 	cout << "Integral of the background for mass between [86-96] GeV = 0 : " << IntegralBg << endl;
 	cout << "Ratio signal/total ¦ bins in 40-50 -> 0 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg))*100 << " %" << endl;
 	
@@ -393,7 +396,7 @@ void DrawHist::FitSignalBg(){
 
 	InfosPurity << "Ratio signal/total ¦ bins in 40-50 -> 0 = " << (IntegralGauss *1.0 / (IntegralGauss+IntegralBg))*100 << " %" << endl;
 	
-	InfosPurity << "There was " << nbentriesZ << " Z pair" << endl;
+	InfosPurity << "There was " << nbentriesZ << " Z pair" << endl;*/
 
 	InfosPurity.close();
 

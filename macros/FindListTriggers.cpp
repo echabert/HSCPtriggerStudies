@@ -124,6 +124,7 @@ void ListNameTriggers::FindAllNames(){
 					}
 					else{
 						InfoTriggers[i] = make_pair(triggerName->at(i) , make_pair(false,true));
+						cout << triggerName->at(i) << " has prescale " << prescaleTrigger[i] << endl;
 					}
 				// transcript 
 				//si prescale!=1 false
@@ -136,11 +137,12 @@ void ListNameTriggers::FindAllNames(){
 				}
 				else if(b==9999){
 					if(prescaleTrigger[i]==1){
-						cout << "Added one vector to the map with prescale 1" << endl;
+						cout << "Added one vector to the list with prescale 1" << endl;
 						InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(true,false)));
 					}
 					else{
 						InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
+						cout << triggerName->at(i) << " was added to list with prescale " << prescaleTrigger[i] << endl;
 					}
 
 				
