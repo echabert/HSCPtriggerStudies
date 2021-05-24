@@ -94,7 +94,7 @@ void AnaEff::Loop()
 	string s6 = "testmu";
 	string s7 = "MET";
 	
-	ifstream ifile(NameCompletePrescaledList.c_str()); 
+	ifstream ifile(NameListForType.c_str()); 
 	vector<string> triggerNames;
 	vector<string> SubListMET;
 	vector<string> SubListPT;
