@@ -148,6 +148,10 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	DenomCorr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	Correlation.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0)); 
 	
+	LogicalOr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
+	NumLogicalOr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
+	DenomLogicalOr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
+
 	NumEfficiency.resize(triggerNames.size(), 0.0);
 	DenomEfficiency.resize(triggerNames.size(), 0.0);
 	Efficiency.resize(triggerNames.size(), 0.0);
@@ -229,63 +233,12 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 
 
 
-		/*for(int j=0; j < TestNoMap.size(); j++){ //selected trigger names
-			if(NameVar=="PT"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;PT;#epsilon",50,0,2000); 
-			}
-			else if(NameVar=="MET"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MET;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="MU"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;MUPT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Stau494"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stau494PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Stau1599"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stau1599PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="SingleMuon"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;SingleMuonPT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Gluino1600"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Gluino2000"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2000PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Gluino2000test"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2000PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Gluino2400"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2400PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Gluino2600"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2600PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Stop1600"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stop1600PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Stop2000"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stop2000PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Gluino1600test2"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600test2PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Gluino1800av"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600test2PT;#epsilon",50,0,2000);
-			}
-			else{
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;TestPT;#epsilon",50,0,2000);
-
-			}
-
-			EffvsObs[j]->SetName(TriggerNames[TestNoMap[j].second].c_str());
+		
 			
 			//EffvsObs[j]->Draw("AP");
 			//gPad->Update();
 			//EffvsObs[j]->GetPaintedGraph()->GetXaxis()->SetTitle(NameObs.c_str());
-			}*/
+			
 	}
 	cout << " TriggerNames size " << TriggerNames.size() << endl;
 
@@ -348,6 +301,7 @@ void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string 
 				trig2 = passtrig.at(TestNoMap[j].second);
 				
 				if(trig1 || trig2){
+					
 					DenomCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
 				}
 				if(trig1 && trig2){
@@ -404,8 +358,9 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 				for(int k = 0; k<PosPass.size(); k++){
 					//if(PosPass[k].first == TestNoMap[j].second){
 						trig2 = PosPass[k].second;
-						
+						DenomLogicalOr[PosPass[i].first][PosPass[k].first]+=1;
 						if(trig1 || trig2){
+							NumLogicalOr[PosPass[i].first][PosPass[k].first]+=1;
 							DenomCorr[PosPass[i].first][PosPass[k].first]+=1;
 						}
 						if(trig1 && trig2){
@@ -456,6 +411,37 @@ void TrigEff::ComputeCorr(){
 	
 	
 }
+
+
+void TrigEff::ComputeLogicalOr(){
+	for(int i=0;i< LogicalOr.size();i++){
+		for(int j=0;j< LogicalOr[i].size();j++){
+			if(DenomLogicalOr[i][j]==0){
+				LogicalOr[i][j]=0;
+			}
+			else{	
+			LogicalOr[i][j] = ((NumLogicalOr[i][j]*1.0) / DenomLogicalOr[i][j]);
+			}
+		}
+	}
+	
+	
+}
+
+
+
+void TrigEff::PrintLogicalOr(){
+	cout << endl;
+	for ( int i = 0; i < LogicalOr.size(); i++ ){
+   		for ( int j = 0; j < LogicalOr[i].size(); j++ ){
+      			cout << setprecision(5) << " ¦¦ of [" << i+1 << "," << j+1 << "] : " << NumLogicalOr[i][j] << " / " << DenomLogicalOr[i][j] << " = " << LogicalOr[i][j] * 100  << "% ";
+   		}
+   	cout << endl;
+	}
+	cout << endl;
+}
+
+
 
 void TrigEff::PrintCorr(){
 	cout << endl;
@@ -647,6 +633,8 @@ void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTr
 
 	//PrintDenomCorr();
 	PrintCorr();
+	ComputeLogicalOr();
+	PrintLogicalOr();
 
 }
 

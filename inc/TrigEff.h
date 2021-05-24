@@ -74,7 +74,10 @@ public:
    
 
 
+   // ************** LOGICAL OR OF TRIGGERS *********************
+   void ComputeLogicalOr();
 
+   void PrintLogicalOr();
 
    // ************** Efficiency of triggers ***********************
 
@@ -167,6 +170,14 @@ public:
 
    vector<bool> TriggerPass; 
    
+
+   vector<vector<double> > LogicalOr; 
+
+   vector<vector<double> > NumLogicalOr;
+   vector<vector<double> > DenomLogicalOr;
+
+
+
 
    vector<vector<double> > Correlation; 
 

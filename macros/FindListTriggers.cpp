@@ -30,7 +30,7 @@ int ListNameTriggers::IsInList(string name){
 void ListNameTriggers::FindAllNames(){
 	
 	ofstream CompleteList;
-	string DataType = "SingleMuon";
+	string DataType = "Stop1600";
 	string NameList = "CompleteList";
 	string ExtTxt = ".txt";
 	string PresList = "PrescaledSubList";
@@ -195,7 +195,7 @@ void ListNameTriggers::FindAllNames(){
 	}
 
 	for ( int it = 0 ; it < InfoTriggers.size() ; it++){
-		CompleteList << InfoTriggers[it].first << endl;
+		CompleteList << InfoTriggers[it].first << " " << endl;
 		if(InfoTriggers[it].second.first){
 			PrescaledSubList << InfoTriggers[it].first << endl; //<< " " << itr->second.first << " " << itr->second.second
 		}

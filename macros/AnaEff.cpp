@@ -73,13 +73,14 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "SingleMuon";
+	string DataType = "Stop1600";
 
 	string ListAllTriggers = ListAll + DataType + ExtTxt;
 	//string NameCompleteList = "CompleteListTest.txt";
 
 	string NameListEff = TransferEff + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
+	string NameCompleteListTest = "ListeInteretTriggers.txt";
 	string NameCompletePrescaledList = PrescaledList + DataType + ExtTxt;
 	string EffTriggers = TransferEff + DataType + SubNum + ExtTxt;
 
@@ -92,7 +93,7 @@ void AnaEff::Loop()
 	string s6 = "testmu";
 	string s7 = "MET";
 	
-	ifstream ifile(NameCompleteList.c_str()); 
+	ifstream ifile(NameCompleteListTest.c_str()); 
 	vector<string> triggerNames;
 	vector<string> SubListMET;
 	vector<string> SubListPT;
@@ -114,7 +115,7 @@ void AnaEff::Loop()
 	TrigPrescaledList.open(NameCompletePrescaledList);
 
 	
-	for(int i = 0; i < triggerNames.size() ; i++){
+	/*for(int i = 0; i < triggerNames.size() ; i++){
 
 		//cout << triggerNames[i] << endl;
 		if(passTrigger[i] != 1 ){
@@ -125,7 +126,7 @@ void AnaEff::Loop()
 
 		}
 
-	}
+	}*/
 
 	TrigPrescaledList.close();
 	ifile.close();
