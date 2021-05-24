@@ -68,7 +68,7 @@ void ListNameTriggers::FindAllNames(){
 	for(int i=0; i< ntrigger; i++){
 		cout << "TriggerName " << i << " : " << triggerName->at(i) << endl;
 		
-		cout << prescaleTrigger[i] << endl;
+		//cout << prescaleTrigger[i] << endl;
 		
 		if(prescaleTrigger[i]==1){
 			InfoTriggers.push_back(make_pair(triggerName->at(i), make_pair(true,true)));
