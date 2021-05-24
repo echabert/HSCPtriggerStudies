@@ -80,7 +80,8 @@ void AnaEff::Loop()
 
 	string NameListEff = TransferEff + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
-	string NameCompleteListTest = "ListeInteretTriggers.txt";
+	string NameCompleteListTest = "ListeInteretTriggers";
+	string NameListForType = NameCompleteListTest + DataType + ExtTxt;
 	string NameCompletePrescaledList = PrescaledList + DataType + ExtTxt;
 	string EffTriggers = TransferEff + DataType + SubNum + ExtTxt;
 

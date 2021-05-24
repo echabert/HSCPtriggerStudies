@@ -113,10 +113,10 @@ void ListNameTriggers::FindAllNames(){
 		}*/
 		//cout << "----------------------------- new event -----------------------------" << endl;
 		//if(ntrigger > InfoTriggers.size()){
-			cout << " --------NEW EVENT ------- "<< endl;
+			//cout << " --------NEW EVENT ------- "<< endl;
 			for(int i=0; i< ntrigger; i++){
 				int b = IsInList(triggerName->at(i));
-				cout << prescaleTrigger[i] << "  " ;
+				//cout << prescaleTrigger[i] << "  " ;
 				//if(b==i){
 				//	cout << "was in list" << endl;
 				if(b!=9999){
