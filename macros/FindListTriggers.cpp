@@ -68,7 +68,7 @@ void ListNameTriggers::FindAllNames(){
 	for(int i=0; i< ntrigger; i++){
 		cout << "TriggerName " << i << " : " << triggerName->at(i) << endl;
 		
-
+		cout << prescaleTrigger[i] << endl;
 		
 		if(prescaleTrigger[i]==1){
 			InfoTriggers.push_back(make_pair(triggerName->at(i), make_pair(true,true)));
@@ -90,7 +90,7 @@ void ListNameTriggers::FindAllNames(){
 	
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
-		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << endl;
+		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << " , "<<(jentry*1.0/nentries)*100 << " %" << endl;
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		testcount+=1;
@@ -113,9 +113,10 @@ void ListNameTriggers::FindAllNames(){
 		}*/
 		//cout << "----------------------------- new event -----------------------------" << endl;
 		//if(ntrigger > InfoTriggers.size()){
-
+			cout << " --------NEW EVENT ------- "<< endl;
 			for(int i=0; i< ntrigger; i++){
 				int b = IsInList(triggerName->at(i));
+				cout << prescaleTrigger[i] << "  " ;
 				//if(b==i){
 				//	cout << "was in list" << endl;
 				if(b!=9999){
