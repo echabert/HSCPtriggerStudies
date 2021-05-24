@@ -56,31 +56,25 @@ void AnaEff::Loop()
 	cout << " Number of events for this file : " << nentries << endl;
 
 	
-	string NameList = "CompleteList";
-	string PrescaledList = "PrescaledList";
-	string ListAll = "ListOfAllTriggersEff";
-	string SubNum = "all"; //to_string(2);
-	string ExtRoot = ".root";
-	string ExtTxt = ".txt";
-	string Date = "1105";
+	string NameList = "CompleteList",PrescaledList = "PrescaledList",ListAll = "ListOfAllTriggersEff";
 	
-
-	string TransferTxt="AllInfos";
-	string TransferEff = "Eff";
-	string TransferZ = "EntriesFromZ";
-	string TransferW = "EntriesFromW";
+	string SubNum = "all",ExtRoot = ".root",ExtTxt = ".txt",Date="1105"; //to_string(2);
+	
+	string TransferTxt="AllInfos",TransferEff = "Eff",TransferZ = "EntriesFromZ",TransferW = "EntriesFromW";
+	
 
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Stop1600";
+	string DataType = "Gluino1600";
+	string NameCompleteListTest = "ListeInteretTriggers";
 
 	string ListAllTriggers = ListAll + DataType + ExtTxt;
 	//string NameCompleteList = "CompleteListTest.txt";
 
 	string NameListEff = TransferEff + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
-	string NameCompleteListTest = "ListeInteretTriggers";
+	
 	string NameListForType = NameCompleteListTest + DataType + ExtTxt;
 	string NameCompletePrescaledList = PrescaledList + DataType + ExtTxt;
 	string EffTriggers = TransferEff + DataType + SubNum + ExtTxt;
