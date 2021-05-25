@@ -386,7 +386,7 @@ int AnaEff::Selection(){
 		int siz=Muonpt.size();
 		sort(Muonpt.begin(),Muonpt.end());
 		
-		return Muonpt[siz-1-].second;
+		return Muonpt[siz-1].second;
 	}
 	else{
 		return 64;
