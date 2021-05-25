@@ -48,9 +48,6 @@ void ListNameTriggers::FindAllNames(){
 
 	int testcount=0;
 	
-
-	
-	
 	Long64_t nentries = fChain->GetEntriesFast();
 	Long64_t nbytes = 0, nb = 0, nbi = 0;
 	Long64_t initializing = LoadTree(0); 
