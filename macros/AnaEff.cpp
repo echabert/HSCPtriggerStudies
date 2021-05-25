@@ -66,7 +66,7 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino1600";
+	string DataType = "Gluino1800";
 	string NameCompleteListTest = "ListeInteretTriggers";
 
 	string ListAllTriggers = ListAll + DataType + ExtTxt;
@@ -80,14 +80,14 @@ void AnaEff::Loop()
 	string EffTriggers = TransferEff + DataType + SubNum + ExtTxt;
 
 
-	string s2 = "mu";
-	string s4 = "Mu";
-	string s5 = "Muon";
-	
+	string s1 = "mu";
+	string s2 = "Mu";
 	string s3 = "TESTPT";
-	string s6 = "testmu";
+	string s4 = "testmu";
+	string s5 = "Muon";
 	string s7 = "MET";
 	string s8 = "HT";
+
 	ifstream ifile(NameListForType.c_str()); 
 	vector<string> triggerNames;
 	vector<string> SubListMET;
@@ -96,10 +96,10 @@ void AnaEff::Loop()
 
 	while(getline(ifile,tmp)){
    		triggerNames.push_back(tmp);
-		if(strstr(tmp.c_str(),s4.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) ||  strstr(tmp.c_str(),s7.c_str()) ||  strstr(tmp.c_str(),s8.c_str())){
+		if(strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s1.c_str()) || strstr(tmp.c_str(),s5.c_str()) ||  strstr(tmp.c_str(),s7.c_str()) ||  strstr(tmp.c_str(),s8.c_str())){
 			SubListMET.push_back(tmp);
 		}
-		if(strstr(tmp.c_str(),s6.c_str())){
+		if(strstr(tmp.c_str(),s4.c_str())){
 			SubListPT.push_back(tmp);
 		}
 		
