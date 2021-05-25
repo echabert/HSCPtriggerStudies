@@ -115,6 +115,10 @@ void ListNameTriggers::FindAllNames(){
 				int b = IsInList(triggerName->at(i));
 				//cout << prescaleTrigger[i] << "  " ;
 				//if(b==i){
+
+				//Si un evenement pas présent dans X, enlever 
+
+
 				//	cout << "was in list" << endl;
 				if(b!=9999){
 					if(prescaleTrigger[i]==1){
