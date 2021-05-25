@@ -428,7 +428,11 @@ double AnaEff::MuonsMissingET(){
 	//sum both to get mass,  W probably (10% mu+nu in W) 
 	
 	//
-	if(nmuons>1){
+	if(nmuons<1){
+	return 1;
+
+	}
+	else {
 		for(int i = 0; i < nmuons ; i++){
 			if(muon_pt[i] > 10){
 				muonPT.push_back(make_pair(muon_pt[i],i));
@@ -438,54 +442,51 @@ double AnaEff::MuonsMissingET(){
 			}
 			
 		}
-
-	}
-	else {
-		return 1;
-	
-	}
-
-
-	sort(muonPT.begin(),muonPT.end());
-	int index = muonPT[muonPT.size()-1].second;
-	
-	for(int k = 0; k < muonPT.size(); k++){
-		if(index == muonETA[k].second){
-			mu_eta = muonETA[k].first;
-		}
-
-		if(index == muonPHI[k].second){
-			mu_phi = muonPHI[k].first;
-		}
-		if(index == muonP[k].second){
-			mu_p = muonP[k].first;
-		}
-
-	}
-	mu_pt = muonPT[index].first;
-	
-	if(muonPT.size() < 2){
-		return 1;
-	}
-	else{
-		transf.SetPtEtaPhiM(mu_pt,mu_eta,mu_phi,massMu);
-		mu_px = transf.Px();
-		mu_py = transf.Py();
-		mu_pz = transf.Pz();
-		double Energy = sqrt((massMu*massMu)+mu_p*mu_p);
-		//cout << " energy = " << Energy << endl;
-		muon.SetPxPyPzE(mu_px,mu_py,0,Energy);
-		muonW = index; 
-		//test3.SetCoordinates(mu_px,mu_py,0,0.105);
-		//get E from m p 
 		
-		//test3.SetM(0.105);
+	
+
+
+		sort(muonPT.begin(),muonPT.end());
+		int index = muonPT[muonPT.size()-1].second;
+	
+		for(int k = 0; k < muonPT.size(); k++){
+			if(index == muonETA[k].second){
+				mu_eta = muonETA[k].first;
+			}
+
+			if(index == muonPHI[k].second){
+				mu_phi = muonPHI[k].first;
+			}
+			if(index == muonP[k].second){
+				mu_p = muonP[k].first;
+			}
+
+		}
+		mu_pt = muonPT[index].first;
+	
+		if(muonPT.size() < 2){
+			return 1;
+		}
+		else{
+			transf.SetPtEtaPhiM(mu_pt,mu_eta,mu_phi,massMu);
+			mu_px = transf.Px();
+			mu_py = transf.Py();
+			mu_pz = transf.Pz();
+			double Energy = sqrt((massMu*massMu)+mu_p*mu_p);
+			//cout << " energy = " << Energy << endl;
+			muon.SetPxPyPzE(mu_px,mu_py,0,Energy);
+			muonW = index; 
+			//test3.SetCoordinates(mu_px,mu_py,0,0.105);
+			//get E from m p 
+		
+			//test3.SetM(0.105);
 		
 
-		//cout << " [px,py,pz,M] = " << "{" << muon.Px() << "," << muon.Py() << "," << muon.Pz() << "," << muon.M() << "]" << endl;
-		double invmassw = muon.M();
-		//cout << "InvMass transverse = " << invmassw << endl;
-		return invmassw;
+			//cout << " [px,py,pz,M] = " << "{" << muon.Px() << "," << muon.Py() << "," << muon.Pz() << "," << muon.M() << "]" << endl;
+			double invmassw = muon.M();
+			//cout << "InvMass transverse = " << invmassw << endl;
+			return invmassw;
+		}
 	}
 	return 1;
 }
