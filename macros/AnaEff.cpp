@@ -478,13 +478,14 @@ double AnaEff::MuonsMissingET(){
 			muonW = index; 
 			//test3.SetCoordinates(mu_px,mu_py,0,0.105);
 			//get E from m p 
-		
+			cout << "after muonW = index" << endl;
 			//test3.SetM(0.105);
 			
 
 			//cout << " [px,py,pz,M] = " << "{" << muon.Px() << "," << muon.Py() << "," << muon.Pz() << "," << muon.M() << "]" << endl;
 			double invmassw = muon.M();
 			//cout << "InvMass transverse = " << invmassw << endl;
+			cout << "before invmassw" << endl;
 			return invmassw;
 		}
 	}
