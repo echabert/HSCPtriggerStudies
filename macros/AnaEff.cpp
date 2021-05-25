@@ -194,9 +194,9 @@ void AnaEff::Loop()
 		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << " , "<<(jentry*1.0/nentries)*100 << " %" << endl;
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
-		
+		cout << "Before MuonsInvariantMass" << endl;
 		InvMass = MuonsInvariantMass();
-
+		cout << "Before MuonsMissingET" << endl;
 		MissingW = MuonsMissingET();
 
 
@@ -394,7 +394,7 @@ int AnaEff::Selection(){
 		int siz=Muonpt.size();
 		sort(Muonpt.begin(),Muonpt.end());
 		
-		return Muonpt[siz-1].second;
+		return Muonpt[siz-1-].second;
 	}
 	else{
 		return 64;
