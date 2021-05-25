@@ -46,7 +46,7 @@ void DrawHist::FitSignalBg(){
 	ofstream InfosPurity;
 
 	string Purity = "Purity";
-	string DataType = "SingleMuon";
+	string DataType = "Gluino";
 
 	string ExtTxt = ".txt";
 	
@@ -73,12 +73,14 @@ void DrawHist::FitSignalBg(){
 	string s7 = "MET";
 
 	string NameList = "CompleteList";
-	
+
+	string NameListInterest = "ListeInteretTriggers";
+	string CompleteNameListInterest = NameListInterest + DataType + Mass + ExtTxt;
 //	string NameCompleteList = "CompleteListTest.txt";
 
 	string NameCompleteListSingleMuon = NameList + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + Mass + ExtTxt;
-	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/" + NameCompleteListSingleMuon;
+	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/" + CompleteNameListInterest;
 	
 
 	vector<string> AlltriggerNames;
@@ -87,7 +89,7 @@ void DrawHist::FitSignalBg(){
 	
 	
 	
-	cout << NameCompleteList << endl;
+	cout << CompleteNameListInterest << endl;
 	ifstream EfficiencyFile(PathEffFile.c_str());
 	
 	if(!EfficiencyFile)
@@ -105,19 +107,37 @@ void DrawHist::FitSignalBg(){
 
 	
 	//Test efficiency fct mass
-
-	outputfilename2="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/HIST_EffGluino.root";
+	outputfilename2=Path + "HIST_" + EffList + DataType + ExtRoot;
+	//outputfilename2="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/HIST_EffGluino.root";
 	
 	OutputHisto2 = new TFile(outputfilename2,"RECREATE");
 	
 	//auto mg = new TMultiGraph();
 
+	/*const char *nameTrig[nt] = {"HLT_IsoMu20_v12", "HLT_PFHT180_v13", "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "HLT_PFMET110_PFMHT110_IDTight_v16", "HLT_Mu8_v10","HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight_v16"};
+
+
+	TCanvas *c1 = new TCanvas("c1","demo bin labels",10,10,600,600);
+	c1->SetLeftMargin(0.15);
+	c1->SetBottomMargin(0.15);
+	TH2F *h = new TH2F("h","test",3,0,3,2,0,2);
+	h->SetCanExtend(TH1::kAllAxes);
+	h->SetStats(0);*/
+	
+	TCanvas *c11 = new TCanvas("c1","c1",200,10,500,300);
+	
+	c11->Divide(2,3);
+	//c11->Write();
+
 	Efficiencies2.resize(AlltriggerNames.size());
 
 	for(int l = 0; l < AlltriggerNames.size(); l++){
 		Efficiencies2[l] = new TGraph();
+		Efficiencies2[l]->SetTitle(AlltriggerNames[l].c_str());
+		
+		Efficiencies2[l]->GetHistogram()->GetXaxis()->SetTitle("Mass [GeV]");
+		Efficiencies2[l]->GetHistogram()->GetYaxis()->SetTitle("Efficiency [%]");
 		Efficiencies2[l]->SetName(AlltriggerNames[l].c_str());
-
 
 	}
 
@@ -125,14 +145,12 @@ void DrawHist::FitSignalBg(){
 	
 	Efficiencies3.resize(6);
 	int BinCt = 0;
+	int counter=1;
 	for(int k = 1600; k <= 2600 ; k+=200){
 		vector<double> EffNotOrdered;
 		//EffNotOrdered.resize(AlltriggerNames.size());
 		
 		pointofmass = to_string(k);
-		string grname = "gr" + pointofmass ;
-		
-		
 		string DataPom = DataType + pointofmass + Date + ExtRoot;
 		string PathPom = Path + DataPom;
 		
@@ -154,7 +172,7 @@ void DrawHist::FitSignalBg(){
 	
 			cout << " Eff size : " << EffNotOrdered.size() << endl;
 			//myFileEff = new TFile(PathPom.c_str());
-			int counter=1;
+			
 	
 			
 
@@ -163,23 +181,59 @@ void DrawHist::FitSignalBg(){
 				//Efficiencies[l] = new TH1D(AlltriggerNames[l].c_str(), AlltriggerNames[l].c_str(), 1200,1400,2600);
 				//cout << "eff : " <<EffNotOrdered[l] << endl;
 				//Efficiencies[l]->SetBinContent(BinCt,EffNotOrdered[l]);
-				cout << counter << " ," << k << " ," << EffNotOrdered[l] <<  endl;
-				Efficiencies2[l]->SetPoint(counter,k,EffNotOrdered[l]);
-				counter+=1;
+				cout << counter << " ," << k << " ," << EffNotOrdered[l]*1.0/100 <<  endl;
+				Efficiencies2[l]->SetPoint(counter,k,EffNotOrdered[l]*1.0/100);
+				
 			}
-			
+			counter+=1;
 			EffNotOrdered.clear();
 			BinCt +=200;
 		}
 	
 	}
-	OutputHisto2->cd();
-	for(int l = 0; l < Efficiencies2.size(); l++){
-		Efficiencies2[l]->Write();
-	}
 	
+
+	OutputHisto2->cd();
+	
+	//c11->Write();
+	for(int l = 0; l < Efficiencies2.size(); l++){
+		c11->cd(l+1);
+		
+		//Efficiencies2[l]->Write();
+		Efficiencies2[l]->Draw("");
+		Efficiencies2[l]->SetMarkerSize(3);
+		c11->Modified();
+		c11->Update();
+		//Efficiencies2[l]->Write();
+		Efficiencies2[l]->GetXaxis()->SetRangeUser(1600,2400);
+		
+		Efficiencies2[l]->GetYaxis()->SetRangeUser(0.,1.);
+		
+	}
+
+	c11->Write();
+	/*auto mh = new TMultiGraph();
+
+	for(int l = 0; l < Efficiencies2.size(); l++){
+		mh->Add(Efficiencies2[l]);
+	}
+	mh->Draw("AP");*/
 	
 	OutputHisto2->Close();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/SingleMuon/SingleMuon1105all.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
 	
 	
