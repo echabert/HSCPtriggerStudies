@@ -164,7 +164,7 @@ void AnaEff::Loop()
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,DataType2,NameOfFile);
 	//a
 	
-	str.clear();
+	
 	SubListMET.clear();
 	SubListPT.clear();
 
