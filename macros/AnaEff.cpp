@@ -444,6 +444,11 @@ double AnaEff::MuonsMissingET(){
 			
 		}
 		
+		if(muonPT.size() < 2){
+			return 1;
+		}
+
+
 		cout << "after muon pt cut" << endl;
 		cout << muonPT.size() << muonETA.size() << muonPHI.size() << muonP.size()<<endl;
 
