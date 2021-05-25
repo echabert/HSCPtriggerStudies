@@ -448,6 +448,12 @@ double AnaEff::MuonsMissingET(){
 		}
 
 	}
+	else {
+		return 1;
+	
+	}
+
+
 	sort(muonPT.begin(),muonPT.end());
 	int index = muonPT[muonPT.size()-1].second;
 	
