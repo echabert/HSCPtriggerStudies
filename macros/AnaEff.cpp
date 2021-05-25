@@ -244,7 +244,7 @@ void AnaEff::Loop()
 		float HighestPT,HighestMuonPT,HighestMET;
 		int trignull=0;
 		indexcandidate=Selection();
-		//cout << " -------- NEW ENTRY -------- " << endl;
+		cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
@@ -272,6 +272,7 @@ void AnaEff::Loop()
 			}
 			
 			passedevent+=1;
+			cout << "Before fill" << endl;
 			trigEff_selection_obs.FillNoMap2(PosPass,HighestPT,1);
 			cout << "After fill" << endl;
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
