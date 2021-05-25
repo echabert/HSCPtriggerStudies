@@ -131,7 +131,7 @@ public:
 
 
    TH2D* CORR; 
-
+   TH2D* ORTRIGGER; 
    
 
    int ErrorType; // Int that corresponds to a way of calculating the error

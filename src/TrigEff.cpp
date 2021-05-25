@@ -601,8 +601,15 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 			CORR->SetBinContent((i),(j),(Correlation[i][j]*100));
 		}
 	}
+	for(int i=0;i < LogicalOr.size();i++){
+		for(int j=0;j< LogicalOr[i].size();j++){
+			ORTRIGGER->SetBinContent((i),(j),(LogicalOr[i][j]*100));
+		}
+	}
+	
 	//CORR->SetDirectory("Correlations");
 	CORR->Write();
+	ORTRIGGER->Write();
 	MASS->Write();
 	MASSW->Write();
 	OutputHisto->Close();

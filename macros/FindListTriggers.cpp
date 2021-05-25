@@ -13,7 +13,19 @@
 using namespace std; 
 
 
+int ListNameTriggers::ListNameTriggersReverse(string name){
+	int cs = 0;
+	for (int i = 0 ; i < triggerName->size() ; i++){
+		if(triggerName->at(i) == name){
+			return cs;
 
+		}
+		cs+=1;
+
+	}
+	return 9999;
+
+}
 
 int ListNameTriggers::IsInList(string name){
 	int ct=0;
@@ -30,7 +42,7 @@ int ListNameTriggers::IsInList(string name){
 void ListNameTriggers::FindAllNames(){
 	
 	ofstream CompleteList;
-	string DataType = "Stop2000";
+	string DataType = "SingleMuon";
 	string NameList = "CompleteList";
 	string ExtTxt = ".txt";
 	string PresList = "PrescaledSubList";
@@ -131,29 +143,37 @@ void ListNameTriggers::FindAllNames(){
 				// transcript 
 				//si prescale!=1 false
 
-
-				
-
-				//
-				
 				}
+
 				else if(b==9999){
-					if(prescaleTrigger[i]==1){
-						cout << "Added one vector to the list with prescale 1" << endl;
-						InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(true,false)));
-					}
-					else{
-						InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
-						cout << triggerName->at(i) << " was added to list with prescale " << prescaleTrigger[i] << endl;
-					}
-
+					//if(prescaleTrigger[i]==1){
+					cout << "Added one vector to the list that wasnt there before, prescale false" << endl;
+					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
 				
 				}
-				else{
+					//else{
+						//InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
+						//cout << triggerName->at(i) << " was added to list with prescale " << prescaleTrigger[i] << endl;
+					//}
+
+				
+			
+			}
+
+			//bool rv[InfosTriggers.size()] = { 0 } ;
+			for(int j = 0 ; j < InfosTriggers.size() ; j++){
+				int s = ListNameTriggersReverse(InfoTriggers[j].first);
+				if(s==9999){
+					InfosTriggers[j] = make_pair(triggerName->at(i),make_pair(false,false));
+				}
+
+			}
 					
 
-				}
-			}
+	}
+				
+				
+}
 
 		//}
 		/*else if(ntrigger == InfoTriggers.size()){
