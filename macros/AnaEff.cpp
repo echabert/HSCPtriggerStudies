@@ -126,14 +126,6 @@ void AnaEff::Loop()
 	TrigPrescaledList.close();
 	ifile.close();
 
-	vector<string> str;
-	string interfstr;
-	
-	ifstream inttrigs("PrescaledSubList.txt"); 
-	while(getline(inttrigs,tmp)){
-   		str.push_back(tmp);
-	}
-	inttrigs.close();
 		
 	string StudyData = DataType + Date;
 	string StudyTxt = TransferTxt + DataType + Date;
