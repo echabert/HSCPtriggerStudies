@@ -462,6 +462,7 @@ double AnaEff::MuonsMissingET(){
 			}
 
 		}
+		cout << "after assocaition index == muonP[k]" << endl;
 		mu_pt = muonPT[index].first;
 	
 		if(muonPT.size() < 2){
