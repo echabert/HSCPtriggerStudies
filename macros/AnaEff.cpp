@@ -448,7 +448,7 @@ double AnaEff::MuonsMissingET(){
 
 		sort(muonPT.begin(),muonPT.end());
 		int index = muonPT[muonPT.size()-1].second;
-	
+		cout << "after index = muonP[muonPT.size-1]" << endl;
 		for(int k = 0; k < muonPT.size(); k++){
 			if(index == muonETA[k].second){
 				mu_eta = muonETA[k].first;
