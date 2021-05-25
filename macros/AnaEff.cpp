@@ -433,6 +433,7 @@ double AnaEff::MuonsMissingET(){
 
 	}
 	else {
+		cout << "nmuons : " << nmuons << endl;
 		for(int i = 0; i < nmuons ; i++){
 			if(muon_pt[i] > 10){
 				muonPT.push_back(make_pair(muon_pt[i],i));
