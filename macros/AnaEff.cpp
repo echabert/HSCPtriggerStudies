@@ -180,17 +180,17 @@ void AnaEff::Loop()
 	InfosW.open (EntriesFromW);
 
 
-	cout << "Before loop nentries" << endl;
+	//cout << "Before loop nentries" << endl;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << " , "<<(jentry*1.0/nentries)*100 << " %" << endl;
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
-		cout << "Before MuonsInvariantMass" << endl;
+		//cout << "Before MuonsInvariantMass" << endl;
 		InvMass = MuonsInvariantMass();
-		cout << "Before MuonsMissingET" << endl;
+		//cout << "Before MuonsMissingET" << endl;
 		MissingW = MuonsMissingET();
-		cout << "After MuonsMissingET" << endl;
+		//cout << "After MuonsMissingET" << endl;
 
 		/*for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
 			DISTRIB_PT->Fill(track_pt[jtrack]);
@@ -236,7 +236,7 @@ void AnaEff::Loop()
 		float HighestPT,HighestMuonPT,HighestMET;
 		int trignull=0;
 		indexcandidate=Selection();
-		cout << " -------- NEW ENTRY -------- " << endl;
+	//	cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
