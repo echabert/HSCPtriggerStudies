@@ -433,7 +433,7 @@ double AnaEff::MuonsMissingET(){
 
 	}
 	else {
-		cout << "nmuons : " << nmuons << endl;
+		//cout << "nmuons : " << nmuons << endl;
 		for(int i = 0; i < nmuons ; i++){
 			if(muon_pt[i] > 10){
 				muonPT.push_back(make_pair(muon_pt[i],i));
@@ -449,12 +449,12 @@ double AnaEff::MuonsMissingET(){
 		}
 
 
-		cout << "after muon pt cut" << endl;
+		//cout << "after muon pt cut" << endl;
 		cout << muonPT.size() << muonETA.size() << muonPHI.size() << muonP.size()<<endl;
 
 		sort(muonPT.begin(),muonPT.end());
 		int index = muonPT[muonPT.size()-1].second;
-		cout << "after index = muonP[muonPT.size-1]" << endl;
+		//cout << "after index = muonP[muonPT.size-1]" << endl;
 		for(int k = 0; k < muonPT.size(); k++){
 			if(index == muonETA[k].second){
 				mu_eta = muonETA[k].first;
@@ -468,7 +468,7 @@ double AnaEff::MuonsMissingET(){
 			}
 
 		}
-		cout << "after assocaition index == muonP[k]" << endl;
+		//cout << "after assocaition index == muonP[k]" << endl;
 		mu_pt = muonPT[index].first;
 	
 		if(muonPT.size() < 2){
@@ -485,14 +485,14 @@ double AnaEff::MuonsMissingET(){
 			muonW = index; 
 			//test3.SetCoordinates(mu_px,mu_py,0,0.105);
 			//get E from m p 
-			cout << "after muonW = index" << endl;
+			//cout << "after muonW = index" << endl;
 			//test3.SetM(0.105);
 			
 
 			//cout << " [px,py,pz,M] = " << "{" << muon.Px() << "," << muon.Py() << "," << muon.Pz() << "," << muon.M() << "]" << endl;
 			double invmassw = muon.M();
 			//cout << "InvMass transverse = " << invmassw << endl;
-			cout << "before invmassw" << endl;
+			//cout << "before invmassw" << endl;
 			return invmassw;
 		}
 	}
