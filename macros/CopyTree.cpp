@@ -96,7 +96,7 @@ void CopyTree::CopyWithSelec(string mode){
 				
 				
 				string s = to_string(j);
-				string transfer = "/Gluino/" + namsmall + s + ext;
+				string transfer =  namsmall + s + ext;
 				namesmall.push_back(transfer);
 				string transfer2 = path + NameFiles[j];
 				pathfile.push_back(transfer2);
@@ -139,7 +139,7 @@ void CopyTree::CopyWithSelec(string mode){
 			else{
 				for(int j = (x-1)*nbsubf; j < x*nbsubf ; j++){
 					string s = to_string(j);
-					string transfer = "/Gluino/"  + namsmall + s + ext;
+					string transfer =  namsmall + s + ext;
 					namesmall.push_back(transfer);
 					string transfer2 = path + NameFiles[j];
 					pathfile.push_back(transfer2);
