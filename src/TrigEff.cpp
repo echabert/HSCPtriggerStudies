@@ -194,19 +194,25 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;SingleMuonPT;#epsilon",50,0,2000);
 			}
 			else if(NameVar=="Gluino1600"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600PT;#epsilon",50,0,2000);
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600P/M;#epsilon",50,0,2000);
+			}
+			else if(NameVar=="Gluino1800"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1800P/M;#epsilon",50,0,2000);
 			}
 			else if(NameVar=="Gluino2000"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2000PT;#epsilon",50,0,2000);
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2000P/M;#epsilon",50,0,2000);
+			}
+			else if(NameVar=="Gluino2200"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2200P/M;#epsilon",50,0,2000);
+			}
+			else if(NameVar=="Gluino2400"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2400P/M;#epsilon",50,0,2000);
+			}
+			else if(NameVar=="Gluino2600"){
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2600P/M;#epsilon",50,0,2000);
 			}
 			else if(NameVar=="Gluino2000test"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2000PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Gluino2400"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2400PT;#epsilon",50,0,2000);
-			}
-			else if(NameVar=="Gluino2600"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2600PT;#epsilon",50,0,2000);
 			}
 			else if(NameVar=="Stop1600"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Stop1600PT;#epsilon",50,0,2000);
@@ -220,6 +226,10 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			else if(NameVar=="Gluino1800av"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600test2PT;#epsilon",50,0,2000);
 			}
+			
+			
+
+
 			else{
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;TestPT;#epsilon",50,0,2000);
 

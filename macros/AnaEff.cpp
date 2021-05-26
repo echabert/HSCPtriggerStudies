@@ -66,7 +66,8 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Stop2000";
+	string DataType = "Gluino1800";
+	float TheorMass = 1800;
 	string NameCompleteListTest = "ListeInteretTriggers";
 
 	string ListAllTriggers = ListAll + DataType + ExtTxt;
@@ -233,7 +234,7 @@ void AnaEff::Loop()
 		vector<Bool_t> vtrigger; //Convert array into vector
 		vector<int> position;
 		vector< pair<int, bool > > PosPass;
-		float HighestPT,HighestMuonPT,HighestMET;
+		float HighestPT,HighestMuonPT,HighestMET,POVERM;
 		int trignull=0;
 		indexcandidate=Selection();
 	//	cout << " -------- NEW ENTRY -------- " << endl;
@@ -241,6 +242,7 @@ void AnaEff::Loop()
 			//cout << indexcandidate << endl;
 			HighestPT = track_pt[indexcandidate];
 			HighestMET = pfmet_pt[indexcandidate];
+			POVERM = (track_p[indexcandidate] *1.0/ TheorMass);
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 				if(vtrigger[i] == 0){
@@ -265,7 +267,7 @@ void AnaEff::Loop()
 			
 			passedevent+=1;
 			//cout << "Before fill" << endl;
-			trigEff_selection_obs.FillNoMap2(PosPass,HighestPT,1);
+			trigEff_selection_obs.FillNoMap2(PosPass,POVERM,1);
 			//cout << "After fill" << endl;
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					

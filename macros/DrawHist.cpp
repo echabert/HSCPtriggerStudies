@@ -135,36 +135,17 @@ void DrawHist::FitSignalBg(){
 
 
 
-	int kmin = 1600,kmax=2000,kincre = 400, nbkbin = (kmax-kmin)/kincre;
+	int kmin = 1600,kmax=2600,kincre = 200, nbkbin = (kmax-kmin)/kincre;
 		
-
-	int n1=2;
-	double x0[n1];
-	double y0[n1];
-
-	double x1[n1];
-	double y1[n1];
-
-	double x2[n1];
-	double y2[n1];
-
-	double x3[n1];
-	double y3[n1];
-
-	double x4[n1];
-	double y4[n1];
-
-	double x5[n1];
-	double y5[n1];
+	int n1 = ((kmax-kmin)/kincre)+1 ;
+	double x0[n1],y0[n1],x1[n1],y1[n1],x2[n1],y2[n1],x3[n1],y3[n1],x4[n1],y4[n1],x5[n1],y5[n1];
 
 
 	Efficiencies2.resize(AlltriggerNames.size());
 	int actualbin = 0;
-	for(int k = 1600; k <= 2600 ; k+=200){
+	for(int k = kmin; k <= kmax ; k+=kincre){
 		vector<double> EffNotOrdered;
-		
-
-
+		cout << " Number of mass points : " << n1 << endl;
 
 
 		pointofmass = to_string(k);
