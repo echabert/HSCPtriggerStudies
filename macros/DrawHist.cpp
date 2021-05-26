@@ -13,6 +13,7 @@
 #include <vector>
 #include <TLegend.h>
 #include <TGraph.h>
+#include <TGraphErrors.h>
 #include <TMultiGraph.h>
 #include <TLegendEntry.h>
 #include <TFrame.h>
@@ -58,7 +59,7 @@ void DrawHist::FitSignalBg(){
 	string pointofmass;
 	string ExtRoot = ".root";
 	string All = "all";
-	
+	string ErrorEff = "Error";
 	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/Eff/";
 	
 	
@@ -144,12 +145,14 @@ void DrawHist::FitSignalBg(){
 		
 	int n1 = ((kmax-kmin)/kincre)+1 ;
 	double x0[n1],y0[n1],x1[n1],y1[n1],x2[n1],y2[n1],x3[n1],y3[n1],x4[n1],y4[n1],x5[n1],y5[n1],x6[n1],y6[n1];
-
+	double Errx0[n1] = {0},Erry0[n1] = {0},Errx1[n1] = {0},Erry1[n1]= {0},Errx2[n1]= {0},Erry2[n1]= {0},Errx3[n1]= {0},Erry3[n1]= {0},Errx4[n1]= {0},Erry4[n1]= {0},Errx5[n1]= {0},Erry5[n1]= {0},Errx6[n1]= {0},Erry6[n1]= {0};
 
 	Efficiencies2.resize(AlltriggerNames.size());
 	int actualbin = 0;
+	int actualbinerror = 0;
 	for(int k = kmin; k <= kmax ; k+=kincre){
 		vector<double> EffNotOrdered;
+		vector<double> ErrorEffNotOrdered;
 		cout << " Number of mass points : " << n1 << endl;
 
 
@@ -160,6 +163,85 @@ void DrawHist::FitSignalBg(){
 		string FromList = Path + EffList + DataType + pointofmass + All + ExtTxt;
 
 		cout << FromList << endl;
+
+
+		string FromListError = Path + ErrorEff + EffList + DataType + pointofmass + All + ExtTxt;
+		
+
+
+
+		ifstream afile(FromListError.c_str(), std::ios::in);
+
+
+
+
+
+		if (!afile.is_open()) {
+			cout << "There was a problem opening the error input file!" << FromList << endl;
+	   	}
+		else{
+			double num2;
+			while (afile >> num2) {
+				//cout << num << endl;
+        			ErrorEffNotOrdered.push_back(num2);
+			}
+			afile.close();
+			cout << "Error Eff size : " << ErrorEffNotOrdered.size() << endl;
+
+			
+			for(int l = 0; l < AlltriggerNames.size(); l++){
+				cout << actualbinerror << endl;
+				if(l==0){
+					
+					Erry0[actualbinerror] = (ErrorEffNotOrdered[l]*1.0/100);
+
+					cout << "Err x0 and y0 = " << Errx0[actualbinerror] <<  " " << Erry0[actualbinerror] << endl;
+				}
+				if(l==1){
+					
+					Erry1[actualbinerror] = (ErrorEffNotOrdered[l]*1.0/100);
+					cout << "Err x1 and y1 = " << Errx1[actualbinerror] << " " << Erry1[actualbinerror] << endl;
+				}
+
+				if(l==2){
+					
+					Erry2[actualbinerror] = (ErrorEffNotOrdered[l]*1.0/100);
+					cout << "Err x2 and y2 = " << Errx2[actualbinerror] <<" " <<  Erry2[actualbinerror] << endl;
+				}
+
+				if(l==3){
+					
+					
+					Erry3[actualbinerror] = (ErrorEffNotOrdered[l]*1.0/100);
+					cout << "Err x3 and y3 = " << Errx3[actualbinerror] << " " << Erry3[actualbinerror] << endl;
+
+				}
+
+				if(l==4){
+					
+					Erry4[actualbinerror] = (ErrorEffNotOrdered[l]*1.0/100);
+					cout << "Err x4 and y4 = " << Errx4[actualbinerror] << " " << Erry4[actualbinerror] << endl;
+
+				}
+				if(l==5){	
+					
+					Erry5[actualbinerror] = (ErrorEffNotOrdered[l]*1.0/100);
+					cout << "Err x5 and y5 = " << Errx5[actualbinerror] << " " << Erry5[actualbinerror] << endl;
+				}
+				if(l==6){	
+					
+					Erry6[actualbinerror] = (ErrorEffNotOrdered[l]*1.0/100);
+					cout << "Err x6 and y6 = " << Errx6[actualbinerror] << " " << Erry6[actualbinerror] << endl;
+				}
+				
+			}
+			actualbinerror+=1;
+
+		}
+
+
+
+
 		ifstream ifile(FromList.c_str(), std::ios::in);
 		
 		
@@ -236,7 +318,7 @@ void DrawHist::FitSignalBg(){
 			cout << "AlltriggerNames.size() = " << AlltriggerNames.size() << endl;
 			for(int l = 0; l < AlltriggerNames.size(); l++){
 				if(l==0){
-					Efficiencies2[l] = new TGraph(actualbin, x0,y0);
+					Efficiencies2[l] = new TGraphErrors(actualbin, x0,y0,Errx0,Erry0);
 					
 					Efficiencies2[l]->SetMarkerColor(kRed);
 					Efficiencies2[l]->SetMarkerStyle(23);
@@ -247,7 +329,7 @@ void DrawHist::FitSignalBg(){
 					c111->Update();
 				}
 				if(l==1){
-					Efficiencies2[l] = new TGraph(actualbin, x1,y1);
+					Efficiencies2[l] = new TGraphErrors(actualbin, x1,y1,Errx1,Erry1);
 					Efficiencies2[l]->SetMarkerColor(kBlue);
 					Efficiencies2[l]->SetMarkerStyle(24);
 					Efficiencies2[l]->SetMarkerSize(1);
@@ -257,7 +339,7 @@ void DrawHist::FitSignalBg(){
 					c111->Update();
 				}
 				if(l==2){
-					Efficiencies2[l] = new TGraph(actualbin, x2,y2);
+					Efficiencies2[l] = new TGraphErrors(actualbin, x2,y2,Errx2,Erry2);
 					Efficiencies2[l]->SetMarkerColor(kOrange);
 
 					Efficiencies2[l]->SetLineColor(kOrange);
@@ -270,7 +352,7 @@ void DrawHist::FitSignalBg(){
 					c111->Update();
 				}
 				if(l==3){
-					Efficiencies2[l] = new TGraph(actualbin,x3,y3);
+					Efficiencies2[l] = new TGraphErrors(actualbin,x3,y3,Errx3,Erry3);
 					Efficiencies2[l]->SetMarkerColor(kBlack);
 					Efficiencies2[l]->SetMarkerStyle(20);
 					Efficiencies2[l]->SetMarkerSize(1);
@@ -280,7 +362,7 @@ void DrawHist::FitSignalBg(){
 					c111->Update();
 				}	
 				if(l==4){
-					Efficiencies2[l] = new TGraph(actualbin, x4,y4);
+					Efficiencies2[l] = new TGraphErrors(actualbin, x4,y4,Errx4,Erry4);
 					Efficiencies2[l]->SetMarkerColor(30);
 					Efficiencies2[l]->SetMarkerStyle(21);
 					Efficiencies2[l]->SetMarkerSize(1);
@@ -290,7 +372,7 @@ void DrawHist::FitSignalBg(){
 					c111->Update();
 				}
 				if(l==5){
-					Efficiencies2[l] = new TGraph(actualbin, x5,y5);
+					Efficiencies2[l] = new TGraphErrors(actualbin, x5,y5,Errx5,Erry5);
 					Efficiencies2[l]->SetMarkerColor(kMagenta);
 					Efficiencies2[l]->SetMarkerStyle(33);
 					Efficiencies2[l]->SetMarkerSize(1);
@@ -301,7 +383,7 @@ void DrawHist::FitSignalBg(){
 				}
 				if(l==6){
 					cout << "We are in case l == 6" << endl;
-					Efficiencies2[l] = new TGraph(actualbin, x6,y6);
+					Efficiencies2[l] = new TGraphErrors(actualbin, x6,y6,Errx6,Erry6);
 					Efficiencies2[l]->SetMarkerColor(kBlack);
 					Efficiencies2[l]->SetMarkerStyle(35);
 					Efficiencies2[l]->SetMarkerSize(1);

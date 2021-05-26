@@ -62,7 +62,8 @@ void AnaEff::Loop()
 	
 	string TransferTxt="AllInfos",TransferEff = "Eff",TransferZ = "EntriesFromZ",TransferW = "EntriesFromW";
 	
-
+	string ErrorEffTransfer = "Error";
+	
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
@@ -74,6 +75,8 @@ void AnaEff::Loop()
 	//string NameCompleteList = "CompleteListTest.txt";
 
 	string NameListEff = TransferEff + DataType + ExtTxt;
+	string ErrorEffTriggers = ErrorEffTransfer + TransferEff + DataType + SubNum + ExtTxt;
+
 	string NameCompleteList = NameList + DataType + ExtTxt; // + DataType for others
 	
 	string NameListForType = NameCompleteListTest + DataType + ExtTxt;
@@ -107,24 +110,7 @@ void AnaEff::Loop()
 	}
 	cout << triggerNames.size() << endl;
 
-	ofstream TrigPrescaledList;
-	TrigPrescaledList.open(NameCompletePrescaledList);
-
 	
-	/*for(int i = 0; i < triggerNames.size() ; i++){
-
-		//cout << triggerNames[i] << endl;
-		if(passTrigger[i] != 1 ){
-			TrigPrescaledList << triggerNames[i] << " has prescale = " << passTrigger[i] << endl;
-		}
-		else{
-			TrigPrescaledList << triggerNames[i] << " has prescale 1" << endl;
-
-		}
-
-	}*/
-
-	TrigPrescaledList.close();
 	ifile.close();
 
 		
@@ -302,7 +288,7 @@ void AnaEff::Loop()
 
 
 	InfosData.close();
-	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers,EffTriggers);
+	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers,EffTriggers, ErrorEffTriggers);
 
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	cout << "After compute" << endl;

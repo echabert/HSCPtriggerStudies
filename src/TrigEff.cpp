@@ -516,18 +516,24 @@ void TrigEff::PrintEff(){
 }
 
 
-void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers){ // triggersofinterest = EffGluino16001105all.txt
+void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers, string ErrorEffTriggers){ // triggersofinterest = EffGluino16001105all.txt
 	
 	ofstream TriggersOfInterest;
 	ofstream AllTriggers;
 	ofstream EffOnly;
 	ofstream EffAll;
-	
+	ofstream EffOnlyError;
+
 	
 	TriggersOfInterest.open (NameOutputFile.c_str());
 	AllTriggers.open (ListAllTriggers.c_str());
 	EffOnly.open (NameListEff.c_str());
 	EffAll.open (EffTriggers.c_str());
+	EffOnlyError.open (ErrorEffTriggers.c_str());
+
+
+
+
 
 	for (int i = 0; i < Efficiency.size(); i++){
 		EffList.push_back(make_pair(make_pair(Efficiency[i],i), make_pair(EffErr[i],TriggerNames[i])));
@@ -535,7 +541,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string Lis
 
 	for (int i = 0; i < Efficiency.size(); i++){ 
 		EffAll << EffList[i].first.first*100 << endl; //TestNoMap[i].second
-		
+		EffOnlyError << EffList[i].second.first*100 << endl;
 	}
 
 
@@ -573,6 +579,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string Lis
 	TransferVec.clear();
 	TriggersOfInterest.close();
 	EffOnly.close();
+	EffOnlyError.close();
 	EffAll.close();
 }
 
@@ -588,6 +595,23 @@ void TrigEff::PrintDenomEff(){
       		cout << i+1 << " : " << NumEfficiency[i] << " / " << DenomEfficiency[i] << " +/- " << EffErr[i] << endl ;
 	}
 }
+
+
+
+void TrigEff::ComputeErrorLogicalOr(){
+	for ( int i = 0; i < LogicalOr.size(); i++ ){
+   		for ( int j = 0; j < LogicalOr[i].size(); j++ ){
+      			
+   		}
+   	cout << endl;
+	}
+}
+
+
+
+
+
+
 
 void TrigEff::ComputeError(){
 	for(int i=0;i< EffErr.size();i++){
@@ -642,7 +666,7 @@ void TrigEff::FillMass(double INVMASS,int choice){
 	}	
 }
 
-void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTriggers, string EffTriggers){
+void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTriggers, string EffTriggers, string ErrorEffTriggers){
 	
 	ComputeEff();
 	ComputeError();
@@ -651,7 +675,7 @@ void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTr
 	PrintDenomEff();
 	//PrintEff();
 
-	SaveIntTrigs(NameOutputFile,NameListEff,ListAllTriggers,EffTriggers);
+	SaveIntTrigs(NameOutputFile,NameListEff,ListAllTriggers,EffTriggers, ErrorEffTriggers);
 
 	ComputeCorr();
 

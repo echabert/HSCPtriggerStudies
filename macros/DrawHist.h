@@ -46,10 +46,10 @@ class DrawHist
 	vector<int> ValBins;
 	vector <TEfficiency*> EffList2;
 	vector <TEfficiency*> EffListvsObs;
-
+	
 	vector <TH1D*> Efficiencies;
 	vector <TH2F*> hr;
-	vector <TGraph*> Efficiencies2;
+	vector <TGraphErrors*> Efficiencies2;
 	vector <TGraph*> Efficiencies3;
 };
 
