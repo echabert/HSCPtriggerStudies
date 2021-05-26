@@ -80,13 +80,15 @@ void CopyTree::CopyWithSelec(string mode){
 		fs.resize(NameFiles.size());
 		small.resize(NameFiles.size());
 		ntuple.resize(NameFiles.size());
-
+		int nbsubf;
 		string namsmall = "namesmall";
-		int nbsubf = 40,x;
-		float f = ( NameFiles.size() / 40 );
+		cout << "How many files do you want to merge ? " <<endl;
+		cin >> nbsubf ;
+		int x;
+		float f = ( NameFiles.size() / nbsubf );
 		int sizeofsub = (int)f;
 
-		if(NameFiles.size() < 40){
+		if(NameFiles.size() < nbsubf){
 			cout << "There are " << NameFiles.size() << " files, we will merge them all" << endl;
 
 
@@ -126,7 +128,7 @@ void CopyTree::CopyWithSelec(string mode){
 		else {
 			cout << "There are " << f << " subgroups, and " <<  NameFiles.size() - (f*nbsubf) << " files remaining " << endl;
 
-			cout << "Which subgroup of 40 files do you want to study ?" << endl;
+			cout << "Which subgroup of" <<  nbsubf << "  files do you want to study ?" << endl;
 			cin >> x ;
 
 
