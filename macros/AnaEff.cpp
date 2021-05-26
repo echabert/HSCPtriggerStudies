@@ -66,8 +66,8 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino2200";
-	float TheorMass = 2200;
+	string DataType = "Gluino2400";
+	float TheorMass = 2400;
 	string NameCompleteListTest = "ListeInteretTriggers";
 
 	string ListAllTriggers = ListAll + DataType + ExtTxt;
@@ -309,7 +309,7 @@ void AnaEff::Loop()
 	triggerNames.clear();
 	
 	trigEff_selection_obs.WritePlots("",NameOfFile);
-
+	cout << "After WritePlots" << endl;
 	distrib = new TFile(distribvarZ.c_str(),"RECREATE");
 	
 	distrib->cd();
