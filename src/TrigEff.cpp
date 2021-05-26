@@ -33,6 +33,7 @@ TrigEff::TrigEff(){
 	MASS=0;
 	MASSW=0;
 	SOLOM=0;
+	ORTRIGGER=0;
 	/*for(int i=0; i < ListTriggers.size() ; i++){
 		EffvsObs[i]=0;
 	}*/
@@ -80,6 +81,9 @@ TrigEff::~TrigEff(){
 	}
 	if(!CORR){
 		delete CORR;
+	}
+	if(!ORTRIGGER){
+		delete ORTRIGGER;
 	}
 	if(!EFF_DISTRIB){ 
 		delete EFF_DISTRIB;
