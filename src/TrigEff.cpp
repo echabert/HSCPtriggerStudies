@@ -259,7 +259,9 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", TriggerNames.size(),0,TriggerNames.size());
 	CORR = new TH2D("Correlation", "Correlation plot",  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
-	
+	ORTRIGGER = new TH2D("LogicalOr", "LogicalOr", TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size());
+
+
 	MASSW = new TH1D("MASSW" , " Masses invariante des muons enrichi en W" , nbins , 0 , massmax);
 
 	MASS = new TH1D("MASS" , " Masses invariante des muons" , nbins , 0 , massmax);
@@ -278,7 +280,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	EFF_TRIG->Sumw2();
 	EFF_DISTRIB->Sumw2();
 	CORR->Sumw2();
-	
+	ORTRIGGER->Sumw2();
 	if(ErrorType == 1 ){
 	}
 	

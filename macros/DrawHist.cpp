@@ -120,6 +120,7 @@ void DrawHist::FitSignalBg(){
 	TH2F *hr2 = new TH2F("hr2","Efficiency of triggers for gluino",800,1400,2600,100,0,1);
 	hr2->SetXTitle("HSCP Mass [GeV]");
 	hr2->SetYTitle("#epsilon");
+	hr2->SetStats(kFALSE);
 	hr2->Draw();
 
 	c111->GetFrame()->SetBorderSize(12);
@@ -139,7 +140,7 @@ void DrawHist::FitSignalBg(){
 
 
 
-	int kmin = 1600,kmax=2600,kincre = 200, nbkbin = (kmax-kmin)/kincre;
+	int kmin = 1600,kmax=2600,kincre = 200;
 		
 	int n1 = ((kmax-kmin)/kincre)+1 ;
 	double x0[n1],y0[n1],x1[n1],y1[n1],x2[n1],y2[n1],x3[n1],y3[n1],x4[n1],y4[n1],x5[n1],y5[n1],x6[n1],y6[n1];
@@ -157,6 +158,7 @@ void DrawHist::FitSignalBg(){
 		string PathPom = Path + DataPom;
 		
 		string FromList = Path + EffList + DataType + pointofmass + All + ExtTxt;
+
 		cout << FromList << endl;
 		ifstream ifile(FromList.c_str(), std::ios::in);
 		
@@ -227,8 +229,8 @@ void DrawHist::FitSignalBg(){
 		EffNotOrdered.clear();
 	}
 
-			TLegend* leg9 = new TLegend(0.7,0.8,0.5,0.6);
-
+			TLegend* leg9 = new TLegend(0.9,0.85,0.5,0.6);
+			
 			OutputHisto2->cd();
 			c111->cd();
 			cout << "AlltriggerNames.size() = " << AlltriggerNames.size() << endl;
@@ -279,7 +281,7 @@ void DrawHist::FitSignalBg(){
 				}	
 				if(l==4){
 					Efficiencies2[l] = new TGraph(actualbin, x4,y4);
-					Efficiencies2[l]->SetMarkerColor(kGreen);
+					Efficiencies2[l]->SetMarkerColor(30);
 					Efficiencies2[l]->SetMarkerStyle(21);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
@@ -311,6 +313,25 @@ void DrawHist::FitSignalBg(){
 
 
 			}
+		x1[n1] = {0};
+		y1[n1] = {0};
+
+		x2[n1] = {0};
+		y2[n1] = {0};
+		
+		x3[n1] = {0};
+		y3[n1] = {0};
+
+		x4[n1] = {0};
+		y4[n1] = {0};
+
+		x5[n1] = {0};
+		y5[n1] = {0};
+
+		x6[n1] = {0};
+		y6[n1] = {0};
+
+
 
 		leg9->Draw();
 			
@@ -329,9 +350,7 @@ void DrawHist::FitSignalBg(){
 		x5.clear();
 		y5.clear();*/
 	
-	for(int l = 0; l < 2; l++){
-		cout << x0[l] << " , " << y0[l] << " // " << x1[l] << " , " << y1[l] << "//" << x2[l] << " , " << y2[l] << "//" << x3[l] << " , " << y3[l] << "//" << x4[l] << " , " << y4[l] << "//" << x5[l] << " , " << y5[l] << endl;
-	}
+	
 
 
 	c111->Write();
