@@ -40,8 +40,6 @@ CopyTree::~CopyTree(){
 
 
 
-/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/HSCPgluino_M-2000_TuneCP5_13TeV-pythia8/MC_MK_Gluino2000/210525_090629/0000/
-
 // /opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/HSCPgluinoonlyneutral_M-2600_TuneCP5_13TeV-pythia8/MC17_Gluino2600_onlyneutral/210518_143843/0000
 
 
