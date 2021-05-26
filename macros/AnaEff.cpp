@@ -66,8 +66,8 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino2000";
-	float TheorMass = 2000;
+	string DataType = "Gluino2200";
+	float TheorMass = 2200;
 	string NameCompleteListTest = "ListeInteretTriggers";
 
 	string ListAllTriggers = ListAll + DataType + ExtTxt;
@@ -305,7 +305,7 @@ void AnaEff::Loop()
 	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers,EffTriggers);
 
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
-	
+	cout << "After compute" << endl;
 	triggerNames.clear();
 	
 	trigEff_selection_obs.WritePlots("",NameOfFile);
@@ -323,6 +323,7 @@ void AnaEff::Loop()
 	DISTRIB_IH_IAS->Write();
 	DISTRIB_PT_P->Write();*/
 	distrib->Close();
+	cout << "Program terminated with no logic call out of bound" << endl;
 	//trigEff_presel.WritePlots("");
 
 }

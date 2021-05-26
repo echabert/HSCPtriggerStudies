@@ -59,7 +59,7 @@ void DrawHist::FitSignalBg(){
 	string ExtRoot = ".root";
 	string All = "all";
 	
-	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/";
+	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/Eff/";
 	
 	
 	string OutPutName = Path + Purity + DataType + Date + SubNum + ExtTxt;
@@ -81,7 +81,7 @@ void DrawHist::FitSignalBg(){
 
 	string NameCompleteListSingleMuon = NameList + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + Mass + ExtTxt;
-	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/" + CompleteNameListInterest;
+	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/Eff/" + CompleteNameListInterest;
 	
 
 	vector<string> AlltriggerNames;
@@ -90,18 +90,22 @@ void DrawHist::FitSignalBg(){
 	
 	
 	
-	cout << CompleteNameListInterest << endl;
+	cout << PathEffFile << endl;
 	ifstream EfficiencyFile(PathEffFile.c_str());
 	
-	if(!EfficiencyFile)
+	if(!EfficiencyFile){
 		cout  << " cannot open file"  << endl;
+	}
+
 	string tmpp;
 
 	while(std::getline(EfficiencyFile,tmpp)){
 		AlltriggerNames.push_back(tmpp);
+		cout  << tmpp  << endl;
 	}
+
 	EfficiencyFile.close();
-	cout << "size : " <<AlltriggerNames.size() << endl;
+	cout << "size : " << AlltriggerNames.size() << endl;
 
 
 	outputfilename2=Path + "HIST_" + EffList + DataType + ExtRoot;
@@ -167,7 +171,7 @@ void DrawHist::FitSignalBg(){
 				//cout << num << endl;
         			EffNotOrdered.push_back(num);
 			}
-	
+			ifile.close();
 			cout << " Eff size : " << EffNotOrdered.size() << endl;
 
 			
@@ -205,7 +209,6 @@ void DrawHist::FitSignalBg(){
 					cout << "x4 and y4 = " << x4[actualbin] << " " << y4[actualbin] << endl;
 
 				}
-
 				if(l==5){	
 					x5[actualbin] = k;
 					y5[actualbin] = (EffNotOrdered[l]*1.0/100);
@@ -217,7 +220,6 @@ void DrawHist::FitSignalBg(){
 					cout << "x6 and y6 = " << x6[actualbin] << " " << y6[actualbin] << endl;
 				}
 				
-
 			}
 			actualbin+=1;
 			
@@ -225,17 +227,11 @@ void DrawHist::FitSignalBg(){
 		EffNotOrdered.clear();
 	}
 
-
-
-
-
-
-
-
 			TLegend* leg9 = new TLegend(0.7,0.8,0.5,0.6);
 
 			OutputHisto2->cd();
 			c111->cd();
+			cout << "AlltriggerNames.size() = " << AlltriggerNames.size() << endl;
 			for(int l = 0; l < AlltriggerNames.size(); l++){
 				if(l==0){
 					Efficiencies2[l] = new TGraph(actualbin, x0,y0);
@@ -273,7 +269,7 @@ void DrawHist::FitSignalBg(){
 				}
 				if(l==3){
 					Efficiencies2[l] = new TGraph(actualbin,x3,y3);
-					Efficiencies2[l]->SetMarkerColor(kYellow);
+					Efficiencies2[l]->SetMarkerColor(kBlack);
 					Efficiencies2[l]->SetMarkerStyle(20);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
@@ -302,9 +298,10 @@ void DrawHist::FitSignalBg(){
 					c111->Update();
 				}
 				if(l==6){
+					cout << "We are in case l == 6" << endl;
 					Efficiencies2[l] = new TGraph(actualbin, x6,y6);
 					Efficiencies2[l]->SetMarkerColor(kBlack);
-					Efficiencies2[l]->SetMarkerStyle(34);
+					Efficiencies2[l]->SetMarkerStyle(35);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16", "p");
