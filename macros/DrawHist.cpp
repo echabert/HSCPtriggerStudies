@@ -15,6 +15,7 @@
 #include <TGraph.h>
 #include <TMultiGraph.h>
 #include <TLegendEntry.h>
+#include <TFrame.h>
 using namespace std; 
 
 DrawHist::DrawHist(){
@@ -124,32 +125,60 @@ void DrawHist::FitSignalBg(){
 	h->SetCanExtend(TH1::kAllAxes);
 	h->SetStats(0);*/
 	
-	TCanvas *c11 = new TCanvas("c1","c1",200,10,500,300);
+
+	TCanvas *c111 = new TCanvas("c111","c111",200,10,700,500);
+	//c111->SetFillColor(42);
+	c111->SetTitle("Efficiencies depending on mass");
+
+	TH2F *hr2 = new TH2F("hr2","Several graphs in the same pad",2,-0.4,1.2,2,0,12);
+	hr2->SetXTitle("Mass [GeV]");
+	hr2->SetYTitle("Efficiency");
+	hr2->Draw();
+	//c111->GetFrame()->SetFillColor(21);
+	c111->GetFrame()->SetBorderSize(12);
+
+
+
+	hr.resize(AlltriggerNames.size());
+	/*for(int l = 0; l < AlltriggerNames.size(); l++){
+		hr[l] = new TH2F;
+		hr[l]->SetTitle(AlltriggerNames[l].c_str());
+		hr[l]->SetXTitle("Mass [GeV]");
+		hr[l]->SetYTitle("Efficiency (%)");
+		hr[l]->SetName(AlltriggerNames[l].c_str());
+		hr[l]->Draw();
+	}	*/
 	
-	c11->Divide(2,3);
-	//c11->Write();
+
+
+
+	
+
+	int n1=2;
+	double x0[n1];
+	double y0[n1];
+
+	double x1[n1];
+	double y1[n1];
+
+	double x2[n1];
+	double y2[n1];
+
+	double x3[n1];
+	double y3[n1];
+
+	double x4[n1];
+	double y4[n1];
+
+	double x5[n1];
+	double y5[n1];
+
 
 	Efficiencies2.resize(AlltriggerNames.size());
-
-	for(int l = 0; l < AlltriggerNames.size(); l++){
-		Efficiencies2[l] = new TGraph();
-		Efficiencies2[l]->SetTitle(AlltriggerNames[l].c_str());
-		
-		Efficiencies2[l]->GetHistogram()->GetXaxis()->SetTitle("Mass [GeV]");
-		Efficiencies2[l]->GetHistogram()->GetYaxis()->SetTitle("Efficiency [%]");
-		Efficiencies2[l]->SetName(AlltriggerNames[l].c_str());
-
-	}
-
-	Efficiencies.resize(AlltriggerNames.size());
 	
-	Efficiencies3.resize(6);
-	int BinCt = 0;
-	int counter=1;
-	for(int k = 1600; k <= 2600 ; k+=200){
+	for(int k = 1600; k <= 2000 ; k+=400){
 		vector<double> EffNotOrdered;
-		//EffNotOrdered.resize(AlltriggerNames.size());
-		
+		int actualbin = 0;
 		pointofmass = to_string(k);
 		string DataPom = DataType + pointofmass + Date + ExtRoot;
 		string PathPom = Path + DataPom;
@@ -171,69 +200,126 @@ void DrawHist::FitSignalBg(){
 			}
 	
 			cout << " Eff size : " << EffNotOrdered.size() << endl;
-			//myFileEff = new TFile(PathPom.c_str());
-			
-	
-			
 
-
+			
 			for(int l = 0; l < AlltriggerNames.size(); l++){
-				//Efficiencies[l] = new TH1D(AlltriggerNames[l].c_str(), AlltriggerNames[l].c_str(), 1200,1400,2600);
-				//cout << "eff : " <<EffNotOrdered[l] << endl;
-				//Efficiencies[l]->SetBinContent(BinCt,EffNotOrdered[l]);
-				cout << counter << " ," << k << " ," << EffNotOrdered[l]*1.0/100 <<  endl;
-				Efficiencies2[l]->SetPoint(counter,k,EffNotOrdered[l]*1.0/100);
-				
+				if(l==0){
+					x0[actualbin] = k;
+					y0[actualbin] = (EffNotOrdered[l]*1.0/100);
+
+					cout <<
+				}
+				if(l==1){
+					x1[actualbin] = k;
+					y1[actualbin] = (EffNotOrdered[l]*1.0/100);
+				}
+
+				if(l==2){
+					x2[actualbin] = k;
+					y2[actualbin] = (EffNotOrdered[l]*1.0/100);
+				}
+
+				if(l==3){
+					
+					x3[actualbin] = k;
+					y3[actualbin] = (EffNotOrdered[l]*1.0/100);
+
+				}
+
+				if(l==4){
+					x4[actualbin] = k;
+					y4[actualbin] = (EffNotOrdered[l]*1.0/100);
+
+				}
+
+				if(l==5){	
+					x5[actualbin] = k;
+					y5[actualbin] = (EffNotOrdered[l]*1.0/100);
+				}
+
+				actualbin+=1;
+
 			}
-			counter+=1;
+			OutputHisto2->cd();
+			c111->cd();
+			for(int l = 0; l < AlltriggerNames.size(); l++){
+				if(l==0){
+					Efficiencies2[l] = new TGraph(AlltriggerNames[l].size(), x0,y0);
+					
+					Efficiencies2[l]->SetMarkerColor(kRed);
+					Efficiencies2[l]->SetMarkerStyle(23);
+					Efficiencies2[l]->Draw("AC*");
+					c111->Modified();
+					c111->Update();
+				}
+				if(l==1){
+					Efficiencies2[l] = new TGraph(AlltriggerNames[l].size(), x1,y1);
+					Efficiencies2[l]->SetMarkerColor(kBlue);
+					Efficiencies2[l]->SetMarkerStyle(24);
+					Efficiencies2[l]->Draw("AC*");
+					c111->Modified();
+					c111->Update();
+				}
+				if(l==2){
+					Efficiencies2[l] = new TGraph(AlltriggerNames[l].size(), x2,y2);
+					Efficiencies2[l]->SetMarkerColor(kOrange);
+					Efficiencies2[l]->SetMarkerStyle(22);
+					Efficiencies2[l]->Draw("AC*");
+					c111->Modified();
+					c111->Update();
+				}
+				if(l==3){
+					Efficiencies2[l] = new TGraph(AlltriggerNames[l].size(), x3,y3);
+					Efficiencies2[l]->SetMarkerColor(kYellow);
+					Efficiencies2[l]->SetMarkerStyle(20);
+					Efficiencies2[l]->Draw("AC*");
+					c111->Modified();
+					c111->Update();
+				}	
+				if(l==4){
+					Efficiencies2[l] = new TGraph(AlltriggerNames[l].size(), x4,y4);
+					Efficiencies2[l]->SetMarkerColor(kGreen);
+					Efficiencies2[l]->SetMarkerStyle(21);
+					Efficiencies2[l]->Draw("AC*");
+					c111->Modified();
+					c111->Update();
+				}
+				if(l==5){
+					Efficiencies2[l] = new TGraph(AlltriggerNames.size(), x5,y5);
+					Efficiencies2[l]->SetMarkerColor(kMagenta);
+					Efficiencies2[l]->SetMarkerStyle(33);
+					Efficiencies2[l]->Draw("AC*");
+					c111->Modified();
+					c111->Update();
+				}
+
+			}
+
+	
 			EffNotOrdered.clear();
-			BinCt +=200;
+			
 		}
-	
+		/*x0.clear();
+		y0.clear();
+		x1.clear();
+		y1.clear();
+		x2.clear();
+		y2.clear();
+		x3.clear();
+		y3.clear();
+		x4.clear();
+		y4.clear();
+		x5.clear();
+		y5.clear();*/
 	}
-	
-
-	OutputHisto2->cd();
-	
-	//c11->Write();
-	for(int l = 0; l < Efficiencies2.size(); l++){
-		c11->cd(l+1);
-		
-		//Efficiencies2[l]->Write();
-		Efficiencies2[l]->Draw("");
-		Efficiencies2[l]->SetMarkerSize(3);
-		c11->Modified();
-		c11->Update();
-		//Efficiencies2[l]->Write();
-		Efficiencies2[l]->GetXaxis()->SetRangeUser(1600,2400);
-		
-		Efficiencies2[l]->GetYaxis()->SetRangeUser(0.,1.);
-		
+	for(int l = 0; l < 2; l++){
+		cout << x0[l] << " , " << y0[l] << " // " << x1[l] << " , " << y1[l] << "//" << x2[l] << " , " << y2[l] << "//" << x3[l] << " , " << y3[l] << "//" << x4[l] << " , " << y4[l] << "//" << x5[l] << " , " << y5[l] << endl;
 	}
 
-	c11->Write();
-	/*auto mh = new TMultiGraph();
 
-	for(int l = 0; l < Efficiencies2.size(); l++){
-		mh->Add(Efficiencies2[l]);
-	}
-	mh->Draw("AP");*/
+	c111->Write();
 	
 	OutputHisto2->Close();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	TString filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/SingleMuon/SingleMuon1105all.root";  ///home/raph/CMS/HSCPtriggerStudies/data/MergedMET/Cuts3/64-00.root
 	
 	

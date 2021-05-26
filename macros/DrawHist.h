@@ -48,6 +48,7 @@ class DrawHist
 	vector <TEfficiency*> EffListvsObs;
 
 	vector <TH1D*> Efficiencies;
+	vector <TH2F*> hr;
 	vector <TGraph*> Efficiencies2;
 	vector <TGraph*> Efficiencies3;
 };

@@ -161,13 +161,13 @@ void ListNameTriggers::FindAllNames(){
 			}
 
 			//bool rv[InfosTriggers.size()] = { 0 } ;
-			for(int j = 0 ; j < InfoTriggers.size() ; j++){
+			/*for(int j = 0 ; j < InfoTriggers.size() ; j++){
 				int s = ListNameTriggersReverse(InfoTriggers[j].first);
 				if(s==9999){
 					InfoTriggers[j] = make_pair(triggerName->at(j),make_pair(false,false));
 				}
 
-			}
+			}*/
 					
 
 	
