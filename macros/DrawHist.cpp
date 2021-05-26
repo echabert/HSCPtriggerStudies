@@ -102,39 +102,22 @@ void DrawHist::FitSignalBg(){
 	}
 	EfficiencyFile.close();
 	cout << "size : " <<AlltriggerNames.size() << endl;
-	
 
-	//HIST_MASSES->SetMarkerColor(1);
 
-	
-	//Test efficiency fct mass
 	outputfilename2=Path + "HIST_" + EffList + DataType + ExtRoot;
-	//outputfilename2="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/HIST_EffGluino.root";
+
 	
 	OutputHisto2 = new TFile(outputfilename2,"RECREATE");
-	
-	//auto mg = new TMultiGraph();
-
-	/*const char *nameTrig[nt] = {"HLT_IsoMu20_v12", "HLT_PFHT180_v13", "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "HLT_PFMET110_PFMHT110_IDTight_v16", "HLT_Mu8_v10","HLT_MonoCentralPFJet80_PFMETNoMu110_PFMHTNoMu110_IDTight_v16"};
-
-
-	TCanvas *c1 = new TCanvas("c1","demo bin labels",10,10,600,600);
-	c1->SetLeftMargin(0.15);
-	c1->SetBottomMargin(0.15);
-	TH2F *h = new TH2F("h","test",3,0,3,2,0,2);
-	h->SetCanExtend(TH1::kAllAxes);
-	h->SetStats(0);*/
-	
 
 	TCanvas *c111 = new TCanvas("c111","c111",200,10,700,500);
 	//c111->SetFillColor(42);
 	c111->SetTitle("Efficiencies depending on mass");
 
-	TH2F *hr2 = new TH2F("hr2","Several graphs in the same pad",2,-0.4,1.2,2,0,12);
-	hr2->SetXTitle("Mass [GeV]");
-	hr2->SetYTitle("Efficiency");
+	TH2F *hr2 = new TH2F("hr2","Efficiency of triggers for gluino",800,1400,2600,100,0,1);
+	hr2->SetXTitle("HSCP Mass [GeV]");
+	hr2->SetYTitle("#epsilon");
 	hr2->Draw();
-	//c111->GetFrame()->SetFillColor(21);
+
 	c111->GetFrame()->SetBorderSize(12);
 
 
@@ -152,7 +135,8 @@ void DrawHist::FitSignalBg(){
 
 
 
-	
+	int kmin = 1600,kmax=2000,kincre = 400, nbkbin = (kmax-kmin)/kincre;
+		
 
 	int n1=2;
 	double x0[n1];
@@ -175,10 +159,14 @@ void DrawHist::FitSignalBg(){
 
 
 	Efficiencies2.resize(AlltriggerNames.size());
-	
-	for(int k = 1600; k <= 2000 ; k+=400){
+	int actualbin = 0;
+	for(int k = 1600; k <= 2600 ; k+=200){
 		vector<double> EffNotOrdered;
-		int actualbin = 0;
+		
+
+
+
+
 		pointofmass = to_string(k);
 		string DataPom = DataType + pointofmass + Date + ExtRoot;
 		string PathPom = Path + DataPom;
@@ -203,102 +191,131 @@ void DrawHist::FitSignalBg(){
 
 			
 			for(int l = 0; l < AlltriggerNames.size(); l++){
+				cout << actualbin << endl;
 				if(l==0){
 					x0[actualbin] = k;
 					y0[actualbin] = (EffNotOrdered[l]*1.0/100);
 
-					cout <<
+					cout << "x0 and y0 = " << x0[actualbin] <<  " " << y0[actualbin] << endl;
 				}
 				if(l==1){
 					x1[actualbin] = k;
 					y1[actualbin] = (EffNotOrdered[l]*1.0/100);
+					cout << "x1 and y1 = " << x1[actualbin] << " " << y1[actualbin] << endl;
 				}
 
 				if(l==2){
 					x2[actualbin] = k;
 					y2[actualbin] = (EffNotOrdered[l]*1.0/100);
+					cout << "x2 and y2 = " << x2[actualbin] <<" " <<  y2[actualbin] << endl;
 				}
 
 				if(l==3){
 					
 					x3[actualbin] = k;
 					y3[actualbin] = (EffNotOrdered[l]*1.0/100);
+					cout << "x3 and y3 = " << x3[actualbin] << " " << y3[actualbin] << endl;
 
 				}
 
 				if(l==4){
 					x4[actualbin] = k;
 					y4[actualbin] = (EffNotOrdered[l]*1.0/100);
+					cout << "x4 and y4 = " << x4[actualbin] << " " << y4[actualbin] << endl;
 
 				}
 
 				if(l==5){	
 					x5[actualbin] = k;
 					y5[actualbin] = (EffNotOrdered[l]*1.0/100);
+					cout << "x5 and y5 = " << x5[actualbin] << " " << y5[actualbin] << endl;
 				}
 
-				actualbin+=1;
+				
 
 			}
+			actualbin+=1;
+			
+		}
+		EffNotOrdered.clear();
+	}
+
+			TLegend* leg9 = new TLegend(0.7,0.8,0.5,0.6);
+
 			OutputHisto2->cd();
 			c111->cd();
 			for(int l = 0; l < AlltriggerNames.size(); l++){
 				if(l==0){
-					Efficiencies2[l] = new TGraph(AlltriggerNames[l].size(), x0,y0);
+					Efficiencies2[l] = new TGraph(actualbin, x0,y0);
 					
 					Efficiencies2[l]->SetMarkerColor(kRed);
 					Efficiencies2[l]->SetMarkerStyle(23);
-					Efficiencies2[l]->Draw("AC*");
+					Efficiencies2[l]->SetMarkerSize(1);
+					Efficiencies2[l]->Draw("P");
+					leg9->AddEntry(Efficiencies2[l], "first trig", "p");
 					c111->Modified();
 					c111->Update();
 				}
 				if(l==1){
-					Efficiencies2[l] = new TGraph(AlltriggerNames[l].size(), x1,y1);
+					Efficiencies2[l] = new TGraph(actualbin, x1,y1);
 					Efficiencies2[l]->SetMarkerColor(kBlue);
 					Efficiencies2[l]->SetMarkerStyle(24);
-					Efficiencies2[l]->Draw("AC*");
+					Efficiencies2[l]->SetMarkerSize(1);
+					Efficiencies2[l]->Draw("P");
+					leg9->AddEntry(Efficiencies2[l], "second trig", "p");
 					c111->Modified();
 					c111->Update();
 				}
 				if(l==2){
-					Efficiencies2[l] = new TGraph(AlltriggerNames[l].size(), x2,y2);
+					Efficiencies2[l] = new TGraph(actualbin, x2,y2);
 					Efficiencies2[l]->SetMarkerColor(kOrange);
+
+					Efficiencies2[l]->SetLineColor(kOrange);
+
 					Efficiencies2[l]->SetMarkerStyle(22);
-					Efficiencies2[l]->Draw("AC*");
+					Efficiencies2[l]->SetMarkerSize(1);
+					Efficiencies2[l]->Draw("P");
+					leg9->AddEntry(Efficiencies2[l], "third trig", "p");
 					c111->Modified();
 					c111->Update();
 				}
 				if(l==3){
-					Efficiencies2[l] = new TGraph(AlltriggerNames[l].size(), x3,y3);
+					Efficiencies2[l] = new TGraph(actualbin,x3,y3);
 					Efficiencies2[l]->SetMarkerColor(kYellow);
 					Efficiencies2[l]->SetMarkerStyle(20);
-					Efficiencies2[l]->Draw("AC*");
+					Efficiencies2[l]->SetMarkerSize(1);
+					Efficiencies2[l]->Draw("P");
+					leg9->AddEntry(Efficiencies2[l], "fourth trig", "p");
 					c111->Modified();
 					c111->Update();
 				}	
 				if(l==4){
-					Efficiencies2[l] = new TGraph(AlltriggerNames[l].size(), x4,y4);
+					Efficiencies2[l] = new TGraph(actualbin, x4,y4);
 					Efficiencies2[l]->SetMarkerColor(kGreen);
 					Efficiencies2[l]->SetMarkerStyle(21);
-					Efficiencies2[l]->Draw("AC*");
+					Efficiencies2[l]->SetMarkerSize(1);
+					Efficiencies2[l]->Draw("P");
+					leg9->AddEntry(Efficiencies2[l], "fifth trig", "p");
 					c111->Modified();
 					c111->Update();
 				}
 				if(l==5){
-					Efficiencies2[l] = new TGraph(AlltriggerNames.size(), x5,y5);
+					Efficiencies2[l] = new TGraph(actualbin, x5,y5);
 					Efficiencies2[l]->SetMarkerColor(kMagenta);
 					Efficiencies2[l]->SetMarkerStyle(33);
-					Efficiencies2[l]->Draw("AC*");
+					Efficiencies2[l]->SetMarkerSize(1);
+					Efficiencies2[l]->Draw("P");
+					leg9->AddEntry(Efficiencies2[l], "sixth trig", "p");
 					c111->Modified();
 					c111->Update();
 				}
 
 			}
 
-	
-			EffNotOrdered.clear();
+		leg9->Draw();
 			
-		}
+			
+		
 		/*x0.clear();
 		y0.clear();
 		x1.clear();
@@ -311,7 +328,7 @@ void DrawHist::FitSignalBg(){
 		y4.clear();
 		x5.clear();
 		y5.clear();*/
-	}
+	
 	for(int l = 0; l < 2; l++){
 		cout << x0[l] << " , " << y0[l] << " // " << x1[l] << " , " << y1[l] << "//" << x2[l] << " , " << y2[l] << "//" << x3[l] << " , " << y3[l] << "//" << x4[l] << " , " << y4[l] << "//" << x5[l] << " , " << y5[l] << endl;
 	}
