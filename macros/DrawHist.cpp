@@ -138,7 +138,7 @@ void DrawHist::FitSignalBg(){
 	int kmin = 1600,kmax=2600,kincre = 200, nbkbin = (kmax-kmin)/kincre;
 		
 	int n1 = ((kmax-kmin)/kincre)+1 ;
-	double x0[n1],y0[n1],x1[n1],y1[n1],x2[n1],y2[n1],x3[n1],y3[n1],x4[n1],y4[n1],x5[n1],y5[n1];
+	double x0[n1],y0[n1],x1[n1],y1[n1],x2[n1],y2[n1],x3[n1],y3[n1],x4[n1],y4[n1],x5[n1],y5[n1],x6[n1],y6[n1];
 
 
 	Efficiencies2.resize(AlltriggerNames.size());
@@ -211,7 +211,11 @@ void DrawHist::FitSignalBg(){
 					y5[actualbin] = (EffNotOrdered[l]*1.0/100);
 					cout << "x5 and y5 = " << x5[actualbin] << " " << y5[actualbin] << endl;
 				}
-
+				if(l==6){	
+					x6[actualbin] = k;
+					y6[actualbin] = (EffNotOrdered[l]*1.0/100);
+					cout << "x6 and y6 = " << x6[actualbin] << " " << y6[actualbin] << endl;
+				}
 				
 
 			}
@@ -220,6 +224,13 @@ void DrawHist::FitSignalBg(){
 		}
 		EffNotOrdered.clear();
 	}
+
+
+
+
+
+
+
 
 			TLegend* leg9 = new TLegend(0.7,0.8,0.5,0.6);
 
@@ -233,7 +244,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(23);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "first trig", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_Mu50_v11", "p");
 					c111->Modified();
 					c111->Update();
 				}
@@ -243,7 +254,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(24);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "second trig", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_IsoMu20_v12", "p");
 					c111->Modified();
 					c111->Update();
 				}
@@ -256,7 +267,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(22);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "third trig", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT1050_v14", "p");
 					c111->Modified();
 					c111->Update();
 				}
@@ -266,7 +277,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(20);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "fourth trig", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "p");
 					c111->Modified();
 					c111->Update();
 				}	
@@ -276,7 +287,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(21);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "fifth trig", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_PFMET120_PFMHT120_IDTight_v16", "p");
 					c111->Modified();
 					c111->Update();
 				}
@@ -286,10 +297,21 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(33);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "sixth trig", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_CaloMET70_HBHECleaned_v3", "p");
 					c111->Modified();
 					c111->Update();
 				}
+				if(l==6){
+					Efficiencies2[l] = new TGraph(actualbin, x6,y6);
+					Efficiencies2[l]->SetMarkerColor(kBlack);
+					Efficiencies2[l]->SetMarkerStyle(34);
+					Efficiencies2[l]->SetMarkerSize(1);
+					Efficiencies2[l]->Draw("P");
+					leg9->AddEntry(Efficiencies2[l], "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16", "p");
+					c111->Modified();
+					c111->Update();
+				}
+
 
 			}
 

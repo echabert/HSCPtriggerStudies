@@ -55,7 +55,7 @@ void CopyTree::CopyWithSelec(string mode){
 	// /opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/HSCPppstau_M-494_TuneZ2star_13TeV-pythia6/MC17_Stau494/210510_161454/0000/
 	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/HSCPgluino_M_1800_TuneCP5_14TeV_pythia8/MC_MK_Gluino1800/210525_090551/0000/");
 	string ext(".root");
-	
+	string pathNameSmall("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/HSCPgluino_M_1800_TuneCP5_14TeV_pythia8/MC_MK_Gluino1800/210525_090551/0000/Gluino/");
 	Long64_t sumentries=0,smallsumentries=0;
 	if(mode=="norm"){
 		DIR *dir;
@@ -96,7 +96,7 @@ void CopyTree::CopyWithSelec(string mode){
 				
 				
 				string s = to_string(j);
-				string transfer = namsmall + s + ext;
+				string transfer = "/Gluino/" + namsmall + s + ext;
 				namesmall.push_back(transfer);
 				string transfer2 = path + NameFiles[j];
 				pathfile.push_back(transfer2);
@@ -128,7 +128,7 @@ void CopyTree::CopyWithSelec(string mode){
 		else {
 			cout << "There are " << f << " subgroups, and " <<  NameFiles.size() - (f*nbsubf) << " files remaining " << endl;
 
-			cout << "Which subgroup of" <<  nbsubf << "  files do you want to study ?" << endl;
+			cout << "Which subgroup of " <<  nbsubf << "  files do you want to study ?" << endl;
 			cin >> x ;
 
 
@@ -139,7 +139,7 @@ void CopyTree::CopyWithSelec(string mode){
 			else{
 				for(int j = (x-1)*nbsubf; j < x*nbsubf ; j++){
 					string s = to_string(j);
-					string transfer = namsmall + s + ext;
+					string transfer = "/Gluino/"  + namsmall + s + ext;
 					namesmall.push_back(transfer);
 					string transfer2 = path + NameFiles[j];
 					pathfile.push_back(transfer2);

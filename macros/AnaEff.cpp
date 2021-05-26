@@ -97,7 +97,7 @@ void AnaEff::Loop()
 
 	while(getline(ifile,tmp)){
    		triggerNames.push_back(tmp);
-		if(strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s1.c_str()) || strstr(tmp.c_str(),s5.c_str()) ||  strstr(tmp.c_str(),s7.c_str()) ||  strstr(tmp.c_str(),s8.c_str())){
+		if(strstr(tmp.c_str(),s1.c_str()) || strstr(tmp.c_str(),s2.c_str()) || strstr(tmp.c_str(),s5.c_str()) ||  strstr(tmp.c_str(),s7.c_str()) ||  strstr(tmp.c_str(),s8.c_str())){
 			SubListMET.push_back(tmp);
 		}
 		if(strstr(tmp.c_str(),s4.c_str())){
