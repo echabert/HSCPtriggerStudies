@@ -241,19 +241,25 @@ void AnaEff::Loop()
 			if(trignull==ntrigger){
 				nbwrong+=1;
 			}
+			bool ismissing = false;
 			for(int p = 0; p < ntrigger; p++){
 				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
 				if(iter == triggerNames.end()){
-					cout << " one trigger not found in list ?" << endl;
+					//cout << " one trigger not found in list ?" << endl;
 				}
 				else{
+					ismissing = true;
 					auto pos = std::distance(triggerNames.begin(), iter);
 					PosPass.push_back(make_pair(pos,vtrigger[p])); // [pos] ?
 					//cout << "found trigger " << p << " ( " << triggerName->at(p) << " ) " << " in position" << pos << " inside CompleteList" << endl;
 				}
 				
 			}
-			
+			if (ismissing == false){
+				cout << " one trigger not found in list ?" << endl;
+			}
+
+
 			passedevent+=1;
 			//cout << "Before fill" << endl;
 			trigEff_selection_obs.FillNoMap2(PosPass,HighestMET,1);
