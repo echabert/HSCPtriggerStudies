@@ -271,7 +271,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	}
 	cout << " TriggerNames size " << TriggerNames.size() << endl;
 
-	string CorrPlot = "Correlation plot ",LogOrPlot = "LogicalOR ", TypeOfData = "Gluino1800"; 
+	string CorrPlot = "Correlation plot ",LogOrPlot = "LogicalOR ", TypeOfData = "Gluino2000"; 
 
 
 
