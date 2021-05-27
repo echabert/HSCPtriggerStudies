@@ -57,6 +57,11 @@ TrigEff::~TrigEff(){
 	NumCorr.clear();
 	DenomCorr.clear();
 
+
+	//EffCorAll.clear();
+	//NumCorAll.clear();
+	//DenomCorAll.clear();
+	//ErrorCorAll.clear();
 	CorrErr.clear();
 
 	Efficiency.clear();
@@ -153,12 +158,19 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	DenomCorr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	Correlation.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0)); 
 	
+	/*NumCorAll.resize(triggerNames.size(), 0.0); 
+	DenomCorAll.resize(triggerNames.size(), 0.0);
+	EffCorAll.resize(triggerNames.size(), 0.0);*/
+
+
 	LogicalOr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	NumLogicalOr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	DenomLogicalOr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 
 	ErrorLogicalOr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
-	
+	//ErrorCorAll.resize(triggerNames.size(), 0.0);
+
+
 	NumEfficiency.resize(triggerNames.size(), 0.0);
 	DenomEfficiency.resize(triggerNames.size(), 0.0);
 	Efficiency.resize(triggerNames.size(), 0.0);
@@ -400,6 +412,19 @@ void TrigEff::FillNoMap2(vector< pair<int, bool > > PosPass, float Obs, double w
 				}
 
 			}
+			int ctt = PosPass.size();
+			bool CorAll = false;
+			DenomCorAll+=1;
+			for(int l = 0; l<PosPass.size(); l++){
+				if(PosPass[l].second){
+					CorAll = true;
+				}
+			}
+			
+			if(CorAll == true){
+				NumCorAll+=1;
+
+			}
 	
 		//}
 	
@@ -518,6 +543,15 @@ void TrigEff::ComputeEff()
 	}
 	
 }
+
+
+
+
+void TrigEff::PrintCorAll(){
+	double EffAllTrigs =( NumCorall *1.0 / DenomCorAll );
+	cout << "Efficiency of ¦¦ of all triggers : " << (EffAllTrigs * 100) << endl;
+}
+
 
 void TrigEff::PrintEff(){
 
@@ -755,6 +789,6 @@ void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTr
 	PrintCorr();
 	ComputeLogicalOr();
 	PrintLogicalOr();
-
+	PrintCorAll();
 }
 

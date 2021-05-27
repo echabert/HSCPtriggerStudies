@@ -93,6 +93,8 @@ public:
 
    void ComputeErrorLogicalOr();
 
+   void PrintCorAll();
+
    // ******************* Plotting ********************************
 
    void SavePlots(); // en png/hist ou whatever
@@ -135,7 +137,10 @@ public:
    
 
    int ErrorType; // Int that corresponds to a way of calculating the error
-   
+   int DenomCorAll = 0;
+   int NumCorAll = 0;
+   int EffCorAll = 0;
+   int ErrorCorAll =0;
    string Selection; // The name of the variable we want to study
    
    string NameObs;
@@ -177,6 +182,13 @@ public:
    vector<vector<double> > DenomLogicalOr;
 
    vector<vector<double> > ErrorLogicalOr; 
+
+
+
+
+
+
+
 
 
    vector<vector<double> > Correlation; 
