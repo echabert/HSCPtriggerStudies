@@ -681,15 +681,15 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 
 	for(int j = 1; j <= 7 ;j++ ){
 		ORTRIGGER->GetXaxis()->SetBinLabel(j, trigger[j-1]);
-		ORTRIGGER->GetXaxis()->SetLabelSize(0.35);
+		ORTRIGGER->GetXaxis()->SetLabelSize(0.02);
 
 		ORTRIGGER->GetYaxis()->SetBinLabel(j, trigger[j-1]);
-		ORTRIGGER->GetYaxis()->SetLabelSize(0.35);
+		ORTRIGGER->GetYaxis()->SetLabelSize(0.02);
 
 		CORR->GetXaxis()->SetBinLabel(j, trigger[j-1]);
-		CORR->GetXaxis()->SetLabelSize(0.35);
+		CORR->GetXaxis()->SetLabelSize(0.02);
 		CORR->GetYaxis()->SetBinLabel(j, trigger[j-1]);
-		CORR->GetYaxis()->SetLabelSize(0.35);
+		CORR->GetYaxis()->SetLabelSize(0.02);
 
 	}
 

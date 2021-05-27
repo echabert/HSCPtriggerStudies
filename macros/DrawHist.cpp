@@ -321,7 +321,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x0,y0,Errx0,Erry0);
 					
 					Efficiencies2[l]->SetMarkerColor(kRed);
-					Efficiencies2[l]->SetMarkerStyle(23);
+					Efficiencies2[l]->SetMarkerStyle(20);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l],"HLT_IsoMu20_v12" , "p");
@@ -331,7 +331,7 @@ void DrawHist::FitSignalBg(){
 				if(l==1){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x1,y1,Errx1,Erry1);
 					Efficiencies2[l]->SetMarkerColor(kBlue);
-					Efficiencies2[l]->SetMarkerStyle(24);
+					Efficiencies2[l]->SetMarkerStyle(20);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT1050_v14", "p");
@@ -344,7 +344,7 @@ void DrawHist::FitSignalBg(){
 
 					Efficiencies2[l]->SetLineColor(kOrange);
 
-					Efficiencies2[l]->SetMarkerStyle(22);
+					Efficiencies2[l]->SetMarkerStyle(20);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "p");
@@ -353,7 +353,7 @@ void DrawHist::FitSignalBg(){
 				}
 				if(l==3){
 					Efficiencies2[l] = new TGraphErrors(actualbin,x3,y3,Errx3,Erry3);
-					Efficiencies2[l]->SetMarkerColor(kBlack);
+					Efficiencies2[l]->SetMarkerColor(kViolet);
 					Efficiencies2[l]->SetMarkerStyle(20);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
@@ -364,7 +364,7 @@ void DrawHist::FitSignalBg(){
 				if(l==4){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x4,y4,Errx4,Erry4);
 					Efficiencies2[l]->SetMarkerColor(kBlack);
-					Efficiencies2[l]->SetMarkerStyle(25);
+					Efficiencies2[l]->SetMarkerStyle(20);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_Mu50_v11", "p");
@@ -374,7 +374,7 @@ void DrawHist::FitSignalBg(){
 				if(l==5){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x5,y5,Errx5,Erry5);
 					Efficiencies2[l]->SetMarkerColor(kMagenta);
-					Efficiencies2[l]->SetMarkerStyle(33);
+					Efficiencies2[l]->SetMarkerStyle(20);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16", "p");
