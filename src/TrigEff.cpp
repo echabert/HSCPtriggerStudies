@@ -548,7 +548,7 @@ void TrigEff::ComputeEff()
 
 
 void TrigEff::PrintCorAll(){
-	double EffAllTrigs =( NumCorall *1.0 / DenomCorAll );
+	double EffAllTrigs =( NumCorAll *1.0 / DenomCorAll );
 	cout << "Efficiency of ¦¦ of all triggers : " << (EffAllTrigs * 100) << endl;
 }
 
