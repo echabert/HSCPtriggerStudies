@@ -156,6 +156,8 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	NumLogicalOr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 	DenomLogicalOr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
 
+	ErrorLogicalOr.resize(triggerNames.size(), vector<double>(triggerNames.size(), 0.0));
+	
 	NumEfficiency.resize(triggerNames.size(), 0.0);
 	DenomEfficiency.resize(triggerNames.size(), 0.0);
 	Efficiency.resize(triggerNames.size(), 0.0);
@@ -601,7 +603,13 @@ void TrigEff::PrintDenomEff(){
 void TrigEff::ComputeErrorLogicalOr(){
 	for ( int i = 0; i < LogicalOr.size(); i++ ){
    		for ( int j = 0; j < LogicalOr[i].size(); j++ ){
-      			
+      			if(LogicalOr[i][j] == 0){
+				ErrorLogicalOr[i][j] = 0;
+			}
+			else{
+				ErrorLogicalOr[i][j] = sqrt((LogicalOr[i][j] * (1.0-LogicalOr[i][j]))/DenomLogicalOr[i][j]);
+			
+			}
    		}
    	cout << endl;
 	}
@@ -632,6 +640,8 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	//OutputHisto->mkdir(NameVar.c_str());
 	//OutputHisto->cd(NameVar.c_str());
 
+	char *trigger[7] = {"HLT_Mu50_v11","HLT_IsoMu20_v12", "HLT_PFHT1050_v14", "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "HLT_PFMET120_PFMHT120_IDTight_v16", "HLT_CaloMET70_HBHECleaned_v3", "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16"};
+
 	for(int i=0;i < TestNoMap.size();i++){
 		EffvsObs[i]->Write();
 	}
@@ -641,14 +651,41 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 			CORR->SetBinContent((i),(j),(Correlation[i][j]*100));
 		}
 	}
+
+
+	CORR->Write();
+
+	TCanvas *c21 = new TCanvas("c21","c21",200,10,700,500);
+	//c111->SetFillColor(42);
+	c21->SetTitle("Logical OR of triggers");
+
+
+	ORTRIGGER->SetXTitle("HSCP Mass [GeV]");
+	ORTRIGGER->SetYTitle("#epsilon");
+	ORTRIGGER->SetStats(kFALSE);
+	ORTRIGGER->Draw();
+
+
+	c21->GetFrame()->SetBorderSize(12);
+	
+
 	for(int i=0;i < LogicalOr.size();i++){
 		for(int j=0;j< LogicalOr[i].size();j++){
 			ORTRIGGER->SetBinContent((i),(j),(LogicalOr[i][j]*100));
 		}
 	}
-	
+
+
+	for(int j = 1; j <= 7 ;j++ ){
+		ORTRIGGER->GetXaxis()->SetBinLabel(j, trigger[j-1]);
+		ORTRIGGER->GetYaxis()->SetBinLabel(j, trigger[j-1]);
+	}
+
+	ORTRIGGER->Draw("TEXT");
+	c21->Modified();
+	c21->Update();
 	//CORR->SetDirectory("Correlations");
-	CORR->Write();
+	
 	ORTRIGGER->Write();
 	MASS->Write();
 	MASSW->Write();

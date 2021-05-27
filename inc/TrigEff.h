@@ -176,7 +176,7 @@ public:
    vector<vector<double> > NumLogicalOr;
    vector<vector<double> > DenomLogicalOr;
 
-
+   vector<vector<double> > ErrorLogicalOr; 
 
 
    vector<vector<double> > Correlation; 
