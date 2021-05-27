@@ -259,10 +259,18 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	}
 	cout << " TriggerNames size " << TriggerNames.size() << endl;
 
+	string CorrPlot = "Correlation plot ",LogOrPlot = "LogicalOR ", TypeOfData = "Gluino1600"; 
+
+
+
+
+
+	string AllCorrPlot = CorrPlot + TypeOfData;
+	string AllLogOr = LogOrPlot + TypeOfData;
 	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", TriggerNames.size(),0,TriggerNames.size());
-	CORR = new TH2D("Correlation", "Correlation plot",  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
-	ORTRIGGER = new TH2D("LogicalOr", "LogicalOr", TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size());
+	CORR = new TH2D("Correlation", AllCorrPlot.c_str(),  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
+	ORTRIGGER = new TH2D("LogicalOr", AllLogOr.c_str(), TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size());
 
 
 	MASSW = new TH1D("MASSW" , " Masses invariante des muons enrichi en W" , nbins , 0 , massmax);
@@ -649,18 +657,18 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 
 	for(int j = 1; j <= 7 ;j++ ){
 		ORTRIGGER->GetXaxis()->SetBinLabel(j, trigger[j-1]);
-		ORTRIGGER->GetXaxis()->SetLabelSize(0.01);
+		ORTRIGGER->GetXaxis()->SetLabelSize(0.017);
 
 		ORTRIGGER->GetYaxis()->SetBinLabel(j, trigger[j-1]);
-		ORTRIGGER->GetYaxis()->SetLabelSize(0.01);
+		ORTRIGGER->GetYaxis()->SetLabelSize(0.017);
 
 		CORR->GetXaxis()->SetBinLabel(j, trigger[j-1]);
-		CORR->GetXaxis()->SetLabelSize(0.01);
+		CORR->GetXaxis()->SetLabelSize(0.017);
 		CORR->GetYaxis()->SetBinLabel(j, trigger[j-1]);
-		CORR->GetYaxis()->SetLabelSize(0.01);
+		CORR->GetYaxis()->SetLabelSize(0.017);
 
 	}
-	TCanvas *c11 = new TCanvas("c21","c21",200,10,700,500);
+	TCanvas *c11 = new TCanvas("c11","c11",200,10,700,500);
 	c11->SetTitle("Correlations of triggers");
 	CORR->SetStats(kFALSE);
 	
