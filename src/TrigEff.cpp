@@ -647,6 +647,27 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 		EffvsObs[i]->Write();
 	}
 
+	for(int j = 1; j <= 7 ;j++ ){
+		ORTRIGGER->GetXaxis()->SetBinLabel(j, trigger[j-1]);
+		ORTRIGGER->GetXaxis()->SetLabelSize(0.01);
+
+		ORTRIGGER->GetYaxis()->SetBinLabel(j, trigger[j-1]);
+		ORTRIGGER->GetYaxis()->SetLabelSize(0.01);
+
+		CORR->GetXaxis()->SetBinLabel(j, trigger[j-1]);
+		CORR->GetXaxis()->SetLabelSize(0.01);
+		CORR->GetYaxis()->SetBinLabel(j, trigger[j-1]);
+		CORR->GetYaxis()->SetLabelSize(0.01);
+
+	}
+	TCanvas *c11 = new TCanvas("c21","c21",200,10,700,500);
+	c11->SetTitle("Correlations of triggers");
+	CORR->SetStats(kFALSE);
+	ORTRIGGER->Draw();
+	c11->GetFrame()->SetBorderSize(12);
+	c11->SetGrid();
+	
+
 	for(int i=0;i < Correlation.size();i++){
 		for(int j=0;j< Correlation[i].size();j++){
 			CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100));
@@ -654,23 +675,26 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 			
 		}
 	}
+	CORR->Draw("TEXT");
+	c11->Modified();
+	c11->Update();
+	c11->Write();
 
 
-	CORR->Write();
 
 	TCanvas *c21 = new TCanvas("c21","c21",200,10,700,500);
 	//c111->SetFillColor(42);
 	c21->SetTitle("Logical OR of triggers");
 
 
-	ORTRIGGER->SetXTitle("HSCP Mass [GeV]");
-	ORTRIGGER->SetYTitle("#epsilon");
+	
+	
 	ORTRIGGER->SetStats(kFALSE);
 	ORTRIGGER->Draw();
 
 
 	c21->GetFrame()->SetBorderSize(12);
-	
+	c21->SetGrid();
 
 	for(int i=0;i < LogicalOr.size();i++){
 		for(int j=0;j< LogicalOr[i].size();j++){
@@ -679,25 +703,15 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	}
 
 
-	for(int j = 1; j <= 7 ;j++ ){
-		ORTRIGGER->GetXaxis()->SetBinLabel(j, trigger[j-1]);
-		ORTRIGGER->GetXaxis()->SetLabelSize(0.02);
-
-		ORTRIGGER->GetYaxis()->SetBinLabel(j, trigger[j-1]);
-		ORTRIGGER->GetYaxis()->SetLabelSize(0.02);
-
-		CORR->GetXaxis()->SetBinLabel(j, trigger[j-1]);
-		CORR->GetXaxis()->SetLabelSize(0.02);
-		CORR->GetYaxis()->SetBinLabel(j, trigger[j-1]);
-		CORR->GetYaxis()->SetLabelSize(0.02);
-
-	}
-
+	
+	
 	ORTRIGGER->Draw("TEXT");
 	c21->Modified();
 	c21->Update();
 	//CORR->SetDirectory("Correlations");
 	c21->Write();
+
+	CORR->Write();
 	ORTRIGGER->Write();
 	MASS->Write();
 	MASSW->Write();
