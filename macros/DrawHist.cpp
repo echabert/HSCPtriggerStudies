@@ -114,11 +114,11 @@ void DrawHist::FitSignalBg(){
 	
 	OutputHisto2 = new TFile(outputfilename2,"RECREATE");
 
-	TCanvas *c111 = new TCanvas("c111","c111",200,10,700,500);
+	TCanvas *c111 = new TCanvas("c111","c111",300,10,700,500);
 	//c111->SetFillColor(42);
 	c111->SetTitle("Efficiencies depending on mass");
 
-	TH2F *hr2 = new TH2F("hr2","Efficiency of triggers for gluino",800,1400,2600,100,0,1);
+	TH2F *hr2 = new TH2F("hr2","Efficiency of triggers for gluino",800,1550,2600,100,0,1);
 	hr2->SetXTitle("HSCP Mass [GeV]");
 	hr2->SetYTitle("#epsilon");
 	hr2->SetStats(kFALSE);
