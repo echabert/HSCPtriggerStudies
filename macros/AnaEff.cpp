@@ -147,7 +147,7 @@ void AnaEff::Loop()
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
 	ISOR03_DISTRIB = new TH1D("ISOR03 close to Z", "ISOR03 close to z peak", 50,0,100);
-	trigEff_selection_obs.LoadNoMap(triggerNames,SubListMET,1,DataType,NameOfFile); 
+	trigEff_selection_obs.LoadNoMap(triggerNames,triggerNames,1,DataType,NameOfFile); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,DataType2,NameOfFile);
 	//a
 	

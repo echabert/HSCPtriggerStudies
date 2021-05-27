@@ -324,7 +324,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(23);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "HLT_Mu50_v11", "p");
+					leg9->AddEntry(Efficiencies2[l],"HLT_IsoMu20_v12" , "p");
 					c111->Modified();
 					c111->Update();
 				}
@@ -334,7 +334,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(24);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "HLT_IsoMu20_v12", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT1050_v14", "p");
 					c111->Modified();
 					c111->Update();
 				}
@@ -347,7 +347,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(22);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT1050_v14", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "p");
 					c111->Modified();
 					c111->Update();
 				}
@@ -357,7 +357,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(20);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_PFMET120_PFMHT120_IDTight_v16", "p");
 					c111->Modified();
 					c111->Update();
 				}	
@@ -367,7 +367,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(25);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "HLT_PFMET120_PFMHT120_IDTight_v16", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_Mu50_v11", "p");
 					c111->Modified();
 					c111->Update();
 				}
@@ -377,7 +377,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(33);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "HLT_CaloMET70_HBHECleaned_v3", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16", "p");
 					c111->Modified();
 					c111->Update();
 				}
@@ -388,7 +388,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetMarkerStyle(22);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
-					leg9->AddEntry(Efficiencies2[l], "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16", "p");
+					leg9->AddEntry(Efficiencies2[l], "HLT_CaloMET70_HBHECleaned_v3", "p");
 					c111->Modified();
 					c111->Update();
 				}
