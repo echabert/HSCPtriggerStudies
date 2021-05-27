@@ -141,6 +141,7 @@ public:
    int EffCorAll = 0;
    int ErrorCorAll =0;
    double EffAllTrigs=0;
+   double ErrorEffAllTrigs=0;
    string Selection; // The name of the variable we want to study
    
    string NameObs;

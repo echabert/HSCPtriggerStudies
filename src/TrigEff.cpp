@@ -271,7 +271,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	}
 	cout << " TriggerNames size " << TriggerNames.size() << endl;
 
-	string CorrPlot = "Correlation plot ",LogOrPlot = "LogicalOR ", TypeOfData = "Gluino1600"; 
+	string CorrPlot = "Correlation plot ",LogOrPlot = "LogicalOR ", TypeOfData = "Gluino1800"; 
 
 
 
@@ -493,7 +493,8 @@ void TrigEff::ComputeEff()
 
 void TrigEff::ComputeCorAll(){
 	EffAllTrigs =( NumCorAll *1.0 / DenomCorAll );
-	cout << "Efficiency of ¦¦ of all triggers : " << (EffAllTrigs * 100) << endl;
+	ErrorEffAllTrigs = sqrt((EffAllTrigs * (1.0 - EffAllTrigs))*1.0/DenomCorAll);
+	cout << "Efficiency of ¦¦ of all triggers : " << (EffAllTrigs * 100) << " +/- " << ErrorEffAllTrigs << endl;
 }
 
 
