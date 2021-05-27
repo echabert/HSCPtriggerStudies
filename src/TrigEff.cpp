@@ -650,6 +650,8 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	for(int i=0;i < Correlation.size();i++){
 		for(int j=0;j< Correlation[i].size();j++){
 			CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100));
+			
+			
 		}
 	}
 
@@ -679,14 +681,23 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 
 	for(int j = 1; j <= 7 ;j++ ){
 		ORTRIGGER->GetXaxis()->SetBinLabel(j, trigger[j-1]);
+		ORTRIGGER->GetXaxis()->SetLabelSize(0.35);
+
 		ORTRIGGER->GetYaxis()->SetBinLabel(j, trigger[j-1]);
+		ORTRIGGER->GetYaxis()->SetLabelSize(0.35);
+
+		CORR->GetXaxis()->SetBinLabel(j, trigger[j-1]);
+		CORR->GetXaxis()->SetLabelSize(0.35);
+		CORR->GetYaxis()->SetBinLabel(j, trigger[j-1]);
+		CORR->GetYaxis()->SetLabelSize(0.35);
+
 	}
 
 	ORTRIGGER->Draw("TEXT");
 	c21->Modified();
 	c21->Update();
 	//CORR->SetDirectory("Correlations");
-	
+	c21->Write();
 	ORTRIGGER->Write();
 	MASS->Write();
 	MASSW->Write();
