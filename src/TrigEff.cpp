@@ -649,7 +649,7 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 
 	for(int i=0;i < Correlation.size();i++){
 		for(int j=0;j< Correlation[i].size();j++){
-			CORR->SetBinContent((i),(j),(Correlation[i][j]*100));
+			CORR->SetBinContent((i+1),(j+1),(Correlation[i][j]*100));
 		}
 	}
 
@@ -672,7 +672,7 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 
 	for(int i=0;i < LogicalOr.size();i++){
 		for(int j=0;j< LogicalOr[i].size();j++){
-			ORTRIGGER->SetBinContent((i),(j),(LogicalOr[i][j]*100));
+			ORTRIGGER->SetBinContent((i+1),(j+1),(LogicalOr[i][j]*100));
 		}
 	}
 
