@@ -663,7 +663,7 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	TCanvas *c11 = new TCanvas("c21","c21",200,10,700,500);
 	c11->SetTitle("Correlations of triggers");
 	CORR->SetStats(kFALSE);
-	ORTRIGGER->Draw();
+	
 	c11->GetFrame()->SetBorderSize(12);
 	c11->SetGrid();
 	
@@ -675,7 +675,8 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 			
 		}
 	}
-	CORR->Draw("TEXT");
+	CORR->Draw("SAME COLZ TEXT");
+	
 	c11->Modified();
 	c11->Update();
 	c11->Write();
@@ -690,7 +691,7 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	
 	
 	ORTRIGGER->SetStats(kFALSE);
-	ORTRIGGER->Draw();
+	
 
 
 	c21->GetFrame()->SetBorderSize(12);
@@ -705,7 +706,7 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 
 	
 	
-	ORTRIGGER->Draw("TEXT");
+	ORTRIGGER->Draw("SAME COLZ TEXT");
 	c21->Modified();
 	c21->Update();
 	//CORR->SetDirectory("Correlations");
