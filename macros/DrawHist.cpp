@@ -364,7 +364,7 @@ void DrawHist::FitSignalBg(){
 				if(l==4){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x4,y4,Errx4,Erry4);
 					Efficiencies2[l]->SetMarkerColor(kBlack);
-					Efficiencies2[l]->SetMarkerStyle(21);
+					Efficiencies2[l]->SetMarkerStyle(25);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_PFMET120_PFMHT120_IDTight_v16", "p");
@@ -384,8 +384,8 @@ void DrawHist::FitSignalBg(){
 				if(l==6){
 					cout << "We are in case l == 6" << endl;
 					Efficiencies2[l] = new TGraphErrors(actualbin, x6,y6,Errx6,Erry6);
-					Efficiencies2[l]->SetMarkerColor(kBlack);
-					Efficiencies2[l]->SetMarkerStyle(2);
+					Efficiencies2[l]->SetMarkerColor(kGreen);
+					Efficiencies2[l]->SetMarkerStyle(22);
 					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16", "p");
