@@ -58,7 +58,7 @@ void AnaEff::Loop()
 	
 	string NameList = "CompleteList",PrescaledList = "PrescaledList",ListAll = "ListOfAllTriggersEff";
 	
-	string SubNum = "all",ExtRoot = ".root",ExtTxt = ".txt",Date="1105"; //to_string(2);
+	string SubNum = "all",ExtRoot = ".root",ExtTxt = ".txt",Date="1105", Or = "LogicalOr"; //to_string(2);
 	
 	string TransferTxt="AllInfos",TransferEff = "Eff",TransferZ = "EntriesFromZ",TransferW = "EntriesFromW";
 	
@@ -67,10 +67,12 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino2400";
-	float TheorMass = 2400;
+	string DataType = "Gluino1600";
+	float TheorMass = 1600;
 	string NameCompleteListTest = "ListeInteretTriggers";
 
+
+	
 	string ListAllTriggers = ListAll + DataType + ExtTxt;
 	//string NameCompleteList = "CompleteListTest.txt";
 
@@ -82,7 +84,7 @@ void AnaEff::Loop()
 	string NameListForType = NameCompleteListTest + DataType + ExtTxt;
 	string NameCompletePrescaledList = PrescaledList + DataType + ExtTxt;
 	string EffTriggers = TransferEff + DataType + SubNum + ExtTxt;
-
+	string OrAllTriggers = Or + SubNum + DataType + ExtTxt;
 
 	string s1 = "mu";
 	string s2 = "Mu";
@@ -91,7 +93,8 @@ void AnaEff::Loop()
 	string s5 = "Muon";
 	string s7 = "MET";
 	string s8 = "HT";
-
+	
+	
 	ifstream ifile(NameListForType.c_str()); 
 	vector<string> triggerNames;
 	vector<string> SubListMET;
@@ -241,7 +244,7 @@ void AnaEff::Loop()
 			for(int p = 0; p < ntrigger; p++){
 				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
 				if(iter == triggerNames.end()){
-					//cout << " one trigger not found in CompleteList" << endl;
+					cout << " one trigger not found in list ?" << endl;
 				}
 				else{
 					auto pos = std::distance(triggerNames.begin(), iter);
@@ -288,7 +291,7 @@ void AnaEff::Loop()
 
 
 	InfosData.close();
-	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers,EffTriggers, ErrorEffTriggers);
+	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers,EffTriggers, ErrorEffTriggers, OrAllTriggers);
 
 	//trigEff_presel.Compute("test_TriggersOfInterest_MET_withmap.txt");
 	cout << "After compute" << endl;

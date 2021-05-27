@@ -39,12 +39,11 @@ public:
 
    void LoadNoMap(const vector<string> &triggerNames,const vector<string> &SelectedTriggerNames,int ErrorType=1, string NameVar="a",string FileName="testnewdata.root");
 
-   void FillNoMap(vector<bool> &passtrig, float Obs = 0.0, double weight = 1,string mode = "all");
 
    void FillNoMap2(vector< pair<int, bool > > PosPass, float Obs = 0.0, double weight = 1,string mode = "all");
 
 
-   void Compute(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers, string ErrorEffTriggers);
+   void Compute(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers, string ErrorEffTriggers,string EffOrAllTriggers);
    
    //void CreateHisto(string NameVar="random", const vector<string> &SelectedTriggerNames);
 
@@ -93,13 +92,13 @@ public:
 
    void ComputeErrorLogicalOr();
 
-   void PrintCorAll();
+   void ComputeCorAll();
 
    // ******************* Plotting ********************************
 
    void SavePlots(); // en png/hist ou whatever
 
-   void SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers,string ErrorEffTriggers); // Saves the list of interesting triggers (efficiency > threshold)
+   void SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers,string ErrorEffTriggers,string EffOrAllTriggers); // Saves the list of interesting triggers (efficiency > threshold)
 
    void StudyTrigvsMass(double mass); 
 
@@ -141,6 +140,7 @@ public:
    int NumCorAll = 0;
    int EffCorAll = 0;
    int ErrorCorAll =0;
+   double EffAllTrigs=0;
    string Selection; // The name of the variable we want to study
    
    string NameObs;

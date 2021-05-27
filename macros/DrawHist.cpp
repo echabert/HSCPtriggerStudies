@@ -118,7 +118,7 @@ void DrawHist::FitSignalBg(){
 	//c111->SetFillColor(42);
 	c111->SetTitle("Efficiencies depending on mass");
 
-	TH2F *hr2 = new TH2F("hr2","Efficiency of triggers for gluino",800,1550,2600,100,0,1);
+	TH2F *hr2 = new TH2F("hr2","Efficiency of triggers for gluino",800,1550,2450,100,0,1);
 	hr2->SetXTitle("HSCP Mass [GeV]");
 	hr2->SetYTitle("#epsilon");
 	hr2->SetStats(kFALSE);

@@ -271,7 +271,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	}
 	cout << " TriggerNames size " << TriggerNames.size() << endl;
 
-	string CorrPlot = "Correlation plot ",LogOrPlot = "LogicalOR ", TypeOfData = "Gluino2400"; 
+	string CorrPlot = "Correlation plot ",LogOrPlot = "LogicalOR ", TypeOfData = "Gluino1600"; 
 
 
 
@@ -313,62 +313,6 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 
 
 //***************************************************************************************************************************
-
-
-void TrigEff::FillNoMap(vector<bool> &passtrig, float Obs, double weight,string mode){  //const vector<bool> 
-	if(mode== "all"){ 
-		bool trig1,trig2;
-		for(int i = 0; i < TestNoMap.size()  ;i++){
-			
-			if(TestNoMap[i].second >= passtrig.size()){
-				break;
-			}
-			
-			trig1 = passtrig.at(TestNoMap[i].second);
-			DenomEfficiency[TestNoMap[i].second]+=1;
-			
-			if(trig1){
-				NumEfficiency[TestNoMap[i].second]+=1;
-			}
-
-			for(int j = 0; j < TestNoMap.size()  ;j++){
-
-				if(TestNoMap[j].second >= passtrig.size()){
-					break;
-				}
-
-				trig2 = passtrig.at(TestNoMap[j].second);
-				
-				if(trig1 || trig2){
-					
-					DenomCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
-				}
-				if(trig1 && trig2){
-					NumCorr[TestNoMap[i].second][TestNoMap[j].second]+=1;
-				}
-	
-			}
-		
-		}
-		
-
-		if(Obs!=0.0){
-			for(int i = 0 ; i < TestNoMap.size(); i++){
-				//cout << "filled passtrig :" << i << "with value " << passtrig[i] << "and obs = " << Obs << endl;
-				EffvsObs[i]->TEfficiency::Fill(passtrig[TestNoMap[i].second],Obs);
-			}
-		}
-
-	}
-	else if(mode == "muon"){
-		bool trigmu1,trigmu2;
-		//for(int i = 0; i < TestNoMap.size()  ;i++){
-		
-		//trigmu1 = passtrig.at(TestNoMap[i].second);
-
-		//}
-	}
-}
 
 //***************************************************************************************************************************
 
@@ -547,8 +491,8 @@ void TrigEff::ComputeEff()
 
 
 
-void TrigEff::PrintCorAll(){
-	double EffAllTrigs =( NumCorAll *1.0 / DenomCorAll );
+void TrigEff::ComputeCorAll(){
+	EffAllTrigs =( NumCorAll *1.0 / DenomCorAll );
 	cout << "Efficiency of ¦¦ of all triggers : " << (EffAllTrigs * 100) << endl;
 }
 
@@ -561,23 +505,23 @@ void TrigEff::PrintEff(){
 }
 
 
-void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers, string ErrorEffTriggers){ // triggersofinterest = EffGluino16001105all.txt
+void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string ListAllTriggers, string EffTriggers, string ErrorEffTriggers, string EffOrAllTriggers){ // triggersofinterest = EffGluino16001105all.txt
 	
 	ofstream TriggersOfInterest;
 	ofstream AllTriggers;
 	ofstream EffOnly;
 	ofstream EffAll;
 	ofstream EffOnlyError;
-
+	ofstream EffOrAllTrigs;
 	
 	TriggersOfInterest.open (NameOutputFile.c_str());
 	AllTriggers.open (ListAllTriggers.c_str());
 	EffOnly.open (NameListEff.c_str());
 	EffAll.open (EffTriggers.c_str());
 	EffOnlyError.open (ErrorEffTriggers.c_str());
+	EffOrAllTrigs.open (EffOrAllTriggers.c_str());
 
-
-
+	EffOrAllTrigs << (EffAllTrigs * 100 ) << endl;
 
 
 	for (int i = 0; i < Efficiency.size(); i++){
@@ -596,7 +540,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string Lis
 		AllTriggers << EffList[i].first.first*100 << " " << EffList[i].second.first*100 << " " << EffList[i].second.second << "\n"; //TestNoMap[i].second
 		
 	}
-
+	AllTriggers << "\n" << "Efficiency of logical ¦¦ of all triggers = " << (EffAllTrigs * 100) << endl;
 	AllTriggers.close();
 	
 	for (int i = 0; i < TestNoMap.size(); i++){ 	
@@ -626,6 +570,7 @@ void TrigEff::SaveIntTrigs(string NameOutputFile, string NameListEff, string Lis
 	EffOnly.close();
 	EffOnlyError.close();
 	EffAll.close();
+	EffOrAllTrigs.close();
 }
 
 void TrigEff::PrintNumEff(){
@@ -772,7 +717,7 @@ void TrigEff::FillMass(double INVMASS,int choice){
 	}	
 }
 
-void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTriggers, string EffTriggers, string ErrorEffTriggers){
+void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTriggers, string EffTriggers, string ErrorEffTriggers,string EffOrAllTriggers){
 	
 	ComputeEff();
 	ComputeError();
@@ -780,8 +725,8 @@ void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTr
 	//PrintNumEff();
 	PrintDenomEff();
 	//PrintEff();
-
-	SaveIntTrigs(NameOutputFile,NameListEff,ListAllTriggers,EffTriggers, ErrorEffTriggers);
+	ComputeCorAll();
+	SaveIntTrigs(NameOutputFile,NameListEff,ListAllTriggers,EffTriggers, ErrorEffTriggers,EffOrAllTriggers);
 
 	ComputeCorr();
 
@@ -789,6 +734,6 @@ void TrigEff::Compute(string NameOutputFile,string NameListEff, string ListAllTr
 	PrintCorr();
 	ComputeLogicalOr();
 	PrintLogicalOr();
-	PrintCorAll();
+	
 }
 
