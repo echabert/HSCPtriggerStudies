@@ -267,7 +267,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 
 	string AllCorrPlot = CorrPlot + TypeOfData;
 	string AllLogOr = LogOrPlot + TypeOfData;
-	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1); 
+	EFF_TRIG = new TH1D("EFF_TRIG", "EFF", 100,0,1);
 	EFF_DISTRIB = new TH1D("Efficiency distribution for int trigs", "eff for triggers", TriggerNames.size(),0,TriggerNames.size());
 	CORR = new TH2D("Correlation", AllCorrPlot.c_str(),  TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size()); 
 	ORTRIGGER = new TH2D("LogicalOr", AllLogOr.c_str(), TriggerNames.size() , 0 , TriggerNames.size() , TriggerNames.size(), 0 , TriggerNames.size());
