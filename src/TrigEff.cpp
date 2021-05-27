@@ -19,6 +19,7 @@
 #include <TTree.h>
 #include <TFile.h>
 #include <TEntryList.h>
+#include <TFrame.h>
 
 using namespace std;
 
@@ -640,7 +641,7 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	//OutputHisto->mkdir(NameVar.c_str());
 	//OutputHisto->cd(NameVar.c_str());
 
-	char *trigger[7] = {"HLT_Mu50_v11","HLT_IsoMu20_v12", "HLT_PFHT1050_v14", "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "HLT_PFMET120_PFMHT120_IDTight_v16", "HLT_CaloMET70_HBHECleaned_v3", "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16"};
+	const char *trigger[7] = {"HLT_Mu50_v11","HLT_IsoMu20_v12", "HLT_PFHT1050_v14", "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "HLT_PFMET120_PFMHT120_IDTight_v16", "HLT_CaloMET70_HBHECleaned_v3", "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16"};
 
 	for(int i=0;i < TestNoMap.size();i++){
 		EffvsObs[i]->Write();

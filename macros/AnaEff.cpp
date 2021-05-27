@@ -253,7 +253,7 @@ void AnaEff::Loop()
 			
 			passedevent+=1;
 			//cout << "Before fill" << endl;
-			trigEff_selection_obs.FillNoMap2(PosPass,HIghestMET,1);
+			trigEff_selection_obs.FillNoMap2(PosPass,HighestMET,1);
 			//cout << "After fill" << endl;
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
