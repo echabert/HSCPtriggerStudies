@@ -67,8 +67,8 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino2400";
-	float TheorMass = 2400;
+	string DataType = "Gluino1600";
+	float TheorMass = 1600;
 	string NameCompleteListTest = "ListeInteretTriggers";
 
 
@@ -132,21 +132,21 @@ void AnaEff::Loop()
 	string EntriesFromW = StudyW + SubNum + ExtTxt;
 	string distribvarZ = StudyDistribZ + SubNum + ExtRoot;
 
-	/*DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 620,0,1550);
-	DISTRIB_ETA = new TH1D("DISTRIB_ETA", "( ETA )", 400,-8,8);
-	DISTRIB_IH = new TH1D("DISTRIB_IH", "( IH )", 400,0,8);
-	DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 1240,0,3100);
+	DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 620,0,1550);
+	//DISTRIB_ETA = new TH1D("DISTRIB_ETA", "( ETA )", 400,-8,8);
+	//DISTRIB_IH = new TH1D("DISTRIB_IH", "( IH )", 400,0,8);
+	//DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 1240,0,3100);
 	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",400,0,1.2);
-	DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
-	DISTRIB_PT_P = new TH2D("DISTRIB_PT_P", "PT ( P ) ", 620 , 0 , 1550 , 1240, 0 , 3100 );
+	//DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
+	//DISTRIB_PT_P = new TH2D("DISTRIB_PT_P", "PT ( P ) ", 620 , 0 , 1550 , 1240, 0 , 3100 );
 
 	DISTRIB_PT->Sumw2();
 	DISTRIB_IAS->Sumw2();
-	DISTRIB_ETA->Sumw2();
-	DISTRIB_IH->Sumw2();
-	DISTRIB_P->Sumw2();
-	DISTRIB_IH_IAS->Sumw2();
-	DISTRIB_PT_P->Sumw2();*/
+	//DISTRIB_ETA->Sumw2();
+	//DISTRIB_IH->Sumw2();
+	//DISTRIB_P->Sumw2();
+	//DISTRIB_IH_IAS->Sumw2();
+	//DISTRIB_PT_P->Sumw2();
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
 	ISOR03_DISTRIB = new TH1D("ISOR03 close to Z", "ISOR03 close to z peak", 50,0,100);
@@ -228,7 +228,9 @@ void AnaEff::Loop()
 		indexcandidate=Selection();
 	//	cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
-			//cout << indexcandidate << endl;
+			DISTRIB_PT->Fill(track_pt[indexcandidate]);
+			DISTRIB_IAS->Fill(track_pt[indexcandidate]);
+			cout << track_pt[indexcandidate] << " and hscp_track associated : " << track_pt[hscp_track_idx[indexcandidate]] << endl;
 			HighestPT = track_pt[indexcandidate];
 			HighestMET = pfmet_pt[indexcandidate];
 			POVERM = (track_p[indexcandidate] *1.0/ TheorMass);

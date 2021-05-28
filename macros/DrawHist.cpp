@@ -321,8 +321,8 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x0,y0,Errx0,Erry0);
 					
 					Efficiencies2[l]->SetMarkerColor(kRed - 7);
-					Efficiencies2[l]->SetMarkerStyle(53);
-					Efficiencies2[l]->SetMarkerSize(2);
+					Efficiencies2[l]->SetMarkerStyle(4);
+					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l],"HLT_IsoMu20_v12" , "p");
 					c111->Modified();
@@ -331,8 +331,8 @@ void DrawHist::FitSignalBg(){
 				if(l==1){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x1,y1,Errx1,Erry1);
 					Efficiencies2[l]->SetMarkerColor(kBlue - 7);
-					Efficiencies2[l]->SetMarkerStyle(53);
-					Efficiencies2[l]->SetMarkerSize(2);
+					Efficiencies2[l]->SetMarkerStyle(4);
+					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT1050_v14", "p");
 					c111->Modified();
@@ -344,8 +344,8 @@ void DrawHist::FitSignalBg(){
 
 					Efficiencies2[l]->SetLineColor(kOrange - 3);
 
-					Efficiencies2[l]->SetMarkerStyle(53);
-					Efficiencies2[l]->SetMarkerSize(2);
+					Efficiencies2[l]->SetMarkerStyle(4);
+					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "p");
 					c111->Modified();
@@ -354,8 +354,8 @@ void DrawHist::FitSignalBg(){
 				if(l==3){
 					Efficiencies2[l] = new TGraphErrors(actualbin,x3,y3,Errx3,Erry3);
 					Efficiencies2[l]->SetMarkerColor(kViolet);
-					Efficiencies2[l]->SetMarkerStyle(53);
-					Efficiencies2[l]->SetMarkerSize(2);
+					Efficiencies2[l]->SetMarkerStyle(4);
+					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_PFMET120_PFMHT120_IDTight_v16", "p");
 					c111->Modified();
@@ -364,8 +364,8 @@ void DrawHist::FitSignalBg(){
 				if(l==4){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x4,y4,Errx4,Erry4);
 					Efficiencies2[l]->SetMarkerColor(kGray);
-					Efficiencies2[l]->SetMarkerStyle(53);
-					Efficiencies2[l]->SetMarkerSize(2);
+					Efficiencies2[l]->SetMarkerStyle(4);
+					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_Mu50_v11", "p");
 					c111->Modified();
@@ -374,8 +374,8 @@ void DrawHist::FitSignalBg(){
 				if(l==5){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x5,y5,Errx5,Erry5);
 					Efficiencies2[l]->SetMarkerColor(kMagenta + 2);
-					Efficiencies2[l]->SetMarkerStyle(53);
-					Efficiencies2[l]->SetMarkerSize(2);
+					Efficiencies2[l]->SetMarkerStyle(4);
+					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16", "p");
 					c111->Modified();
@@ -385,8 +385,8 @@ void DrawHist::FitSignalBg(){
 					cout << "We are in case l == 6" << endl;
 					Efficiencies2[l] = new TGraphErrors(actualbin, x6,y6,Errx6,Erry6);
 					Efficiencies2[l]->SetMarkerColor(kTeal + 5);
-					Efficiencies2[l]->SetMarkerStyle(53);
-					Efficiencies2[l]->SetMarkerSize(2);
+					Efficiencies2[l]->SetMarkerStyle(4);
+					Efficiencies2[l]->SetMarkerSize(1);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_CaloMET70_HBHECleaned_v3", "p");
 					c111->Modified();
