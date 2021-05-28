@@ -67,8 +67,8 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino1600";
-	float TheorMass = 1600;
+	string DataType = "Gluino1800";
+	float TheorMass = 1800;
 	string NameCompleteListTest = "ListeInteretTriggers";
 
 
@@ -255,7 +255,10 @@ void AnaEff::Loop()
 
 			POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
 			DISTRIB_POVERM->Fill(POVERMBG);
-			DISTRIB_MET->Fill(HighestMET);
+			if(HighestMET > 5 ){
+				DISTRIB_MET->Fill(HighestMET);
+			}
+
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 				if(vtrigger[i] == 0){
