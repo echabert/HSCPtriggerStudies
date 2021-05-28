@@ -133,15 +133,19 @@ void AnaEff::Loop()
 	string distribvarZ = StudyDistribZ + SubNum + ExtRoot;
 
 	DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 620,0,1550);
-	
 	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",400,0,1.2);
 	DISTRIB_POVERM = new TH1D ("DISTRIB_POVERM", "( P/ M )", 400,0,5);
+	DISTRIB_MET = new TH1D ("DISTRIB_MET", " ( MET ) " , 500,0,500);
+
+
 	//DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 	//DISTRIB_PT_P = new TH2D("DISTRIB_PT_P", "PT ( P ) ", 620 , 0 , 1550 , 1240, 0 , 3100 );
 
 	DISTRIB_PT->Sumw2();
 	DISTRIB_IAS->Sumw2();
 	DISTRIB_POVERM->Sumw2();
+	DISTRIB_MET->Sumw2();
+
 	//DISTRIB_ETA->Sumw2();
 	//DISTRIB_IH->Sumw2();
 	//DISTRIB_P->Sumw2();
@@ -150,6 +154,7 @@ void AnaEff::Loop()
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
 	ISOR03_DISTRIB = new TH1D("ISOR03 close to Z", "ISOR03 close to z peak", 50,0,100);
+
 	trigEff_selection_obs.LoadNoMap(triggerNames,triggerNames,1,DataType,NameOfFile); 
 	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,DataType2,NameOfFile);
 	//a
@@ -226,17 +231,19 @@ void AnaEff::Loop()
 		float HighestPT,HighestMuonPT,HighestMET,POVERMBG;
 		int trignull=0;
 		indexcandidate=Selection();
-		cout << " idx HSCP candidate : "  <<indexcandidate << endl;
+		//cout << " idx HSCP candidate : "  <<indexcandidate << endl;
 	//	cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
+
 			DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
 			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
 			//cout << track_pt[indexcandidate] << " and hscp_track associated : " << track_pt[hscp_track_idx[indexcandidate]] << endl;
 			HighestPT = track_pt[hscp_track_idx[indexcandidate]];
 			HighestMET = pfmet_pt[hscp_track_idx[indexcandidate]];
+
 			POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
 			DISTRIB_POVERM->Fill(POVERMBG);
-
+		
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 				if(vtrigger[i] == 0){
@@ -372,9 +379,9 @@ int AnaEff::Selection(){
 		if(hscp_iso2_tk[ihs] >= 100){ //50
 			yon=false;
 		}
-		if(track_ias_ampl[hscp_track_idx[ihs]] < 0.3){ //50
+		/*if(track_ias_ampl[hscp_track_idx[ihs]] < 0.3){ //50
 			yon=false;
-		}
+		}*/
 
 
 		/*if (muon_isMediumMuon[ihs]){
