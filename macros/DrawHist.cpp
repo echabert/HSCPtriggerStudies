@@ -17,6 +17,7 @@
 #include <TMultiGraph.h>
 #include <TLegendEntry.h>
 #include <TFrame.h>
+#include <TPaveText.h>
 using namespace std; 
 
 DrawHist::DrawHist(){
@@ -120,11 +121,16 @@ void DrawHist::FitSignalBg(){
 	c111->SetTitle("Efficiencies depending on mass");
 
 	TH2F *hr2 = new TH2F("hr2","Efficiency of triggers for gluino",800,1550,2450,100,0,1);
-	hr2->SetXTitle("HSCP Mass [GeV/c²]");
+	TPaveText *pt = new TPaveText(.15,.1,.95,.8);
+	pt->AddText("CMS Mu50 + PFMET120_PFMHT120 + PFHT500_PFMET100_PFMHT100");
+
+
+
+	hr2->SetXTitle("HSCP Mass [GeV/c*c]");
 	hr2->SetYTitle("#epsilon");
 	hr2->SetStats(kFALSE);
 	hr2->Draw();
-
+	pt->Draw();
 	c111->GetFrame()->SetBorderSize(12);
 
 
@@ -171,7 +177,7 @@ void DrawHist::FitSignalBg(){
 	double x0[n1],y0[n1],x1[n1],y1[n1],x2[n1],y2[n1],x3[n1],y3[n1],x4[n1],y4[n1],x5[n1],y5[n1],x6[n1],y6[n1];
 	double Errx0[n1] = {0},Erry0[n1] = {0},Errx1[n1] = {0},Erry1[n1]= {0},Errx2[n1]= {0},Erry2[n1]= {0},Errx3[n1]= {0},Erry3[n1]= {0},Errx4[n1]= {0},Erry4[n1]= {0},Errx5[n1]= {0},Erry5[n1]= {0},Errx6[n1]= {0},Erry6[n1]= {0};
 
-	double XOrTrig[n1] = {0},YOrTrig[n1] = {0}, ErrXOrTrig[n1] = {0},ErrYOrTrig[n1] = {0};
+	double XOrTrig[n1] = {0},YOrTrig[n1] = {0}, ErrXOrTrig[n1] = {0},ErrYOrTrig[n1] = {0.00296,0.003706,0.0025438,0.0031402,0.0028277,0.0033409};
 	Efficiencies2.resize(AlltriggerNames.size());
 	int actualbin = 0;
 	int actualbinerror = 0;
@@ -381,7 +387,8 @@ void DrawHist::FitSignalBg(){
 			c222->cd();
 			CorrAllTrigs = new TGraphErrors(actualbinorall, XOrTrig, YOrTrig, ErrXOrTrig, ErrYOrTrig);
 			CorrAllTrigs->SetMarkerColor(kRed - 7);
-			CorrAllTrigs->SetMarkerStyle(4);
+			CorrAllTrigs->SetMarkerStyle(49);
+			CorrAllTrigs->SetMarkerSize(2);
 			CorrAllTrigs->Draw("P");
 			leg222->Draw();
 			leg222->AddEntry(CorrAllTrigs,"OU Logique des 3 triggers" , "p");
@@ -397,7 +404,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x0,y0,Errx0,Erry0);
 					
 					Efficiencies2[l]->SetMarkerColor(kRed - 7);
-					Efficiencies2[l]->SetMarkerStyle(4);
+					Efficiencies2[l]->SetMarkerStyle(49);
 					Efficiencies2[l]->SetMarkerSize(2);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l],"HLT_Mu50_v11" , "p");
@@ -407,7 +414,7 @@ void DrawHist::FitSignalBg(){
 				if(l==1){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x1,y1,Errx1,Erry1);
 					Efficiencies2[l]->SetMarkerColor(kBlue - 7);
-					Efficiencies2[l]->SetMarkerStyle(4);
+					Efficiencies2[l]->SetMarkerStyle(49);
 					Efficiencies2[l]->SetMarkerSize(2);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_PFMET120_PFMHT120_IDTight_v16", "p");
@@ -420,7 +427,7 @@ void DrawHist::FitSignalBg(){
 
 					Efficiencies2[l]->SetLineColor(kOrange - 3);
 
-					Efficiencies2[l]->SetMarkerStyle(4);
+					Efficiencies2[l]->SetMarkerStyle(49);
 					Efficiencies2[l]->SetMarkerSize(2);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "p");
