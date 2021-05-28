@@ -47,6 +47,8 @@ class DrawHist
 	vector <TEfficiency*> EffList2;
 	vector <TEfficiency*> EffListvsObs;
 	
+	TGraphErrors* CorrAllTrigs;
+
 	vector <TH1D*> Efficiencies;
 	vector <TH2F*> hr;
 	vector <TGraphErrors*> Efficiencies2;

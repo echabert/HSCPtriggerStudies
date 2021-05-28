@@ -60,7 +60,8 @@ void DrawHist::FitSignalBg(){
 	string ExtRoot = ".root";
 	string All = "all";
 	string ErrorEff = "Error";
-	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/Eff/";
+	string LogOr = "LogicalOrall";
+	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Selec/Loose/Eff/"; // /PreselAndSel/Selec/Loose/Eff//
 	
 	
 	string OutPutName = Path + Purity + DataType + Date + SubNum + ExtTxt;
@@ -82,7 +83,7 @@ void DrawHist::FitSignalBg(){
 
 	string NameCompleteListSingleMuon = NameList + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + Mass + ExtTxt;
-	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/Eff/" + CompleteNameListInterest;
+	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Selec/Loose/Eff/" + CompleteNameListInterest;
 	
 
 	vector<string> AlltriggerNames;
@@ -127,6 +128,29 @@ void DrawHist::FitSignalBg(){
 	c111->GetFrame()->SetBorderSize(12);
 
 
+	TCanvas *c222 = new TCanvas("c222","c222",300,10,700,500);
+	//c111->SetFillColor(42);
+	c222->SetTitle("Efficiencies depending on mass");
+
+	TH2F *hr23 = new TH2F("hr23","Efficiency of logical OR of triggers for gluino",800,1550,2450,100,0,1);
+	hr23->SetXTitle("HSCP Mass [GeV/c*c]");
+	hr23->SetYTitle("#epsilon");
+	hr23->SetStats(kFALSE);
+	hr23->Draw();
+
+	c222->GetFrame()->SetBorderSize(12);
+	
+
+
+
+
+
+
+
+
+
+
+
 
 	hr.resize(AlltriggerNames.size());
 	/*for(int l = 0; l < AlltriggerNames.size(); l++){
@@ -147,9 +171,12 @@ void DrawHist::FitSignalBg(){
 	double x0[n1],y0[n1],x1[n1],y1[n1],x2[n1],y2[n1],x3[n1],y3[n1],x4[n1],y4[n1],x5[n1],y5[n1],x6[n1],y6[n1];
 	double Errx0[n1] = {0},Erry0[n1] = {0},Errx1[n1] = {0},Erry1[n1]= {0},Errx2[n1]= {0},Erry2[n1]= {0},Errx3[n1]= {0},Erry3[n1]= {0},Errx4[n1]= {0},Erry4[n1]= {0},Errx5[n1]= {0},Erry5[n1]= {0},Errx6[n1]= {0},Erry6[n1]= {0};
 
+	double XOrTrig[n1] = {0},YOrTrig[n1] = {0}, ErrXOrTrig[n1] = {0},ErrYOrTrig[n1] = {0};
 	Efficiencies2.resize(AlltriggerNames.size());
 	int actualbin = 0;
 	int actualbinerror = 0;
+	int actualbinorall = 0 ;
+	vector<double> EffCorrAll;
 	for(int k = kmin; k <= kmax ; k+=kincre){
 		vector<double> EffNotOrdered;
 		vector<double> ErrorEffNotOrdered;
@@ -168,6 +195,28 @@ void DrawHist::FitSignalBg(){
 		string FromListError = Path + ErrorEff + EffList + DataType + pointofmass + All + ExtTxt;
 		
 
+		string FromListAllCorr = Path + LogOr + DataType + pointofmass + ExtTxt;
+
+
+		ifstream bfile(FromListAllCorr.c_str(), std::ios::in);
+		if (!bfile.is_open()) {
+			cout << "There was a problem opening the error input file!" << FromListAllCorr << endl;
+	   	}
+		else{
+			double num3;
+			while (bfile >> num3) {
+				//cout << num << endl;
+        			EffCorrAll.push_back((num3*1.0/100));
+				cout << num3 << endl;
+			}
+			bfile.close();
+			
+			YOrTrig[actualbinorall] = EffCorrAll[actualbinorall]*1.0;
+			XOrTrig[actualbinorall] = k;
+
+
+			actualbinorall+=1;
+		}
 
 
 		ifstream afile(FromListError.c_str(), std::ios::in);
@@ -311,9 +360,36 @@ void DrawHist::FitSignalBg(){
 		EffNotOrdered.clear();
 	}
 
-			TLegend* leg9 = new TLegend(0.9,0.85,0.5,0.6);
+		
+
+
+
+
+
+			
+
+
+
+
+
+			TLegend* leg222 = new TLegend(0.9,0.85,0.5,0.6);
+			
+
+			
 			
 			OutputHisto2->cd();
+			c222->cd();
+			CorrAllTrigs = new TGraphErrors(actualbinorall, XOrTrig, YOrTrig, ErrXOrTrig, ErrYOrTrig);
+			CorrAllTrigs->SetMarkerColor(kRed - 7);
+			CorrAllTrigs->SetMarkerStyle(4);
+			CorrAllTrigs->Draw("P");
+			leg222->Draw();
+			leg222->AddEntry(CorrAllTrigs,"OU Logique des 3 triggers" , "p");
+			c222->Modified();
+			c222->Update();
+			c222->Write();
+	
+			TLegend* leg9 = new TLegend(0.9,0.85,0.5,0.6);
 			c111->cd();
 			cout << "AlltriggerNames.size() = " << AlltriggerNames.size() << endl;
 			for(int l = 0; l < AlltriggerNames.size(); l++){
