@@ -232,7 +232,7 @@ void AnaEff::Loop()
 		if(indexcandidate != 64){
 			DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
 			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
-			cout << track_pt[indexcandidate] << " and hscp_track associated : " << track_pt[hscp_track_idx[indexcandidate]] << endl;
+			//cout << track_pt[indexcandidate] << " and hscp_track associated : " << track_pt[hscp_track_idx[indexcandidate]] << endl;
 			HighestPT = track_pt[hscp_track_idx[indexcandidate]];
 			HighestMET = pfmet_pt[hscp_track_idx[indexcandidate]];
 			POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
