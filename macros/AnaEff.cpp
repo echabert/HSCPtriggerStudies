@@ -374,7 +374,7 @@ int AnaEff::Selection(){
 		if( ndedxhits <= 5 ){
 			yon=false;
 		}
-		if( track_pt[hscp_track_idx[ihs]] <= 65 ){ //55
+		if( track_pt[hscp_track_idx[ihs]] <= 55 ){ //55
 			yon=false;
 		}
 		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){
@@ -392,7 +392,7 @@ int AnaEff::Selection(){
 		if(hscp_iso2_tk[ihs] >= 100){ //50
 			yon=false;
 		}
-		if(track_ias_ampl[hscp_track_idx[ihs]] < 0.3){ //50
+		if(track_ias_ampl[hscp_track_idx[ihs]] < 0.1){ //50
 			yon=false;
 		}
 
