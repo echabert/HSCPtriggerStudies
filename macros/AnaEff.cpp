@@ -333,7 +333,8 @@ void AnaEff::Loop()
 int AnaEff::Selection(){
 	int index=64,count2=0;
 	vector<int> positions;
-	vector< pair<float, int > > Muonpt; 
+	vector< pair<float, int > > Muonpt,HSCPpt,HSCPponm;
+	
 	bool yon=true;
 	for(int ihs=0; ihs<nhscp;ihs++){
 		//cout << ihs  << endl;
@@ -373,6 +374,10 @@ int AnaEff::Selection(){
 		if(hscp_iso2_tk[ihs] >= 100){ //50
 			yon=false;
 		}
+		if(track_ias_ampl[hscp_track_idx[ihs]] < 0.3){ //50
+			yon=false;
+		}
+
 
 		/*if (muon_isMediumMuon[ihs]){
 			cout << " muon index : " << hscp_muon_idx[ihs] << " , with track index : " << hscp_track_idx[ihs] << endl;
@@ -381,6 +386,7 @@ int AnaEff::Selection(){
 
 		if(yon){
 			positions.push_back(ihs); 
+			HSCPpt.push_back(make_pair(track_pt[hscp_track_idx[ihs]],ihs));
 			Muonpt.push_back(make_pair(muon_pt[ihs],ihs));
 		}
 		 // pb ici, return que 0
@@ -388,10 +394,12 @@ int AnaEff::Selection(){
 	}
 
 	if(positions.size() != 0){
-		int siz=Muonpt.size();
+		int siz=Muonpt.size(),sizH = HSCPpt.size();
+
 		sort(Muonpt.begin(),Muonpt.end());
-		
-		return Muonpt[siz-1].second;
+		sort(HSCPpt.begin(),HSCPpt.end());
+		return HSCPpt[sizH-1].second;
+		//return Muonpt[siz-1].second;
 	}
 	else{
 		return 64;
