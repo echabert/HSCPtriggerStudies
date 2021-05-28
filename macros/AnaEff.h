@@ -194,13 +194,19 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	distrib=0;
 	MUONPT_DISTRIB=0;
 	ISOR03_DISTRIB=0;
+	DISTRIB_POVERM=0;
+	DISTRIB_MET=0;
+
 
 	DISTRIB_PT=0;
 	DISTRIB_ETA=0;
 	DISTRIB_IH=0;
 	DISTRIB_P=0;
+	DISTRIB_IAS=0;
+	DISTRIB_PT_P=0;
 	DISTRIB_IH_IAS=0;
 	
+
 	triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -246,8 +252,23 @@ AnaEff::~AnaEff() //deconstructeur
    if(!ISOR03_DISTRIB){
    	delete ISOR03_DISTRIB;
    }
+
+   if(!DISTRIB_POVERM){
+   	delete DISTRIB_POVERM;
+   }
+   if(!DISTRIB_MET){
+   	delete DISTRIB_MET;
+   }
+
+
+
+
+
    if(!DISTRIB_PT){
    	delete DISTRIB_PT;
+   }
+   if(!DISTRIB_IAS){
+   	delete DISTRIB_IAS;
    }
    if(!DISTRIB_ETA){
    	delete DISTRIB_ETA;
@@ -261,7 +282,9 @@ AnaEff::~AnaEff() //deconstructeur
    if(!DISTRIB_IH_IAS){
    	delete DISTRIB_IH_IAS;
    }
-
+    if(!DISTRIB_PT_P){
+   	delete DISTRIB_PT_P;
+   }
 
    //delete[] passTrigger;
 }

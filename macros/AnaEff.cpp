@@ -132,11 +132,23 @@ void AnaEff::Loop()
 	string EntriesFromW = StudyW + SubNum + ExtTxt;
 	string distribvarZ = StudyDistribZ + SubNum + ExtRoot;
 
-	DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 620,0,1550);
-	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",400,0,1.2);
-	DISTRIB_POVERM = new TH1D ("DISTRIB_POVERM", "( P/ M )", 400,0,5);
-	DISTRIB_MET = new TH1D ("DISTRIB_MET", " ( MET ) " , 500,0,500);
+	DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 110,0,2550);
+	DISTRIB_PT->GetXaxis()->SetTitle("PT [GeV/c²]");
+	DISTRIB_PT->GetYaxis()->SetTitle("# HSCP");
 
+
+	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",80,0,1.2);
+
+	DISTRIB_IAS->GetXaxis()->SetTitle("Ias");
+	DISTRIB_IAS->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_POVERM = new TH1D ("DISTRIB_POVERM", "( P/ M )", 80,0,2.5);
+	DISTRIB_POVERM->GetXaxis()->SetTitle("p/m = βγ");
+	DISTRIB_POVERM->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_MET = new TH1D ("DISTRIB_MET", " ( MET ) " , 500,0,500);
+	DISTRIB_MET->GetXaxis()->SetTitle("MET (GeV)");
+	DISTRIB_MET->GetYaxis()->SetTitle("# HSCP");
 
 	//DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 	//DISTRIB_PT_P = new TH2D("DISTRIB_PT_P", "PT ( P ) ", 620 , 0 , 1550 , 1240, 0 , 3100 );
@@ -243,7 +255,7 @@ void AnaEff::Loop()
 
 			POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
 			DISTRIB_POVERM->Fill(POVERMBG);
-		
+			DISTRIB_MET->Fill(HighestMET);
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 				if(vtrigger[i] == 0){
@@ -322,6 +334,7 @@ void AnaEff::Loop()
 	distrib->cd();
 	MUONPT_DISTRIB->Write();
 	ISOR03_DISTRIB->Write();
+	DISTRIB_MET->Write();
 	DISTRIB_PT->Write();
 	DISTRIB_IAS->Write();
 	DISTRIB_POVERM->Write();
@@ -361,7 +374,7 @@ int AnaEff::Selection(){
 		if( ndedxhits <= 5 ){
 			yon=false;
 		}
-		if( track_pt[hscp_track_idx[ihs]] <= 50 ){ //55
+		if( track_pt[hscp_track_idx[ihs]] <= 65 ){ //55
 			yon=false;
 		}
 		if( track_dxy[hscp_track_idx[ihs]] >=0.5 ){

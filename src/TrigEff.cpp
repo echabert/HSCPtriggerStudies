@@ -628,24 +628,24 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	//OutputHisto->cd("MET");
 	//OutputHisto->mkdir(NameVar.c_str());
 	//OutputHisto->cd(NameVar.c_str());
-
-	const char *trigger[7] = {"HLT_IsoMu20_v12","HLT_PFHT1050_v14","HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8","HLT_PFMET120_PFMHT120_IDTight_v16", "HLT_Mu50_v11","HLT_MonoCentralPFJet80_PFMETNoMu120_PFMHTNoMu120_IDTight_v16","HLT_CaloMET70_HBHECleaned_v3"};
+	int nbname = 3;
+	const char *trigger[nbname] = {"HLT_Mu50","HLT_PFMET120_PFMHT120","HLT_PFHT500_PFMET100_PFMHT100"};
 
 	for(int i=0;i < TestNoMap.size();i++){
 		EffvsObs[i]->Write();
 	}
 
-	for(int j = 1; j <= 7 ;j++ ){
+	for(int j = 1; j <= nbname ;j++ ){
 		ORTRIGGER->GetXaxis()->SetBinLabel(j, trigger[j-1]);
-		ORTRIGGER->GetXaxis()->SetLabelSize(0.017);
+		ORTRIGGER->GetXaxis()->SetLabelSize(0.023);
 
 		ORTRIGGER->GetYaxis()->SetBinLabel(j, trigger[j-1]);
-		ORTRIGGER->GetYaxis()->SetLabelSize(0.017);
+		ORTRIGGER->GetYaxis()->SetLabelSize(0.023);
 
 		CORR->GetXaxis()->SetBinLabel(j, trigger[j-1]);
-		CORR->GetXaxis()->SetLabelSize(0.017);
+		CORR->GetXaxis()->SetLabelSize(0.023);
 		CORR->GetYaxis()->SetBinLabel(j, trigger[j-1]);
-		CORR->GetYaxis()->SetLabelSize(0.017);
+		CORR->GetYaxis()->SetLabelSize(0.023);
 
 	}
 	TCanvas *c11 = new TCanvas("c11","c11",200,10,700,500);
@@ -675,12 +675,7 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	//c111->SetFillColor(42);
 	c21->SetTitle("Logical OR of triggers");
 
-
-	
-	
 	ORTRIGGER->SetStats(kFALSE);
-	
-
 
 	c21->GetFrame()->SetBorderSize(12);
 	c21->SetGrid();
@@ -691,9 +686,6 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 		}
 	}
 
-
-	
-	
 	ORTRIGGER->Draw("SAME COLZ TEXT");
 	c21->Modified();
 	c21->Update();
