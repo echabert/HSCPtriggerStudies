@@ -137,11 +137,13 @@ void AnaEff::Loop()
 	//DISTRIB_IH = new TH1D("DISTRIB_IH", "( IH )", 400,0,8);
 	//DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 1240,0,3100);
 	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",400,0,1.2);
+	DISTRIB_POVERM = new TH1D ("DISTRIB_POVERM", "( P/ M )", 400,0,5);
 	//DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 	//DISTRIB_PT_P = new TH2D("DISTRIB_PT_P", "PT ( P ) ", 620 , 0 , 1550 , 1240, 0 , 3100 );
 
 	DISTRIB_PT->Sumw2();
 	DISTRIB_IAS->Sumw2();
+	DISTRIB_POVERM->Sumw2();
 	//DISTRIB_ETA->Sumw2();
 	//DISTRIB_IH->Sumw2();
 	//DISTRIB_P->Sumw2();
@@ -223,17 +225,19 @@ void AnaEff::Loop()
 		vector<Bool_t> vtrigger; //Convert array into vector
 		vector<int> position;
 		vector< pair<int, bool > > PosPass;
-		float HighestPT,HighestMuonPT,HighestMET,POVERM;
+		float HighestPT,HighestMuonPT,HighestMET,POVERMBG;
 		int trignull=0;
 		indexcandidate=Selection();
 	//	cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
-			DISTRIB_PT->Fill(track_pt[indexcandidate]);
-			DISTRIB_IAS->Fill(track_pt[indexcandidate]);
+			DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
+			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
 			cout << track_pt[indexcandidate] << " and hscp_track associated : " << track_pt[hscp_track_idx[indexcandidate]] << endl;
-			HighestPT = track_pt[indexcandidate];
-			HighestMET = pfmet_pt[indexcandidate];
-			POVERM = (track_p[indexcandidate] *1.0/ TheorMass);
+			HighestPT = track_pt[hscp_track_idx[indexcandidate]];
+			HighestMET = pfmet_pt[hscp_track_idx[indexcandidate]];
+			POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
+			DISTRIB_POVERM->Fill(POVERMBG);
+
 			for(int i=0;i<ntrigger;i++){
 				vtrigger.push_back(passTrigger[i]);
 				if(vtrigger[i] == 0){
@@ -312,13 +316,14 @@ void AnaEff::Loop()
 	distrib->cd();
 	MUONPT_DISTRIB->Write();
 	ISOR03_DISTRIB->Write();
-	/*DISTRIB_PT->Write();
-	DISTRIB_IH->Write();
+	DISTRIB_PT->Write();
+	//DISTRIB_IH->Write();
 	DISTRIB_IAS->Write();
-	DISTRIB_ETA->Write();
-	DISTRIB_P->Write();
-	DISTRIB_IH_IAS->Write();
-	DISTRIB_PT_P->Write();*/
+	DISTRIB_POVERM->Write();
+	//DISTRIB_ETA->Write();
+	//DISTRIB_P->Write();
+	//DISTRIB_IH_IAS->Write();
+	//DISTRIB_PT_P->Write();*/
 	distrib->Close();
 	cout << "Program terminated with no logic call out of bound" << endl;
 	//trigEff_presel.WritePlots("");
