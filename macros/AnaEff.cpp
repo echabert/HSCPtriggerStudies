@@ -67,8 +67,8 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino2600";
-	float TheorMass = 2600;
+	string DataType = "Gluino1600";
+	float TheorMass = 1600;
 	string NameCompleteListTest = "ListeInteretTriggers";
 
 
@@ -133,8 +133,12 @@ void AnaEff::Loop()
 	string distribvarZ = StudyDistribZ + SubNum + ExtRoot;
 
 	DISTRIB_PT = new TH1D("DISTRIB_PT", "( PT )", 110,0,2550);
-	DISTRIB_PT->GetXaxis()->SetTitle("PT [GeV/c²]");
+	DISTRIB_PT->GetXaxis()->SetTitle("PT [GeV/c*c]");
 	DISTRIB_PT->GetYaxis()->SetTitle("# HSCP");
+ 
+	DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 110,0,2550);
+	DISTRIB_P->GetXaxis()->SetTitle("P [GeV/c*c]");
+	DISTRIB_P->GetYaxis()->SetTitle("# HSCP");
 
 
 	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",80,0,1.2);
@@ -146,7 +150,7 @@ void AnaEff::Loop()
 	DISTRIB_POVERM->GetXaxis()->SetTitle("p/m = βγ");
 	DISTRIB_POVERM->GetYaxis()->SetTitle("# HSCP");
 
-	DISTRIB_MET = new TH1D ("DISTRIB_MET", " ( MET ) " , 500,0,500);
+	DISTRIB_MET = new TH1D ("DISTRIB_MET", " ( MET ) " , 100,0,500);
 	DISTRIB_MET->GetXaxis()->SetTitle("MET (GeV)");
 	DISTRIB_MET->GetYaxis()->SetTitle("# HSCP");
 
@@ -157,10 +161,10 @@ void AnaEff::Loop()
 	DISTRIB_IAS->Sumw2();
 	DISTRIB_POVERM->Sumw2();
 	DISTRIB_MET->Sumw2();
-
+	DISTRIB_P->Sumw2();
 	//DISTRIB_ETA->Sumw2();
 	//DISTRIB_IH->Sumw2();
-	//DISTRIB_P->Sumw2();
+	
 	//DISTRIB_IH_IAS->Sumw2();
 	//DISTRIB_PT_P->Sumw2();
 
@@ -240,7 +244,7 @@ void AnaEff::Loop()
 		vector<Bool_t> vtrigger; //Convert array into vector
 		vector<int> position;
 		vector< pair<int, bool > > PosPass;
-		float HighestPT,HighestMuonPT,HighestMET,POVERMBG;
+		float HighestPT,HighestMuonPT,HighestMET,POVERMBG, HighestP;
 		int trignull=0;
 		indexcandidate=Selection();
 		//cout << " idx HSCP candidate : "  <<indexcandidate << endl;
@@ -252,8 +256,9 @@ void AnaEff::Loop()
 			//cout << track_pt[indexcandidate] << " and hscp_track associated : " << track_pt[hscp_track_idx[indexcandidate]] << endl;
 			HighestPT = track_pt[hscp_track_idx[indexcandidate]];
 			HighestMET = pfmet_pt[hscp_track_idx[indexcandidate]];
-
+			HighestP = track_p[hscp_track_idx[indexcandidate]];
 			POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
+			DISTRIB_P->Fill(HighestP);
 			DISTRIB_POVERM->Fill(POVERMBG);
 			if(HighestMET > 5 ){
 				DISTRIB_MET->Fill(HighestMET);
@@ -337,6 +342,7 @@ void AnaEff::Loop()
 	distrib->cd();
 	MUONPT_DISTRIB->Write();
 	ISOR03_DISTRIB->Write();
+	DISTRIB_P->Write();
 	DISTRIB_MET->Write();
 	DISTRIB_PT->Write();
 	DISTRIB_IAS->Write();
