@@ -121,7 +121,7 @@ void DrawHist::FitSignalBg(){
 	c111->SetTitle("Efficiencies depending on mass");
 
 	TH2F *hr2 = new TH2F("hr2","Efficiency of triggers for gluino",800,1550,2450,100,0,1);
-	TPaveText *pt = new TPaveText(.15,.1,.95,.8);
+	TPaveText *pt = new TPaveText(.15,.1,.8,.8);
 	pt->AddText("CMS Mu50 + PFMET120_PFMHT120 + PFHT500_PFMET100_PFMHT100");
 
 
@@ -367,17 +367,6 @@ void DrawHist::FitSignalBg(){
 	}
 
 		
-
-
-
-
-
-			
-
-
-
-
-
 			TLegend* leg222 = new TLegend(0.9,0.85,0.5,0.6);
 			
 
@@ -388,7 +377,7 @@ void DrawHist::FitSignalBg(){
 			CorrAllTrigs = new TGraphErrors(actualbinorall, XOrTrig, YOrTrig, ErrXOrTrig, ErrYOrTrig);
 			CorrAllTrigs->SetMarkerColor(kRed - 7);
 			CorrAllTrigs->SetMarkerStyle(49);
-			CorrAllTrigs->SetMarkerSize(2);
+			CorrAllTrigs->SetMarkerSize(4);
 			CorrAllTrigs->Draw("P");
 			leg222->Draw();
 			leg222->AddEntry(CorrAllTrigs,"OU Logique des 3 triggers" , "p");
@@ -405,7 +394,7 @@ void DrawHist::FitSignalBg(){
 					
 					Efficiencies2[l]->SetMarkerColor(kRed - 7);
 					Efficiencies2[l]->SetMarkerStyle(49);
-					Efficiencies2[l]->SetMarkerSize(2);
+					Efficiencies2[l]->SetMarkerSize(4);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l],"HLT_Mu50_v11" , "p");
 					c111->Modified();
@@ -415,7 +404,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x1,y1,Errx1,Erry1);
 					Efficiencies2[l]->SetMarkerColor(kBlue - 7);
 					Efficiencies2[l]->SetMarkerStyle(49);
-					Efficiencies2[l]->SetMarkerSize(2);
+					Efficiencies2[l]->SetMarkerSize(4);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_PFMET120_PFMHT120_IDTight_v16", "p");
 					c111->Modified();
@@ -428,7 +417,7 @@ void DrawHist::FitSignalBg(){
 					Efficiencies2[l]->SetLineColor(kOrange - 3);
 
 					Efficiencies2[l]->SetMarkerStyle(49);
-					Efficiencies2[l]->SetMarkerSize(2);
+					Efficiencies2[l]->SetMarkerSize(4);
 					Efficiencies2[l]->Draw("P");
 					leg9->AddEntry(Efficiencies2[l], "HLT_PFHT500_PFMET100_PFMHT100_IDTight_v8", "p");
 					c111->Modified();

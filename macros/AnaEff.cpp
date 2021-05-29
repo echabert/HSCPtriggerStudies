@@ -67,8 +67,8 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino2400";
-	float TheorMass = 2400;
+	string DataType = "Gluino2600";
+	float TheorMass = 2600;
 	string NameCompleteListTest = "ListeInteretTriggers";
 
 
