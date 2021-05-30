@@ -401,7 +401,7 @@ int AnaEff::Selection(){
 		/*if(hscp_iso2_tk[ihs] >= 100){ //50
 			yon=false;
 		}*/
-		if(track_ias_ampl[hscp_track_idx[ihs]] < 0.1){ //50
+		if(track_ias_ampl[hscp_track_idx[ihs]] < 0.2){ //50
 			yon=false;
 		}
 
