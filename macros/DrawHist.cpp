@@ -62,8 +62,9 @@ void DrawHist::FitSignalBg(){
 	string All = "all";
 	string ErrorEff = "Error";
 	string LogOr = "LogicalOrall";
+	string DistribZ = "DistribZpeak";
 	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Selec/Tight/Eff/"; // /PreselAndSel/Selec/Loose/Eff//
-	
+	string PathPoverM = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Preselec/" ;
 	
 	string OutPutName = Path + Purity + DataType + Date + SubNum + ExtTxt;
 
@@ -120,13 +121,13 @@ void DrawHist::FitSignalBg(){
 	//c111->SetFillColor(42);
 	c111->SetTitle("Efficiencies depending on mass");
 
-	TH2F *hr2 = new TH2F("hr2","Efficiency of triggers for gluino",800,1550,2450,100,0,1);
+	TH2F *hr2 = new TH2F("hr2","Efficiency of triggers for gluino",800,1550,2650,100,0,1);
 	TPaveText *pt = new TPaveText(.15,.1,.8,.8);
 	pt->AddText("CMS Mu50 + PFMET120_PFMHT120 + PFHT500_PFMET100_PFMHT100");
 
 
 
-	hr2->SetXTitle("HSCP Mass [GeV/c*c]");
+	hr2->SetXTitle("Gluino Mass [GeV/c^{2}]");
 	hr2->SetYTitle("#epsilon");
 	hr2->SetStats(kFALSE);
 	hr2->Draw();
@@ -138,8 +139,8 @@ void DrawHist::FitSignalBg(){
 	//c111->SetFillColor(42);
 	c222->SetTitle("Efficiencies depending on mass");
 
-	TH2F *hr23 = new TH2F("hr23","Efficiency of logical OR of triggers for gluino",800,1550,2450,100,0,1);
-	hr23->SetXTitle("HSCP Mass [GeV/c*c]");
+	TH2F *hr23 = new TH2F("hr23","Efficiency of logical OR of triggers for gluino",800,1550,2650,100,0,1);
+	hr23->SetXTitle("Gluino Mass [GeV/c^{2}]");
 	hr23->SetYTitle("#epsilon");
 	hr23->SetStats(kFALSE);
 	hr23->Draw();
@@ -147,18 +148,6 @@ void DrawHist::FitSignalBg(){
 	c222->GetFrame()->SetBorderSize(12);
 	
 
-
-
-
-
-
-
-
-
-
-
-
-	hr.resize(AlltriggerNames.size());
 	/*for(int l = 0; l < AlltriggerNames.size(); l++){
 		hr[l] = new TH2F;
 		hr[l]->SetTitle(AlltriggerNames[l].c_str());
@@ -202,6 +191,8 @@ void DrawHist::FitSignalBg(){
 		
 
 		string FromListAllCorr = Path + LogOr + DataType + pointofmass + ExtTxt;
+
+		string SumPOverM = PathPoverM + DistribZ + DataType + pointofmass + Date + ExtRoot;
 
 
 		ifstream bfile(FromListAllCorr.c_str(), std::ios::in);
@@ -366,33 +357,38 @@ void DrawHist::FitSignalBg(){
 		EffNotOrdered.clear();
 	}
 
+
+
+
+
 		
 			TLegend* leg222 = new TLegend(0.9,0.85,0.5,0.6);
 			
 
 			
-			
-			OutputHisto2->cd();
-			c222->cd();
+		
+	
+			TLegend* leg9 = new TLegend(0.9,0.85,0.5,0.6);
+
+			c111->cd();
+
 			CorrAllTrigs = new TGraphErrors(actualbinorall, XOrTrig, YOrTrig, ErrXOrTrig, ErrYOrTrig);
-			CorrAllTrigs->SetMarkerColor(kRed - 7);
+			CorrAllTrigs->SetMarkerColor(kRed);
 			CorrAllTrigs->SetMarkerStyle(49);
 			CorrAllTrigs->SetMarkerSize(4);
 			CorrAllTrigs->Draw("P");
-			leg222->Draw();
-			leg222->AddEntry(CorrAllTrigs,"OU Logique des 3 triggers" , "p");
-			c222->Modified();
-			c222->Update();
-			c222->Write();
-	
-			TLegend* leg9 = new TLegend(0.9,0.85,0.5,0.6);
-			c111->cd();
+			
+			leg9->AddEntry(CorrAllTrigs,"Combinaison" , "p");
+
+
+
+
 			cout << "AlltriggerNames.size() = " << AlltriggerNames.size() << endl;
 			for(int l = 0; l < AlltriggerNames.size(); l++){
 				if(l==0){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x0,y0,Errx0,Erry0);
 					
-					Efficiencies2[l]->SetMarkerColor(kRed - 7);
+					Efficiencies2[l]->SetMarkerColor(kOrange - 3);
 					Efficiencies2[l]->SetMarkerStyle(49);
 					Efficiencies2[l]->SetMarkerSize(4);
 					Efficiencies2[l]->Draw("P");
@@ -402,7 +398,7 @@ void DrawHist::FitSignalBg(){
 				}
 				if(l==1){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x1,y1,Errx1,Erry1);
-					Efficiencies2[l]->SetMarkerColor(kBlue - 7);
+					Efficiencies2[l]->SetMarkerColor(kPink + 5 );
 					Efficiencies2[l]->SetMarkerStyle(49);
 					Efficiencies2[l]->SetMarkerSize(4);
 					Efficiencies2[l]->Draw("P");
@@ -412,9 +408,9 @@ void DrawHist::FitSignalBg(){
 				}
 				if(l==2){
 					Efficiencies2[l] = new TGraphErrors(actualbin, x2,y2,Errx2,Erry2);
-					Efficiencies2[l]->SetMarkerColor(kOrange);
+					Efficiencies2[l]->SetMarkerColor(kMagenta - 9);
 
-					Efficiencies2[l]->SetLineColor(kOrange - 3);
+					Efficiencies2[l]->SetLineColor(kBlue + 7);
 
 					Efficiencies2[l]->SetMarkerStyle(49);
 					Efficiencies2[l]->SetMarkerSize(4);
@@ -487,7 +483,7 @@ void DrawHist::FitSignalBg(){
 		y6[n1] = {0};
 
 
-
+		leg9->SetBorderSize(0);
 		leg9->Draw();
 			
 			
