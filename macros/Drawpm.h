@@ -36,7 +36,7 @@ class Drawpm
 
    vector <TFile*> MyMyF;
    vector <TF1*> MyTf1;
-
+   vector <TGraphErrors*> Test;
    TF1* Total;
 };
 

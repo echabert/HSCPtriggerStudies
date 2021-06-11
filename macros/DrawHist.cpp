@@ -218,10 +218,6 @@ void DrawHist::FitSignalBg(){
 
 		ifstream afile(FromListError.c_str(), std::ios::in);
 
-
-
-
-
 		if (!afile.is_open()) {
 			cout << "There was a problem opening the error input file!" << FromListError << endl;
 	   	}
