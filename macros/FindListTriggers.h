@@ -53,8 +53,8 @@ class ListNameTriggers
    Int_t	ntrigger;
    Int_t	nhscp;
 
-   Float_t	prescaleTrigger[1000];
-   Bool_t	passTrigger[1000];
+   Float_t	prescaleTrigger[2000];
+   Bool_t	passTrigger[2000];
    Int_t	nmuons;
    Float_t      muon_phi[32];
    Float_t      muon_eta[32];
