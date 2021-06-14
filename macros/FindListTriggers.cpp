@@ -103,7 +103,7 @@ void ListNameTriggers::FindAllNames(){
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		testcount+=1;
-		
+		cout << "in loop"<<ntrigger<<endl;
 		/*if(nhscp==2){
 			cout << "Entry[" << jentry << "]," << endl <<"-------------------------------------------------" << endl;
 			for(int i=0 ; i < nhscp ;i++){
