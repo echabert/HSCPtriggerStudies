@@ -42,7 +42,7 @@ int ListNameTriggers::IsInList(string name){
 void ListNameTriggers::FindAllNames(){
 	
 	ofstream CompleteList;
-	string DataType = "Gluino1800";
+	string DataType = "Gluino1800futur";
 	string NameList = "CompleteList";
 	string ExtTxt = ".txt";
 	string PresList = "PrescaledSubList";
