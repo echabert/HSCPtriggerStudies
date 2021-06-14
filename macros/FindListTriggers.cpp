@@ -95,7 +95,7 @@ void ListNameTriggers::FindAllNames(){
 	}
 	
 	PrescaledTurnedBad << "----------------------------------------------------------------\n ----------------------------------------------------------------\n " << endl;
-	
+	cout << "before loop"<<endl;
 	
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
