@@ -104,34 +104,12 @@ void ListNameTriggers::FindAllNames(){
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		testcount+=1;
 		cout << "in loop"<<ntrigger<<endl;
-		/*if(nhscp==2){
-			cout << "Entry[" << jentry << "]," << endl <<"-------------------------------------------------" << endl;
-			for(int i=0 ; i < nhscp ;i++){
-				cout << "candidate[" << i << "]," << endl <<"-------------------------------------------------" << endl;
-				for(int j=0; j < ntrigger ; j++){
-					if(passTrigger[j] == 1 )
-						cout << passTrigger[j] << " ," << j << endl;
-				}
-				
-			}
-		}
 		
-		cout << " EVENT ------- "<< jentry << "--------------- NMUONS : " << nmuons << endl;
-		for (int i = 0 ; i < nmuons ;i++){
-			cout << "muon" << i << " has pt = " << muon_pt[i] << " , phi = " << muon_phi[i] << " and eta = " << muon_eta[i] << endl;
-		}*/
 		//cout << "----------------------------- new event -----------------------------" << endl;
 		//if(ntrigger > InfoTriggers.size()){
 			//cout << " --------NEW EVENT ------- "<< endl;
 			for(int i=0; i< ntrigger; i++){
 				int b = IsInList(triggerName->at(i));
-				//cout << prescaleTrigger[i] << "  " ;
-				//if(b==i){
-
-				//Si un evenement pas présent dans X, enlever 
-
-
-				//	cout << "was in list" << endl;
 				if(b!=9999){
 					if(prescaleTrigger[i]==1){
 						//cout << triggerName->at(i) << " has prescale 1"  << endl;
@@ -140,8 +118,6 @@ void ListNameTriggers::FindAllNames(){
 						InfoTriggers[b] = make_pair(triggerName->at(i) , make_pair(false,true));
 						//cout << triggerName->at(i) << " has prescale " << prescaleTrigger[i] << endl;
 					}
-				// transcript 
-				//si prescale!=1 false
 
 				}
 
@@ -151,69 +127,7 @@ void ListNameTriggers::FindAllNames(){
 					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
 				
 				}
-					//else{
-						//InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
-						//cout << triggerName->at(i) << " was added to list with prescale " << prescaleTrigger[i] << endl;
-					//}
-
-				
-			
 			}
-
-			//bool rv[InfosTriggers.size()] = { 0 } ;
-			/*for(int j = 0 ; j < InfoTriggers.size() ; j++){
-				int s = ListNameTriggersReverse(InfoTriggers[j].first);
-				if(s==9999){
-					InfoTriggers[j] = make_pair(triggerName->at(j),make_pair(false,false));
-				}
-
-			}*/
-					
-
-	
-				
-				
-
-
-		//}
-		/*else if(ntrigger == InfoTriggers.size()){
-			cout << "All triggers are here" << endl;
-
-		}
-		else if(ntrigger < InfoTriggers.size()){
-			cout << "There are " << ( InfoTriggers.size() - ntrigger ) << " triggers missing in this entry"  << endl;
-
-		}*/
-		
-
-
-		/*for(int i=0; i< ntrigger; i++){
-
-
-		
-		
-			//auto it = find(InfoTriggers.begin(), InfoTriggers.end(),triggerName->at(i));
-
-			//auto it = std::ranges::find(InfoTriggers, triggerName->at(i), &std::pair<std::string, std::pair<bool,bool> >::first);
-			int a = IsInList(triggerName->at(i));
-			if(a!=9999){
-				if(prescaleTrigger[a]!=1){
-					if(InfoTriggers[a].second.first == true && InfoTriggers[a].second.second == true){
-						PrescaledTurnedBad << "Entry " << jentry << " made prescale " << i << " false" << endl;
-					}
-					InfoTriggers[a] = make_pair(triggerName->at(a) , make_pair(false,true));
-				}
-			}
-			else{
-				if(prescaleTrigger[i]==1){
-					cout << "Added one vector to the map " << endl;
-					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(true,false)));
-				}
-				else{
-					InfoTriggers.push_back(make_pair(triggerName->at(i),make_pair(false,false)));
-				}
-			}
-		}*/
 	}
 
 	for ( int it = 0 ; it < InfoTriggers.size() ; it++){
