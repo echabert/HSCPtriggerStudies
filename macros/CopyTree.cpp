@@ -51,7 +51,7 @@ void CopyTree::CopyWithSelec(string mode){
 	//&& ndedxhits >= 5 && muon_isTrackerMuon[0] && muon_isTrackerMuon[1]
 	// && muon_pt[0] >= 10 && muon_pt[1] >= 10 && (track_charge[0]*track_charge[1] == -1) && track_qual[0] >= 2 && track_qual[1] >= 2 && muon_isMediumMuon[0]"
 	// /opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/HSCPppstau_M-494_TuneZ2star_13TeV-pythia6/MC17_Stau494/210510_161454/0000/
-	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/HSCPstop_M-2600_TuneCP5_13TeV-pythia8/MC17_Stop2600/210518_144131/0000/");
+	string path("/opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMay2021_CMSSW_10_6_2/HSCPgluino_M_1800_TuneCP5_14TeV_pythia8/MCRun3_2021_Gluino1800/210519_081548/0000/");
 	string ext(".root");
 	
 	Long64_t sumentries=0,smallsumentries=0;
