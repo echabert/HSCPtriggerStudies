@@ -704,7 +704,7 @@ void AnaEff::AssoGenId(){
 			countglu +=1;
 		}
 	}
-	cout << "found "<< countglu << " gluinos in the whole event, and only "<< ngmothgen << " mother gluinos" << endl;
+	cout << "found "<< countglu << " gluinos in the whole event, and only "<< nbmothgen << " mother gluinos" << endl;
 
 	// association entre R-hadron et delta R d'une trace
 
