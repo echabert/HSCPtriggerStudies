@@ -81,6 +81,7 @@ public :
    Float_t	gen_eta[451];   //[ngenpart]
    Float_t	gen_phi[451];   //[ngenpart]
    Float_t	gen_mass[451];   //[ngenpart]
+   Int_t	gen_moth_pdg[451]; //[ngenpart]
 
    Float_t	track_eta[33];
    Float_t	track_phi[33];
@@ -119,6 +120,7 @@ public :
    TBranch        *b_hscp_track_idx;   //!
    TBranch        *b_nhscp;  //!
    TBranch        *b_ngenpart;   //!
+   TBranch        *b_gen_moth_pdg;   //!
 
    TBranch        *b_track_nhits;
    TBranch        *b_pfmet_pt; // !
@@ -348,6 +350,7 @@ void AnaEff::Init(TTree *tree)
    fChain->SetBranchAddress("nhscp", &nhscp, &b_nhscp);
    fChain->SetBranchAddress("ngenpart", &ngenpart, &b_ngenpart);
 
+   fChain->SetBranchAddress("gen_moth_pdg", gen_moth_pdg, &b_gen_moth_pdg);
    fChain->SetBranchAddress("pfmet_pt", pfmet_pt, &b_pfmet_pt);
    fChain->SetBranchAddress("track_eta", track_eta, &b_track_eta);
    fChain->SetBranchAddress("track_npixhits", track_npixhits, &b_track_npixhits);

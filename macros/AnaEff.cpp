@@ -691,16 +691,20 @@ double AnaEff::deltaR(double delta) {
 void AnaEff::AssoGenId(){
 	cout << "-----------new event--------" << endl;
 	vector<int> candidates;
-	int nglu = 0,countglu = 0;
+	int nglu = 0,countglu = 0,nbmothgen=0;
 	
 	for(int i=0; i < ngenpart ; i++){
+		if(gen_moth_pdg[i] == 1000021){
+			nbmothgen+=1;
+		}
+
 		if (gen_pdg[i] == 1000021){
 			nglu = i;
 			candidates.push_back(i);
 			countglu +=1;
 		}
 	}
-	cout << "found "<< countglu << " gluinos "<< endl;
+	cout << "found "<< countglu << " gluinos in the whole event, and only "<< ngmothgen << " mother gluinos" << endl;
 
 	// association entre R-hadron et delta R d'une trace
 
@@ -712,7 +716,7 @@ void AnaEff::AssoGenId(){
 			double deltatranfr = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates[j]], gen_phi[candidates[j]]);
 			double finaldelta = deltaR(deltatranfr);
 			//cout << finaldelta << endl;
-			if (finaldelta < 0.3){
+			if (finaldelta < 0.1){
 				alo = true;
 				cout << "Track number " << i << " is associated with gluino " << candidates[j] << endl;
 			}
