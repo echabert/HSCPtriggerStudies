@@ -196,7 +196,10 @@ void AnaEff::Loop()
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << " , "<<(jentry*1.0/nentries)*100 << " %" << endl;
 		if (ientry < 0) break;
-        	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
+        	nb = fChain->GetEntry(jentry);   nbytes += nb;	
+
+	
+		AssoGenId();
 		//cout << "Before MuonsInvariantMass" << endl;
 		InvMass = MuonsInvariantMass();
 		//cout << "Before MuonsMissingET" << endl;
