@@ -699,10 +699,8 @@ void AnaEff::AssoGenId(){
 			candidates.push_back(i);
 			countglu +=1;
 		}
-		cout << "found "<< countglu << " gluinos "<< endl;
-		
 	}
-
+	cout << "found "<< countglu << " gluinos "<< endl;
 
 	// association entre R-hadron et delta R d'une trace
 
