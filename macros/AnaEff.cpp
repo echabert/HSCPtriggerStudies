@@ -693,7 +693,7 @@ void AnaEff::AssoGenId(){
 	int nglu = 0;
 	for(int i=0; i < ngenpart ; i++){
 		if (gen_pdg[i] == 1000021){
-			cout << "found a gluino" << endl;
+			cout << "found a gluino in position "  << i << " ¦ ";
 			nglu = i;
 		}
 	
@@ -707,6 +707,7 @@ void AnaEff::AssoGenId(){
 	for(int i = 0; i < ntracks ; i++){
 		double deltatranfr = deltaR2(track_eta[i], track_phi[i], gen_eta[nglu], gen_phi[nglu]);
 		double finaldelta = deltaR(deltatranfr);
+		cout << finaldelta << endl;
 		if (finaldelta < 0.3){
 			cout << "Track number " << i << " is associated with a gluino" << endl;
 		}
