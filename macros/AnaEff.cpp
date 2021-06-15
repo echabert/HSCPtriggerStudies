@@ -717,9 +717,9 @@ void AnaEff::AssoGenId(){
 			double deltatranfr = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates[j]], gen_phi[candidates[j]]);
 			double finaldelta = deltaR(deltatranfr);
 			//cout << finaldelta << endl;
-			if (finaldelta < 0.1){
+			if (finaldelta < 0.05){
 				alo = true;
-				//cout << "Track number " << i << " is associated with gluino " << candidates[j] << endl;
+				cout << "Track number " << i << " is associated with gluino " << candidates[j] << endl;
 			}
 			
 		}
