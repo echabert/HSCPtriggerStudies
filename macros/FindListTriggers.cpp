@@ -106,7 +106,7 @@ void ListNameTriggers::FindAllNames(){
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	// 
 		testcount+=1;
-		cout << "in loop"<<ntrigger<<endl;
+		cout << "in loop" << ntrigger << endl;
 		
 		//cout << "----------------------------- new event -----------------------------" << endl;
 		//if(ntrigger > InfoTriggers.size()){
