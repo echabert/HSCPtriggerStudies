@@ -689,7 +689,7 @@ double AnaEff::deltaR(double delta) {
 
 
 void AnaEff::AssoGenId(){
-
+	cout << "-----------new event--------" << endl;
 	vector<int> candidates;
 	int nglu = 0,countglu = 0;
 	
@@ -705,18 +705,22 @@ void AnaEff::AssoGenId(){
 	// association entre R-hadron et delta R d'une trace
 
 
-	
+	bool alo = false;
 	for(int i = 0; i < ntracks ; i++){
 		for(int j=0; j< candidates.size() ; j++){
 
 			double deltatranfr = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates[j]], gen_phi[candidates[j]]);
 			double finaldelta = deltaR(deltatranfr);
-			cout << finaldelta << endl;
+			//cout << finaldelta << endl;
 			if (finaldelta < 0.3){
+				alo = true;
 				cout << "Track number " << i << " is associated with gluino " << candidates[j] << endl;
 			}
 			
 		}
+	}
+	if(alo==false){
+		cout << "no track matched this gluino " << endl;
 	}
 
 	candidates.clear();
