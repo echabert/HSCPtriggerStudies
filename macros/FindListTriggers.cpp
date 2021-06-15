@@ -30,7 +30,7 @@ int ListNameTriggers::ListNameTriggersReverse(string name){
 int ListNameTriggers::IsInList(string name){
 	int ct=0;
 	for(int i = 0 ; i < InfoTriggers.size() ; i++){
-		cout << i << endl;
+		//cout << i << endl;
 		if(InfoTriggers[i].first == name){
 			return ct;
 		}
