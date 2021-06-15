@@ -689,7 +689,7 @@ double AnaEff::deltaR(double delta) {
 
 
 void AnaEff::AssoGenId(){
-	cout << "-----------new event--------" << endl;
+	cout << "-----------new event-------- : " << ngenpart << "particules"<<  endl;
 	vector<int> candidates;
 	int nglu = 0,countglu = 0,nbmothgen=0;
 	
