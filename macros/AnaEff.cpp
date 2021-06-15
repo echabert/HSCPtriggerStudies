@@ -67,7 +67,7 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino1800futur";
+	string DataType = "Gluino1800";
 	float TheorMass = 1800;
 	string NameCompleteListTest = "ListeInteretTriggers";
 
@@ -438,18 +438,7 @@ int AnaEff::fact(int n){
      return (n==0) || (n==1) ? 1 : n* fact(n-1);
 }
 
-double AnaEff::deltaR2(float track_eta,float track_phi, float muon_eta, float muon_phi){
-	float dp = std::abs(track_phi - muon_phi);
-	if (dp > M_PI){
-		dp -= 2.0 * M_PI;
-	}
-	return (track_eta - muon_eta)*(track_eta - muon_eta) + dp * dp;
 
-}
-
-double AnaEff::deltaR(double delta) {
-	return std::sqrt(delta);
-}
 
 
 double AnaEff::MuonsMissingET(){
@@ -681,6 +670,47 @@ double AnaEff::IsolateMuons(const vector<bool> &passtrig){
 	return 1;	
 }
 
+double AnaEff::deltaR2(float track_eta,float track_phi, float muon_eta, float muon_phi){
+	float dp = std::abs(track_phi - muon_phi);
+	if (dp > M_PI){
+		dp -= 2.0 * M_PI;
+	}
+	return (track_eta - muon_eta)*(track_eta - muon_eta) + dp * dp;
+
+}
+
+double AnaEff::deltaR(double delta) {
+	return std::sqrt(delta);
+}
+
+
+
+void AnaEff::AssoGenId(){
+
+	int nglu = 0;
+	for(int i=0; i < ngenpart ; i++){
+		if (gen_pdg[i] == 1000021){
+			cout << "found a gluino" << endl;
+			nglu = i;
+		}
+	
+	}
+
+
+	// association entre R-hadron et delta R d'une trace
+
+
+	
+	for(int i = 0; i < ntracks ; i++){
+		double deltatranfr = deltaR2(track_eta[i], track_phi[i], gen_eta[nglu], gen_phi[nglu]);
+		double finaldelta = deltaR(deltatranfr);
+		if (finaldelta < 0.3){
+			cout << "Track number " << i << " is associated with a gluino" << endl;
+		}
+			
+	}
+	
+}
 
 
 int main(){
