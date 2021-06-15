@@ -15,6 +15,7 @@ using namespace std;
 
 int ListNameTriggers::ListNameTriggersReverse(string name){
 	int cs = 0;
+	
 	for (int i = 0 ; i < triggerName->size() ; i++){
 		if(triggerName->at(i) == name){
 			return cs;
@@ -29,6 +30,7 @@ int ListNameTriggers::ListNameTriggersReverse(string name){
 
 int ListNameTriggers::IsInList(string name){
 	int ct=0;
+	cout << InfoTriggers.size() << endl;
 	for(int i = 0 ; i < InfoTriggers.size() ; i++){
 		//cout << i << endl;
 		if(InfoTriggers[i].first == name){
