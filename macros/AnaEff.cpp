@@ -710,7 +710,7 @@ double AnaEff::deltaR(double delta) {
 
 
 void AnaEff::AssoGenId(){
-	cout << "-----------new event-------- : " << ngenpart << " particules et " << ntracks << " traces"<<endl;
+	//cout << "-----------new event-------- : " << ngenpart << " particules et " << ntracks << " traces"<<endl;
 	vector<int> candidates;
 	int nglu = 0,nglu2=0,countglu = 0,nbmothgen=0;
 	double p1=0,p2=0,eta1=0,eta2=0,pt1=0,pt2=0;
@@ -755,14 +755,14 @@ void AnaEff::AssoGenId(){
 			//cout << finaldelta << endl;
 			if (finaldelta1 < 0.3){
 				alo = true;
-				cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-1] << endl;
+				//cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-1] << endl;
 				poverm1 = ((gen_pt[candidates[candidates.size()-1]] * cosh(gen_eta[candidates[candidates.size()-1]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm1);
 
 			}
 			if (finaldelta2 < 0.3){
 				alo2 = true;
-				cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-2] << endl;
+				//cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-2] << endl;
 				poverm2 = ((gen_pt[candidates[candidates.size()-2]] * cosh(gen_eta[candidates[candidates.size()-2]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm2);
 			}
@@ -773,7 +773,7 @@ void AnaEff::AssoGenId(){
 	
 	
 	if(alo==false && alo2 == false){
-		cout << "no track matched any gluino" << endl;
+		//cout << "no track matched any gluino" << endl;
 	}
 
 	candidates.clear();
