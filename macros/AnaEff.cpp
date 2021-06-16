@@ -689,7 +689,7 @@ double AnaEff::deltaR(double delta) {
 
 
 void AnaEff::AssoGenId(){
-	cout << "-----------new event-------- : " << ngenpart << "particules"<<  endl;
+	cout << "-----------new event-------- : " << ngenpart << " particules et "<< ntracks << " traces" <<endl;
 	vector<int> candidates;
 	int nglu = 0,countglu = 0,nbmothgen=0;
 	
@@ -706,9 +706,6 @@ void AnaEff::AssoGenId(){
 		}
 	}
 	//cout << "found "<< countglu << " gluinos in the whole event, and only "<< nbmothgen << " mother gluinos" << endl;
-
-	// association entre R-hadron et delta R d'une trace
-
 
 	bool alo = false;
 	for(int i = 0; i < ntracks ; i++){
