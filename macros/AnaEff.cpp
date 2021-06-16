@@ -40,6 +40,9 @@ const double uncertaintyMu = 0.0000000024;
 
 const double massW = 80.379;
 const double uncertaintyW = 0.012;
+
+const float TheorMass = 1800;
+
 void AnaEff::Loop()
 {
 	
@@ -68,7 +71,7 @@ void AnaEff::Loop()
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
 	string DataType = "Gluino1800";
-	float TheorMass = 1800;
+	
 	string NameCompleteListTest = "ListeInteretTriggers";
 
 
@@ -150,6 +153,17 @@ void AnaEff::Loop()
 	DISTRIB_POVERM->GetXaxis()->SetTitle("p/m = βγ");
 	DISTRIB_POVERM->GetYaxis()->SetTitle("# HSCP");
 
+
+
+	DISTRIB_POVERMASSO1 = new TH1D ("DISTRIB_POVERMASSO1", "( P/ M )", 80,0,2.5);
+	DISTRIB_POVERMASSO1->GetXaxis()->SetTitle("p/m = βγ");
+	DISTRIB_POVERMASSO1->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_POVERMASSO2 = new TH1D ("DISTRIB_POVERMASS02", "( P/ M )", 80,0,2.5);
+	DISTRIB_POVERMASSO2->GetXaxis()->SetTitle("p/m = βγ");
+	DISTRIB_POVERMASSO2->GetYaxis()->SetTitle("# HSCP");
+
+
 	DISTRIB_MET = new TH1D ("DISTRIB_MET", " ( MET ) " , 100,0,500);
 	DISTRIB_MET->GetXaxis()->SetTitle("MET (GeV)");
 	DISTRIB_MET->GetYaxis()->SetTitle("# HSCP");
@@ -160,6 +174,10 @@ void AnaEff::Loop()
 	DISTRIB_PT->Sumw2();
 	DISTRIB_IAS->Sumw2();
 	DISTRIB_POVERM->Sumw2();
+
+	DISTRIB_POVERMASSO1->Sumw2();
+	DISTRIB_POVERMASSO2->Sumw2();
+
 	DISTRIB_MET->Sumw2();
 	DISTRIB_P->Sumw2();
 	//DISTRIB_ETA->Sumw2();
@@ -350,6 +368,9 @@ void AnaEff::Loop()
 	DISTRIB_PT->Write();
 	DISTRIB_IAS->Write();
 	DISTRIB_POVERM->Write();
+
+	DISTRIB_POVERMASSO1->Write();
+	DISTRIB_POVERMASSO2->Write();
 	//DISTRIB_ETA->Write();
 	//DISTRIB_P->Write();
 	//DISTRIB_IH_IAS->Write();
@@ -706,7 +727,7 @@ void AnaEff::AssoGenId(){
 			candidates.push_back(i);
 
 			countglu +=1;
-			cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] << " which gives a vectoriel p = " << gen_pt[i] * cosh(gen_eta[i]) << endl;
+			//cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] << " which gives a vectoriel p = " << gen_pt[i] * cosh(gen_eta[i]) << endl;
 			
 
 		}
@@ -715,7 +736,7 @@ void AnaEff::AssoGenId(){
 
 	}
 
-	cout << "found 2 gluinos able to hadronize : "<< candidates[candidates.size()-1] << " , " << candidates[candidates.size()-2] << " , p1 = " << gen_pt[candidates[candidates.size()-1]] * cosh(gen_eta[candidates[candidates.size()-1]]) << " , and p2 = " << gen_pt[candidates[candidates.size()-2]] * cosh(gen_eta[candidates[candidates.size()-2]]) << endl;
+	//cout << "found 2 gluinos able to hadronize : "<< candidates[candidates.size()-1] << " , " << candidates[candidates.size()-2] << " , p1 = " << gen_pt[candidates[candidates.size()-1]] * cosh(gen_eta[candidates[candidates.size()-1]]) << " , and p2 = " << gen_pt[candidates[candidates.size()-2]] * cosh(gen_eta[candidates[candidates.size()-2]]) << endl;
 
 
 	//cout << "found "<< countglu << " gluinos in the whole event, and only "<< nbmothgen << " mother gluinos" << endl;
@@ -735,15 +756,22 @@ void AnaEff::AssoGenId(){
 			if (finaldelta1 < 0.3){
 				alo = true;
 				cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-1] << endl;
+				poverm1 = ((gen_pt[candidates[candidates.size()-1]] * cosh(gen_eta[candidates[candidates.size()-1]]))/TheorMass);
+				DISTRIB_POVERMASSO1->Fill(poverm1);
+
 			}
 			if (finaldelta2 < 0.3){
 				alo2 = true;
 				cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-2] << endl;
+				poverm2 = ((gen_pt[candidates[candidates.size()-2]] * cosh(gen_eta[candidates[candidates.size()-2]]))/TheorMass);
+				DISTRIB_POVERMASSO1->Fill(poverm2);
 			}
 
 			
 		//}
 	}
+	
+	
 	if(alo==false && alo2 == false){
 		cout << "no track matched any gluino" << endl;
 	}
