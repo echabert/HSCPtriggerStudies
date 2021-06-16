@@ -100,7 +100,7 @@ void ListNameTriggers::FindAllNames(){
 	PrescaledTurnedBad << "----------------------------------------------------------------\n ----------------------------------------------------------------\n " << endl;
 	cout << "before loop"<<nentries<<endl;
 	
-	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
+	/*for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << " , "<<(jentry*1.0/nentries)*100 << " %" << endl;
 		if (ientry < 0) break;
@@ -135,7 +135,7 @@ void ListNameTriggers::FindAllNames(){
 
 			}
 	//cout <<"end loop ntrigger"<<endl;
-	}
+	}*/
 
 	for ( int it = 0 ; it < InfoTriggers.size() ; it++){
 		CompleteList << InfoTriggers[it].first << " " << endl;
