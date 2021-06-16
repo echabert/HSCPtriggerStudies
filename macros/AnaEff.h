@@ -187,6 +187,9 @@ private :
    TH1D* DISTRIB_POVERM;
    TH1D* DISTRIB_MET;
 
+	
+   TH1D* DISTRIB_POVERMASSO1;
+   TH1D* DISTRIB_POVERMASSO2;
 
    TH1D* DISTRIB_PT;
    TH1D* DISTRIB_ETA;
@@ -222,7 +225,8 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	DISTRIB_IAS=0;
 	DISTRIB_PT_P=0;
 	DISTRIB_IH_IAS=0;
-	
+	DISTRIB_POVERMASSO1=0;
+	DISTRIB_POVERMASSO2=0;
 
 	triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
@@ -268,6 +272,12 @@ AnaEff::~AnaEff() //deconstructeur
    }
    if(!ISOR03_DISTRIB){
    	delete ISOR03_DISTRIB;
+   }
+   if(!DISTRIB_POVERMASSO1){
+   	delete DISTRIB_POVERMASSO1;
+   }
+   if(!DISTRIB_POVERMASSO2){
+   	delete DISTRIB_POVERMASSO2;
    }
 
    if(!DISTRIB_POVERM){
