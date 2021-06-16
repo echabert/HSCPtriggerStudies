@@ -42,7 +42,7 @@ Drawpm::~Drawpm(){
 
 
 void Drawpm::FitSignalPM(){
-	string filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/PreselAndSel/Presel/Eff/";
+	string filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Recons/Eff/";
 	string pointofmass,DataType="Gluino",Date = "1105", All = "all", ExtRoot = ".root",Distribz = "DistribZpeak";
 	int minm=1600,maxm=2600,nbmbin=200, nbbing = 80;
 	double x0[nbbing] = {0} ,y0[nbbing]= {0},x1[nbbing]= {0},y1[nbbing]= {0},x2[nbbing]= {0},y2[nbbing]= {0},x3[nbbing]= {0},y3[nbbing]= {0},x4[nbbing]= {0},y4[nbbing]= {0},x5[nbbing]= {0},y5[nbbing]= {0};
@@ -55,7 +55,7 @@ void Drawpm::FitSignalPM(){
 	MyMyF.resize(nbdiffpt);
 	MyTf1.resize(nbdiffpt);
 	Test.resize(nbdiffpt);
-	TString outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/PreselAndSel/Presel/Eff/Povermwithmass.root";
+	TString outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Recons/Eff/Povermwithmass.root";
 	
 	OutputHisto = new TFile(outputfilename,"RECREATE");
 
@@ -82,7 +82,7 @@ void Drawpm::FitSignalPM(){
 		
 		else{
 			cout << nbcount << endl;
-			TempTr[nbcount] = (TH1D*)gROOT->FindObject("DISTRIB_POVERM");
+			TempTr[nbcount] = (TH1D*)gROOT->FindObject("DISTRIB_POVERMASSO1");
 			TempTr[nbcount]->SetTitle(Title.c_str());
 			cout << "all good" << endl;
 		
