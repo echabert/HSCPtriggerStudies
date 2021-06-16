@@ -114,7 +114,7 @@ void ListNameTriggers::FindAllNames(){
 			for(int i=0; i< ntrigger; i++){
 				cout << i <<"is ok"<< triggerName->at(i) <<  endl;
 				int b = IsInList(triggerName->at(i));
-				cout <<"after IsInList"<<endl;
+				//cout <<"after IsInList"<<endl;
 				if(b!=9999){
 					if(prescaleTrigger[i]==1){
 						//cout << triggerName->at(i) << " has prescale 1"  << endl;
@@ -134,7 +134,7 @@ void ListNameTriggers::FindAllNames(){
 				}
 
 			}
-	cout <<"end loop ntrigger"<<endl;
+	//cout <<"end loop ntrigger"<<endl;
 	}
 
 	for ( int it = 0 ; it < InfoTriggers.size() ; it++){
