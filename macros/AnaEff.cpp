@@ -689,7 +689,7 @@ double AnaEff::deltaR(double delta) {
 
 
 void AnaEff::AssoGenId(){
-	cout << "-----------new event-------- : " << ngenpart << " particules et "<< ntracks << " traces" <<endl;
+	cout << "-----------new event-------- : " << ngenpart << " particules et " << ntracks << " traces"<<endl;
 	vector<int> candidates;
 	int nglu = 0,countglu = 0,nbmothgen=0;
 	
@@ -716,7 +716,7 @@ void AnaEff::AssoGenId(){
 			//cout << finaldelta << endl;
 			if (finaldelta < 0.05){
 				alo = true;
-				cout << "Track number " << i << " is associated with gluino " << candidates[j] << endl;
+				//cout << "Track number " << i << " is associated with gluino " << candidates[j] << endl;
 			}
 			
 		}
