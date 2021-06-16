@@ -703,7 +703,7 @@ void AnaEff::AssoGenId(){
 			nglu = i;
 			candidates.push_back(i);
 			countglu +=1;
-			cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] <<  endl;
+			cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] << " which gives a vectoriel p = " << gen_pt[i] * cosh(gen_eta[i]) << endl;
 		}
 
 		//cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] <<  endl;
