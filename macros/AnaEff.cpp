@@ -691,7 +691,7 @@ double AnaEff::deltaR(double delta) {
 void AnaEff::AssoGenId(){
 	cout << "-----------new event-------- : " << ngenpart << " particules et " << ntracks << " traces"<<endl;
 	vector<int> candidates;
-	int nglu = 0,countglu = 0,nbmothgen=0;
+	int nglu = 0,nglu2=0,countglu = 0,nbmothgen=0;
 	
 	for(int i=0; i < ngenpart ; i++){
 		//cout << gen_moth_pdg[i] << endl;
@@ -701,14 +701,20 @@ void AnaEff::AssoGenId(){
 
 		if (gen_pdg[i] == 1000021){
 			nglu = i;
+			nglu2=i-1;
+
 			candidates.push_back(i);
 			countglu +=1;
-			cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] << " which gives a vectoriel p = " << gen_pt[i] * cosh(gen_eta[i]) << endl;
+			//cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] << " which gives a vectoriel p = " << gen_pt[i] * cosh(gen_eta[i]) << endl;
 		}
 
 		//cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] <<  endl;
 
 	}
+
+	cout << "found 2 gluinos able to hadronize : "<< nglu << " , " << nglu2 << " , p1 = " << gen_pt[nglu] * cosh(gen_eta[nglu]) << " , and p2 = " gen_pt[nglu2] * cosh(gen_eta[nglu2]) <<endl;
+
+
 	//cout << "found "<< countglu << " gluinos in the whole event, and only "<< nbmothgen << " mother gluinos" << endl;
 
 	bool alo = false;
@@ -718,7 +724,7 @@ void AnaEff::AssoGenId(){
 			double deltatranfr = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates[j]], gen_phi[candidates[j]]);
 			double finaldelta = deltaR(deltatranfr);
 			//cout << finaldelta << endl;
-			if (finaldelta < 0.05){
+			if (finaldelta < 0.1){
 				alo = true;
 				//cout << "Track number " << i << " is associated with gluino " << candidates[j] << endl;
 			}
