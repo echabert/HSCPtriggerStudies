@@ -44,7 +44,7 @@ Drawpm::~Drawpm(){
 void Drawpm::FitSignalPM(){
 	string filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Recons/Eff/";
 	string pointofmass,DataType="Gluino",Date = "1105", All = "all", ExtRoot = ".root",Distribz = "DistribZpeak";
-	int minm=1600,maxm=2600,nbmbin=200, nbbing = 80;
+	int minm=1800,maxm=2400,nbmbin=200, nbbing = 80;
 	double x0[nbbing] = {0} ,y0[nbbing]= {0},x1[nbbing]= {0},y1[nbbing]= {0},x2[nbbing]= {0},y2[nbbing]= {0},x3[nbbing]= {0},y3[nbbing]= {0},x4[nbbing]= {0},y4[nbbing]= {0},x5[nbbing]= {0},y5[nbbing]= {0};
 
 
@@ -91,8 +91,8 @@ void Drawpm::FitSignalPM(){
 	nbcount+=1;
 	}
 	cout << "before for bins" << endl;
-	for ( int i = 5; i< nbbing ; i++){
-		
+	for ( int i = 0; i< nbbing ; i++){
+			cout << "in loop nb : " << i << endl;
 			int s = TempTr[0]->GetBinContent(i);
 			//cout << s << endl;
 			x0[i] = i*0.03125;
@@ -113,7 +113,7 @@ void Drawpm::FitSignalPM(){
 			x3[i] = i*0.03125;
 			y3[i] = s3;
 
-			int s4 = TempTr[4]->GetBinContent(i);
+			/*int s4 = TempTr[4]->GetBinContent(i);
 			//cout << s4 << endl;
 			x4[i] = i*0.03125;
 			y4[i] = s4;
@@ -121,7 +121,7 @@ void Drawpm::FitSignalPM(){
 			int s5 = TempTr[5]->GetBinContent(i);
 			//cout << s5 << endl;
 			x5[i] = i*0.03125;
-			y5[i] = s5;
+			y5[i] = s5;*/
 			
 	}
 	
