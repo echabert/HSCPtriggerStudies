@@ -704,13 +704,16 @@ void AnaEff::AssoGenId(){
 			candidates.push_back(i);
 			countglu +=1;
 		}
+
+		cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] <<  endl;
+
 	}
 	//cout << "found "<< countglu << " gluinos in the whole event, and only "<< nbmothgen << " mother gluinos" << endl;
 
 	bool alo = false;
 	for(int i = 0; i < ntracks ; i++){
 		for(int j=0; j< candidates.size() ; j++){
-
+			
 			double deltatranfr = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates[j]], gen_phi[candidates[j]]);
 			double finaldelta = deltaR(deltatranfr);
 			//cout << finaldelta << endl;
