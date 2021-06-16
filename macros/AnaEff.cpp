@@ -217,7 +217,7 @@ void AnaEff::Loop()
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	
 
 	
-		AssoGenId();
+		
 		//cout << "Before MuonsInvariantMass" << endl;
 		InvMass = MuonsInvariantMass();
 		//cout << "Before MuonsMissingET" << endl;
@@ -271,7 +271,7 @@ void AnaEff::Loop()
 		//cout << " idx HSCP candidate : "  <<indexcandidate << endl;
 	//	cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
-
+ 			AssoGenId();
 			DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
 			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
 			//cout << track_pt[indexcandidate] << " and hscp_track associated : " << track_pt[hscp_track_idx[indexcandidate]] << endl;
@@ -764,7 +764,7 @@ void AnaEff::AssoGenId(){
 				alo2 = true;
 				//cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-2] << endl;
 				poverm2 = ((gen_pt[candidates[candidates.size()-2]] * cosh(gen_eta[candidates[candidates.size()-2]]))/TheorMass);
-				DISTRIB_POVERMASSO1->Fill(poverm2);
+				DISTRIB_POVERMASSO2->Fill(poverm2);
 			}
 
 			
