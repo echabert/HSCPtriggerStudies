@@ -91,11 +91,11 @@ ListNameTriggers::ListNameTriggers(TTree *tree) : fChain(0) //constructeur
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
 	if (tree == 0) {
-		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino18002023.root");
+		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino18002021.root");
 		if (!f || !f->IsOpen()) {
-			f = new TFile("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino18002023.root");
+			f = new TFile("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino18002021.root");
 		}
-		TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino18002023.root:/stage");
+		TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino18002021.root:/stage");
 		dir->GetObject("ttree",tree);
 
 	}

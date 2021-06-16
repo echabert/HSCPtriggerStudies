@@ -63,7 +63,7 @@ void DrawHist::FitSignalBg(){
 	string ErrorEff = "Error";
 	string LogOr = "LogicalOrall";
 	string DistribZ = "DistribZpeak";
-	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Selec/Tight/Eff/"; // /PreselAndSel/Selec/Loose/Eff//
+	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Preselec/Eff/"; // /PreselAndSel/Selec/Loose/Eff//
 	string PathPoverM = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Preselec/" ;
 	
 	string OutPutName = Path + Purity + DataType + Date + SubNum + ExtTxt;
@@ -85,7 +85,7 @@ void DrawHist::FitSignalBg(){
 
 	string NameCompleteListSingleMuon = NameList + DataType + ExtTxt;
 	string NameCompleteList = NameList + DataType + Mass + ExtTxt;
-	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Selec/Tight/Eff/" + CompleteNameListInterest;
+	string PathEffFile = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Preselec/Eff/" + CompleteNameListInterest;
 	
 
 	vector<string> AlltriggerNames;
