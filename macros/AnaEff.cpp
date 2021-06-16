@@ -692,7 +692,7 @@ void AnaEff::AssoGenId(){
 	cout << "-----------new event-------- : " << ngenpart << " particules et " << ntracks << " traces"<<endl;
 	vector<int> candidates;
 	int nglu = 0,nglu2=0,countglu = 0,nbmothgen=0;
-	
+	double p1=0,p2=0,eta1=0,eta2=0,pt1=0,pt2=0;
 	for(int i=0; i < ngenpart ; i++){
 		//cout << gen_moth_pdg[i] << endl;
 		if(gen_moth_pdg[i] == 1000021){
@@ -702,17 +702,19 @@ void AnaEff::AssoGenId(){
 		if (gen_pdg[i] == 1000021){
 			nglu = i;
 			nglu2=i-1;
-
 			candidates.push_back(i);
+
 			countglu +=1;
 			cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] << " which gives a vectoriel p = " << gen_pt[i] * cosh(gen_eta[i]) << endl;
+			
+
 		}
 
 		//cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] <<  endl;
 
 	}
 
-	cout << "found 2 gluinos able to hadronize : "<< nglu << " , " << nglu2 << " , p1 = " << gen_pt[nglu] * cosh(gen_eta[nglu]) << " , and p2 = " << gen_pt[nglu2] * cosh(gen_eta[nglu2]) << endl;
+	cout << "found 2 gluinos able to hadronize : "<< candidates(candidates.size()-1) << " , " << candidates(candidates.size()-2) << " , p1 = " << gen_pt[candidates(candidates.size()-1)] * cosh(gen_eta[candidates(candidates.size()-1)]) << " , and p2 = " << gen_pt[candidates(candidates.size()-2)] * cosh(gen_eta[candidates(candidates.size()-2)]) << endl;
 
 
 	//cout << "found "<< countglu << " gluinos in the whole event, and only "<< nbmothgen << " mother gluinos" << endl;
