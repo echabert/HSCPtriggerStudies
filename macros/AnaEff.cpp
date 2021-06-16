@@ -694,7 +694,7 @@ void AnaEff::AssoGenId(){
 	int nglu = 0,countglu = 0,nbmothgen=0;
 	
 	for(int i=0; i < ngenpart ; i++){
-		cout << gen_moth_pdg[i] << endl;
+		//cout << gen_moth_pdg[i] << endl;
 		if(gen_moth_pdg[i] == 1000021){
 			nbmothgen+=1;
 		}
