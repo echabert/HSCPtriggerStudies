@@ -693,6 +693,7 @@ void AnaEff::AssoGenId(){
 	vector<int> candidates;
 	int nglu = 0,nglu2=0,countglu = 0,nbmothgen=0;
 	double p1=0,p2=0,eta1=0,eta2=0,pt1=0,pt2=0;
+	float poverm1,poverm2;
 	for(int i=0; i < ngenpart ; i++){
 		//cout << gen_moth_pdg[i] << endl;
 		if(gen_moth_pdg[i] == 1000021){
@@ -719,19 +720,29 @@ void AnaEff::AssoGenId(){
 
 	//cout << "found "<< countglu << " gluinos in the whole event, and only "<< nbmothgen << " mother gluinos" << endl;
 
-	bool alo = false;
+	bool alo = false,alo2=false;
 	for(int i = 0; i < ntracks ; i++){
-		for(int j=0; j< candidates.size() ; j++){
+		//for(int j=0; j< candidates.size() ; j++){
 			
-			double deltatranfr = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates[j]], gen_phi[candidates[j]]);
-			double finaldelta = deltaR(deltatranfr);
+			double deltatranfr1 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates.size()-1], gen_phi[candidates.size()-1]);
+			double finaldelta1 = deltaR(deltatranfr1);
+
+
+			double deltatranfr2 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates.size()-2], gen_phi[candidates.size()-2]);
+			double finaldelta2 = deltaR(deltatranfr2);
+
 			//cout << finaldelta << endl;
-			if (finaldelta < 0.1){
+			if (finaldelta1 < 0.1){
 				alo = true;
-				//cout << "Track number " << i << " is associated with gluino " << candidates[j] << endl;
+				cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-1] << endl;
 			}
+			if (finaldelta2 < 0.1){
+				alo2 = true;
+				cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-2] << endl;
+			}
+
 			
-		}
+		//}
 	}
 	if(alo==false){
 		cout << "no track matched this gluino " << endl;
