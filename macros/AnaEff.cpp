@@ -732,11 +732,11 @@ void AnaEff::AssoGenId(){
 			double finaldelta2 = deltaR(deltatranfr2);
 
 			//cout << finaldelta << endl;
-			if (finaldelta1 < 0.1){
+			if (finaldelta1 < 0.3){
 				alo = true;
 				cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-1] << endl;
 			}
-			if (finaldelta2 < 0.1){
+			if (finaldelta2 < 0.3){
 				alo2 = true;
 				cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-2] << endl;
 			}
@@ -744,8 +744,8 @@ void AnaEff::AssoGenId(){
 			
 		//}
 	}
-	if(alo==false){
-		cout << "no track matched this gluino " << endl;
+	if(alo==false && alo2 == false){
+		cout << "no track matched any gluino" << endl;
 	}
 
 	candidates.clear();
