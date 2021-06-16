@@ -714,7 +714,7 @@ void AnaEff::AssoGenId(){
 
 	}
 
-	cout << "found 2 gluinos able to hadronize : "<< candidates(candidates.size()-1) << " , " << candidates(candidates.size()-2) << " , p1 = " << gen_pt[candidates(candidates.size()-1)] * cosh(gen_eta[candidates(candidates.size()-1)]) << " , and p2 = " << gen_pt[candidates(candidates.size()-2)] * cosh(gen_eta[candidates(candidates.size()-2)]) << endl;
+	cout << "found 2 gluinos able to hadronize : "<< candidates[candidates.size()-1] << " , " << candidates[candidates.size()-2] << " , p1 = " << gen_pt[candidates[candidates.size()-1]] * cosh(gen_eta[candidates[candidates.size()-1]]) << " , and p2 = " << gen_pt[candidates[candidates.size()-2]] * cosh(gen_eta[candidates[candidates.size()-2]]) << endl;
 
 
 	//cout << "found "<< countglu << " gluinos in the whole event, and only "<< nbmothgen << " mother gluinos" << endl;
