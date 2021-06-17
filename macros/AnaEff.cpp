@@ -215,10 +215,10 @@ void AnaEff::Loop()
 		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << " , "<<(jentry*1.0/nentries)*100 << " %" << endl;
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	
-
+	
 	
 		
-		//cout << "Before MuonsInvariantMass" << endl;
+		cout << "Event nb " << jentry <<endl;
 		InvMass = MuonsInvariantMass();
 		//cout << "Before MuonsMissingET" << endl;
 		MissingW = MuonsMissingET();
