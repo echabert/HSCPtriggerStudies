@@ -61,18 +61,18 @@ public :
    Int_t	nhscp;
    Int_t	ndedxhits;
 
-   Float_t	pfmet_pt[320]; //test
+   Float_t	pfmet_pt[32]; //test
 
-   Float_t	prescaleTrigger[10000];
-   Bool_t	passTrigger[10000];
+   Float_t	prescaleTrigger[1000];
+   Bool_t	passTrigger[1000];
    vector<string>* triggerName;
    
-   Bool_t       muon_isMediumMuon[320];
+   Bool_t       muon_isMediumMuon[32];
 
-   Float_t	track_pt[330]; //[ntracks] augmenter la taille pour pas de overflow, it was 33
-   Float_t      track_p[330];   
-   Float_t	track_pterr[330];
-   Int_t	hscp_track_idx[90];  //[nhscp] it was 9
+   Float_t	track_pt[33]; //[ntracks] augmenter la taille pour pas de overflow, it was 33
+   Float_t      track_p[33];   
+   Float_t	track_pterr[33];
+   Int_t	hscp_track_idx[9];  //[nhscp] it was 9
    Int_t        ntracks;
    Int_t	ngenpart;
 
@@ -84,28 +84,28 @@ public :
    Int_t	gen_moth_pdg[451]; //[ngenpart]
    Int_t	gen_status[451];
 
-   Float_t	track_eta[330];
-   Float_t	track_phi[330];
-   Int_t	track_npixhits[330];
-   Int_t	track_nvalidhits[330];
-   Float_t	track_validfraction[330];
+   Float_t	track_eta[33];
+   Float_t	track_phi[33];
+   Int_t	track_npixhits[33];
+   Int_t	track_nvalidhits[33];
+   Float_t	track_validfraction[33];
   
-   Int_t	track_nhits[330];
-   Float_t	track_dz[330];
-   Float_t	track_dxy[330];
-   Int_t	track_qual[330];
-   Float_t	hscp_iso2_tk[90];
-   Bool_t	muon_isTrackerMuon[320];
-   Float_t      muon_comb_inversebeta[320];
-   Float_t      track_ih_ampl[330];
-   Float_t      track_ias_ampl[330];
-   Float_t      muon_phi[320];
-   Float_t      muon_eta[320];
-   Float_t      muon_pt[320];
-   Float_t      muon_p[320];
+   Int_t	track_nhits[33];
+   Float_t	track_dz[33];
+   Float_t	track_dxy[33];
+   Int_t	track_qual[33];
+   Float_t	hscp_iso2_tk[9];
+   Bool_t	muon_isTrackerMuon[32];
+   Float_t      muon_comb_inversebeta[32];
+   Float_t      track_ih_ampl[33];
+   Float_t      track_ias_ampl[33];
+   Float_t      muon_phi[32];
+   Float_t      muon_eta[32];
+   Float_t      muon_pt[32];
+   Float_t      muon_p[32];
    Int_t	nmuons;
-   Float_t      muon_isoR03_sumChargedHadronPt[320];
-   Int_t        hscp_muon_idx[90];
+   Float_t      muon_isoR03_sumChargedHadronPt[32];
+   Int_t        hscp_muon_idx[9];
 
     // List of branches
    TBranch        *b_runNumber;   //!
