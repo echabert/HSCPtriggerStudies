@@ -61,18 +61,18 @@ public :
    Int_t	nhscp;
    Int_t	ndedxhits;
 
-   Float_t	pfmet_pt[32]; //test
+   Float_t	pfmet_pt[320]; //test
 
-   Float_t	prescaleTrigger[1000];
-   Bool_t	passTrigger[1000];
+   Float_t	prescaleTrigger[10000];
+   Bool_t	passTrigger[10000];
    vector<string>* triggerName;
    
-   Bool_t       muon_isMediumMuon[32];
+   Bool_t       muon_isMediumMuon[320];
 
-   Float_t	track_pt[33]; //[ntracks] augmenter la taille pour pas de overflow, it was 33
-   Float_t      track_p[33];   
-   Float_t	track_pterr[33];
-   Int_t	hscp_track_idx[9];  //[nhscp] it was 9
+   Float_t	track_pt[330]; //[ntracks] augmenter la taille pour pas de overflow, it was 33
+   Float_t      track_p[330];   
+   Float_t	track_pterr[330];
+   Int_t	hscp_track_idx[90];  //[nhscp] it was 9
    Int_t        ntracks;
    Int_t	ngenpart;
 
@@ -84,28 +84,28 @@ public :
    Int_t	gen_moth_pdg[451]; //[ngenpart]
    Int_t	gen_status[451];
 
-   Float_t	track_eta[33];
-   Float_t	track_phi[33];
-   Int_t	track_npixhits[33];
-   Int_t	track_nvalidhits[33];
-   Float_t	track_validfraction[33];
+   Float_t	track_eta[330];
+   Float_t	track_phi[330];
+   Int_t	track_npixhits[330];
+   Int_t	track_nvalidhits[330];
+   Float_t	track_validfraction[330];
   
-   Int_t	track_nhits[33];
-   Float_t	track_dz[33];
-   Float_t	track_dxy[33];
-   Int_t	track_qual[33];
-   Float_t	hscp_iso2_tk[9];
-   Bool_t	muon_isTrackerMuon[32];
-   Float_t      muon_comb_inversebeta[32];
-   Float_t      track_ih_ampl[33];
-   Float_t      track_ias_ampl[33];
-   Float_t      muon_phi[32];
-   Float_t      muon_eta[32];
-   Float_t      muon_pt[32];
-   Float_t      muon_p[32];
+   Int_t	track_nhits[330];
+   Float_t	track_dz[330];
+   Float_t	track_dxy[330];
+   Int_t	track_qual[330];
+   Float_t	hscp_iso2_tk[90];
+   Bool_t	muon_isTrackerMuon[320];
+   Float_t      muon_comb_inversebeta[320];
+   Float_t      track_ih_ampl[330];
+   Float_t      track_ias_ampl[330];
+   Float_t      muon_phi[320];
+   Float_t      muon_eta[320];
+   Float_t      muon_pt[320];
+   Float_t      muon_p[320];
    Int_t	nmuons;
-   Float_t      muon_isoR03_sumChargedHadronPt[32];
-   Int_t        hscp_muon_idx[9];
+   Float_t      muon_isoR03_sumChargedHadronPt[320];
+   Int_t        hscp_muon_idx[90];
 
     // List of branches
    TBranch        *b_runNumber;   //!
@@ -232,17 +232,17 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
 	if (tree == 0) {
-		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino1800.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+		TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino18002021.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 ///opt/sbg/cms/ui3_data1/dapparu/HSCP/Production/prodMarch2021_CMSSW_10_6_2/HSCPgluino_M-1600_TuneCP5_13TeV-pythia8/MC17_Gluino1600_runv3/210324_135858/0000
 		
 		//pas dans stage ?
 ///home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_106.root
 		if (!f || !f->IsOpen()) {
-			f = new TFile("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino1800.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
+			f = new TFile("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino18002021.root"); // /home/raph/CMS/nt_data_aod.root / /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/nt_mc_aod_1.root
 		}
 		
 	
-		TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino1800.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
+		TDirectory * dir = (TDirectory*)f->Get("/opt/sbg/cms/safe1/cms/rhaeberl/CMSSW_10_6_2/src/HSCPtriggerStudies/all_gluino18002021.root:/stage"); //  // /home/raph/CMS/prodMarch2021_CMSSW_10_6_2/SingleMuon/run2017D_march21/210316_163645/0000/nt_mc_aod_237.root
 		dir->GetObject("ttree",tree);
 		
 // /home/raph/CMS/HSCPtriggerStudies/all.root

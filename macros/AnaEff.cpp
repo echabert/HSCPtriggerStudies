@@ -70,7 +70,7 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino1800";
+	string DataType = "Gluino18002021";
 	
 	string NameCompleteListTest = "ListeInteretTriggers";
 

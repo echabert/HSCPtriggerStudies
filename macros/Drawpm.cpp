@@ -42,21 +42,26 @@ Drawpm::~Drawpm(){
 
 
 void Drawpm::FitSignalPM(){
-	string filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Recons/Eff/";
-	string pointofmass,DataType="Gluino",Date = "1105", All = "all", ExtRoot = ".root",Distribz = "DistribZpeak";
+	string filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/ReconsNosel/Eff/";
+	string filepathsel = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/ReconsPresel/Eff/";
+	string pointofmass,pointofmasssel,DataType="Gluino",Date = "1105", All = "all", ExtRoot = ".root",Distribz = "DistribZpeak";
 	int minm=1800,maxm=2600,nbmbin=200, nbbing = 80;
 	double x0[nbbing] = {0} ,y0[nbbing]= {0},x1[nbbing]= {0},y1[nbbing]= {0},x2[nbbing]= {0},y2[nbbing]= {0},x3[nbbing]= {0},y3[nbbing]= {0},x4[nbbing]= {0},y4[nbbing]= {0},x5[nbbing]= {0},y5[nbbing]= {0};
 
+	double x0pre[nbbing] = {0} ,y0pre[nbbing]= {0},x1pre[nbbing]= {0},y1pre[nbbing]= {0},x2pre[nbbing]= {0},y2pre[nbbing]= {0},x3pre[nbbing]= {0},y3pre[nbbing]= {0},x4pre[nbbing]= {0},y4pre[nbbing]= {0},x5pre[nbbing]= {0},y5pre[nbbing]= {0};
 
 	int nbdiffpt = ((maxm- minm)/nbmbin) +1;
 	cout << nbdiffpt << endl;
 	AllFiles.resize(nbdiffpt);
 	TempTr.resize(nbdiffpt);
+	TempTr2.resize(nbdiffpt);
 	MyMyF.resize(nbdiffpt);
+	MyMyF2.resize(nbdiffpt);
 	MyTf1.resize(nbdiffpt);
 	Test.resize(nbdiffpt);
-	TString outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Recons/Eff/Povermwithmass.root";
+	TString outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Ratio_eff/Povermwithmass.root";
 	
+
 	OutputHisto = new TFile(outputfilename,"RECREATE");
 
 	
@@ -66,16 +71,14 @@ void Drawpm::FitSignalPM(){
 	for(int i = minm; i <= maxm ; i+=nbmbin){
 		
 		pointofmass = to_string(i);
-		
-		
 		string PathPom = filepath + Distribz  + DataType + pointofmass + Date + All + ExtRoot;
-		string Title = "Ratio p/m distribution " + DataType + pointofmass;
-		
+		string Title = "Ratio p/m distribution for no selection" + DataType + pointofmass;
 		cout << PathPom << endl;
+		string PathPomSel = filepathsel + Distribz  + DataType + pointofmass + Date + All + ExtRoot;
+		string TitleSel = "Ratio p/m distribution for Preselection" + DataType + pointofmass;
 
-		
 		MyMyF[nbcount] = new TFile(PathPom.c_str());
-
+		MyMyF[nbcount]->cd();
 		if (!MyMyF[nbcount] || !MyMyF[nbcount]->IsOpen()) {
 			cout << "There was a problem opening the input file!" << PathPom << endl;
 		}
@@ -88,34 +91,58 @@ void Drawpm::FitSignalPM(){
 		
 		}
 
-	nbcount+=1;
+		MyMyF2[nbcount] = new TFile(PathPomSel.c_str());
+		if (!MyMyF2[nbcount] || !MyMyF2[nbcount]->IsOpen()) {
+			cout << "There was a problem opening the input file!" << PathPomSel << endl;
+		}
+		else{
+			cout << nbcount << endl;
+			TempTr2[nbcount] = (TH1D*)gROOT->FindObject("DISTRIB_POVERMASSO1");
+			TempTr2[nbcount]->SetTitle(TitleSel.c_str());
+			cout << "all good" << endl;
+		}
+
+		//MyMyF[nbcount]->Close();
+		nbcount+=1;
 	}
-	cout << "before for bins" << endl;
+	
+	
+
+
+
+
+
+
+
+	//cout << "before for bins" << endl;
+
+	cout << " For mass = 1800 : " << endl;
 	for ( int i = 0; i< nbbing ; i++){
-			cout << "in loop nb : " << i << endl;
+			//cout << "in loop nb : " << i << endl;
 			int s = TempTr[0]->GetBinContent(i);
-			//cout << s << endl;
-			x0[i] = i*0.03125;
+			
+			x0[i] = (i*0.03125)-0.02;
 			y0[i] = s;
-		
+			//cout << s << " , " << i*0.03125 << endl;
+
 			int s1 = TempTr[1]->GetBinContent(i);
 			//cout << s1 << endl;
-			x1[i] = i*0.03125;
+			x1[i] = (i*0.03125) -0.02; 
 			y1[i] = s1;
 
 			int s2 = TempTr[2]->GetBinContent(i);
 			//cout << s2 << endl;
-			x2[i] = i*0.03125;
+			x2[i] = (i*0.03125) -0.02;
 			y2[i] = s2;
 
 			int s3 = TempTr[3]->GetBinContent(i);
 			//cout << s3 << endl;
-			x3[i] = i*0.03125;
+			x3[i] = (i*0.03125) -0.02;
 			y3[i] = s3;
 
 			int s4 = TempTr[4]->GetBinContent(i);
 			//cout << s4 << endl;
-			x4[i] = i*0.03125;
+			x4[i] = (i*0.03125) -0.02;
 			y4[i] = s4;
 
 			/*int s5 = TempTr[5]->GetBinContent(i);
@@ -123,8 +150,57 @@ void Drawpm::FitSignalPM(){
 			x5[i] = i*0.03125;
 			y5[i] = s5;*/
 			
+			int spre = TempTr2[0]->GetBinContent(i);
+			int s1pre = TempTr2[1]->GetBinContent(i);
+			int s2pre = TempTr2[2]->GetBinContent(i);
+			int s3pre = TempTr2[3]->GetBinContent(i);
+			int s4pre = TempTr2[4]->GetBinContent(i);
+			
+			if(s!=0){
+				cout << " M = 1800 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" <<" ratio N_presel/N_sel = " << spre << " / " <<  s <<  " = " << (spre*1.0/s*1.0)*100.0 << " %" << "\n"<< endl;
+			}
+			else{
+				cout << " M = 1800 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << spre <<" / " << s << " 0 %" << "\n"<< endl;
+			
+	
+			}
+			if(s1!=0){
+				cout << " M = 2000 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s1pre << " / " <<  s1 <<  " = " << (s1pre*1.0/s1*1.0)*100.0 << " %" << "\n"<< endl;
+			}
+			else{
+				cout << " M = 2000 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s1pre <<" / " << s1 << " 0 %" << "\n"<< endl;
+		
+			}
+			if(s2!=0){
+				cout << " M = 2200 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s2pre << " / " <<  s2 <<  " = " << (s2pre*1.0/s2*1.0)*100.0 << " %" << "\n"<< endl;
+			}
+			else{
+				cout << " M = 2200 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s2pre <<" / " << s2 << " 0 %" << "\n"<< endl;
+		
+			}
+			if(s3!=0){
+				cout << " M = 2400 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s3pre << " / " <<  s3 <<  " = " << (s3pre*1.0/s3*1.0)*100.0 << " %" << "\n"<< endl;
+			}
+			else{
+				cout << " M = 2400 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s3pre <<" / " << s3 << " 0 %" << "\n"<< endl;
+		
+			}
+			if(s4!=0){
+				cout << " M = 2600 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s4pre << " / " <<  s4 <<  " = " << (s4pre*1.0/s4*1.0)*100.0 << " %" << "\n"<< endl;
+			}
+			else{
+				cout << " M = 2600 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s4pre <<" / " << s4 << " 0 %" << "\n"<< endl;
+		
+			}
+
+
+		cout << "\n\n\n"<<endl;
 	}
 	
+	
+
+
+
 
 	auto c1 = new TCanvas("c1","Ratio p/m",1300,700);
 	c1->SetTitle("Ratio impulsion / Mass");
@@ -259,20 +335,18 @@ void Drawpm::FitSignalPM(){
 
 	
 	mg->Draw("a");
-	cout << "After Draw" << endl;
 	c1->Update();
 	/*auto stats1 = (TPaveStats*)Test[0]->GetListOfFunctions()->FindObject("stats");
    	auto stats2 = (TPaveStats*)Test[1]->GetListOfFunctions()->FindObject("stats");
 	auto stats3 = (TPaveStats*)Test[2]->GetListOfFunctions()->FindObject("stats");
 	auto stats4 = (TPaveStats*)Test[3]->GetListOfFunctions()->FindObject("stats");
 	auto stats5 = (TPaveStats*)Test[4]->GetListOfFunctions()->FindObject("stats");*/
-	cout << " After declaring TPaveStats" << endl;
+
   	/*stats1->SetTextColor(kBlue);
    	stats2->SetTextColor(kGreen);
 	stats3->SetTextColor(kAzure);
 	stats4->SetTextColor(kViolet);
 	stats5->SetTextColor(kYellow);*/
-	cout << "Before modified" << endl;
 	/*stats1->SetX1NDC(0.12);
 	stats1->SetX2NDC(0.92); 
 	stats1->SetY1NDC(0.75);

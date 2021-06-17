@@ -34,7 +34,11 @@ class Drawpm
    vector <TFile*> AllFiles;
    vector <TH1D*> TempTr;
 
+   vector <TH1D*> TempTr2;
+
    vector <TFile*> MyMyF;
+   vector <TFile*> MyMyF2;
+
    vector <TF1*> MyTf1;
    vector <TGraphErrors*> Test;
    TF1* Total;
