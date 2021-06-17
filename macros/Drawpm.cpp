@@ -44,7 +44,7 @@ Drawpm::~Drawpm(){
 void Drawpm::FitSignalPM(){
 	string filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Recons/Eff/";
 	string pointofmass,DataType="Gluino",Date = "1105", All = "all", ExtRoot = ".root",Distribz = "DistribZpeak";
-	int minm=1800,maxm=2400,nbmbin=200, nbbing = 80;
+	int minm=1800,maxm=2600,nbmbin=200, nbbing = 80;
 	double x0[nbbing] = {0} ,y0[nbbing]= {0},x1[nbbing]= {0},y1[nbbing]= {0},x2[nbbing]= {0},y2[nbbing]= {0},x3[nbbing]= {0},y3[nbbing]= {0},x4[nbbing]= {0},y4[nbbing]= {0},x5[nbbing]= {0},y5[nbbing]= {0};
 
 
@@ -113,12 +113,12 @@ void Drawpm::FitSignalPM(){
 			x3[i] = i*0.03125;
 			y3[i] = s3;
 
-			/*int s4 = TempTr[4]->GetBinContent(i);
+			int s4 = TempTr[4]->GetBinContent(i);
 			//cout << s4 << endl;
 			x4[i] = i*0.03125;
 			y4[i] = s4;
 
-			int s5 = TempTr[5]->GetBinContent(i);
+			/*int s5 = TempTr[5]->GetBinContent(i);
 			//cout << s5 << endl;
 			x5[i] = i*0.03125;
 			y5[i] = s5;*/
@@ -172,7 +172,7 @@ void Drawpm::FitSignalPM(){
    	Test[0]->SetMarkerStyle(20);
 	Test[0]->SetMarkerSize(0);
 
-	leg1->AddEntry(Test[0],"mass = 1600 GeV/c^{2}");
+	leg1->AddEntry(Test[0],"mass = 1800 GeV/c^{2}");
 	mg->Add(Test[0]);
 	c1->Modified();
 	c1->Update();
@@ -187,7 +187,7 @@ void Drawpm::FitSignalPM(){
    	Test[1]->SetMarkerStyle(20);
 	Test[1]->SetMarkerSize(0);
    	
-	leg1->AddEntry(Test[1],"mass = 1800 GeV/c^{2}");
+	leg1->AddEntry(Test[1],"mass = 2000 GeV/c^{2}");
 	mg->Add(Test[1]);
 	c1->Modified();
 	c1->Update();
@@ -202,7 +202,7 @@ void Drawpm::FitSignalPM(){
    	Test[2]->SetMarkerStyle(20);
 	Test[2]->SetMarkerSize(0);
 	
-	leg1->AddEntry(Test[2],"mass = 2000 GeV/c^{2}");
+	leg1->AddEntry(Test[2],"mass = 2200 GeV/c^{2}");
 	mg->Add(Test[2]);
 	c1->Modified();
 	c1->Update();
@@ -217,7 +217,7 @@ void Drawpm::FitSignalPM(){
    	Test[3]->SetMarkerStyle(20);
 	Test[3]->SetMarkerSize(0);
 	
-	leg1->AddEntry(Test[3],"mass = 2200 GeV/c^{2}");
+	leg1->AddEntry(Test[3],"mass = 2400 GeV/c^{2}");
 	mg->Add(Test[3]);
 	c1->Modified();
 	c1->Update();
@@ -232,7 +232,7 @@ void Drawpm::FitSignalPM(){
    	Test[4]->SetMarkerStyle(20);
 	Test[4]->SetMarkerSize(0);
 	
-	leg1->AddEntry(Test[4],"mass = 2400 GeV/c^{2}");
+	leg1->AddEntry(Test[4],"mass = 2600 GeV/c^{2}");
 	mg->Add(Test[4]);
 	c1->Modified();
 	c1->Update();
