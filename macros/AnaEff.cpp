@@ -41,7 +41,7 @@ const double uncertaintyMu = 0.0000000024;
 const double massW = 80.379;
 const double uncertaintyW = 0.012;
 
-const float TheorMass = 1800;
+const float TheorMass = 2400;
 
 void AnaEff::Loop()
 {
@@ -70,7 +70,7 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino1800";
+	string DataType = "Gluino2400";
 	
 	string NameCompleteListTest = "ListeInteretTriggers";
 
@@ -736,6 +736,10 @@ void AnaEff::AssoGenId(){
 				Psurm1 = poverm1;
 
 			}
+			else{
+				poverm1 = 0;
+				Psurm1 = poverm1;
+			}
 			if (finaldelta2 < 0.3){
 				alo2 = true;
 				//cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-2] << endl;
@@ -743,14 +747,17 @@ void AnaEff::AssoGenId(){
 				DISTRIB_POVERMASSO1->Fill(poverm2);
 				Psurm2 = poverm2;
 			}
-
+			else{
+				poverm2 = 0;
+				Psurm2 = poverm2;
+			}
 			
 		//}
 	}
 	
 	
 	if(alo==false && alo2 == false){
-		//cout << "no track matched any gluino" << endl;
+		cout << "no track matched any gluino" << endl;
 	}
 
 	candidates.clear();
