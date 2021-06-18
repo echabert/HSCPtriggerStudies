@@ -216,19 +216,19 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1600MET;#epsilon",50,0,2000);
 			}
 			else if(NameVar=="Gluino1800"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1800MET;#epsilon",50,0,2000);
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino1800P/M;#epsilon",80,0,2.5);
 			}
 			else if(NameVar=="Gluino2000"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2000MET;#epsilon",50,0,2000);
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2000P/M;#epsilon",80,0,2.5);
 			}
 			else if(NameVar=="Gluino2200"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2200MET;#epsilon",50,0,2000);
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2200P/M;#epsilon",80,0,2.5);
 			}
 			else if(NameVar=="Gluino2400"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2400MET;#epsilon",50,0,2000);
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2400P/M;#epsilon",80,0,2.5);
 			}
 			else if(NameVar=="Gluino2600"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2600MET;#epsilon",50,0,2000);
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2600P/M;ratio p/m",80,0,2.5);
 			}
 			else if(NameVar=="Gluino2000test"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Gluino2000MET;#epsilon",50,0,2000);
@@ -271,7 +271,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 	}
 	cout << " TriggerNames size " << TriggerNames.size() << endl;
 
-	string CorrPlot = "Correlation plot ",LogOrPlot = "LogicalOR ", TypeOfData = "Gluino2400"; 
+	string CorrPlot = "Correlation plot ",LogOrPlot = "LogicalOR ", TypeOfData = "Gluino2600"; 
 
 
 
