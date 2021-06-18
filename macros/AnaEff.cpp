@@ -216,25 +216,11 @@ void AnaEff::Loop()
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	
 	
-	
-		
-		//cout << "Event nb " << jentry <<endl;
-		InvMass = MuonsInvariantMass();
-		//cout << "Before MuonsMissingET" << endl;
-		MissingW = MuonsMissingET();
-		//cout << "After MuonsMissingET" << endl;
-		
-		/*for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
-			DISTRIB_PT->Fill(track_pt[jtrack]);
-			DISTRIB_ETA->Fill(track_eta[jtrack]);
-			DISTRIB_IH->Fill(track_ih_ampl[jtrack]);
-			DISTRIB_P->Fill(track_p[jtrack]);
-			DISTRIB_IAS->Fill(track_ias_ampl[jtrack]);
-			DISTRIB_IH_IAS->Fill(track_ias_ampl[jtrack],track_ih_ampl[jtrack]);
-			DISTRIB_PT_P->Fill(track_p[jtrack],track_pt[jtrack]);
-		}*/
 
-		//double IsoInvMass = MuonInvariantMass();
+		InvMass = MuonsInvariantMass();
+		MissingW = MuonsMissingET();
+
+
 		if(InvMass!=1){
 			if(InvMass < massZ + 10 && InvMass > massZ - 10){ // 10 
 				InfosZ << "Z found entry " << jentry << " muons " << muon1 << " and " << muon2 << endl;
@@ -252,7 +238,6 @@ void AnaEff::Loop()
 				InfosW << "W found entry " << jentry << " muon " << muonW << endl;
 				nbofmuonsW+=1;
 			}
-			//cout << InvMass << endl;
 			nbofWpairs+=1;
 			if(MissingW > 15){
 				trigEff_selection_obs.FillMass(MissingW,2);
@@ -268,13 +253,13 @@ void AnaEff::Loop()
 		float HighestPT,HighestMuonPT,HighestMET,POVERMBG, HighestP;
 		int trignull=0;
 		indexcandidate=Selection();
-		//cout << " idx HSCP candidate : "  <<indexcandidate << endl;
-	//	cout << " -------- NEW ENTRY -------- " << endl;
+		//cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
  			AssoGenId();
+
 			DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
 			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
-			//cout << track_pt[indexcandidate] << " and hscp_track associated : " << track_pt[hscp_track_idx[indexcandidate]] << endl;
+			
 			HighestPT = track_pt[hscp_track_idx[indexcandidate]];
 			HighestMET = pfmet_pt[hscp_track_idx[indexcandidate]];
 			HighestP = track_p[hscp_track_idx[indexcandidate]];
@@ -298,7 +283,7 @@ void AnaEff::Loop()
 			for(int p = 0; p < ntrigger; p++){
 				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
 				if(iter == triggerNames.end()){
-					//cout << " one trigger not found in list ?" << endl;
+					
 				}
 				else{
 					ismissing = true;
@@ -309,14 +294,12 @@ void AnaEff::Loop()
 				
 			}
 			if (ismissing == false){
-				cout << " one trigger not found in list ?" << endl;
+				cout << " at least one trigger not found in list ?" << endl;
 			}
 
 
 			passedevent+=1;
-			//cout << "Before fill" << endl;
-			trigEff_selection_obs.FillNoMap2(PosPass,HighestMET,1);
-			//cout << "After fill" << endl;
+			trigEff_selection_obs.FillNoMap2(PosPass,Psurm1,1);
 			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
 			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
 		}
@@ -371,13 +354,10 @@ void AnaEff::Loop()
 
 	DISTRIB_POVERMASSO1->Write();
 	DISTRIB_POVERMASSO2->Write();
-	//DISTRIB_ETA->Write();
-	//DISTRIB_P->Write();
-	//DISTRIB_IH_IAS->Write();
-	//DISTRIB_PT_P->Write();*/
+	
 	distrib->Close();
 	cout << "Program terminated with no logic call out of bound" << endl;
-	//trigEff_presel.WritePlots("");
+	
 
 }
 
@@ -430,17 +410,12 @@ int AnaEff::Selection(){
 		}*/
 
 
-		/*if (muon_isMediumMuon[ihs]){
-			cout << " muon index : " << hscp_muon_idx[ihs] << " , with track index : " << hscp_track_idx[ihs] << endl;
-
-		}*/
 
 		if(yon){
 			positions.push_back(ihs); 
 			HSCPpt.push_back(make_pair(track_pt[hscp_track_idx[ihs]],ihs));
 			Muonpt.push_back(make_pair(muon_pt[ihs],ihs));
 		}
-		 // pb ici, return que 0
 		
 	}
 
@@ -745,11 +720,11 @@ void AnaEff::AssoGenId(){
 	for(int i = 0; i < ntracks ; i++){
 		//for(int j=0; j< candidates.size() ; j++){
 			
-			double deltatranfr1 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates.size()-1], gen_phi[candidates.size()-1]);
+			double deltatranfr1 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates[candidates.size()-1]], gen_phi[candidates[candidates.size()-1]]);
 			double finaldelta1 = deltaR(deltatranfr1);
 
 
-			double deltatranfr2 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates.size()-2], gen_phi[candidates.size()-2]);
+			double deltatranfr2 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates[candidates.size()-2]], gen_phi[candidates[candidates.size()-2]]);
 			double finaldelta2 = deltaR(deltatranfr2);
 
 			//cout << finaldelta << endl;
@@ -758,6 +733,7 @@ void AnaEff::AssoGenId(){
 				//cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-1] << endl;
 				poverm1 = ((gen_pt[candidates[candidates.size()-1]] * cosh(gen_eta[candidates[candidates.size()-1]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm1);
+				Psurm1 = poverm1;
 
 			}
 			if (finaldelta2 < 0.3){
@@ -765,6 +741,7 @@ void AnaEff::AssoGenId(){
 				//cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-2] << endl;
 				poverm2 = ((gen_pt[candidates[candidates.size()-2]] * cosh(gen_eta[candidates[candidates.size()-2]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm2);
+				Psurm2 = poverm2;
 			}
 
 			

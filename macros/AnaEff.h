@@ -177,6 +177,8 @@ public :
    virtual void	    AssoGenId();
 private :
 
+   Double_t Psurm1=0;
+   Double_t Psurm2=0;
    Int_t muon1;
    Int_t muon2;
    Int_t muonW;

@@ -87,7 +87,8 @@ void Drawpm::FitSignalPM(){
 		else{
 			cout << nbcount << endl;
 			TempTr[nbcount] = (TH1D*)gROOT->FindObject("DISTRIB_POVERMASSO1");
-			Double_t scale = 1/TempTr[nbcount]->Integral();
+			Double_t scale = (1.0/TempTr[nbcount]->Integral());
+			cout << "scale factor 1 : " << scale << " , and integral 1 : " << TempTr[nbcount]->Integral() <<  endl;
 			TempTr[nbcount]->Scale(scale);
 			Double_t intbnosel = TempTr[nbcount]->Integral(10,30);
 			Double_t intb2nosel = TempTr[nbcount]->Integral();
@@ -106,7 +107,8 @@ void Drawpm::FitSignalPM(){
 		else{
 			cout << nbcount << endl;
 			TempTr2[nbcount] = (TH1D*)gROOT->FindObject("DISTRIB_POVERMASSO1");
-			Double_t scale2 = 1/TempTr2[nbcount]->Integral();
+			Double_t scale2 = (1/TempTr2[nbcount]->Integral());
+			cout << "scale factor 2 : " << scale2 << " , and integral 2 : " << TempTr2[nbcount]->Integral() << endl;
 			TempTr2[nbcount]->Scale(scale2);
 			
 			Double_t intb = TempTr2[nbcount]->Integral(10,30);
@@ -114,7 +116,7 @@ void Drawpm::FitSignalPM(){
 
 			cout << " Presel, point de masse " << i << "  : " << intb << " / " << intb2 << " = " << intb*1.0/intb2 << endl;
 
-			TempTr2[nbcount]->Scale(scale2);
+			//TempTr2[nbcount]->Scale(scale2);
 			TempTr2[nbcount]->SetTitle(TitleSel.c_str());
 			cout << "all good" << endl;
 		}
@@ -127,16 +129,17 @@ void Drawpm::FitSignalPM(){
 	double moy=0,moy1=0,moy2=0,moy3=0,moy4=0,moy5=0,moypre=0,moypre1=0,moypre2=0,moypre3=0,moypre4=0,moypre5=0;
 	double sumy=0,sumy1=0,sumy2=0,sumy3=0,sumy4=0,sumypre=0,sumypre1=0,sumypre2=0,sumypre3=0,sumypre4=0;
 	//cout << "before for bins" << endl;
-
+	double trialint=0,trialint2=0;
 	cout << " For mass = 1800 : " << endl;
 	for ( int i = 0; i< nbbing ; i++){
 			//cout << "in loop nb : " << i << endl;
 			double s = TempTr[0]->GetBinContent(i);
-			
+			trialint+=s;
 			x0[i] = (i*0.03125)-0.02;
 			y0[i] = s;
 			cout << "no sel"  <<x0[i] << "," << y0[i] << endl;
 			moy += x0[i] * y0[i];
+
 			//cout << s << " , " << i*0.03125 << endl;
 			sumy += y0[i];
 			double s1 = TempTr[1]->GetBinContent(i);
@@ -146,35 +149,40 @@ void Drawpm::FitSignalPM(){
 			moy1 += x1[i] * y1[i];
 			sumy1 += y1[i];
 			double s2 = TempTr[2]->GetBinContent(i);
+
 			//cout << s2 << endl;
 			x2[i] = (i*0.03125) -0.02;
 			y2[i] = s2;
 			moy2 += x2[i] * y2[i];
 			sumy2 += y2[i];
 			double s3 = TempTr[3]->GetBinContent(i);
+
 			//cout << s3 << endl;
 			x3[i] = (i*0.03125) -0.02;
 			y3[i] = s3;
 			moy3 += x3[i] * y3[i];
 			sumy3 += y3[i];
 			double s4 = TempTr[4]->GetBinContent(i);
+
 			//cout << s4 << endl;
 			x4[i] = (i*0.03125) -0.02;
 			y4[i] = s4;
 			moy4 += x4[i] * y4[i];
 			sumy4 += y4[i];
 			/*int s5 = TempTr[5]->GetBinContent(i);
+
 			//cout << s5 << endl;
 			x5[i] = i*0.03125;
 			y5[i] = s5;*/
 			
 			double spre = TempTr2[0]->GetBinContent(i);
+			
 			moypre += spre * ((i*0.03125) -0.02);
 			sumypre += spre;
 			x0pre[i] = (i*0.03125) -0.02;
 			y0pre[i] = spre;
-			cout << "presel "  <<x0pre[i] << "," << y0pre[i] << endl;
-
+			cout << "presel "  << x0pre[i] << "," << y0pre[i] << endl;
+			trialint2 += spre;
 
 			double s1pre = TempTr2[1]->GetBinContent(i);
 			moypre1 += s1pre * ((i*0.03125) -0.02);
@@ -204,6 +212,8 @@ void Drawpm::FitSignalPM(){
 
 	}
 	
+	cout << "my integral of sel and no sel : " << trialint << " and " << trialint2 << endl;
+
 	cout << " No selection : " << " moyenne 1800 = " << moy*1.0/sumy << " moyenne 2000 = " << moy1*1.0/sumy1 << " moyenne 2200 = " << moy2*1.0/sumy2 << " moyenne 2400 = " << moy3*1.0/sumy3 << " moyenne 2600 = " << moy4*1.0/sumy4 << endl;
 
 	cout << " Presel : " << " moyenne 1800 = " << moypre*1.0/sumypre << " moyenne 2000 = " << moypre1*1.0/sumypre1 << " moyenne 2200 = " << moypre2*1.0/sumypre2 << " moyenne 2400 = " << moypre3*1.0/sumypre3 << " moyenne 2600 = " << moypre4*1.0/sumypre4 << endl;
