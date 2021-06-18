@@ -50,6 +50,23 @@ void Drawpm::FitSignalPM(){
 
 	double x0pre[nbbing] = {0} ,y0pre[nbbing]= {0},x1pre[nbbing]= {0},y1pre[nbbing]= {0},x2pre[nbbing]= {0},y2pre[nbbing]= {0},x3pre[nbbing]= {0},y3pre[nbbing]= {0},x4pre[nbbing]= {0},y4pre[nbbing]= {0},x5pre[nbbing]= {0},y5pre[nbbing]= {0};
 
+
+	double x0err[nbbing] = {0} ,y0err[nbbing]= {0},x1err[nbbing]= {0},y1err[nbbing]= {0},x2err[nbbing]= {0},y2err[nbbing]= {0},x3err[nbbing]= {0},y3err[nbbing]= {0},x4err[nbbing]= {0},y4err[nbbing]= {0},x5err[nbbing]= {0},y5err[nbbing]= {0};
+
+	double x0preerr[nbbing] = {0} ,y0preerr[nbbing]= {0},x1preerr[nbbing]= {0},y1preerr[nbbing]= {0},x2preerr[nbbing]= {0},y2preerr[nbbing]= {0},x3preerr[nbbing]= {0},y3preerr[nbbing]= {0},x4preerr[nbbing]= {0},y4preerr[nbbing]= {0},x5preerr[nbbing]= {0},y5preerr[nbbing]= {0};
+
+	
+	for (int a =0 ; a < 2; a++){
+		//propagation des incertutes
+		
+	
+		
+	}
+
+
+
+
+
 	int nbdiffpt = ((maxm- minm)/nbmbin) +1;
 	cout << nbdiffpt << endl;
 	AllFiles.resize(nbdiffpt);
@@ -99,7 +116,7 @@ void Drawpm::FitSignalPM(){
 			cout << "all good" << endl;
 		
 		}
-
+		cout << PathPomSel << endl;
 		MyMyF2[nbcount] = new TFile(PathPomSel.c_str());
 		if (!MyMyF2[nbcount] || !MyMyF2[nbcount]->IsOpen()) {
 			cout << "There was a problem opening the input file!" << PathPomSel << endl;
@@ -137,7 +154,7 @@ void Drawpm::FitSignalPM(){
 			trialint+=s;
 			x0[i] = (i*0.03125)-0.02;
 			y0[i] = s;
-			cout << "no sel"  <<x0[i] << "," << y0[i] << endl;
+			//cout << "no sel"  <<x0[i] << "," << y0[i] << endl;
 			moy += x0[i] * y0[i];
 
 			//cout << s << " , " << i*0.03125 << endl;
@@ -181,7 +198,7 @@ void Drawpm::FitSignalPM(){
 			sumypre += spre;
 			x0pre[i] = (i*0.03125) -0.02;
 			y0pre[i] = spre;
-			cout << "presel "  << x0pre[i] << "," << y0pre[i] << endl;
+			//cout << "presel "  << x0pre[i] << "," << y0pre[i] << endl;
 			trialint2 += spre;
 
 			double s1pre = TempTr2[1]->GetBinContent(i);
@@ -210,13 +227,30 @@ void Drawpm::FitSignalPM(){
 			x4pre[i] = (i*0.03125) -0.02;
 			y4pre[i] = s4pre;
 
+
+			
+
+
+
+
+
+
 	}
-	
-	cout << "my integral of sel and no sel : " << trialint << " and " << trialint2 << endl;
+	double effective_moy = moy*1.0/sumy;
+	double effective_moypresel = moypre*1.0/sumypre;
+	double transfereff=0;
+	for ( int i = 0; i< nbbing ; i++){
+		transfereff += (x0[i] - effective_moy) * (x0[i] - effective_moy);
 
-	cout << " No selection : " << " moyenne 1800 = " << moy*1.0/sumy << " moyenne 2000 = " << moy1*1.0/sumy1 << " moyenne 2200 = " << moy2*1.0/sumy2 << " moyenne 2400 = " << moy3*1.0/sumy3 << " moyenne 2600 = " << moy4*1.0/sumy4 << endl;
+	}
 
-	cout << " Presel : " << " moyenne 1800 = " << moypre*1.0/sumypre << " moyenne 2000 = " << moypre1*1.0/sumypre1 << " moyenne 2200 = " << moypre2*1.0/sumypre2 << " moyenne 2400 = " << moypre3*1.0/sumypre3 << " moyenne 2600 = " << moypre4*1.0/sumypre4 << endl;
+	double sigma = sqrt((1.0/nbbing) * transfereff );
+	cout << sigma << endl;
+	//cout << "my integral of sel and no sel : " << trialint << " and " << trialint2 << endl;
+
+	cout << " No selection : " << " moyenne 1800 = " << effective_moy << " moyenne 2000 = " << moy1*1.0/sumy1 << " moyenne 2200 = " << moy2*1.0/sumy2 << " moyenne 2400 = " << moy3*1.0/sumy3 << " moyenne 2600 = " << moy4*1.0/sumy4 << endl;
+
+	cout << " Presel : " << " moyenne 1800 = " << effective_moypresel << " moyenne 2000 = " << moypre1*1.0/sumypre1 << " moyenne 2200 = " << moypre2*1.0/sumypre2 << " moyenne 2400 = " << moypre3*1.0/sumypre3 << " moyenne 2600 = " << moypre4*1.0/sumypre4 << endl;
 
 	auto c2 = new TCanvas("c2","Ratio p/m",1300,700);
 	c2->SetTitle("Ratio impulsion / Mass");
@@ -226,32 +260,32 @@ void Drawpm::FitSignalPM(){
 
 
 
-	Test2[0] = new TGraphErrors(80, x0,y0,0,0);
+	Test2[0] = new TGraphErrors(80, x0,y0);
 	
 	Test2[0]->SetLineColor(9);
 	Test2[0]->SetLineStyle(1);
-	Test2[0]->SetLineWidth(2);
+	Test2[0]->SetLineWidth(1);
 	//Test[0]->Fit(MyTf1[0],"q");
 	Test2[0]->SetMarkerColor(9);
-   	Test2[0]->SetMarkerStyle(20);
-	Test2[0]->SetMarkerSize(0);
+   	Test2[0]->SetMarkerStyle(49);
+	Test2[0]->SetMarkerSize(2);
 
 	leg2->AddEntry(Test2[0],"No selection, mass = 1800 GeV/c^{2}");
-	mg2->Add(Test2[0]);
+	mg2->Add(Test2[0],"lp");
 	c2->Modified();
 	c2->Update();
 
-	Test2[1] = new TGraphErrors(80, x0pre,y0pre,0,0);
+	Test2[1] = new TGraphErrors(80, x0pre,y0pre);
 	Test2[1]->SetLineColor(8);
 	Test2[1]->SetLineStyle(1);
-	Test2[1]->SetLineWidth(2);
+	Test2[1]->SetLineWidth(1);
 	//Test[0]->Fit(MyTf1[0],"q");
 	Test2[1]->SetMarkerColor(8);
-   	Test2[1]->SetMarkerStyle(20);
-	Test2[1]->SetMarkerSize(0);
+   	Test2[1]->SetMarkerStyle(49);
+	Test2[1]->SetMarkerSize(2);
 
 	leg2->AddEntry(Test2[1]," Preselection, mass = 1800 GeV/c^{2}");
-	mg2->Add(Test2[1]);
+	mg2->Add(Test2[1],"lp");
 	c2->Modified();
 	c2->Update();
 
