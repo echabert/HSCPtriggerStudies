@@ -40,7 +40,10 @@ class Drawpm
    vector <TFile*> MyMyF2;
 
    vector <TF1*> MyTf1;
+   vector <TF1*> MyTf2;
+
    vector <TGraphErrors*> Test;
+   vector <TGraphErrors*> Test2;
    TF1* Total;
 };
 

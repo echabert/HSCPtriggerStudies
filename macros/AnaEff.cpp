@@ -70,7 +70,7 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino18002021";
+	string DataType = "Gluino1800";
 	
 	string NameCompleteListTest = "ListeInteretTriggers";
 
@@ -223,7 +223,7 @@ void AnaEff::Loop()
 		//cout << "Before MuonsMissingET" << endl;
 		MissingW = MuonsMissingET();
 		//cout << "After MuonsMissingET" << endl;
-		AssoGenId();
+		
 		/*for ( int jtrack = 0 ; jtrack < ntracks ; jtrack++){
 			DISTRIB_PT->Fill(track_pt[jtrack]);
 			DISTRIB_ETA->Fill(track_eta[jtrack]);
@@ -271,7 +271,7 @@ void AnaEff::Loop()
 		//cout << " idx HSCP candidate : "  <<indexcandidate << endl;
 	//	cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
- 			
+ 			AssoGenId();
 			DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
 			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
 			//cout << track_pt[indexcandidate] << " and hscp_track associated : " << track_pt[hscp_track_idx[indexcandidate]] << endl;

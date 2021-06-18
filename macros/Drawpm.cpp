@@ -59,6 +59,7 @@ void Drawpm::FitSignalPM(){
 	MyMyF2.resize(nbdiffpt);
 	MyTf1.resize(nbdiffpt);
 	Test.resize(nbdiffpt);
+	Test2.resize(nbdiffpt);
 	TString outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Ratio_eff/Povermwithmass.root";
 	
 
@@ -86,6 +87,13 @@ void Drawpm::FitSignalPM(){
 		else{
 			cout << nbcount << endl;
 			TempTr[nbcount] = (TH1D*)gROOT->FindObject("DISTRIB_POVERMASSO1");
+			Double_t scale = 1/TempTr[nbcount]->Integral();
+			TempTr[nbcount]->Scale(scale);
+			Double_t intbnosel = TempTr[nbcount]->Integral(10,30);
+			Double_t intb2nosel = TempTr[nbcount]->Integral();
+
+			cout << " No sel, point de masse " << i << "  : " << intbnosel << " / " << intb2nosel << " = " << intbnosel*1.0/intb2nosel << endl;
+
 			TempTr[nbcount]->SetTitle(Title.c_str());
 			cout << "all good" << endl;
 		
@@ -98,6 +106,15 @@ void Drawpm::FitSignalPM(){
 		else{
 			cout << nbcount << endl;
 			TempTr2[nbcount] = (TH1D*)gROOT->FindObject("DISTRIB_POVERMASSO1");
+			Double_t scale2 = 1/TempTr2[nbcount]->Integral();
+			TempTr2[nbcount]->Scale(scale2);
+			
+			Double_t intb = TempTr2[nbcount]->Integral(10,30);
+			Double_t intb2 = TempTr2[nbcount]->Integral();
+
+			cout << " Presel, point de masse " << i << "  : " << intb << " / " << intb2 << " = " << intb*1.0/intb2 << endl;
+
+			TempTr2[nbcount]->Scale(scale2);
 			TempTr2[nbcount]->SetTitle(TitleSel.c_str());
 			cout << "all good" << endl;
 		}
@@ -106,99 +123,135 @@ void Drawpm::FitSignalPM(){
 		nbcount+=1;
 	}
 	
-	
 
-
-
-
-
-
-
+	double moy=0,moy1=0,moy2=0,moy3=0,moy4=0,moy5=0,moypre=0,moypre1=0,moypre2=0,moypre3=0,moypre4=0,moypre5=0;
+	double sumy=0,sumy1=0,sumy2=0,sumy3=0,sumy4=0,sumypre=0,sumypre1=0,sumypre2=0,sumypre3=0,sumypre4=0;
 	//cout << "before for bins" << endl;
 
 	cout << " For mass = 1800 : " << endl;
 	for ( int i = 0; i< nbbing ; i++){
 			//cout << "in loop nb : " << i << endl;
-			int s = TempTr[0]->GetBinContent(i);
+			double s = TempTr[0]->GetBinContent(i);
 			
 			x0[i] = (i*0.03125)-0.02;
 			y0[i] = s;
+			cout << "no sel"  <<x0[i] << "," << y0[i] << endl;
+			moy += x0[i] * y0[i];
 			//cout << s << " , " << i*0.03125 << endl;
-
-			int s1 = TempTr[1]->GetBinContent(i);
+			sumy += y0[i];
+			double s1 = TempTr[1]->GetBinContent(i);
 			//cout << s1 << endl;
 			x1[i] = (i*0.03125) -0.02; 
 			y1[i] = s1;
-
-			int s2 = TempTr[2]->GetBinContent(i);
+			moy1 += x1[i] * y1[i];
+			sumy1 += y1[i];
+			double s2 = TempTr[2]->GetBinContent(i);
 			//cout << s2 << endl;
 			x2[i] = (i*0.03125) -0.02;
 			y2[i] = s2;
-
-			int s3 = TempTr[3]->GetBinContent(i);
+			moy2 += x2[i] * y2[i];
+			sumy2 += y2[i];
+			double s3 = TempTr[3]->GetBinContent(i);
 			//cout << s3 << endl;
 			x3[i] = (i*0.03125) -0.02;
 			y3[i] = s3;
-
-			int s4 = TempTr[4]->GetBinContent(i);
+			moy3 += x3[i] * y3[i];
+			sumy3 += y3[i];
+			double s4 = TempTr[4]->GetBinContent(i);
 			//cout << s4 << endl;
 			x4[i] = (i*0.03125) -0.02;
 			y4[i] = s4;
-
+			moy4 += x4[i] * y4[i];
+			sumy4 += y4[i];
 			/*int s5 = TempTr[5]->GetBinContent(i);
 			//cout << s5 << endl;
 			x5[i] = i*0.03125;
 			y5[i] = s5;*/
 			
-			int spre = TempTr2[0]->GetBinContent(i);
-			int s1pre = TempTr2[1]->GetBinContent(i);
-			int s2pre = TempTr2[2]->GetBinContent(i);
-			int s3pre = TempTr2[3]->GetBinContent(i);
-			int s4pre = TempTr2[4]->GetBinContent(i);
-			
-			if(s!=0){
-				cout << " M = 1800 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" <<" ratio N_presel/N_sel = " << spre << " / " <<  s <<  " = " << (spre*1.0/s*1.0)*100.0 << " %" << "\n"<< endl;
-			}
-			else{
-				cout << " M = 1800 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << spre <<" / " << s << " 0 %" << "\n"<< endl;
-			
-	
-			}
-			if(s1!=0){
-				cout << " M = 2000 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s1pre << " / " <<  s1 <<  " = " << (s1pre*1.0/s1*1.0)*100.0 << " %" << "\n"<< endl;
-			}
-			else{
-				cout << " M = 2000 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s1pre <<" / " << s1 << " 0 %" << "\n"<< endl;
-		
-			}
-			if(s2!=0){
-				cout << " M = 2200 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s2pre << " / " <<  s2 <<  " = " << (s2pre*1.0/s2*1.0)*100.0 << " %" << "\n"<< endl;
-			}
-			else{
-				cout << " M = 2200 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s2pre <<" / " << s2 << " 0 %" << "\n"<< endl;
-		
-			}
-			if(s3!=0){
-				cout << " M = 2400 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s3pre << " / " <<  s3 <<  " = " << (s3pre*1.0/s3*1.0)*100.0 << " %" << "\n"<< endl;
-			}
-			else{
-				cout << " M = 2400 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s3pre <<" / " << s3 << " 0 %" << "\n"<< endl;
-		
-			}
-			if(s4!=0){
-				cout << " M = 2600 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s4pre << " / " <<  s4 <<  " = " << (s4pre*1.0/s4*1.0)*100.0 << " %" << "\n"<< endl;
-			}
-			else{
-				cout << " M = 2600 GeV, bin " << i << " ( x = " << (i*0.03125) -0.02 << " )" << " ratio N_presel/N_sel = " << s4pre <<" / " << s4 << " 0 %" << "\n"<< endl;
-		
-			}
+			double spre = TempTr2[0]->GetBinContent(i);
+			moypre += spre * ((i*0.03125) -0.02);
+			sumypre += spre;
+			x0pre[i] = (i*0.03125) -0.02;
+			y0pre[i] = spre;
+			cout << "presel "  <<x0pre[i] << "," << y0pre[i] << endl;
 
 
-		cout << "\n\n\n"<<endl;
+			double s1pre = TempTr2[1]->GetBinContent(i);
+			moypre1 += s1pre * ((i*0.03125) -0.02);
+			sumypre1 += s1pre;
+			x1pre[i] = (i*0.03125) -0.02;
+			y1pre[i] = s1pre;
+
+
+			double s2pre = TempTr2[2]->GetBinContent(i);
+			moypre2 += s2pre * ((i*0.03125) -0.02);
+			sumypre2 += s2pre;
+			x2pre[i] = (i*0.03125) -0.02;
+			y2pre[i] = s2pre;
+
+
+			double s3pre = TempTr2[3]->GetBinContent(i);
+			moypre3 += s3pre * ((i*0.03125) -0.02);
+			sumypre3 += s3pre;
+			x3pre[i] = (i*0.03125) -0.02;
+			y3pre[i] = s3pre;
+
+			double s4pre = TempTr2[4]->GetBinContent(i);
+			moypre4 += s4pre * ((i*0.03125) -0.02);
+			sumypre4 += s4pre;
+			x4pre[i] = (i*0.03125) -0.02;
+			y4pre[i] = s4pre;
+
 	}
 	
-	
+	cout << " No selection : " << " moyenne 1800 = " << moy*1.0/sumy << " moyenne 2000 = " << moy1*1.0/sumy1 << " moyenne 2200 = " << moy2*1.0/sumy2 << " moyenne 2400 = " << moy3*1.0/sumy3 << " moyenne 2600 = " << moy4*1.0/sumy4 << endl;
 
+	cout << " Presel : " << " moyenne 1800 = " << moypre*1.0/sumypre << " moyenne 2000 = " << moypre1*1.0/sumypre1 << " moyenne 2200 = " << moypre2*1.0/sumypre2 << " moyenne 2400 = " << moypre3*1.0/sumypre3 << " moyenne 2600 = " << moypre4*1.0/sumypre4 << endl;
+
+	auto c2 = new TCanvas("c2","Ratio p/m",1300,700);
+	c2->SetTitle("Ratio impulsion / Mass");
+	TLegend* leg2 = new TLegend(0.7, 0.8, .5, .6);
+
+	TMultiGraph *mg2 = new TMultiGraph();
+
+
+
+	Test2[0] = new TGraphErrors(80, x0,y0,0,0);
+	
+	Test2[0]->SetLineColor(9);
+	Test2[0]->SetLineStyle(1);
+	Test2[0]->SetLineWidth(2);
+	//Test[0]->Fit(MyTf1[0],"q");
+	Test2[0]->SetMarkerColor(9);
+   	Test2[0]->SetMarkerStyle(20);
+	Test2[0]->SetMarkerSize(0);
+
+	leg2->AddEntry(Test2[0],"No selection, mass = 1800 GeV/c^{2}");
+	mg2->Add(Test2[0]);
+	c2->Modified();
+	c2->Update();
+
+	Test2[1] = new TGraphErrors(80, x0pre,y0pre,0,0);
+	Test2[1]->SetLineColor(8);
+	Test2[1]->SetLineStyle(1);
+	Test2[1]->SetLineWidth(2);
+	//Test[0]->Fit(MyTf1[0],"q");
+	Test2[1]->SetMarkerColor(8);
+   	Test2[1]->SetMarkerStyle(20);
+	Test2[1]->SetMarkerSize(0);
+
+	leg2->AddEntry(Test2[1]," Preselection, mass = 1800 GeV/c^{2}");
+	mg2->Add(Test2[1]);
+	c2->Modified();
+	c2->Update();
+
+	mg2->Draw("a");
+	c2->Update();
+	c2->Modified();
+	mg2->GetXaxis()->SetTitle("Ratio p/m");
+	mg2->GetYaxis()->SetTitle("# HSCP");
+	//mg2->GetYaxis()->SetRange(0,1.1);
+	mg2->GetHistogram()->SetTitle("Ratio p/m de Gluinos pour differentes selections");
 
 
 
@@ -235,6 +288,7 @@ void Drawpm::FitSignalPM(){
 
 
 	}
+
 	TMultiGraph *mg = new TMultiGraph();
 
 
@@ -329,10 +383,6 @@ void Drawpm::FitSignalPM(){
 	c1->Modified();
 	c1->Update();*/
 
-
-
-	
-
 	
 	mg->Draw("a");
 	c1->Update();
@@ -367,7 +417,6 @@ void Drawpm::FitSignalPM(){
 
 
 
-
 	mg->GetXaxis()->SetTitle("Ratio p/m");
 	mg->GetYaxis()->SetTitle("# HSCP");
 	mg->GetYaxis()->SetRange(0,1000);
@@ -386,100 +435,16 @@ void Drawpm::FitSignalPM(){
 	hr->Draw();*/
 	c1->cd();
 	c1->GetFrame()->SetBorderSize(12);
-	
-	/*for(int j = 0; j < nbdiffpt ; j++){
-		string nametf1 = "g" + to_string(j);
-		MyTf1[j] = new TF1(nametf1.c_str(), "landau", 0, 3);
-		cout << "after new tf1" << endl;
-		//MyTf1[]->SetName(
-		if(j==0){
-			MyTf1[j]->SetLineColor(9);
-			MyTf1[j]->SetLineStyle(1);
-			MyTf1[j]->SetLineWidth(2);
-			//MyTf1[j]->Draw();
-			TempTr[j]->Fit(MyTf1[j],"R");
-			TempTr[j]->Draw();
-			leg1->AddEntry(MyTf1[j],"mass = 1600 GeV/c^{2}");
-			c1->Modified();
-			c1->Update();
-		}
-		if(j==1){
-			MyTf1[j]->SetLineColor(8);
-			MyTf1[j]->SetLineStyle(1);
-			MyTf1[j]->SetLineWidth(2);
-			//MyTf1[j]->Draw();
-			TempTr[j]->Fit(MyTf1[j],"R+");
-			
-			TempTr[j]->Draw("SAME");
-			leg1->AddEntry(MyTf1[j],"mass = 1800 GeV/c^{2}");		
-			c1->Modified();
-			c1->Update();
-		}
-		if(j==2){
-			MyTf1[j]->SetLineColor(7);
-			MyTf1[j]->SetLineStyle(1);
-			MyTf1[j]->SetLineWidth(2);
-			TempTr[j]->Fit(MyTf1[j],"R+");
-			TempTr[j]->Draw("SAME");
-			leg1->AddEntry(MyTf1[j],"mass = 2000 GeV/c^{2}");		
-			c1->Modified();
-			c1->Update();
-			//MyTf1[j]->Draw();
-			//c1->Modified();
-			//c1->Update();
-		}
-		if(j==3){
-			MyTf1[j]->SetLineColor(6);
-			MyTf1[j]->SetLineStyle(1);
-			MyTf1[j]->SetLineWidth(2);
-			//MyTf1[j]->Draw();
-			TempTr[j]->Fit(MyTf1[j],"R+");
-			TempTr[j]->Draw("SAME");
-			leg1->AddEntry(MyTf1[j],"mass = 2200 GeV/c^{2}");
-			c1->Modified();
-			c1->Update();
-		}
-		if(j==4){
-			MyTf1[j]->SetLineColor(5);
-			MyTf1[j]->SetLineStyle(1);
-			MyTf1[j]->SetLineWidth(2);
-			//MyTf1[j]->Draw();
-			TempTr[j]->Fit(MyTf1[j],"R+");
-			TempTr[j]->Draw("SAME");
-			leg1->AddEntry(MyTf1[j],"mass = 2400 GeV/c^{2}");
-			c1->Modified();
-			c1->Update();
-		}
-		if(j==5){
-			MyTf1[j]->SetLineColor(4);
-			MyTf1[j]->SetLineStyle(1);
-			MyTf1[j]->SetLineWidth(2);
-			TempTr[j]->Fit(MyTf1[j],"R+");
-			TempTr[j]->Draw("SAME	");
-			leg1->AddEntry(MyTf1[j],"mass = 2600 GeV/c^{2}" );
-			//MyTf1[j]->Draw();
-			c1->Modified();
-			c1->Update();
-		}
-		
-
-		
-		//hr->Fit(MyTf1[0],"R");
-
-		//TempTr[j]->Fit(MyTf1[j],"SAME+");
-		
-		//c1->Modified();
-		//c1->Update();
-
-	
-	}*/
-
 	leg1->SetBorderSize(0);
 	leg1->Draw();
 
+	c2->cd();
+	c2->GetFrame()->SetBorderSize(12);
+	leg2->SetBorderSize(0);
+	leg2->Draw();
 	
 	OutputHisto->cd();
-	
+	c2->Write();
 	c1->Write();
 	OutputHisto->Close();
 }
