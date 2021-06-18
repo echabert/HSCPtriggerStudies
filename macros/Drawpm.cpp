@@ -43,18 +43,22 @@ Drawpm::~Drawpm(){
 
 void Drawpm::FitSignalPM(){
 	string filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/ReconsNosel/Eff/";
-	string filepathsel = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/ReconsPresel/Eff/";
+	string filepathpresel = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/ReconsPreselE/Eff/";
+	string filepathsel = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/ReconsSel/Eff/";
 	string pointofmass,pointofmasssel,DataType="Gluino",Date = "1105", All = "all", ExtRoot = ".root",Distribz = "DistribZpeak";
 	int minm=1800,maxm=2600,nbmbin=200, nbbing = 80;
 	double x0[nbbing] = {0} ,y0[nbbing]= {0},x1[nbbing]= {0},y1[nbbing]= {0},x2[nbbing]= {0},y2[nbbing]= {0},x3[nbbing]= {0},y3[nbbing]= {0},x4[nbbing]= {0},y4[nbbing]= {0},x5[nbbing]= {0},y5[nbbing]= {0};
 
 	double x0pre[nbbing] = {0} ,y0pre[nbbing]= {0},x1pre[nbbing]= {0},y1pre[nbbing]= {0},x2pre[nbbing]= {0},y2pre[nbbing]= {0},x3pre[nbbing]= {0},y3pre[nbbing]= {0},x4pre[nbbing]= {0},y4pre[nbbing]= {0},x5pre[nbbing]= {0},y5pre[nbbing]= {0};
 
+	double x0sel[nbbing] = {0} ,y0sel[nbbing]= {0},x1sel[nbbing]= {0},y1sel[nbbing]= {0},x2sel[nbbing]= {0},y2sel[nbbing]= {0},x3sel[nbbing]= {0},y3sel[nbbing]= {0},x4sel[nbbing]= {0},y4sel[nbbing]= {0},x5sel[nbbing]= {0},y5sel[nbbing]= {0};
 
 	double x0err[nbbing] = {0} ,y0err[nbbing]= {0},x1err[nbbing]= {0},y1err[nbbing]= {0},x2err[nbbing]= {0},y2err[nbbing]= {0},x3err[nbbing]= {0},y3err[nbbing]= {0},x4err[nbbing]= {0},y4err[nbbing]= {0},x5err[nbbing]= {0},y5err[nbbing]= {0};
 
 	double x0preerr[nbbing] = {0} ,y0preerr[nbbing]= {0},x1preerr[nbbing]= {0},y1preerr[nbbing]= {0},x2preerr[nbbing]= {0},y2preerr[nbbing]= {0},x3preerr[nbbing]= {0},y3preerr[nbbing]= {0},x4preerr[nbbing]= {0},y4preerr[nbbing]= {0},x5preerr[nbbing]= {0},y5preerr[nbbing]= {0};
 
+	double x0selerr[nbbing] = {0} ,y0selerr[nbbing]= {0},x1selerr[nbbing]= {0},y1selerr[nbbing]= {0},x2selerr[nbbing]= {0},y2selerr[nbbing]= {0},x3selerr[nbbing]= {0},y3selerr[nbbing]= {0},x4selerr[nbbing]= {0},y4selerr[nbbing]= {0},x5selerr[nbbing]= {0},y5selerr[nbbing]= {0};
+	
 	
 	for (int a =0 ; a < 2; a++){
 		//propagation des incertutes
@@ -72,11 +76,14 @@ void Drawpm::FitSignalPM(){
 	AllFiles.resize(nbdiffpt);
 	TempTr.resize(nbdiffpt);
 	TempTr2.resize(nbdiffpt);
+	TempTr3.resize(nbdiffpt);
 	MyMyF.resize(nbdiffpt);
 	MyMyF2.resize(nbdiffpt);
+	MyMyF3.resize(nbdiffpt);
 	MyTf1.resize(nbdiffpt);
 	Test.resize(nbdiffpt);
 	Test2.resize(nbdiffpt);
+	Test3.resize(nbdiffpt);
 	TString outputfilename="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Ratio_eff/Povermwithmass.root";
 	
 
@@ -87,13 +94,16 @@ void Drawpm::FitSignalPM(){
 
 	int nbcount = 0;
 	for(int i = minm; i <= maxm ; i+=nbmbin){
-		
+		cout << "new mass point "  << i << endl;
 		pointofmass = to_string(i);
 		string PathPom = filepath + Distribz  + DataType + pointofmass + Date + All + ExtRoot;
 		string Title = "Ratio p/m distribution for no selection" + DataType + pointofmass;
-		cout << PathPom << endl;
-		string PathPomSel = filepathsel + Distribz  + DataType + pointofmass + Date + All + ExtRoot;
+		//cout << PathPom << endl;
+		string PathPomPresel = filepathpresel + Distribz  + DataType + pointofmass + Date + All + ExtRoot;
 		string TitleSel = "Ratio p/m distribution for Preselection" + DataType + pointofmass;
+
+		string PathPomSelection = filepathsel + Distribz  + DataType + pointofmass + Date + All + ExtRoot;
+		string TitleSelection = "Ratio p/m distribution for Selection" + DataType + pointofmass;
 
 		MyMyF[nbcount] = new TFile(PathPom.c_str());
 		MyMyF[nbcount]->cd();
@@ -116,10 +126,10 @@ void Drawpm::FitSignalPM(){
 			cout << "all good" << endl;
 		
 		}
-		cout << PathPomSel << endl;
-		MyMyF2[nbcount] = new TFile(PathPomSel.c_str());
+		//cout << PathPomPresel << endl;
+		MyMyF2[nbcount] = new TFile(PathPomPresel.c_str());
 		if (!MyMyF2[nbcount] || !MyMyF2[nbcount]->IsOpen()) {
-			cout << "There was a problem opening the input file!" << PathPomSel << endl;
+			cout << "There was a problem opening the input file!" << PathPomPresel << endl;
 		}
 		else{
 			cout << nbcount << endl;
@@ -137,24 +147,51 @@ void Drawpm::FitSignalPM(){
 			cout << "all good" << endl;
 		}
 
+		MyMyF3[nbcount] = new TFile(PathPomSelection.c_str());
+
+		if (!MyMyF3[nbcount] || !MyMyF3[nbcount]->IsOpen()) {
+			cout << "There was a problem opening the input file!" << PathPomPresel << endl;
+		}
+		else{
+			cout << nbcount << endl;
+			TempTr3[nbcount] = (TH1D*)gROOT->FindObject("DISTRIB_POVERMASSO1");
+			Double_t scale3 = (1/TempTr3[nbcount]->Integral());
+			cout << "scale factor 3 : " << scale3 << " , and integral 3 : " << TempTr3[nbcount]->Integral() << endl;
+			TempTr3[nbcount]->Scale(scale3);
+			
+			Double_t intbselection = TempTr3[nbcount]->Integral(10,30);
+			Double_t intb2selection = TempTr3[nbcount]->Integral();
+
+			cout << " Selection , point de masse " << i << "  : " << intbselection << " / " << intb2selection << " = " << intbselection*1.0/intb2selection << endl;
+
+			TempTr3[nbcount]->SetTitle(TitleSelection.c_str());
+			cout << "all good" << endl;
+		}
+
+
+
 		//MyMyF[nbcount]->Close();
 		nbcount+=1;
 	}
 	
 
-	double moy=0,moy1=0,moy2=0,moy3=0,moy4=0,moy5=0,moypre=0,moypre1=0,moypre2=0,moypre3=0,moypre4=0,moypre5=0;
-	double sumy=0,sumy1=0,sumy2=0,sumy3=0,sumy4=0,sumypre=0,sumypre1=0,sumypre2=0,sumypre3=0,sumypre4=0;
+	double moy=0,moy1=0,moy2=0,moy3=0,moy4=0,moy5=0,moypre=0,moypre1=0,moypre2=0,moypre3=0,moypre4=0,moypre5=0,moysel=0,moysel1=0,moysel2=0,moysel3=0,moysel4=0;
+	double sumy=0,sumy1=0,sumy2=0,sumy3=0,sumy4=0,sumypre=0,sumypre1=0,sumypre2=0,sumypre3=0,sumypre4=0,sumysel=0,sumysel1=0,sumysel2=0,sumysel3=0,sumysel4=0;
+
+	
 	//cout << "before for bins" << endl;
-	double trialint=0,trialint2=0;
+	double trialint=0,trialint2=0,trialint3=0;
 	cout << " For mass = 1800 : " << endl;
 	for ( int i = 0; i< nbbing ; i++){
-			//cout << "in loop nb : " << i << endl;
+			cout << "in loop nb : " << i << endl;
+			
 			double s = TempTr[0]->GetBinContent(i);
 			trialint+=s;
 			x0[i] = (i*0.03125)-0.02;
 			y0[i] = s;
 			//cout << "no sel"  <<x0[i] << "," << y0[i] << endl;
 			moy += x0[i] * y0[i];
+			cout << "after nosel 1: " << endl;
 
 			//cout << s << " , " << i*0.03125 << endl;
 			sumy += y0[i];
@@ -165,6 +202,7 @@ void Drawpm::FitSignalPM(){
 			moy1 += x1[i] * y1[i];
 			sumy1 += y1[i];
 			double s2 = TempTr[2]->GetBinContent(i);
+			cout << "after nosel 2 : " << endl;
 
 			//cout << s2 << endl;
 			x2[i] = (i*0.03125) -0.02;
@@ -172,6 +210,8 @@ void Drawpm::FitSignalPM(){
 			moy2 += x2[i] * y2[i];
 			sumy2 += y2[i];
 			double s3 = TempTr[3]->GetBinContent(i);
+			cout << "after nosel 3: " << endl;
+
 
 			//cout << s3 << endl;
 			x3[i] = (i*0.03125) -0.02;
@@ -179,12 +219,15 @@ void Drawpm::FitSignalPM(){
 			moy3 += x3[i] * y3[i];
 			sumy3 += y3[i];
 			double s4 = TempTr[4]->GetBinContent(i);
+			cout << "after nosel 4: " << endl;
+
 
 			//cout << s4 << endl;
 			x4[i] = (i*0.03125) -0.02;
 			y4[i] = s4;
 			moy4 += x4[i] * y4[i];
 			sumy4 += y4[i];
+			cout << "after nosel 5: " << endl;
 			/*int s5 = TempTr[5]->GetBinContent(i);
 
 			//cout << s5 << endl;
@@ -199,6 +242,7 @@ void Drawpm::FitSignalPM(){
 			y0pre[i] = spre;
 			//cout << "presel "  << x0pre[i] << "," << y0pre[i] << endl;
 			trialint2 += spre;
+			cout << "after presel 1: " << endl;
 
 			double s1pre = TempTr2[1]->GetBinContent(i);
 			moypre1 += s1pre * ((i*0.03125) -0.02);
@@ -212,24 +256,43 @@ void Drawpm::FitSignalPM(){
 			sumypre2 += s2pre;
 			x2pre[i] = (i*0.03125) -0.02;
 			y2pre[i] = s2pre;
+			cout << "after presel 2: " << endl;
+			
 
-
-			double s3pre = TempTr2[3]->GetBinContent(i);
+			/*double s3pre = TempTr2[3]->GetBinContent(i);
+			cout << "after double s3pre: " << endl;
 			moypre3 += s3pre * ((i*0.03125) -0.02);
 			sumypre3 += s3pre;
 			x3pre[i] = (i*0.03125) -0.02;
 			y3pre[i] = s3pre;
+			cout << "after presel 3: " << endl;*/
 
 			double s4pre = TempTr2[4]->GetBinContent(i);
 			moypre4 += s4pre * ((i*0.03125) -0.02);
 			sumypre4 += s4pre;
 			x4pre[i] = (i*0.03125) -0.02;
 			y4pre[i] = s4pre;
+			cout << "after presel 4: " << endl;
 
+			cout << "before Tr3" << endl;
+
+
+			double ssel = TempTr3[0]->GetBinContent(i);
+			moysel += ssel * ((i*0.03125) -0.02);
+			sumysel += ssel;
+			x0sel[i] = (i*0.03125) -0.02;
+			y0sel[i] = ssel;
+			//cout << "presel "  << x0pre[i] << "," << y0pre[i] << endl;
+			trialint3 += ssel;
+			cout << "after sel 1: " << endl;
 
 	}
+	cout << "before effective moy" << endl;
 	double effective_moy = moy*1.0/sumy;
 	double effective_moypresel = moypre*1.0/sumypre;
+	double effective_moysel = moysel*1.0/sumysel;
+
+
 	double transfereff=0;
 	for ( int i = 0; i< nbbing ; i++){
 		transfereff += (x0[i] - effective_moy) * (x0[i] - effective_moy);
@@ -243,6 +306,9 @@ void Drawpm::FitSignalPM(){
 	cout << " No selection : " << " moyenne 1800 = " << effective_moy << " moyenne 2000 = " << moy1*1.0/sumy1 << " moyenne 2200 = " << moy2*1.0/sumy2 << " moyenne 2400 = " << moy3*1.0/sumy3 << " moyenne 2600 = " << moy4*1.0/sumy4 << endl;
 
 	cout << " Presel : " << " moyenne 1800 = " << effective_moypresel << " moyenne 2000 = " << moypre1*1.0/sumypre1 << " moyenne 2200 = " << moypre2*1.0/sumypre2 << " moyenne 2400 = " << moypre3*1.0/sumypre3 << " moyenne 2600 = " << moypre4*1.0/sumypre4 << endl;
+
+	cout << " Selection  : " << " moyenne 1800 = " << effective_moysel << " moyenne 2000 = " << moysel1*1.0/sumysel1 << " moyenne 2200 = " << moysel2*1.0/sumysel2 << " moyenne 2400 = " << moysel3*1.0/sumysel3 << " moyenne 2600 = " << moysel4*1.0/sumysel4 << endl;
+
 
 	auto c2 = new TCanvas("c2","Ratio p/m",1300,700);
 	c2->SetTitle("Ratio impulsion / Mass");
@@ -280,6 +346,24 @@ void Drawpm::FitSignalPM(){
 	mg2->Add(Test2[1],"lp");
 	c2->Modified();
 	c2->Update();
+
+	Test2[2] = new TGraphErrors(80, x0sel,y0sel);
+	Test2[2]->SetLineColor(7);
+	Test2[2]->SetLineStyle(1);
+	Test2[2]->SetLineWidth(1);
+	//Test[0]->Fit(MyTf1[0],"q");
+	Test2[2]->SetMarkerColor(7);
+   	Test2[2]->SetMarkerStyle(49);
+	Test2[2]->SetMarkerSize(2);
+
+	leg2->AddEntry(Test2[2]," Selection, mass = 1800 GeV/c^{2}");
+	mg2->Add(Test2[2],"lp");
+	c2->Modified();
+	c2->Update();
+
+
+
+
 
 	mg2->Draw("a");
 	c2->Update();

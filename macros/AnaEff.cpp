@@ -253,9 +253,10 @@ void AnaEff::Loop()
 		float HighestPT,HighestMuonPT,HighestMET,POVERMBG, HighestP;
 		int trignull=0;
 		indexcandidate=Selection();
+		AssoGenId();
 		//cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
- 			AssoGenId();
+ 			
 
 			DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
 			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);

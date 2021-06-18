@@ -32,18 +32,22 @@ class Drawpm
    TFile* OutputHisto;
 
    vector <TFile*> AllFiles;
-   vector <TH1D*> TempTr;
 
+   vector <TH1D*> TempTr;
    vector <TH1D*> TempTr2;
+   vector <TH1D*> TempTr3;
 
    vector <TFile*> MyMyF;
    vector <TFile*> MyMyF2;
+   vector <TFile*> MyMyF3;
+
 
    vector <TF1*> MyTf1;
    vector <TF1*> MyTf2;
 
    vector <TGraphErrors*> Test;
    vector <TGraphErrors*> Test2;
+   vector <TGraphErrors*> Test3;
    TF1* Total;
 };
 
