@@ -133,7 +133,6 @@ void Drawpm::FitSignalPM(){
 
 			cout << " Presel, point de masse " << i << "  : " << intb << " / " << intb2 << " = " << intb*1.0/intb2 << endl;
 
-			//TempTr2[nbcount]->Scale(scale2);
 			TempTr2[nbcount]->SetTitle(TitleSel.c_str());
 			cout << "all good" << endl;
 		}
@@ -226,13 +225,6 @@ void Drawpm::FitSignalPM(){
 			sumypre4 += s4pre;
 			x4pre[i] = (i*0.03125) -0.02;
 			y4pre[i] = s4pre;
-
-
-			
-
-
-
-
 
 
 	}

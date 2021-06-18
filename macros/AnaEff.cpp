@@ -41,7 +41,7 @@ const double uncertaintyMu = 0.0000000024;
 const double massW = 80.379;
 const double uncertaintyW = 0.012;
 
-const float TheorMass = 2400;
+const float TheorMass = 1800;
 
 void AnaEff::Loop()
 {
@@ -70,7 +70,7 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino2400";
+	string DataType = "Gluino1800";
 	
 	string NameCompleteListTest = "ListeInteretTriggers";
 
@@ -405,9 +405,9 @@ int AnaEff::Selection(){
 		/*if(hscp_iso2_tk[ihs] >= 100){ //50
 			yon=false;
 		}*/
-		/*if(track_ias_ampl[hscp_track_idx[ihs]] < 0.2){ //50
+		if(track_ias_ampl[hscp_track_idx[ihs]] < 0.2){ //50
 			yon=false;
-		}*/
+		}
 
 
 
