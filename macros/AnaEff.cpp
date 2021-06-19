@@ -687,7 +687,7 @@ double AnaEff::deltaR(double delta) {
 
 void AnaEff::AssoGenId(){
 	//cout << "-----------new event-------- : " << ngenpart << " particules et " << ntracks << " traces"<<endl;
-	vector<int> candidates;
+	vector<int> candidates,candidatesrh;
 	int nglu = 0,nglu2=0,countglu = 0,nbmothgen=0;
 	double p1=0,p2=0,eta1=0,eta2=0,pt1=0,pt2=0;
 	float poverm1,poverm2;
@@ -696,6 +696,13 @@ void AnaEff::AssoGenId(){
 		if(gen_moth_pdg[i] == 1000021){
 			nbmothgen+=1;
 		}
+		if(gen_pdg[i] == 1009213){
+
+			candidatesrh.push_back(i);
+		
+		}
+
+
 
 		if (gen_pdg[i] == 1000021){
 			nglu = i;
@@ -721,18 +728,18 @@ void AnaEff::AssoGenId(){
 	for(int i = 0; i < ntracks ; i++){
 		//for(int j=0; j< candidates.size() ; j++){
 			
-			double deltatranfr1 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates[candidates.size()-1]], gen_phi[candidates[candidates.size()-1]]);
+			double deltatranfr1 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 			double finaldelta1 = deltaR(deltatranfr1);
 
 
-			double deltatranfr2 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidates[candidates.size()-2]], gen_phi[candidates[candidates.size()-2]]);
+			double deltatranfr2 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidatesrh[candidatesrh.size()-2]], gen_phi[candidatesrh[candidatesrh.size()-2]]);
 			double finaldelta2 = deltaR(deltatranfr2);
 
 			//cout << finaldelta << endl;
 			if (finaldelta1 < 0.3){
 				alo = true;
 				//cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-1] << endl;
-				poverm1 = ((gen_pt[candidates[candidates.size()-1]] * cosh(gen_eta[candidates[candidates.size()-1]]))/TheorMass);
+				poverm1 = ((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm1);
 				Psurm1 = poverm1;
 
@@ -744,7 +751,7 @@ void AnaEff::AssoGenId(){
 			if (finaldelta2 < 0.3){
 				alo2 = true;
 				//cout << "Track number " << i << " is associated with gluino " << candidates[candidates.size()-2] << endl;
-				poverm2 = ((gen_pt[candidates[candidates.size()-2]] * cosh(gen_eta[candidates[candidates.size()-2]]))/TheorMass);
+				poverm2 = ((gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm2);
 				Psurm2 = poverm2;
 			}

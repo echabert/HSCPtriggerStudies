@@ -192,42 +192,43 @@ void Drawpm::FitSignalPM(){
 			//cout << "no sel"  <<x0[i] << "," << y0[i] << endl;
 			moy += x0[i] * y0[i];
 			cout << "after nosel 1: " << endl;
-
 			//cout << s << " , " << i*0.03125 << endl;
 			sumy += y0[i];
-			double s1 = TempTr[1]->GetBinContent(i);
+
+			/*double s1 = TempTr[1]->GetBinContent(i);
 			//cout << s1 << endl;
 			x1[i] = (i*0.03125) -0.02; 
 			y1[i] = s1;
 			moy1 += x1[i] * y1[i];
 			sumy1 += y1[i];
+
 			double s2 = TempTr[2]->GetBinContent(i);
 			cout << "after nosel 2 : " << endl;
-
 			//cout << s2 << endl;
 			x2[i] = (i*0.03125) -0.02;
 			y2[i] = s2;
 			moy2 += x2[i] * y2[i];
 			sumy2 += y2[i];
+
+
 			double s3 = TempTr[3]->GetBinContent(i);
 			cout << "after nosel 3: " << endl;
-
-
 			//cout << s3 << endl;
 			x3[i] = (i*0.03125) -0.02;
 			y3[i] = s3;
 			moy3 += x3[i] * y3[i];
 			sumy3 += y3[i];
+
+
 			double s4 = TempTr[4]->GetBinContent(i);
 			cout << "after nosel 4: " << endl;
-
-
 			//cout << s4 << endl;
 			x4[i] = (i*0.03125) -0.02;
 			y4[i] = s4;
 			moy4 += x4[i] * y4[i];
 			sumy4 += y4[i];
-			cout << "after nosel 5: " << endl;
+			cout << "after nosel 5: " << endl;*/
+
 			/*int s5 = TempTr[5]->GetBinContent(i);
 
 			//cout << s5 << endl;
@@ -235,7 +236,6 @@ void Drawpm::FitSignalPM(){
 			y5[i] = s5;*/
 			
 			double spre = TempTr2[0]->GetBinContent(i);
-			
 			moypre += spre * ((i*0.03125) -0.02);
 			sumypre += spre;
 			x0pre[i] = (i*0.03125) -0.02;
