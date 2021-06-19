@@ -779,7 +779,7 @@ void AnaEff::AssoGenId(){
 	}
 	
 		if(alo==false && alo2 == false){
-			cout << "no track matched any gluino" << endl;
+			//cout << "no track matched any gluino" << endl;
 		}
 	
 	candidates.clear();
