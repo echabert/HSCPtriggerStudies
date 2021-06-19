@@ -715,18 +715,18 @@ void AnaEff::AssoGenId(){
 
 		}
 
-		//cout << "gen_pdg : " << gen_pdg[i] << " , gen_moth_pdg : "<< gen_moth_pdg[i] << " , gen status : " << gen_status[i] << " , with PT = " << gen_pt[i] <<  endl;
-
+		
 	}
 
-	//cout << "found 2 gluinos able to hadronize : "<< candidates[candidates.size()-1] << " , " << candidates[candidates.size()-2] << " , p1 = " << gen_pt[candidates[candidates.size()-1]] * cosh(gen_eta[candidates[candidates.size()-1]]) << " , and p2 = " << gen_pt[candidates[candidates.size()-2]] * cosh(gen_eta[candidates[candidates.size()-2]]) << endl;
-
-
-	//cout << "found "<< countglu << " gluinos in the whole event, and only "<< nbmothgen << " mother gluinos" << endl;
-
+	
 	bool alo = false,alo2=false;
-	for(int i = 0; i < ntracks ; i++){
-		//for(int j=0; j< candidates.size() ; j++){
+
+	if(candidatesrh.size()< 2){
+		cout << "charged + neutral" << endl;
+	}
+	else{
+		for(int i = 0; i < ntracks ; i++){
+			//for(int j=0; j< candidates.size() ; j++){
 			
 			double deltatranfr1 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 			double finaldelta1 = deltaR(deltatranfr1);
@@ -761,14 +761,15 @@ void AnaEff::AssoGenId(){
 			}
 			
 		//}
-	}
+		}
 	
 	
-	if(alo==false && alo2 == false){
-		cout << "no track matched any gluino" << endl;
+		if(alo==false && alo2 == false){
+			cout << "no track matched any gluino" << endl;
+		}
 	}
-
 	candidates.clear();
+	candidatesrh.clear();
 }
 
 
