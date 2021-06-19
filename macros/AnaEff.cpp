@@ -722,9 +722,10 @@ void AnaEff::AssoGenId(){
 	bool alo = false,alo2=false;
 
 	if(candidatesrh.size()< 2){
-		cout << "charged + neutral" << endl;
+		//cout << "charged + neutral " << endl;
 	}
 	else{
+		cout << "charged + charged " << endl;
 		for(int i = 0; i < ntracks ; i++){
 			//for(int j=0; j< candidates.size() ; j++){
 			
