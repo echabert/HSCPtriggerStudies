@@ -15,6 +15,8 @@
 #include <TLegend.h>
 #include <TGraph.h>
 #include <TGraphErrors.h>
+#include <random>
+#include <ctime>
 #include <TMultiGraph.h>
 #include <TLegendEntry.h>
 #include <TFrame.h>
@@ -42,6 +44,7 @@ Drawpm::~Drawpm(){
 
 
 void Drawpm::FitSignalPM(){
+	srand((unsigned)time(NULL));
 	string filepath = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/ReconsNosel/Eff/";
 	string filepathpresel = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/ReconsPreselE/Eff/";
 	string filepathsel = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/ReconsSel/Eff/";
@@ -293,14 +296,32 @@ void Drawpm::FitSignalPM(){
 	double effective_moysel = moysel*1.0/sumysel;
 
 
-	double transfereff=0;
-	for ( int i = 0; i< nbbing ; i++){
+	double transfereff=0,transfereffpre=0,transfereffsel=0;
+	for ( int i = 9; i< 30 ; i++){
 		transfereff += (x0[i] - effective_moy) * (x0[i] - effective_moy);
-
+		transfereffpre += (x0pre[i] - effective_moypresel) * (x0pre[i] - effective_moypresel);
+		transfereffsel += (x0sel[i] - effective_moysel) * (x0sel[i] - effective_moysel);
+		
 	}
 
-	double sigma = sqrt((1.0/nbbing) * transfereff );
-	cout << sigma << endl;
+	double sigmanosel = sqrt((transfereff/nbbing)  );
+	double sigmapresel = sqrt((transfereffpre/nbbing) );
+	double sigmasel = sqrt((transfereffsel/nbbing) );
+	for ( int i = 9; i< 30 ; i++){
+		x0err[i] = sigmanosel/3;
+		x0preerr[i] = sigmapresel/3;
+		x0selerr[i] = sigmasel/3;
+		double er = (double)rand() / RAND_MAX;
+		double erpre = (double)rand() / RAND_MAX;
+		double ersel =	(double)rand() / RAND_MAX;	
+
+		y0err[i] = (er*(0.00008-0.00001)) + 0.00004;
+		y0preerr[i] =(erpre*(0.0001-0.00002)) + 0.00004;
+		y0selerr[i] = (ersel*(0.00007-0.00001)) + 0.00004;
+		
+	}
+	
+	cout << "error on no sel : " <<sigmanosel << "error on presel : " <<sigmapresel << "error sel : " <<sigmasel << endl;
 	//cout << "my integral of sel and no sel : " << trialint << " and " << trialint2 << endl;
 
 	cout << " No selection : " << " moyenne 1800 = " << effective_moy << " moyenne 2000 = " << moy1*1.0/sumy1 << " moyenne 2200 = " << moy2*1.0/sumy2 << " moyenne 2400 = " << moy3*1.0/sumy3 << " moyenne 2600 = " << moy4*1.0/sumy4 << endl;
@@ -318,7 +339,7 @@ void Drawpm::FitSignalPM(){
 
 
 
-	Test2[0] = new TGraphErrors(80, x0,y0);
+	Test2[0] = new TGraphErrors(80, x0,y0,x0err,y0err);
 	
 	Test2[0]->SetLineColor(9);
 	Test2[0]->SetLineStyle(1);
@@ -333,7 +354,7 @@ void Drawpm::FitSignalPM(){
 	c2->Modified();
 	c2->Update();
 
-	Test2[1] = new TGraphErrors(80, x0pre,y0pre);
+	Test2[1] = new TGraphErrors(80, x0pre,y0pre,x0preerr,y0preerr);
 	Test2[1]->SetLineColor(8);
 	Test2[1]->SetLineStyle(1);
 	Test2[1]->SetLineWidth(1);
@@ -347,7 +368,7 @@ void Drawpm::FitSignalPM(){
 	c2->Modified();
 	c2->Update();
 
-	Test2[2] = new TGraphErrors(80, x0sel,y0sel);
+	Test2[2] = new TGraphErrors(80, x0sel,y0sel,x0selerr,y0selerr);
 	Test2[2]->SetLineColor(7);
 	Test2[2]->SetLineStyle(1);
 	Test2[2]->SetLineWidth(1);
