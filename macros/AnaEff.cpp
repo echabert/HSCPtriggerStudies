@@ -702,7 +702,7 @@ void AnaEff::AssoGenId(){
 			nbmothgen+=1;
 		}
 		if(gen_pdg[i] == 1009213 || gen_pdg[i] == 1009323 || gen_pdg[i] == 1092214 || gen_pdg[i] == 1091114 || gen_pdg[i] == 1092224 || gen_pdg[i] == 1093114 || gen_pdg[i] == 1093224 || gen_pdg[i] == 1093314 || gen_pdg[i] == 1093334 || gen_pdg[i] == 1000612 || gen_pdg[i] == 1000632 || gen_pdg[i] == 1000652 || gen_pdg[i] == 1006211 || gen_pdg[i] == 1006213 || gen_pdg[i] == 1006223 || gen_pdg[i] == 1006313 || gen_pdg[i] == 1006321 || gen_pdg[i] == 1006323){ // rajouter tout ici
-		
+			cout << gen_moth_pdg[i] << endl;
 			if(gen_moth_pdg[i] == 1000021){
 				 cout << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
 				 candidatesrh.push_back(i);
