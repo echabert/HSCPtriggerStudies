@@ -336,7 +336,8 @@ void AnaEff::Loop()
 	cout << " There was " << nbtot << " events, " << nbchn << " charged + neutral and" << nbchch << " charged + charged" << endl;
 	cout << " Charged-Charged : " << nbchch << " / " << nbtot << " = " << nbchch*1.0/nbtot <<  endl;
 	cout << " Neutral-Charged : " << nbchn << " / " << nbtot << " = "  <<  nbchn*1.0/nbtot << endl;
-	
+	cout << " Neutral-X : " << nbnn << " / " << nbtot << " = "  <<  nbnn*1.0/nbtot << endl;
+
 	InfosData.close();
 	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers,EffTriggers, ErrorEffTriggers, OrAllTriggers);
 
@@ -748,6 +749,12 @@ void AnaEff::AssoGenId(){
 		nbchn+=1;
 
 	}
+
+	if( candidatesrh.size() == 0 && candidatesneutral.size() >= 1 ){
+		nbnn+=1;
+
+	}
+
 
 	if(candidatesrh.size() >= 2 && candidatesneutral.size() == 0){
 		//cout << "charged + neutral " << endl;
