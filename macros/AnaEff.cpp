@@ -743,7 +743,7 @@ void AnaEff::AssoGenId(){
 
 
 	nbtot+=1;
-
+	cout << "nb neutral : " << candidatesneutral.size() << " , nb charged : " << candidatesrh.size() << endl;
 	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
 		nbchn+=1;
 
