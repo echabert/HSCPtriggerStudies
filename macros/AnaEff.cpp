@@ -799,7 +799,7 @@ void AnaEff::AssoGenId(){
 			if (finaldelta2 < 0.3){
 				alo2 = true;
 				nbchn+=1;
-				cout << "Track number " << i << " is associated with charged gluino 2" << candidatesneutral[candidatesneutral.size()-1] << endl;
+				cout << "Track number " << i << " is associated with charged gluino 2" << candidatesrh[candidatesrh.size()-2] << endl;
 				poverm2 = ((gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm2);
 				Psurm2 = poverm2;
