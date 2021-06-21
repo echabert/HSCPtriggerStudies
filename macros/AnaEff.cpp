@@ -210,7 +210,7 @@ void AnaEff::Loop()
 
 
 	//cout << "Before loop nentries" << endl;
-	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
+	for (Long64_t jentry=0; jentry<1000;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << " , "<<(jentry*1.0/nentries)*100 << " %" << endl;
 		if (ientry < 0) break;
@@ -745,28 +745,14 @@ void AnaEff::AssoGenId(){
 	nbtot+=1;
 
 	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
-
-		nbchch+=1;
-
-
-
-
-
-
-
-
-
-
-
-
-
+		nbchn+=1;
 
 	}
 
 	if(candidatesrh.size() >= 2 && candidatesneutral.size() == 0){
 		//cout << "charged + neutral " << endl;
 		
-		
+		nbchch+=1;
 		cout << "charged + charged " << endl;
 		for(int i = 0; i < ntracks ; i++){
 			//for(int j=0; j< candidates.size() ; j++){
@@ -785,7 +771,7 @@ void AnaEff::AssoGenId(){
 			//cout << finaldelta << endl;
 			if (finaldelta1 < 0.3){
 				alo = true;
-				nbchn+=1;
+				
 				cout << "Track number " << i << " is associated with charged gluino 1 " << candidatesrh[candidatesrh.size()-1] << endl;
 				poverm1 = ((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm1);
@@ -798,7 +784,7 @@ void AnaEff::AssoGenId(){
 			}
 			if (finaldelta2 < 0.3){
 				alo2 = true;
-				nbchn+=1;
+				
 				cout << "Track number " << i << " is associated with charged gluino 2" << candidatesrh[candidatesrh.size()-2] << endl;
 				poverm2 = ((gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm2);
