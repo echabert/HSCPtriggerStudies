@@ -182,6 +182,7 @@ private :
    Int_t muon1;
    Int_t muon2;
    Int_t muonW;
+   Int_t nbchch=0,nbchn=0,nbtot=0;
    TFile* distrib;
 
    TH1D* MUONPT_DISTRIB;

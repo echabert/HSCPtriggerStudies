@@ -332,7 +332,11 @@ void AnaEff::Loop()
 	cout << " # of times all triggers = 0 : " << nbwrong << endl;
 	InfosData << "# muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << " , Ratio :" << (nbofpairsZ*2.0/nbmuons)*100 << " %" << endl << endl <<  "Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
-
+	cout << "--------------------- Gluinos ---------------- "  << endl;
+	cout << " There was " << nbtot << " events, " << nbchn << " charged + neutral and" << nbchch << " charged + charged" << endl;
+	cout << " Charged-Charged : " << nbchch << " / " << nbtot << " = " << nbchch*1.0/nbtot <<  endl;
+	cout << " Neutral-Charged : " << nbchn << " / " << nbtot << " = "  <<  nbchn*1.0/nbtot << endl;
+	
 	InfosData.close();
 	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers,EffTriggers, ErrorEffTriggers, OrAllTriggers);
 
@@ -689,6 +693,7 @@ void AnaEff::AssoGenId(){
 	//cout << "-----------new event-------- : " << ngenpart << " particules et " << ntracks << " traces"<<endl;
 	vector<int> candidates,candidatesrh,candidatesneutral;
 	int nglu = 0,nglu2=0,countglu = 0,nbmothgen=0;
+	int nbnn=0;
 	double p1=0,p2=0,eta1=0,eta2=0,pt1=0,pt2=0;
 	float poverm1,poverm2;
 	for(int i=0; i < ngenpart ; i++){
@@ -726,18 +731,18 @@ void AnaEff::AssoGenId(){
 	bool alo = false,alo2=false;
 
 
+	nbtot+=1;
 
+	if(candidatesrh.size() >= 2 && candidatesneutral.size() == 0 ){
 
+		nbchch+=1;
 
-
-
-
-
+	}
 
 	if(candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
 		//cout << "charged + neutral " << endl;
-	
-	
+		
+		
 		cout << "neutral + charged " << endl;
 		for(int i = 0; i < ntracks ; i++){
 			//for(int j=0; j< candidates.size() ; j++){
@@ -752,6 +757,7 @@ void AnaEff::AssoGenId(){
 			//cout << finaldelta << endl;
 			if (finaldelta1 < 0.3){
 				alo = true;
+				nbchn+=1;
 				cout << "Track number " << i << " is associated with charged gluino " << candidatesrh[candidatesrh.size()-1] << endl;
 				poverm1 = ((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm1);
@@ -763,7 +769,8 @@ void AnaEff::AssoGenId(){
 				Psurm1 = poverm1;
 			}
 			if (finaldelta2 < 0.3){
-				alo2 = true;
+				alo2 = true;$
+				nbchn+=1;
 				cout << "Track number " << i << " is associated with neutral gluino " << candidatesneutral[candidatesneutral.size()-1] << endl;
 				poverm2 = ((gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm2);
@@ -781,6 +788,8 @@ void AnaEff::AssoGenId(){
 		if(alo==false && alo2 == false){
 			//cout << "no track matched any gluino" << endl;
 		}
+	
+
 	
 	candidates.clear();
 	candidatesrh.clear();

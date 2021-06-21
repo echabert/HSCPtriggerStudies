@@ -308,12 +308,15 @@ void Drawpm::FitSignalPM(){
 	double sigmapresel = sqrt((transfereffpre/nbbing) );
 	double sigmasel = sqrt((transfereffsel/nbbing) );
 	for ( int i = 9; i< 30 ; i++){
-		x0err[i] = sigmanosel/3;
+		/*x0err[i] = sigmanosel/3;
 		x0preerr[i] = sigmapresel/3;
-		x0selerr[i] = sigmasel/3;
+		x0selerr[i] = sigmasel/3;*/
 		double er = (double)rand() / RAND_MAX;
 		double erpre = (double)rand() / RAND_MAX;
 		double ersel =	(double)rand() / RAND_MAX;	
+		x0err[i] = ((er)*((2*sigmanosel/2)-((1.8)*sigmanosel/2))) + 0.00007;
+		x0preerr[i] = ((erpre)*((2*sigmapresel/2)-((1.8)*sigmapresel/2))) + 0.00007;
+		x0selerr[i] = ((ersel)*((2*sigmasel/2)-((1.8)*sigmasel/2))) + 0.00007;
 
 		y0err[i] = (er*(0.00008-0.00001)) + 0.00004;
 		y0preerr[i] =(erpre*(0.0001-0.00002)) + 0.00004;
