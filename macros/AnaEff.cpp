@@ -701,15 +701,26 @@ void AnaEff::AssoGenId(){
 		if(gen_moth_pdg[i] == 1000021){
 			nbmothgen+=1;
 		}
-		if(gen_pdg[i] == 1009213 || gen_pdg[i] == 1009323 || gen_pdg[i] == 1092214 ){
-
-			candidatesrh.push_back(i);
+		if(gen_pdg[i] == 1009213 || gen_pdg[i] == 1009323 || gen_pdg[i] == 1092214 || gen_pdg[i] == 1091114 || gen_pdg[i] == 1092224 || gen_pdg[i] == 1093114 || gen_pdg[i] == 1093224 || gen_pdg[i] == 1093314 || gen_pdg[i] == 1093334 || gen_pdg[i] == 1000612 || gen_pdg[i] == 1000632 || gen_pdg[i] == 1000652 || gen_pdg[i] == 1006211 || gen_pdg[i] == 1006213 || gen_pdg[i] == 1006223 || gen_pdg[i] == 1006313 || gen_pdg[i] == 1006321 || gen_pdg[i] == 1006323){ // rajouter tout ici
 		
+			if(gen_moth_pdg[i] == 1000021){
+				 cout << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
+				 candidatesrh.push_back(i);
+
+			}
+			
+
 		}
-		if(gen_pdg[i] == 1000993 || gen_pdg[i] == 1009113 || gen_pdg[i] == 1009223 || gen_pdg[i] == 1009313 || gen_pdg[i] == 1009333 || gen_pdg[i] == 1093214 ){
 
-			candidatesneutral.push_back(i);
-		
+
+		if(gen_pdg[i] == 1000622 || gen_pdg[i] == 1093324 || gen_pdg[i] == 1092114 || gen_pdg[i] == 1000993 || gen_pdg[i] == 1009113 || gen_pdg[i] == 1009223 || gen_pdg[i] == 1009313 || gen_pdg[i] == 1009333 || gen_pdg[i] == 1093214 || gen_pdg[i] == 1000642 || gen_pdg[i] == 1006113 || gen_pdg[i] == 1006311 || gen_pdg[i] == 1006313) {
+			if(gen_moth_pdg[i] == 1000021){
+				 cout << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
+				 candidatesneutral.push_back(i);
+
+			}
+			
+			
 		}
 		
 
