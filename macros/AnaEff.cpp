@@ -769,7 +769,7 @@ void AnaEff::AssoGenId(){
 				Psurm1 = poverm1;
 			}
 			if (finaldelta2 < 0.3){
-				alo2 = true;$
+				alo2 = true;
 				nbchn+=1;
 				cout << "Track number " << i << " is associated with neutral gluino " << candidatesneutral[candidatesneutral.size()-1] << endl;
 				poverm2 = ((gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]))/TheorMass);
