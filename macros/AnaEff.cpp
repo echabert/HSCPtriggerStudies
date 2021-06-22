@@ -760,24 +760,24 @@ void AnaEff::AssoGenId(int indexcandidate){
 
 	}
 
-	if( candidatesrh.size() >= 2 && candidatesneutral.size() == 0 ){
-		nbchch+=1;
+	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
+		nbchn+=1;
 
 	}
 
 
-	if(candidatesrh.size() >= 1 && candidatesneutral.size() >= 1){
+	if(candidatesrh.size() >= 2 && candidatesneutral.size() == 0){
 		//cout << "charged + neutral " << endl;
-		nbchn+=1;
+		nbchch+=1;
 		//cout << "neutral + charged " << endl;
 		double deltatranfr1 = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 		double finaldelta1 = deltaR(deltatranfr1);
 
-		double deltatranfr2 = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesneutral[candidatesneutral.size()-1]], gen_phi[candidatesneutral[candidatesneutral.size()-1]]);
+		double deltatranfr2 = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-2]], gen_phi[candidatesrh[candidatesrh.size()-2]]);
 		double finaldelta2 = deltaR(deltatranfr2);			
 
 		poverm1 = ((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]))/TheorMass);
-		poverm2 = ((gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]))/TheorMass);
+		poverm2 = ((gen_pt[candidatesrh[candidatesneutral.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]))/TheorMass);
 
 		if(finaldelta1 < 0.3 && finaldelta2 < 0.3){
 			alo=true;
