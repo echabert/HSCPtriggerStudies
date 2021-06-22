@@ -255,7 +255,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 			}
 
 			EffvsObs[j]->SetName(triggerNames[j].c_str());
-
+			cout << triggerNames[j].c_str() << endl;
 
 		}	
 

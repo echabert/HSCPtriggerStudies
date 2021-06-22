@@ -256,7 +256,13 @@ void AnaEff::Loop()
 		
 		//cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
- 			AssoGenId();
+ 			AssoGenId(indexcandidate);
+			
+
+			
+			
+
+
 
 			DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
 			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
@@ -690,7 +696,7 @@ double AnaEff::deltaR(double delta) {
 
 
 
-void AnaEff::AssoGenId(){
+void AnaEff::AssoGenId(int indexcandidate){
 	//cout << "-----------new event-------- : " << ngenpart << " particules et " << ntracks << " traces"<<endl;
 	vector<int> candidates,candidatesrh,candidatesneutral;
 	int nglu = 0,nglu2=0,countglu = 0,nbmothgen=0;
@@ -762,52 +768,38 @@ void AnaEff::AssoGenId(){
 
 	if(candidatesrh.size() >= 1 && candidatesneutral.size() >= 1){
 		//cout << "charged + neutral " << endl;
-		
 		nbchn+=1;
 		//cout << "neutral + charged " << endl;
-		for(int i = 0; i < ntracks ; i++){
-			//for(int j=0; j< candidates.size() ; j++){
-			
-			double deltatranfr1 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
-			double finaldelta1 = deltaR(deltatranfr1);
+		double deltatranfr1 = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
+		double finaldelta1 = deltaR(deltatranfr1);
 
-			double deltatranfr2 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidatesneutral[candidatesneutral.size()-1]], gen_phi[candidatesneutral[candidatesneutral.size()-1]]);
-			double finaldelta2 = deltaR(deltatranfr2);			
+		double deltatranfr2 = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesneutral[candidatesneutral.size()-1]], gen_phi[candidatesneutral[candidatesneutral.size()-1]]);
+		double finaldelta2 = deltaR(deltatranfr2);			
 
+		poverm1 = ((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]))/TheorMass);
+		poverm2 = ((gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]))/TheorMass);
 
-
-			/*double deltatranfr2 = deltaR2(track_eta[i], track_phi[i], gen_eta[candidatesneutral[candidatesneutral.size()-1]], gen_phi[candidatesneutral[candidatesneutral.size()-1]]);
-			double finaldelta2 = deltaR(deltatranfr2);*/
-
-			//cout << finaldelta << endl;
-			if (finaldelta1 < 0.3){
-				alo = true;
-				
-				//cout << "Track number " << i << " is associated with charged gluino 1 " << candidatesrh[candidatesrh.size()-1] << endl;
-				poverm1 = ((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]))/TheorMass);
-				DISTRIB_POVERMASSO1->Fill(poverm1);
+		if(finaldelta1 < 0.3 && finaldelta2 < 0.3){
+			alo=true;
+			if(finaldelta1 < finaldelta2 ){
 				Psurm1 = poverm1;
-
+				//DISTRIB_POVERMASSO1->Fill(poverm1);
 			}
 			else{
-				poverm1 = 0;
-				Psurm1 = poverm1;
+				Psurm1 = poverm2;
 			}
-			if (finaldelta2 < 0.3){
-				alo2 = true;
-				
-			//	cout << "Track number " << i << " is associated with neutral gluino  " << candidatesneutral[candidatesneutral.size()-1] << endl;
-				poverm2 = ((gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]))/TheorMass);
-				DISTRIB_POVERMASSO1->Fill(poverm2);
-				Psurm2 = poverm2;
-			}
-			else{
-				poverm2 = 0;
-				Psurm2 = poverm2;
-			}
-			
-		//}
+
 		}
+		else if ( finaldelta1 < 0.3 && finaldelta2 > 0.3){
+			Psurm1 = poverm1;
+		}
+		else if( finaldelta1 > 0.3 && finaldelta2 < 0.3){
+			Psurm1 = poverm2;
+		}
+		else if( finaldelta1 > 0.3 && finaldelta2 > 0.3){
+			Psurm1 = 0;
+		}
+
 	}
 	
 		if(alo==false && alo2 == false){

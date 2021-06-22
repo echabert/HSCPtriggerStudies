@@ -174,7 +174,7 @@ public :
    virtual double   deltaR2(float track_eta,float track_phi, float muon_eta, float muon_phi);
    virtual double   deltaR(double delta);
    virtual double   MuonsMissingET();
-   virtual void	    AssoGenId();
+   virtual void	    AssoGenId(int indexcandidate);
 private :
 
    Double_t Psurm1=0;
