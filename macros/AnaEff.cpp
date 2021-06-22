@@ -749,8 +749,8 @@ void AnaEff::AssoGenId(){
 	nbtot+=1;
 	cout << "nb neutral : " << candidatesneutral.size() << " , nb charged : " << candidatesrh.size() << " ,nb tot = " << candidatesneutral.size() + candidatesrh.size() <<endl;
 	
-	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
-		nbchn+=1;
+	if( candidatesrh.size() == 0 && candidatesneutral.size() >= 1 ){
+		nbnn+=1;
 
 	}
 
@@ -764,7 +764,7 @@ void AnaEff::AssoGenId(){
 		//cout << "charged + neutral " << endl;
 		
 		nbchn+=1;
-		cout << "neutral + charged " << endl;
+		//cout << "neutral + charged " << endl;
 		for(int i = 0; i < ntracks ; i++){
 			//for(int j=0; j< candidates.size() ; j++){
 			
@@ -783,7 +783,7 @@ void AnaEff::AssoGenId(){
 			if (finaldelta1 < 0.3){
 				alo = true;
 				
-				cout << "Track number " << i << " is associated with charged gluino 1 " << candidatesrh[candidatesrh.size()-1] << endl;
+				//cout << "Track number " << i << " is associated with charged gluino 1 " << candidatesrh[candidatesrh.size()-1] << endl;
 				poverm1 = ((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm1);
 				Psurm1 = poverm1;
@@ -796,7 +796,7 @@ void AnaEff::AssoGenId(){
 			if (finaldelta2 < 0.3){
 				alo2 = true;
 				
-				cout << "Track number " << i << " is associated with neutral gluino  " << candidatesneutral[candidatesneutral.size()-1] << endl;
+			//	cout << "Track number " << i << " is associated with neutral gluino  " << candidatesneutral[candidatesneutral.size()-1] << endl;
 				poverm2 = ((gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]))/TheorMass);
 				DISTRIB_POVERMASSO1->Fill(poverm2);
 				Psurm2 = poverm2;
