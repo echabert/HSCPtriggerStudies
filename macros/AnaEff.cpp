@@ -710,7 +710,7 @@ void AnaEff::AssoGenId(){
 			
 			if(gen_status[i] == 1){
 				nbch+=1;
-				cout << "charged : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
+				//cout << "charged : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
 				candidatesrh.push_back(i);
 
 			}
@@ -723,7 +723,7 @@ void AnaEff::AssoGenId(){
 
 			if(gen_status[i] == 1){
 				 nbn+=1;
-				 cout << "neutral : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
+				// cout << "neutral : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
 				 candidatesneutral.push_back(i);
 
 			}
