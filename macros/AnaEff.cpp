@@ -706,13 +706,13 @@ void AnaEff::AssoGenId(){
 		}
 
 		
-		if(gen_pdg[i] == 1009213 || gen_pdg[i] == 1009323 || gen_pdg[i] == 1092214 || gen_pdg[i] == 1091114 || gen_pdg[i] == 1092224 || gen_pdg[i] == 1093114 || gen_pdg[i] == 1093224 || gen_pdg[i] == 1093314 || gen_pdg[i] == 1093334 || gen_pdg[i] == 1000612 || gen_pdg[i] == 1000632 || gen_pdg[i] == 1000652 || gen_pdg[i] == 1006211 || gen_pdg[i] == 1006213 || gen_pdg[i] == 1006223 || gen_pdg[i] == 1006313 || gen_pdg[i] == 1006321 || gen_pdg[i] == 1006323){ // rajouter tout ici
+		if(abs(gen_pdg[i]) == 1009213 || abs(gen_pdg[i]) == 1009323 || abs(gen_pdg[i]) == 1092214 || abs(gen_pdg[i]) == 1091114 || abs(gen_pdg[i]) == 1092224 || abs(gen_pdg[i]) == 1093114 || abs(gen_pdg[i]) == 1093224 || abs(gen_pdg[i]) == 1093314 || abs(gen_pdg[i]) == 1093334 || abs(gen_pdg[i]) == 1000612 || abs(gen_pdg[i]) == 1000632 || abs(gen_pdg[i]) == 1000652 || abs(gen_pdg[i]) == 1006211 || abs(gen_pdg[i]) == 1006213 || abs(gen_pdg[i]) == 1006223 || abs(gen_pdg[i]) == 1006313 || abs(gen_pdg[i]) == 1006321 || abs(gen_pdg[i]) == 1006323){ // rajouter tout ici
 			
-			//if(gen_moth_pdg[i] == 1000021){
+			if(gen_status[i] == 1){
 				// cout << "charged : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
 				 candidatesrh.push_back(i);
 
-			//}
+			}
 			
 
 		}
