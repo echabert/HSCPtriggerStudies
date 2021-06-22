@@ -777,7 +777,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 		double finaldelta2 = deltaR(deltatranfr2);			
 
 		poverm1 = ((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]))/TheorMass);
-		poverm2 = ((gen_pt[candidatesrh[candidatesneutral.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]))/TheorMass);
+		poverm2 = ((gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]))/TheorMass);
 
 		if(finaldelta1 < 0.3 && finaldelta2 < 0.3){
 			alo=true;
