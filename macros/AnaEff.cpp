@@ -700,7 +700,7 @@ void AnaEff::AssoGenId(){
 	cout << " NEW EVENT ------"<<endl;
 	for(int i=0; i < ngenpart ; i++){
 		
-		cout << "gen : " << gen_pdg[i] << " , gen_moth : " << gen_moth_pdg[i] << " , status : " << gen_status[i] << " , p = pt * cosh(eta) : " << gen_pt[i] * cosh(gen_eta[i]) << endl;
+		//cout << "gen : " << gen_pdg[i] << " , gen_moth : " << gen_moth_pdg[i] << " , status : " << gen_status[i] << " , p = pt * cosh(eta) : " << gen_pt[i] * cosh(gen_eta[i]) << endl;
 		if(gen_moth_pdg[i] == 1000021){
 			nbmothgen+=1;
 		}
@@ -709,7 +709,7 @@ void AnaEff::AssoGenId(){
 		if(abs(gen_pdg[i]) == 1009213 || abs(gen_pdg[i]) == 1009323 || abs(gen_pdg[i]) == 1092214 || abs(gen_pdg[i]) == 1091114 || abs(gen_pdg[i]) == 1092224 || abs(gen_pdg[i]) == 1093114 || abs(gen_pdg[i]) == 1093224 || abs(gen_pdg[i]) == 1093314 || abs(gen_pdg[i]) == 1093334 || abs(gen_pdg[i]) == 1000612 || abs(gen_pdg[i]) == 1000632 || abs(gen_pdg[i]) == 1000652 || abs(gen_pdg[i]) == 1006211 || abs(gen_pdg[i]) == 1006213 || abs(gen_pdg[i]) == 1006223 || abs(gen_pdg[i]) == 1006313 || abs(gen_pdg[i]) == 1006321 || abs(gen_pdg[i]) == 1006323){ // rajouter tout ici
 			
 			if(gen_status[i] == 1){
-				// cout << "charged : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
+				 cout << "charged : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
 				 candidatesrh.push_back(i);
 
 			}
@@ -720,12 +720,12 @@ void AnaEff::AssoGenId(){
 
 		if(gen_pdg[i] == 1000622 || gen_pdg[i] == 1093324 || gen_pdg[i] == 1092114 || gen_pdg[i] == 1000993 || gen_pdg[i] == 1009113 || gen_pdg[i] == 1009223 || gen_pdg[i] == 1009313 || gen_pdg[i] == 1009333 || gen_pdg[i] == 1093214 || gen_pdg[i] == 1000642 || gen_pdg[i] == 1006113 || gen_pdg[i] == 1006311 || gen_pdg[i] == 1006313) {
 
-			//if(gen_moth_pdg[i] == 1000021){
+			if(gen_status[i] == 1){
 				
-				// cout << "neutral : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
+				 cout << "neutral : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
 				 candidatesneutral.push_back(i);
 
-			//}
+			}
 			
 			
 		}
@@ -741,12 +741,12 @@ void AnaEff::AssoGenId(){
 		
 	}
 
-	
+	cout  endl;
 	bool alo = false,alo2=false;
 
 
 	nbtot+=1;
-	cout << "nb neutral : " << candidatesneutral.size() << " , nb charged : " << candidatesrh.size() << endl;
+	cout << "nb neutral : " << candidatesneutral.size() << " , nb charged : " << candidatesrh.size() << " ,nb tot = " << candidatesneutral.size() + candidatesrh.size() <<endl;
 	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
 		nbchn+=1;
 
