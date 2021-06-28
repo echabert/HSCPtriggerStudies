@@ -224,7 +224,7 @@ void AnaEff::Loop()
 		MissingW = MuonsMissingET();
 
 
-		for ( int nbhscp = 0 ; nbhscp < nhscp ; nbhscp++){
+		/*for ( int nbhscp = 0 ; nbhscp < nhscp ; nbhscp++){
 			DISTRIB_PT->Fill(track_pt[hscp_track_idx[nbhscp]]);
 			//DISTRIB_ETA->Fill(track_eta[hscp_track_idx[nbhscp]]);
 			//DISTRIB_P->Fill(track_p[jtrack]);
@@ -232,7 +232,7 @@ void AnaEff::Loop()
 			//DISTRIB_IH_IAS->Fill(track_ias_ampl[jtrack],track_ih_ampl[jtrack]);
 			//DISTRIB_PT_P->Fill(track_p[jtrack],track_pt[jtrack]);
 			
-		}
+		}*/
 		DISTRIB_METNOSEL->Fill(pfmet_pt[jentry]);
 
 
@@ -290,7 +290,13 @@ void AnaEff::Loop()
 			
 				HighestPT = track_pt[hscp_track_idx[indexcandidate]];
 				HighestMET = pfmet_pt[jentry];
+
+				for(int i = 0; i < 30 ; i++){
+					cout << pfmet_pt[i] << endl;
+				}	
+
 				cout << " MET : " << HighestMET << endl;
+
 				HighestP = track_p[hscp_track_idx[indexcandidate]];
 				POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
 				DISTRIB_P->Fill(HighestP);
@@ -438,9 +444,7 @@ int AnaEff::Preselection(){
 		if( track_qual[hscp_track_idx[ihs]] < 2 ){//?
 			yon=false;
 		}
-		/*if(hscp_iso2_tk[ihs] >= 100){ //50
-			yon=false;
-		}*/
+		
 		
 		if(yon){
 			positions.push_back(ihs); 
