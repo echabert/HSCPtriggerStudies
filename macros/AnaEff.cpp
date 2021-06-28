@@ -289,7 +289,8 @@ void AnaEff::Loop()
 				DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
 			
 				HighestPT = track_pt[hscp_track_idx[indexcandidate]];
-				HighestMET = pfmet_pt[hscp_track_idx[indexcandidate]];
+				HighestMET = pfmet_pt[jentry];
+				cout << " MET : " << HighestMET << endl;
 				HighestP = track_p[hscp_track_idx[indexcandidate]];
 				POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
 				DISTRIB_P->Fill(HighestP);
@@ -693,12 +694,12 @@ void AnaEff::AssoGenId(int indexcandidate){
 	vector<int> indexpdgn{1000622, 1093324, 1092114, 1000993, 1009113, 1009223, 1009313, 1009333, 1093214, 1000642, 1006113, 1006311, 1006313};
 	vector<int> indexpdgch2{1006223, 1092224};
 
-	vector<int> candidates,candidatesrh,candidatesneutral,candidatesdoublech;
+	vector<int> candidatesrh,candidatesneutral,candidatesdoublech;
 	int nbmothgen=0;
 	int nbnn=0;
 	double p1=0,p2=0,eta1=0,eta2=0,pt1=0,pt2=0;
 	float poverm1,poverm2;
-	//cout << " NEW EVENT ------"<<endl;
+	cout << " NEW EVENT ------"<<endl;
 	for(int i=0; i < ngenpart ; i++){
 		
 		//cout << "gen : " << gen_pdg[i] << " , gen_moth : " << gen_moth_pdg[i] << " , status : " << gen_status[i] << " , p = pt * cosh(eta) : " << gen_pt[i] * cosh(gen_eta[i]) << endl;
@@ -732,12 +733,6 @@ void AnaEff::AssoGenId(int indexcandidate){
 				}
 			}
 		}
-
-		if (gen_pdg[i] == 1000021){
-			candidates.push_back(i);
-		}
-
-		
 	}
 
 	
