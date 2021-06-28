@@ -140,8 +140,25 @@ void AnaEff::Loop()
 	DISTRIB_PT->GetYaxis()->SetTitle("# HSCP");
  
 	DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 110,0,2550);
-	DISTRIB_P->GetXaxis()->SetTitle("P [GeV/c*c]");
+	DISTRIB_P->GetXaxis()->SetTitle("Reco pf_MET[GeV/c*c]");
 	DISTRIB_P->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_METNOSEL = new TH1D("DISTRIB_METNOSEL", "( MET )", 100,0,600);
+	DISTRIB_METNOSEL->GetXaxis()->SetTitle("MET [GeV]");
+	DISTRIB_METNOSEL->GetYaxis()->SetTitle("# HSCP");
+
+
+	DISTRIB_METPRESEL = new TH1D("DISTRIB_METPRESEL", "( MET )", 100,0,600);
+	DISTRIB_METPRESEL->GetXaxis()->SetTitle("MET [GeV]");
+	DISTRIB_METPRESEL->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_METSEL = new TH1D("DISTRIB_METSEL", "( MET )", 100,0,600);
+	DISTRIB_METSEL->GetXaxis()->SetTitle("MET [GeV]");
+	DISTRIB_METSEL->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_PT1_PT2 = new TH2D("DISTRIB_PT1_PT2", "PT1_PT2 ", 300 , 0 , 2000 , 300, 0 , 2000 );
+	DISTRIB_PT1_PT2->GetXaxis()->SetTitle("PT candidate 1");
+	DISTRIB_PT1_PT2->GetYaxis()->SetTitle("PT candidate 2");
 
 
 	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",80,0,1.2);
@@ -178,6 +195,12 @@ void AnaEff::Loop()
 	DISTRIB_POVERMASSO1->Sumw2();
 	DISTRIB_POVERMASSO2->Sumw2();
 
+	DISTRIB_METNOSEL->Sumw2();
+	DISTRIB_METPRESEL->Sumw2();
+	DISTRIB_METSEL->Sumw2();
+	DISTRIB_PT1_PT2->Sumw2();
+
+
 	DISTRIB_MET->Sumw2();
 	DISTRIB_P->Sumw2();
 	//DISTRIB_ETA->Sumw2();
@@ -198,7 +221,7 @@ void AnaEff::Loop()
 	SubListPT.clear();
 
 	int counter=0,passedevent=0,nbofpairs=0,nbofpairsZ=0,nbofWpairs=0,nbofmuonsW=0,nbmuons=0,nbwrong=0;
-	int indexcandidate;
+	int indexcandidate,indexcandidatesel;
 	double InvMass;
 	double MissingW;
 	//nentries=30;
@@ -219,6 +242,21 @@ void AnaEff::Loop()
 
 		InvMass = MuonsInvariantMass();
 		MissingW = MuonsMissingET();
+
+
+		for ( int nbhscp = 0 ; nbhscp < nhscp ; nbhscp++){
+			DISTRIB_PT->Fill(track_pt[hscp_track_idx[nbhscp]]);
+			DISTRIB_ETA->Fill(track_eta[hscp_track_idx[nbhscp]]);
+			//DISTRIB_P->Fill(track_p[jtrack]);
+			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[nbhscp]]);
+			//DISTRIB_IH_IAS->Fill(track_ias_ampl[jtrack],track_ih_ampl[jtrack]);
+			//DISTRIB_PT_P->Fill(track_p[jtrack],track_pt[jtrack]);
+			
+		}
+		DISTRIB_METNOSEL->Fill(pfmet_pt[jentry]);
+
+
+
 
 
 		if(InvMass!=1){
@@ -247,68 +285,71 @@ void AnaEff::Loop()
 
 		nbmuons+=nmuons;
 		counter+=1;
-		vector<Bool_t> vtrigger; //Convert array into vector
+		vector<Bool_t> vtrigger; 
 		vector<int> position;
 		vector< pair<int, bool > > PosPass;
 		float HighestPT,HighestMuonPT,HighestMET,POVERMBG, HighestP;
 		int trignull=0;
-		indexcandidate=Selection();
+		indexcandidate=Preselection();
 		
 		//cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
- 			AssoGenId(indexcandidate);
-			
 
-			
-			
-
-
-
-			DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
-			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
-			
-			HighestPT = track_pt[hscp_track_idx[indexcandidate]];
-			HighestMET = pfmet_pt[hscp_track_idx[indexcandidate]];
-			HighestP = track_p[hscp_track_idx[indexcandidate]];
-			POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
-			DISTRIB_P->Fill(HighestP);
-			DISTRIB_POVERM->Fill(POVERMBG);
-			if(HighestMET > 5 ){
-				DISTRIB_MET->Fill(HighestMET);
-			}
-
-			for(int i=0;i<ntrigger;i++){
-				vtrigger.push_back(passTrigger[i]);
-				if(vtrigger[i] == 0){
-					trignull+=1;
-				}
-			}
-			if(trignull==ntrigger){
-				nbwrong+=1;
-			}
-			bool ismissing = false;
-			for(int p = 0; p < ntrigger; p++){
-				auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
-				if(iter == triggerNames.end()){
-					
-				}
-				else{
-					ismissing = true;
-					auto pos = std::distance(triggerNames.begin(), iter);
-					PosPass.push_back(make_pair(pos,vtrigger[p])); // [pos] ?
-					//cout << "found trigger " << p << " ( " << triggerName->at(p) << " ) " << " in position" << pos << " inside CompleteList" << endl;
-				}
+			DISTRIB_METPRESEL->Fill(pfmet_pt[jentry]);
+			indexcandidatesel = Selection(indexcandidate);
+			if(indexcandidatesel != 64){
 				
-			}
-			if (ismissing == false){
-				cout << " at least one trigger not found in list ?" << endl;
-			}
+
+				DISTRIB_METSEL->Fill(pfmet_pt[jentry]);
+ 				AssoGenId(indexcandidate);
+			
 
 
-			passedevent+=1;
-			trigEff_selection_obs.FillNoMap2(PosPass,Psurm1,1);
-			//trigEff_selection_obs.FillNoMap(vtrigger,HighestPT,1);
-			//trigEff_presel.FillNoMap(vtrigger,HighestMET);					
+				DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
+				DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
+			
+				HighestPT = track_pt[hscp_track_idx[indexcandidate]];
+				HighestMET = pfmet_pt[hscp_track_idx[indexcandidate]];
+				HighestP = track_p[hscp_track_idx[indexcandidate]];
+				POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
+				DISTRIB_P->Fill(HighestP);
+				DISTRIB_POVERM->Fill(POVERMBG);
+				if(HighestMET > 5 ){
+					DISTRIB_MET->Fill(HighestMET);
+				}
+
+				for(int i=0;i<ntrigger;i++){
+					vtrigger.push_back(passTrigger[i]);
+					if(vtrigger[i] == 0){
+						trignull+=1;
+					}
+				}
+				if(trignull==ntrigger){
+					nbwrong+=1;
+				}
+				bool ismissing = false;
+				for(int p = 0; p < ntrigger; p++){
+					auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
+					if(iter == triggerNames.end()){
+					
+					}
+					else{
+						ismissing = true;
+						auto pos = std::distance(triggerNames.begin(), iter);
+						PosPass.push_back(make_pair(pos,vtrigger[p])); // [pos] ?
+						
+					}
+				
+				}
+				if (ismissing == false){
+					cout << " at least one trigger not found in list ?" << endl;
+				}
+
+
+				passedevent+=1;
+				trigEff_selection_obs.FillNoMap2(PosPass,HighestMET,1);
+			
+			}					
 		}
 	}
 	cout << "After loop nentries" << endl;
@@ -343,6 +384,7 @@ void AnaEff::Loop()
 	cout << " Charged-Charged : " << nbchch << " / " << nbtot << " = " << nbchch*1.0/nbtot <<  endl;
 	cout << " Neutral-Charged : " << nbchn << " / " << nbtot << " = "  <<  nbchn*1.0/nbtot << endl;
 	cout << " Neutral-X : " << nbnn << " / " << nbtot << " = "  <<  nbnn*1.0/nbtot << endl;
+	cout << "Double charged R-hadrons :  " << nbtch << " / " << nbtot << " = " << nbtch*1.0/nbtot << endl;
 
 	InfosData.close();
 	trigEff_selection_obs.Compute(NameOfEff,NameListEff,ListAllTriggers,EffTriggers, ErrorEffTriggers, OrAllTriggers);
@@ -364,25 +406,26 @@ void AnaEff::Loop()
 	DISTRIB_IAS->Write();
 	DISTRIB_POVERM->Write();
 
+	DISTRIB_METNOSEL->Write();
+	DISTRIB_METPRESEL->Write();
+	DISTRIB_METSEL->Write();
+
 	DISTRIB_POVERMASSO1->Write();
 	DISTRIB_POVERMASSO2->Write();
 	
 	distrib->Close();
-	cout << "Program terminated with no logic call out of bound" << endl;
+	cout << "Program terminated without any logic call out of bound" << endl;
 	
 
 }
 
-int AnaEff::Selection(){
+int AnaEff::Preselection(){
 	int index=64,count2=0;
 	vector<int> positions;
 	vector< pair<float, int > > Muonpt,HSCPpt,HSCPponm;
 	
 	bool yon=true;
 	for(int ihs=0; ihs<nhscp;ihs++){
-		//cout << ihs  << endl;
-		//ecal + hcal/p
-		//vérifier que c'est un muon, et ensuite regarder inversemuonbeta
 		yon=true;
 		if( track_eta[hscp_track_idx[ihs]] >= 2.1 || track_eta[hscp_track_idx[ihs]] <= -2.1 ){
 			yon=false;
@@ -417,12 +460,7 @@ int AnaEff::Selection(){
 		/*if(hscp_iso2_tk[ihs] >= 100){ //50
 			yon=false;
 		}*/
-		if(track_ias_ampl[hscp_track_idx[ihs]] < 0.2){ //50
-			yon=false;
-		}
-
-
-
+		
 		if(yon){
 			positions.push_back(ihs); 
 			HSCPpt.push_back(make_pair(track_pt[hscp_track_idx[ihs]],ihs));
@@ -445,6 +483,19 @@ int AnaEff::Selection(){
 
 }
 
+int AnaEff::Selection(int indexcandidate){
+	bool yoy = false;
+	
+	if(track_ias_ampl[hscp_track_idx[indexcandidate]] < 0.2){ 
+			yoy = true;
+			return indexcandidate;
+		}
+	else{
+		return 64;
+	}
+	
+}
+
 int AnaEff::fact(int n){
      return (n==0) || (n==1) ? 1 : n* fact(n-1);
 }
@@ -459,21 +510,12 @@ double AnaEff::MuonsMissingET(){
 	TLorentzVector muon,sum,transf;
 	
 	vector<double> missingET;
-	// indications eric : pz = 0, pas d'infos sur pz,px,py ? muon_p / muon_pt peut donner px ?
-	
-	// recuperer px py pz de ce vecteur
-	// 
-	//dylan : mu.SetPtEtaPhiM(muon_pt,muon_eta,muon_phi,massMu);
-	//trouver la MET si il y en a dans une trace opposée pi/2
-	//sum both to get mass,  W probably (10% mu+nu in W) 
-	
-	//
+
 	if(nmuons<1){
 		return 1;
 
 	}
 	else {
-		//cout << "nmuons : " << nmuons << endl;
 		for(int i = 0; i < nmuons ; i++){
 			if(muon_pt[i] > 10){
 				muonPT.push_back(make_pair(muon_pt[i],i));
@@ -487,14 +529,8 @@ double AnaEff::MuonsMissingET(){
 		if(muonPT.size() < 2){
 			return 1;
 		}
-
-
-		//cout << "after muon pt cut" << endl;
-		//cout << muonPT.size() << muonETA.size() << muonPHI.size() << muonP.size()<<endl;
-
 		sort(muonPT.begin(),muonPT.end());
 		int index = muonPT[muonPT.size()-1].second;
-		//cout << "after index = muonP[muonPT.size-1]" << endl;
 		for(int k = 0; k < muonPT.size(); k++){
 			if(index == muonETA[k].second){
 				mu_eta = muonETA[k].first;
@@ -508,7 +544,7 @@ double AnaEff::MuonsMissingET(){
 			}
 
 		}
-		//cout << "after assocaition index == muonP[k]" << endl;
+		
 		mu_pt = muonPT[index].first;
 	
 		if(muonPT.size() < 2){
@@ -520,19 +556,10 @@ double AnaEff::MuonsMissingET(){
 			mu_py = transf.Py();
 			mu_pz = transf.Pz();
 			double Energy = sqrt((massMu*massMu)+mu_p*mu_p);
-			//cout << " energy = " << Energy << endl;
+			
 			muon.SetPxPyPzE(mu_px,mu_py,0,Energy);
 			muonW = index; 
-			//test3.SetCoordinates(mu_px,mu_py,0,0.105);
-			//get E from m p 
-			//cout << "after muonW = index" << endl;
-			//test3.SetM(0.105);
-			
-
-			//cout << " [px,py,pz,M] = " << "{" << muon.Px() << "," << muon.Py() << "," << muon.Pz() << "," << muon.M() << "]" << endl;
 			double invmassw = muon.M();
-			//cout << "InvMass transverse = " << invmassw << endl;
-			//cout << "before invmassw" << endl;
 			return invmassw;
 		}
 	}
@@ -574,12 +601,7 @@ double AnaEff::MuonsInvariantMass(){
 			mu2.SetPtEtaPhiM(c2pt,c2eta,c2phi,massMu);
 
 			sum = mu1 + mu2;
-			//double angle = mu1.Angle(mu2.Vect());
-			//cout << " Angle between the two muons :" << angle << endl; 
-			//cout << sum[0] << ", " << sum[1] << ", " << sum[2] << endl;
-			double armass = sum.M();
-
-			//cout << "invariant mass : " << armass << endl;	
+			double armass = sum.M();	
 			return armass;
 		}
 		else{
@@ -589,8 +611,6 @@ double AnaEff::MuonsInvariantMass(){
 
 	else if(nmuons > 2){
 		nbcomb = (fact(nmuons) / (fact(2) * fact(nmuons-2)) );
-		//&& muon_pt[j] >= 10 && muon_pt[k] >= 10
-		//cout << nmuons << " muons " << endl; 
 		for(int i = 0; i < nmuons ; i++){
 			if(muon_pt[i] > 10){
 				muonPT.push_back(make_pair(muon_pt[i],i));
@@ -599,9 +619,6 @@ double AnaEff::MuonsInvariantMass(){
 			}
 			
 		}
-		//cout << "On a sample of " << nmuons << " muons, only " << muonPT.size() << " were picked" << endl;
-		//newcomb = (fact(muonPT.size()) / (fact(2) * fact(muonPT.size()-2)));
-		//cout << "That leaves us with " << newcomb << " possible pairs" << endl;
 
 		if(muonPT.size() < 2){
 			return 1;
@@ -637,26 +654,20 @@ double AnaEff::MuonsInvariantMass(){
 		
 		tram = abs(invmass[0]-massZ);
 		for (int u = 0; u < invmass.size() ; u++){
-			//cout << pom << endl;
-			//cout << "--------------" << invmass[u] << endl;
 			if((abs(invmass[u]-massZ)) < tram){
 				pom=u;
 				tram=abs(invmass[u]-massZ);
-				//cout << pom << " ," << invmass[pom] << endl;
-				//cout << "mass-mZ : " << tram << endl;
 			}
 		}
 	
 		muon1 = binom[pom].first;
 		muon2 = binom[pom].second;
-		//cout << "muon " << binom[pom].first << "[pt] :" << muon_pt[binom[pom].first] << " , muon " << binom[pom].second << "[pt] :"  << muon_pt[binom[pom].second] << endl;
+
 		if(invmass[pom] < massZ + 10 && invmass[pom] > massZ -10){
 			MUONPT_DISTRIB->Fill(muon_pt[binom[pom].first]);
 			ISOR03_DISTRIB->Fill(muon_isoR03_sumChargedHadronPt[binom[pom].first]);	
 		}
 		binom.clear();
-	
-		//cout << invmass[pom] << endl;
 		double armass = invmass[pom];	
 		invmass.clear();
 		return armass;
@@ -697,9 +708,13 @@ double AnaEff::deltaR(double delta) {
 
 
 void AnaEff::AssoGenId(int indexcandidate){
-	//cout << "-----------new event-------- : " << ngenpart << " particules et " << ntracks << " traces"<<endl;
-	vector<int> candidates,candidatesrh,candidatesneutral;
-	int nglu = 0,nglu2=0,countglu = 0,nbmothgen=0;
+
+	vector<int> indexpdgch{1009213, 1009323, 1092214, 1091114, 1093114, 1093224, 1093314, 1093334, 1000612, 1000632, 1000652, 1006211, 1006213, 1006313, 1006321, 1006323 };
+	vector<int> indexpdgn{1000622, 1093324, 1092114, 1000993, 1009113, 1009223, 1009313, 1009333, 1093214, 1000642, 1006113, 1006311, 1006313};
+	vector<int> indexpdgch2{1006223, 1092224};
+
+	vector<int> candidates,candidatesrh,candidatesneutral,candidatesdoublech;
+	int nbmothgen=0;
 	int nbnn=0;
 	double p1=0,p2=0,eta1=0,eta2=0,pt1=0,pt2=0;
 	float poverm1,poverm2;
@@ -711,38 +726,36 @@ void AnaEff::AssoGenId(int indexcandidate){
 			nbmothgen+=1;
 		}
 
-		
-		if(abs(gen_pdg[i]) == 1009213 || abs(gen_pdg[i]) == 1009323 || abs(gen_pdg[i]) == 1092214 || abs(gen_pdg[i]) == 1091114 || abs(gen_pdg[i]) == 1092224 || abs(gen_pdg[i]) == 1093114 || abs(gen_pdg[i]) == 1093224 || abs(gen_pdg[i]) == 1093314 || abs(gen_pdg[i]) == 1093334 || abs(gen_pdg[i]) == 1000612 || abs(gen_pdg[i]) == 1000632 || abs(gen_pdg[i]) == 1000652 || abs(gen_pdg[i]) == 1006211 || abs(gen_pdg[i]) == 1006213 || abs(gen_pdg[i]) == 1006223 || abs(gen_pdg[i]) == 1006313 || abs(gen_pdg[i]) == 1006321 || abs(gen_pdg[i]) == 1006323){ // rajouter tout ici
-			
-			if(gen_status[i] == 1){
-				nbch+=1;
-				//cout << "charged : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
-				candidatesrh.push_back(i);
-
+		for(int k = 0; k < indexpdgch.size() ; k++){
+			if(abs(gen_pdg[i]) == indexpdgch[k]){
+				if(gen_status[i] == 1){
+					nbch+=1;
+					candidatesrh.push_back(i);
+				}
 			}
-			
-
 		}
-
-
-		if(gen_pdg[i] == 1000622 || gen_pdg[i] == 1093324 || gen_pdg[i] == 1092114 || gen_pdg[i] == 1000993 || gen_pdg[i] == 1009113 || gen_pdg[i] == 1009223 || gen_pdg[i] == 1009313 || gen_pdg[i] == 1009333 || gen_pdg[i] == 1093214 || gen_pdg[i] == 1000642 || gen_pdg[i] == 1006113 || gen_pdg[i] == 1006311 || gen_pdg[i] == 1006313) {
-
-			if(gen_status[i] == 1){
+		
+		for(int j=0; j < indexpdgn.size(); j++){
+			if(abs(gen_pdg[i]) == indexpdgn[j]){
+				if(gen_status[i] == 1){
 				 nbn+=1;
-				// cout << "neutral : " << gen_pdg[i] << " , " << gen_moth_pdg[i] << " , " << gen_status[i] << endl;
 				 candidatesneutral.push_back(i);
-
+				}
 			}
-			
-			
 		}
 		
+		
+		for(int j=0; j < indexpdgch2.size(); j++){
+			if(abs(gen_pdg[i]) == indexpdgn[j]){
+				if(gen_status[i] == 1){
+					
+					candidatesdoublech.push_back(i);
+				}
+			}
+		}
 
 		if (gen_pdg[i] == 1000021){
-			nglu = i;
-			nglu2=i-1;
 			candidates.push_back(i);
-			countglu +=1;
 		}
 
 		
@@ -754,7 +767,13 @@ void AnaEff::AssoGenId(int indexcandidate){
 
 	nbtot+=1;
 	//cout << "nb neutral : " << candidatesneutral.size() << " , nb charged : " << candidatesrh.size() << " ,nb tot = " << candidatesneutral.size() + candidatesrh.size() <<endl;
-	
+	if(candidatesdoublech.size() >= 1 ){
+		nbtch+=1;
+
+	}
+
+
+
 	if( candidatesrh.size() == 0 && candidatesneutral.size() >= 1 ){
 		nbnn+=1;
 
@@ -769,7 +788,6 @@ void AnaEff::AssoGenId(int indexcandidate){
 	if(candidatesrh.size() >= 2 && candidatesneutral.size() == 0){
 		//cout << "charged + neutral " << endl;
 		nbchch+=1;
-		//cout << "neutral + charged " << endl;
 		double deltatranfr1 = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 		double finaldelta1 = deltaR(deltatranfr1);
 
@@ -811,6 +829,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 	candidates.clear();
 	candidatesrh.clear();
 	candidatesneutral.clear();
+	candidatesdoublech.clear();
 }
 
 

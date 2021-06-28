@@ -167,7 +167,8 @@ public :
    virtual void     Loop();
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
-   virtual int      Selection();
+   virtual int      Preselection();
+   virtual int      Selection(int indexcandidate);
    virtual double   MuonsInvariantMass();
    virtual double   IsolateMuons(const vector<bool> &passtrig);
    virtual int      fact(int n);
@@ -182,7 +183,7 @@ private :
    Int_t muon1;
    Int_t muon2;
    Int_t muonW;
-   Int_t nbchch=0,nbchn=0,nbnn=0,nbtot=0,nbn=0,nbch=0;
+   Int_t nbchch=0,nbchn=0,nbnn=0,nbtot=0,nbn=0,nbch=0, nbtch=0;
    TFile* distrib;
 
    TH1D* MUONPT_DISTRIB;
@@ -199,7 +200,11 @@ private :
    TH1D* DISTRIB_IH;
    TH1D* DISTRIB_P;
    TH1D* DISTRIB_IAS;
+   TH1D* DISTRIB_METNOSEL;
+   TH1D* DISTRIB_METPRESEL;
+   TH1D* DISTRIB_METSEL;
    TH2D* DISTRIB_PT_P;
+   TH2D* DISTRIB_PT1_PT2;
    TH2D* DISTRIB_IH_IAS;
 
 
@@ -220,7 +225,9 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	DISTRIB_POVERM=0;
 	DISTRIB_MET=0;
 
-
+	DISTRIB_METSEL=0;
+	DISTRIB_METPRESEL=0;
+	DISTRIB_METNOSEL=0;
 	DISTRIB_PT=0;
 	DISTRIB_ETA=0;
 	DISTRIB_IH=0;
@@ -230,7 +237,7 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	DISTRIB_IH_IAS=0;
 	DISTRIB_POVERMASSO1=0;
 	DISTRIB_POVERMASSO2=0;
-
+	DISTRIB_PT1_PT2=0;
 	triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -289,11 +296,19 @@ AnaEff::~AnaEff() //deconstructeur
    if(!DISTRIB_MET){
    	delete DISTRIB_MET;
    }
+   if(!DISTRIB_METSEL){
+   	delete DISTRIB_METSEL;
+   }
+   if(!DISTRIB_METNOSEL){
+   	delete DISTRIB_METNOSEL;
+   }
+   if(!DISTRIB_METPRESEL){
+   	delete DISTRIB_METPRESEL;
+   }
 
-
-
-
-
+   if(!DISTRIB_PT1_PT2){
+   	delete DISTRIB_PT1_PT2;
+   }
    if(!DISTRIB_PT){
    	delete DISTRIB_PT;
    }
