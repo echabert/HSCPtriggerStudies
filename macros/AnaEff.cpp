@@ -743,7 +743,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 	//cout << "nb neutral : " << candidatesneutral.size() << " , nb charged : " << candidatesrh.size() << " ,nb tot = " << candidatesneutral.size() + candidatesrh.size() <<endl;
 	if(candidatesdoublech.size() >= 1 ){
 		nbtch+=1;
-
+		cout << " There is " << candidatesdoublech.size() << " doubly charged R-hadron" << endl;
 	}
 
 
@@ -755,12 +755,12 @@ void AnaEff::AssoGenId(int indexcandidate){
 
 	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
 		nbchn+=1;
-
+		cout << " charged + neutral " << endl;
 	}
 
 
 	if(candidatesrh.size() >= 2 && candidatesneutral.size() == 0){
-		//cout << "charged + neutral " << endl;
+		cout << "charged + charged " << endl;
 		nbchch+=1;
 		double deltatranfr1 = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 		double finaldelta1 = deltaR(deltatranfr1);
