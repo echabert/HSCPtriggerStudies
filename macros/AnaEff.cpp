@@ -292,7 +292,7 @@ void AnaEff::Loop()
 				HighestMET = pfmet_pt[jentry];
 
 				for(int i = 0; i < 30 ; i++){
-					cout << pfmet_pt[i] << endl;
+					cout << i << " : " << pfmet_pt[i] << endl;
 				}	
 
 				cout << " MET : " << HighestMET << endl;
