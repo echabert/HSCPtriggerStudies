@@ -233,7 +233,6 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	DISTRIB_IH=0;
 	DISTRIB_P=0;
 	DISTRIB_IAS=0;
-	DISTRIB_PT_P=0;
 	DISTRIB_IH_IAS=0;
 	DISTRIB_POVERMASSO1=0;
 	DISTRIB_POVERMASSO2=0;
@@ -333,9 +332,7 @@ AnaEff::~AnaEff() //deconstructeur
    if(!DISTRIB_IH_IAS){
    	delete DISTRIB_IH_IAS;
    }
-    if(!DISTRIB_PT_P){
-   	delete DISTRIB_PT_P;
-   }
+
 
    //delete[] passTrigger;
 }
