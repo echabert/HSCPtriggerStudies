@@ -226,7 +226,7 @@ void AnaEff::Loop()
 
 		for ( int nbhscp = 0 ; nbhscp < nhscp ; nbhscp++){
 			DISTRIB_PT->Fill(track_pt[hscp_track_idx[nbhscp]]);
-			DISTRIB_ETA->Fill(track_eta[hscp_track_idx[nbhscp]]);
+			//DISTRIB_ETA->Fill(track_eta[hscp_track_idx[nbhscp]]);
 			//DISTRIB_P->Fill(track_p[jtrack]);
 			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[nbhscp]]);
 			//DISTRIB_IH_IAS->Fill(track_ias_ampl[jtrack],track_ih_ampl[jtrack]);
