@@ -233,7 +233,7 @@ void AnaEff::Loop()
 			//DISTRIB_PT_P->Fill(track_p[jtrack],track_pt[jtrack]);
 			
 		}*/
-		DISTRIB_METNOSEL->Fill(pfmet_pt[jentry]);
+		DISTRIB_METNOSEL->Fill(pfmet_pt[0]);
 
 
 
@@ -275,12 +275,12 @@ void AnaEff::Loop()
 		//cout << " -------- NEW ENTRY -------- " << endl;
 		if(indexcandidate != 64){
 
-			DISTRIB_METPRESEL->Fill(pfmet_pt[jentry]);
+			DISTRIB_METPRESEL->Fill(pfmet_pt[0]);
 			indexcandidatesel = Selection(indexcandidate);
 			if(indexcandidatesel != 64){
 				
 
-				DISTRIB_METSEL->Fill(pfmet_pt[jentry]);
+				DISTRIB_METSEL->Fill(pfmet_pt[0]);
  				AssoGenId(indexcandidate);
 			
 
@@ -289,11 +289,9 @@ void AnaEff::Loop()
 				DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
 			
 				HighestPT = track_pt[hscp_track_idx[indexcandidate]];
-				HighestMET = pfmet_pt[jentry];
+				HighestMET = pfmet_pt[0];
 
-				for(int i = 0; i < 30 ; i++){
-					cout << i << " : " << pfmet_pt[i] << endl;
-				}	
+					
 
 				cout << " MET : " << HighestMET << endl;
 
