@@ -19,16 +19,9 @@
 #include <TLorentzVector.h>
 #include <Math/Vector4D.h>
 #include <Math/Vector4Dfwd.h>
-//#include <LorentzVector.h>
-//#include <LorentzVector.h>
-//#include <Math/Vector4D.h>
 #include <Math/GenVector/LorentzVector.h>
 #include <Math/GenVector/PxPyPzM4D.h>
 
-//#include <Math/GenVector/LorentzVector.h>
-
-//#include <Vector4Dfwd.h>
-//#include <Math/Vector4D.h> 
 
 using namespace std;
 
@@ -49,9 +42,6 @@ void AnaEff::Loop()
 
 	Long64_t nentries = fChain->GetEntriesFast();
 	Long64_t nbytes = 0, nb = 0, nbi = 0;
-
-	// Initialization
-
 	Long64_t initializing = LoadTree(0); 
 	if (initializing < 0) cout << "Aborted"<< endl;
 	nbi = fChain->GetEntry(initializing);   nbytes += nbi;
@@ -73,9 +63,6 @@ void AnaEff::Loop()
 	string DataType = "Gluino1800";
 	
 	string NameCompleteListTest = "ListeInteretTriggers";
-
-
-	
 	string ListAllTriggers = ListAll + DataType + ExtTxt;
 	//string NameCompleteList = "CompleteListTest.txt";
 
@@ -89,13 +76,8 @@ void AnaEff::Loop()
 	string EffTriggers = TransferEff + DataType + SubNum + ExtTxt;
 	string OrAllTriggers = Or + SubNum + DataType + ExtTxt;
 
-	string s1 = "mu";
-	string s2 = "Mu";
-	string s3 = "TESTPT";
-	string s4 = "testmu";
-	string s5 = "Muon";
-	string s7 = "MET";
-	string s8 = "HT";
+	string s1 = "mu",s2="Mu",s3 = "TESTPT", s4 = "testmu", s5 = "Muon", s7 = "MET", s8 = "HT";
+	
 	
 	
 	ifstream ifile(NameListForType.c_str()); 
@@ -116,10 +98,8 @@ void AnaEff::Loop()
 	}
 	cout << triggerNames.size() << endl;
 
-	
 	ifile.close();
 
-		
 	string StudyData = DataType + Date;
 	string StudyTxt = TransferTxt + DataType + Date;
 	string StudyEff= TransferEff + DataType + Date;
@@ -232,7 +212,7 @@ void AnaEff::Loop()
 	InfosW.open (EntriesFromW);
 
 
-	//cout << "Before loop nentries" << endl;
+	cout << "Before loop nentries" << endl;
 	for (Long64_t jentry=0; jentry<nentries;jentry++) { //All entries
 		Long64_t ientry = LoadTree(jentry);
 		if(jentry!=0 && jentry%1000==0) cout << "+1k" << " => " << jentry << " , "<<(jentry*1.0/nentries)*100 << " %" << endl;
