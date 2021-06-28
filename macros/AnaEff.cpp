@@ -166,7 +166,10 @@ void AnaEff::Loop()
 	DISTRIB_MET->GetYaxis()->SetTitle("# HSCP");
 
 	//DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
-	//DISTRIB_PT_P = new TH2D("DISTRIB_PT_P", "PT ( P ) ", 620 , 0 , 1550 , 1240, 0 , 3100 );
+	DISTRIB_P1_P2 = new TH2D("DISTRIB_P1_P2", "P1_P2", 600 , 0 , 4000 , 600, 0 , 4000 );
+	DISTRIB_P1_P2->GetXaxis()->SetTitle("P candidate 1");
+	DISTRIB_P1_P2->GetYaxis()->SetTitle("P candidate 2");
+
 
 	DISTRIB_PT->Sumw2();
 	DISTRIB_IAS->Sumw2();
@@ -187,7 +190,7 @@ void AnaEff::Loop()
 	//DISTRIB_IH->Sumw2();
 	
 	//DISTRIB_IH_IAS->Sumw2();
-	//DISTRIB_PT_P->Sumw2();
+	DISTRIB_P1_P2->Sumw2();
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
 	ISOR03_DISTRIB = new TH1D("ISOR03 close to Z", "ISOR03 close to z peak", 50,0,100);
@@ -390,11 +393,11 @@ void AnaEff::Loop()
 	DISTRIB_PT->Write();
 	DISTRIB_IAS->Write();
 	DISTRIB_POVERM->Write();
-
+	DISTRIB_PT1_PT2->Write();
 	DISTRIB_METNOSEL->Write();
 	DISTRIB_METPRESEL->Write();
 	DISTRIB_METSEL->Write();
-
+	DISTRIB_P1_P2->Write();
 	DISTRIB_POVERMASSO1->Write();
 	DISTRIB_POVERMASSO2->Write();
 	
@@ -759,11 +762,16 @@ void AnaEff::AssoGenId(int indexcandidate){
 	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
 		nbchn+=1;
 		cout << " charged + neutral " << endl;
+		DISTRIB_PT1_PT2->Fill(gen_pt[candidatesrh[candidatesrh.size()-1]],gen_pt[candidatesrh[candidatesneutral.size()-1]]);
+		DISTRIB_P1_P2->Fill((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]])),(gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]])));
 	}
 
 
 	if(candidatesrh.size() >= 2 && candidatesneutral.size() == 0){
 		cout << "charged + charged " << endl;
+		DISTRIB_PT1_PT2->Fill(gen_pt[candidatesrh[candidatesrh.size()-1]],gen_pt[candidatesrh[candidatesrh.size()-2]]);
+		DISTRIB_P1_P2->Fill((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]])),(gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]])));
+
 		nbchch+=1;
 		double deltatranfr1 = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 		double finaldelta1 = deltaR(deltatranfr1);
@@ -778,6 +786,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 			alo=true;
 			if(finaldelta1 < finaldelta2 ){
 				Psurm1 = poverm1;
+				
 				//DISTRIB_POVERMASSO1->Fill(poverm1);
 			}
 			else{

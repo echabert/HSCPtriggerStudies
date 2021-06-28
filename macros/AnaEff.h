@@ -203,7 +203,7 @@ private :
    TH1D* DISTRIB_METNOSEL;
    TH1D* DISTRIB_METPRESEL;
    TH1D* DISTRIB_METSEL;
-   TH2D* DISTRIB_PT_P;
+   TH2D* DISTRIB_P1_P2;
    TH2D* DISTRIB_PT1_PT2;
    TH2D* DISTRIB_IH_IAS;
 
@@ -238,6 +238,7 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	DISTRIB_POVERMASSO1=0;
 	DISTRIB_POVERMASSO2=0;
 	DISTRIB_PT1_PT2=0;
+	DISTRIB_P1_P2=0;
 	triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -289,6 +290,11 @@ AnaEff::~AnaEff() //deconstructeur
    if(!DISTRIB_POVERMASSO2){
    	delete DISTRIB_POVERMASSO2;
    }
+
+   if(!DISTRIB_P1_P2){
+   	delete DISTRIB_P1_P2;
+   }
+
 
    if(!DISTRIB_POVERM){
    	delete DISTRIB_POVERM;
