@@ -794,13 +794,13 @@ void AnaEff::AssoGenId(int indexcandidate){
 
 	}
 	
-		if(alo==false && alo2 == false){
-			//cout << "no track matched any gluino" << endl;
-		}
+	if(alo==false && alo2 == false){
+		//cout << "no track matched any gluino" << endl;
+	}
 	
 
 	
-	candidates.clear();
+	
 	candidatesrh.clear();
 	candidatesneutral.clear();
 	candidatesdoublech.clear();
