@@ -726,9 +726,8 @@ void AnaEff::AssoGenId(int indexcandidate){
 		
 		
 		for(int j=0; j < indexpdgch2.size(); j++){
-			if(abs(gen_pdg[i]) == indexpdgn[j]){
+			if(abs(gen_pdg[i]) == indexpdgch2[j]){
 				if(gen_status[i] == 1){
-					
 					candidatesdoublech.push_back(i);
 				}
 			}
