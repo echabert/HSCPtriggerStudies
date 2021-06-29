@@ -123,16 +123,16 @@ void AnaEff::Loop()
 	DISTRIB_P->GetXaxis()->SetTitle("Reco pf_MET[GeV/c*c]");
 	DISTRIB_P->GetYaxis()->SetTitle("# HSCP");
 
-	DISTRIB_METNOSEL = new TH1D("DISTRIB_METNOSEL", "( MET )", 400,0,4000);
+	DISTRIB_METNOSEL = new TH1D("DISTRIB_METNOSEL", "( MET )", 100,0,4000);
 	DISTRIB_METNOSEL->GetXaxis()->SetTitle("MET [GeV]");
 	DISTRIB_METNOSEL->GetYaxis()->SetTitle("# HSCP");
 
 
-	DISTRIB_METPRESEL = new TH1D("DISTRIB_METPRESEL", "( MET )", 400,0,4000);
+	DISTRIB_METPRESEL = new TH1D("DISTRIB_METPRESEL", "( MET )", 100,0,4000);
 	DISTRIB_METPRESEL->GetXaxis()->SetTitle("MET [GeV]");
 	DISTRIB_METPRESEL->GetYaxis()->SetTitle("# HSCP");
 
-	DISTRIB_METSEL = new TH1D("DISTRIB_METSEL", "( MET )", 400,0,4000);
+	DISTRIB_METSEL = new TH1D("DISTRIB_METSEL", "( MET )", 100,0,4000);
 	DISTRIB_METSEL->GetXaxis()->SetTitle("MET [GeV]");
 	DISTRIB_METSEL->GetYaxis()->SetTitle("# HSCP");
 
