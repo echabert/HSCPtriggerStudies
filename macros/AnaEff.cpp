@@ -856,7 +856,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 		double p1 = gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]);
 		double p2 = gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]);
 
-		cout << " p1 = " << p1 << " , p2 = " << p2 << endl;
+		//cout << " p1 = " << p1 << " , p2 = " << p2 << endl;
 		double deltatranfr1chn = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 		double finaldeltachn1 = deltaR(deltatranfr1chn);
 
