@@ -166,11 +166,11 @@ void AnaEff::Loop()
 	DISTRIB_IHCHN->GetXaxis()->SetTitle("Ih");
 	DISTRIB_IHCHN->GetYaxis()->SetTitle("# HSCP");
 
-	DISTRIB_IHCHCH = new TH1D ("DISTRIB_IHCHCH", " IH CHCH", 100, 0 , 8);
+	DISTRIB_IHCHCH = new TH1D ("DISTRIB_IHCHCH", " IH CHCH", 100, 0 , 30);
 	DISTRIB_IHCHCH->GetXaxis()->SetTitle("Ih");
 	DISTRIB_IHCHCH->GetYaxis()->SetTitle("# HSCP");
 
-	DISTRIB_IHDCH = new TH1D ("DISTRIB_IHDCH", " IH DCH", 100, 0 , 8);
+	DISTRIB_IHDCH = new TH1D ("DISTRIB_IHDCH", " IH DCH", 100, 0 , 30);
 	DISTRIB_IHDCH->GetXaxis()->SetTitle("Ih");
 	DISTRIB_IHDCH->GetYaxis()->SetTitle("# HSCP");
 
