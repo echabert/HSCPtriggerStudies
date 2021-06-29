@@ -852,7 +852,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 
 	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
 		nbchn+=1;
-		cout << " charged + neutral " << endl;
+		//cout << " charged + neutral " << endl;
 		double p1 = gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]);
 		double p2 = gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]);
 
