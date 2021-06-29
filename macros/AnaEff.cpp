@@ -336,7 +336,7 @@ void AnaEff::Loop()
 
 			DISTRIB_METPRESEL->Fill(pfmet_pt[0]);
 			indexcandidatesel = Selection(indexcandidate);
-			if(indexcandidatesel != 64){
+			//if(indexcandidatesel != 64){
 				
 
 				DISTRIB_METSEL->Fill(pfmet_pt[0]);
@@ -375,25 +375,20 @@ void AnaEff::Loop()
 				for(int p = 0; p < ntrigger; p++){
 					auto iter = std::find(triggerNames.begin(), triggerNames.end(), triggerName->at(p));
 					if(iter == triggerNames.end()){
-					
+				
 					}
 					else{
 						ismissing = true;
 						auto pos = std::distance(triggerNames.begin(), iter);
-						PosPass.push_back(make_pair(pos,vtrigger[p])); // [pos] ?
-						
+						PosPass.push_back(make_pair(pos,vtrigger[p])); // [pos] ?	
 					}
-				
 				}
 				if (ismissing == false){
 					cout << " at least one trigger not found in list ?" << endl;
 				}
-
-
 				passedevent+=1;
 				trigEff_selection_obs.FillNoMap2(PosPass,HighestMET,1);
-			
-			}					
+			//}					
 		}
 	}
 	cout << "After loop nentries" << endl;
@@ -403,20 +398,15 @@ void AnaEff::Loop()
 	InfosData.open (NameOfTxt);
 
 	InfosData << "Number of muons pairs found " << nbofpairs << "\n" << endl;
-
 	cout << "Number of pairs found " << nbofpairs << "\n" << endl;
 
-
 	double ratio = passedevent*1.0/counter;
-
 	cout << " Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << "\n" << endl;
 
 	InfosData << "Number of candidates that passed the selection : " << passedevent << " , total number : " << nentries << "\n" << endl;
-
 	cout << " Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
-	
-	InfosData << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 
+	InfosData << "Ratio passed/total : " << ratio*100 << " %" << "\n" << endl;
 	cout << " # muons as a pair (Z)/ total # of muons : " << nbofpairsZ << " / " << nbmuons << " , Ratio :" << (nbofpairsZ*2.0/nbmuons)*100 << " %" << endl << endl << " Total number of pairs = " << nbofpairs  <<" Ratio pair Z / total pairs:" << (nbofpairsZ*1.0/nbofpairs)*100 << " %" << endl;
 
 
@@ -811,6 +801,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 			if(abs(gen_pdg[i]) == indexpdgch2[j]){
 				if(gen_status[i] == 1){
 					candidatesdoublech.push_back(i);
+					cout << "gen : " << gen_pdg[i] << " , gen_moth : " << gen_moth_pdg[i] << " , status : " << gen_status[i] << " , p = pt * cosh(eta) : " << gen_pt[i] * cosh(gen_eta[i]) << endl;
 				}
 			}
 		}
