@@ -190,15 +190,15 @@ void AnaEff::Loop()
 	DISTRIB_POVERMASSO2->GetXaxis()->SetTitle("p/m = βγ");
 	DISTRIB_POVERMASSO2->GetYaxis()->SetTitle("# HSCP");
 
-	DISTRIB_P1MP2 = new TH1D ("DISTRIB_P1MP2", "P1MP2", 100, -500, 500);
+	DISTRIB_P1MP2 = new TH1D ("DISTRIB_P1MP2", "P1MP2", 100, -5, 5);
 	DISTRIB_P1MP2->GetXaxis()->SetTitle("2*(p1 - p2) / (p1 + p2)");
 	DISTRIB_P1MP2->GetYaxis()->SetTitle("# HSCP");
 
-	DISTRIB_P1MP2CHN = new TH1D ("DISTRIB_P1MP2CHN", "P1MP2CHN", 100, -500, 500);
+	DISTRIB_P1MP2CHN = new TH1D ("DISTRIB_P1MP2CHN", "P1MP2CHN", 100, -5, 5);
 	DISTRIB_P1MP2CHN->GetXaxis()->SetTitle("2*(p1 - p2) / (p1 + p2)");
 	DISTRIB_P1MP2CHN->GetYaxis()->SetTitle("# HSCP");
 
-	DISTRIB_P1MP2CHCH = new TH1D ("DISTRIB_P1MP2CHCH", "P1MP2CHCH", 100, -500, 500);
+	DISTRIB_P1MP2CHCH = new TH1D ("DISTRIB_P1MP2CHCH", "P1MP2CHCH", 100, -5, 5);
 	DISTRIB_P1MP2CHCH->GetXaxis()->SetTitle("2*(p1 - p2) / (p1 + p2)");
 	DISTRIB_P1MP2CHCH->GetYaxis()->SetTitle("# HSCP");
 
@@ -852,10 +852,11 @@ void AnaEff::AssoGenId(int indexcandidate){
 
 	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
 		nbchn+=1;
-		//cout << " charged + neutral " << endl;
+		cout << " charged + neutral " << endl;
 		double p1 = gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]);
 		double p2 = gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]);
 
+		cout << " p1 = " << p1 << " , p2 = " << p2 << endl;
 		double deltatranfr1chn = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 		double finaldeltachn1 = deltaR(deltatranfr1chn);
 
