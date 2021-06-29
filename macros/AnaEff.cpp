@@ -861,7 +861,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 
 	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
 		nbchn+=1;
-		cout << " charged + neutral " << endl;
+		//cout << " charged + neutral " << endl;
 		double p1 = gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]);
 		double p2 = gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]);
 
@@ -905,7 +905,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 
 
 	else if(candidatesrh.size() >= 2 && candidatesneutral.size() == 0){
-		cout << "charged + charged " << endl;
+		//cout << "charged + charged " << endl;
 		double p1chch = (gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]));
 		double p2chch = (gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]));
 
