@@ -780,7 +780,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 	int nbnn=0;
 	double p1=0,p2=0,eta1=0,eta2=0,pt1=0,pt2=0;
 	float poverm1,poverm2;
-	cout << " NEW EVENT ------"<<endl;
+	//cout << " NEW EVENT ------"<<endl;
 	for(int i=0; i < ngenpart ; i++){
 		
 		//cout << "gen : " << gen_pdg[i] << " , gen_moth : " << gen_moth_pdg[i] << " , status : " << gen_status[i] << " , p = pt * cosh(eta) : " << gen_pt[i] * cosh(gen_eta[i]) << endl;
