@@ -209,6 +209,19 @@ void AnaEff::Loop()
 	DISTRIB_MET->GetYaxis()->SetTitle("# HSCP");
 
 	//DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
+
+	DISTRIB_MET_pt = new TH2D("DISTRIB_MET_pt", "Met vs pt", 600,0,4000,600,0,4000);
+	DISTRIB_MET_pt->GetXaxis()->SetTitle("Reco MET [GeV]");
+	DISTRIB_MET_pt->GetYaxis()->SetTitle("Pt [GeV]");
+
+	DISTRIB_MET_eta = new TH2D("DISTRIB_MET_eta", "Met vs eta", 100,-2.1,2.1,600,0,4000);
+	DISTRIB_MET_eta->GetXaxis()->SetTitle("Reco MET [GeV]");
+	DISTRIB_MET_eta->GetYaxis()->SetTitle("Eta");
+
+	DISTRIB_MET_iso = new TH2D("DISTRIB_MET_iso", "Met vs iso", 100,0,8,600,0,4000);
+	DISTRIB_MET_iso->GetXaxis()->SetTitle("Reco MET [GeV]");
+	DISTRIB_MET_iso->GetYaxis()->SetTitle("iso");
+
 	DISTRIB_P1_P2 = new TH2D("DISTRIB_P1_P2", "P1_P2", 600 , 0 , 4000 , 600, 0 , 4000 );
 	DISTRIB_P1_P2->GetXaxis()->SetTitle("P candidate 1");
 	DISTRIB_P1_P2->GetYaxis()->SetTitle("P candidate 2");
@@ -241,11 +254,23 @@ void AnaEff::Loop()
 
 
 	DISTRIB_MET->Sumw2();
+	DISTRIB_MET_pt->Sumw2();
+	DISTRIB_MET_eta->Sumw2();
+	DISTRIB_MET_iso->Sumw2();
 	DISTRIB_P->Sumw2();
 	//DISTRIB_ETA->Sumw2();
 	//DISTRIB_IH->Sumw2();
+	DISTRIB_IHCHN->Sumw2();
+	DISTRIB_IHDCH->Sumw2();
+	DISTRIB_IHCHCH->Sumw2();
+
+	DISTRIB_IASCHN->Sumw2();
+	DISTRIB_IASDCH->Sumw2();
+	DISTRIB_IASCHCH->Sumw2();
 	
 	//DISTRIB_IH_IAS->Sumw2();
+	DISTRIB_P1_P2_CHCH->Sumw2();
+	DISTRIB_P1_P2_CHN->Sumw2();
 	DISTRIB_P1_P2->Sumw2();
 
 	MUONPT_DISTRIB = new TH1D("MuonPT close to Z", "muon_pt close to z peak", 50,0,100);
@@ -278,32 +303,16 @@ void AnaEff::Loop()
 		if (ientry < 0) break;
         	nb = fChain->GetEntry(jentry);   nbytes += nb;	
 	
-
 		InvMass = MuonsInvariantMass();
 		MissingW = MuonsMissingET();
-
-
-		/*for ( int nbhscp = 0 ; nbhscp < nhscp ; nbhscp++){
-			DISTRIB_PT->Fill(track_pt[hscp_track_idx[nbhscp]]);
-			//DISTRIB_ETA->Fill(track_eta[hscp_track_idx[nbhscp]]);
-			//DISTRIB_P->Fill(track_p[jtrack]);
-			DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[nbhscp]]);
-			//DISTRIB_IH_IAS->Fill(track_ias_ampl[jtrack],track_ih_ampl[jtrack]);
-			//DISTRIB_PT_P->Fill(track_p[jtrack],track_pt[jtrack]);
-			
-		}*/
 		DISTRIB_METNOSEL->Fill(pfmet_pt[0]);
 
-
-
-
-
 		if(InvMass!=1){
-			if(InvMass < massZ + 10 && InvMass > massZ - 10){ // 10 
+			if(InvMass < massZ + 10 && InvMass > massZ - 10){ 
 				InfosZ << "Z found entry " << jentry << " muons " << muon1 << " and " << muon2 << endl;
 				nbofpairsZ+=1;
 			}
-			//cout << InvMass << endl;
+			
 			nbofpairs+=1;
 			if(InvMass > 15){
 				trigEff_selection_obs.FillMass(InvMass,1);
@@ -311,7 +320,7 @@ void AnaEff::Loop()
 		}
 
 		if(MissingW!=1){
-			if(MissingW < massW + 10 && MissingW > massW - 10){ // 10 
+			if(MissingW < massW + 10 && MissingW > massW - 10){ 
 				InfosW << "W found entry " << jentry << " muon " << muonW << endl;
 				nbofmuonsW+=1;
 			}
@@ -320,7 +329,6 @@ void AnaEff::Loop()
 				trigEff_selection_obs.FillMass(MissingW,2);
 			}
 		}
-
 
 		nbmuons+=nmuons;
 		counter+=1;
@@ -339,23 +347,25 @@ void AnaEff::Loop()
 			if(indexcandidatesel != 64){
 				
 
+				DISTRIB_MET_iso->Fill(pfmet_pt[0],hscp_iso2_tk[indexcandidatesel]);
+				DISTRIB_MET_eta->Fill(pfmet_pt[0],track_eta[hscp_track_idx[indexcandidatesel]]);
+				DISTRIB_MET_pt->Fill(pfmet_pt[0], track_pt[hscp_track_idx[indexcandidatesel]]);
+
 				DISTRIB_METSEL->Fill(pfmet_pt[0]);
- 				AssoGenId(indexcandidate);
+ 				AssoGenId(indexcandidatesel);
+		
+				DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidatesel]]);
+				DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidatesel]]);
 			
-
-
-				DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
-				DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
-			
-				HighestPT = track_pt[hscp_track_idx[indexcandidate]];
+				HighestPT = track_pt[hscp_track_idx[indexcandidatesel]];
 				HighestMET = pfmet_pt[0];
 
 					
 
 				//cout << " MET : " << HighestMET << endl;
 
-				HighestP = track_p[hscp_track_idx[indexcandidate]];
-				POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
+				HighestP = track_p[hscp_track_idx[indexcandidatesel]];
+				POVERMBG = (track_p[hscp_track_idx[indexcandidatesel]] *1.0/ TheorMass);
 				DISTRIB_P->Fill(HighestP);
 				DISTRIB_POVERM->Fill(POVERMBG);
 				if(HighestMET > 5 ){
@@ -380,7 +390,7 @@ void AnaEff::Loop()
 					else{
 						ismissing = true;
 						auto pos = std::distance(triggerNames.begin(), iter);
-						PosPass.push_back(make_pair(pos,vtrigger[p])); // [pos] ?	
+						PosPass.push_back(make_pair(pos,vtrigger[p]));	
 					}
 				}
 				if (ismissing == false){
@@ -452,6 +462,10 @@ void AnaEff::Loop()
 	DISTRIB_P1MP2->Write();
 	DISTRIB_P1MP2CHN->Write();
 	DISTRIB_P1MP2CHCH->Write();
+
+	DISTRIB_MET_iso->Write();
+	DISTRIB_MET_eta->Write();
+	DISTRIB_MET_pt->Write();
 
 	DISTRIB_POVERM->Write();
 	DISTRIB_PT1_PT2->Write();
@@ -537,7 +551,7 @@ int AnaEff::Preselection(){
 int AnaEff::Selection(int indexcandidate){
 	bool yoy = false;
 	
-	if(track_ias_ampl[hscp_track_idx[indexcandidate]] > 0.1){ 
+	if(track_ias_ampl[hscp_track_idx[indexcandidate]] > 0.2){ 
 			yoy = true;
 			return indexcandidate;
 		}
@@ -947,21 +961,13 @@ void AnaEff::AssoGenId(int indexcandidate){
 	if(alo==false && alo2 == false){
 		//cout << "no track matched any gluino" << endl;
 	}
-	
-
-	
-	
 	candidatesrh.clear();
 	candidatesneutral.clear();
 	candidatesdoublech.clear();
 }
-
-
 int main(){
 
 	AnaEff ana;
 	ana.Loop();
 	
 }
-
-
