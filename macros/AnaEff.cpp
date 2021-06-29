@@ -336,7 +336,7 @@ void AnaEff::Loop()
 
 			DISTRIB_METPRESEL->Fill(pfmet_pt[0]);
 			indexcandidatesel = Selection(indexcandidate);
-			//if(indexcandidatesel != 64){
+			if(indexcandidatesel != 64){
 				
 
 				DISTRIB_METSEL->Fill(pfmet_pt[0]);
@@ -388,7 +388,7 @@ void AnaEff::Loop()
 				}
 				passedevent+=1;
 				trigEff_selection_obs.FillNoMap2(PosPass,HighestMET,1);
-			//}					
+			}					
 		}
 	}
 	cout << "After loop nentries" << endl;
@@ -537,7 +537,7 @@ int AnaEff::Preselection(){
 int AnaEff::Selection(int indexcandidate){
 	bool yoy = false;
 	
-	if(track_ias_ampl[hscp_track_idx[indexcandidate]] > 0.2){ 
+	if(track_ias_ampl[hscp_track_idx[indexcandidate]] > 0.1){ 
 			yoy = true;
 			return indexcandidate;
 		}
