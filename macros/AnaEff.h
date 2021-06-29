@@ -197,14 +197,38 @@ private :
 
    TH1D* DISTRIB_PT;
    TH1D* DISTRIB_ETA;
+
    TH1D* DISTRIB_IH;
+   TH1D* DISTRIB_IHCHN;
+   TH1D* DISTRIB_IHCHCH;
+   TH1D* DISTRIB_IHDCH;
+
    TH1D* DISTRIB_P;
+
    TH1D* DISTRIB_IAS;
+   TH1D* DISTRIB_IASCHN;
+   TH1D* DISTRIB_IASCHCH;
+   TH1D* DISTRIB_IASDCH;
+
    TH1D* DISTRIB_METNOSEL;
+
    TH1D* DISTRIB_METPRESEL;
+
    TH1D* DISTRIB_METSEL;
+
+   TH1D* DISTRIB_P1MP2;
+   TH1D* DISTRIB_P1MP2CHN;
+   TH1D* DISTRIB_P1MP2CHCH;
+   
+
+
+
    TH2D* DISTRIB_P1_P2;
+   TH2D* DISTRIB_P1_P2_CHN;
+   TH2D* DISTRIB_P1_P2_CHCH;
+
    TH2D* DISTRIB_PT1_PT2;
+
    TH2D* DISTRIB_IH_IAS;
 
 
@@ -224,20 +248,36 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	ISOR03_DISTRIB=0;
 	DISTRIB_POVERM=0;
 	DISTRIB_MET=0;
-
+	DISTRIB_P1MP2=0;
+	DISTRIB_P1MP2CHN=0;
+	DISTRIB_P1MP2CHCH=0;
 	DISTRIB_METSEL=0;
 	DISTRIB_METPRESEL=0;
 	DISTRIB_METNOSEL=0;
 	DISTRIB_PT=0;
 	DISTRIB_ETA=0;
+
 	DISTRIB_IH=0;
+	DISTRIB_IHCHN=0;
+	DISTRIB_IHCHCH=0;
+	DISTRIB_IHDCH=0;
+
+
 	DISTRIB_P=0;
+
 	DISTRIB_IAS=0;
+	DISTRIB_IASCHN=0;
+	DISTRIB_IASCHCH=0;
+	DISTRIB_IASDCH=0;
+
+
 	DISTRIB_IH_IAS=0;
 	DISTRIB_POVERMASSO1=0;
 	DISTRIB_POVERMASSO2=0;
 	DISTRIB_PT1_PT2=0;
 	DISTRIB_P1_P2=0;
+	DISTRIB_P1_P2_CHN=0;
+	DISTRIB_P1_P2_CHCH=0;
 	triggerName = 0;
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
@@ -293,7 +333,21 @@ AnaEff::~AnaEff() //deconstructeur
    if(!DISTRIB_P1_P2){
    	delete DISTRIB_P1_P2;
    }
-
+   if(!DISTRIB_P1_P2_CHN){
+   	delete DISTRIB_P1_P2_CHN;
+   }
+   if(!DISTRIB_P1_P2_CHCH){
+   	delete DISTRIB_P1_P2_CHCH;
+   }
+   if(!DISTRIB_P1MP2){
+   	delete DISTRIB_P1MP2;
+   }
+   if(!DISTRIB_P1MP2CHN){
+   	delete DISTRIB_P1MP2CHN;
+   }
+   if(!DISTRIB_P1MP2CHCH){
+   	delete DISTRIB_P1MP2CHCH;
+   }
 
    if(!DISTRIB_POVERM){
    	delete DISTRIB_POVERM;
@@ -317,15 +371,41 @@ AnaEff::~AnaEff() //deconstructeur
    if(!DISTRIB_PT){
    	delete DISTRIB_PT;
    }
+
+
    if(!DISTRIB_IAS){
    	delete DISTRIB_IAS;
    }
+   if(!DISTRIB_IASCHN){
+   	delete DISTRIB_IASCHN;
+   }
+   if(!DISTRIB_IASCHCH){
+   	delete DISTRIB_IASCHCH;
+   }
+   if(!DISTRIB_IASDCH){
+   	delete DISTRIB_IASDCH;
+   }
+
+
+
    if(!DISTRIB_ETA){
    	delete DISTRIB_ETA;
    }
    if(!DISTRIB_IH){
    	delete DISTRIB_IH;
    }
+   if(!DISTRIB_IHCHN){
+   	delete DISTRIB_IHCHN;
+   }
+   if(!DISTRIB_IHCHCH){
+   	delete DISTRIB_IHCHCH;
+   }
+   if(!DISTRIB_IHDCH){
+   	delete DISTRIB_IHDCH;
+   }
+
+
+
    if(!DISTRIB_P){
    	delete DISTRIB_P;
    }

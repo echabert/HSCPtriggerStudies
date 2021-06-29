@@ -142,9 +142,39 @@ void AnaEff::Loop()
 
 
 	DISTRIB_IAS = new TH1D("DISTRIB_IAS", "( IAS )",80,0,1.2);
-
 	DISTRIB_IAS->GetXaxis()->SetTitle("Ias");
 	DISTRIB_IAS->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_IASCHN = new TH1D("DISTRIB_IASCHN", "( IAS ) CHN",80,0,1.2);
+	DISTRIB_IASCHN->GetXaxis()->SetTitle("Ias");
+	DISTRIB_IASCHN->GetYaxis()->SetTitle("# HSCP");
+	
+	DISTRIB_IASCHCH = new TH1D("DISTRIB_IASCHCH", "( IAS )CHCH",80,0,1.2);
+	DISTRIB_IASCHCH->GetXaxis()->SetTitle("Ias");
+	DISTRIB_IASCHCH->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_IASDCH = new TH1D("DISTRIB_IASDCH", "( IAS )DCH",80,0,1.2);
+	DISTRIB_IASDCH->GetXaxis()->SetTitle("Ias");
+	DISTRIB_IASDCH->GetYaxis()->SetTitle("# HSCP");
+
+
+	DISTRIB_IH = new TH1D ("DISTRIB_IH", " IH ", 100, 0 , 8);
+	DISTRIB_IH->GetXaxis()->SetTitle("Ih");
+	DISTRIB_IH->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_IHCHN = new TH1D ("DISTRIB_IHCHN", " IH CHN ", 100, 0 , 8);
+	DISTRIB_IHCHN->GetXaxis()->SetTitle("Ih");
+	DISTRIB_IHCHN->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_IHCHCH = new TH1D ("DISTRIB_IHCHCH", " IH CHCH", 100, 0 , 8);
+	DISTRIB_IHCHCH->GetXaxis()->SetTitle("Ih");
+	DISTRIB_IHCHCH->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_IHDCH = new TH1D ("DISTRIB_IHDCH", " IH DCH", 100, 0 , 8);
+	DISTRIB_IHDCH->GetXaxis()->SetTitle("Ih");
+	DISTRIB_IHDCH->GetYaxis()->SetTitle("# HSCP");
+
+
 
 	DISTRIB_POVERM = new TH1D ("DISTRIB_POVERM", "( P/ M )", 80,0,2.5);
 	DISTRIB_POVERM->GetXaxis()->SetTitle("p/m = βγ");
@@ -160,6 +190,19 @@ void AnaEff::Loop()
 	DISTRIB_POVERMASSO2->GetXaxis()->SetTitle("p/m = βγ");
 	DISTRIB_POVERMASSO2->GetYaxis()->SetTitle("# HSCP");
 
+	DISTRIB_P1MP2 = new TH1D ("DISTRIB_P1MP2", "P1MP2", 100, -500, 500);
+	DISTRIB_P1MP2->GetXaxis()->SetTitle("2*(p1 - p2) / (p1 + p2)");
+	DISTRIB_P1MP2->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_P1MP2CHN = new TH1D ("DISTRIB_P1MP2CHN", "P1MP2CHN", 100, -500, 500);
+	DISTRIB_P1MP2CHN->GetXaxis()->SetTitle("2*(p1 - p2) / (p1 + p2)");
+	DISTRIB_P1MP2CHN->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_P1MP2CHCH = new TH1D ("DISTRIB_P1MP2CHCH", "P1MP2CHCH", 100, -500, 500);
+	DISTRIB_P1MP2CHCH->GetXaxis()->SetTitle("2*(p1 - p2) / (p1 + p2)");
+	DISTRIB_P1MP2CHCH->GetYaxis()->SetTitle("# HSCP");
+
+
 
 	DISTRIB_MET = new TH1D ("DISTRIB_MET", " ( MET ) " , 100,0,500);
 	DISTRIB_MET->GetXaxis()->SetTitle("MET (GeV)");
@@ -169,6 +212,19 @@ void AnaEff::Loop()
 	DISTRIB_P1_P2 = new TH2D("DISTRIB_P1_P2", "P1_P2", 600 , 0 , 4000 , 600, 0 , 4000 );
 	DISTRIB_P1_P2->GetXaxis()->SetTitle("P candidate 1");
 	DISTRIB_P1_P2->GetYaxis()->SetTitle("P candidate 2");
+
+
+	DISTRIB_P1_P2_CHN = new TH2D("DISTRIB_P1_P2_CHN", "P1_P2CHN", 600 , 0 , 4000 , 600, 0 , 4000 );
+	DISTRIB_P1_P2_CHN->GetXaxis()->SetTitle("P candidate 1");
+	DISTRIB_P1_P2_CHN->GetYaxis()->SetTitle("P candidate 2");
+
+	DISTRIB_P1_P2_CHCH = new TH2D("DISTRIB_P1_P2_CHCH", "P1_P2CHCH", 600 , 0 , 4000 , 600, 0 , 4000 );
+	DISTRIB_P1_P2_CHCH->GetXaxis()->SetTitle("P candidate 1");
+	DISTRIB_P1_P2_CHCH->GetYaxis()->SetTitle("P candidate 2");
+
+
+
+
 
 
 	DISTRIB_PT->Sumw2();
@@ -391,15 +447,34 @@ void AnaEff::Loop()
 	DISTRIB_P->Write();
 	DISTRIB_MET->Write();
 	DISTRIB_PT->Write();
+
+	DISTRIB_IH->Write();
+	DISTRIB_IHCHN->Write();
+	DISTRIB_IHCHCH->Write();
+	DISTRIB_IHDCH->Write();
+
 	DISTRIB_IAS->Write();
+	DISTRIB_IASCHN->Write();
+	DISTRIB_IASCHCH->Write();
+	DISTRIB_IASDCH->Write();
+
+
+	DISTRIB_P1MP2->Write();
+	DISTRIB_P1MP2CHN->Write();
+	DISTRIB_P1MP2CHCH->Write();
+
 	DISTRIB_POVERM->Write();
 	DISTRIB_PT1_PT2->Write();
 	DISTRIB_METNOSEL->Write();
 	DISTRIB_METPRESEL->Write();
 	DISTRIB_METSEL->Write();
-	DISTRIB_P1_P2->Write();
+	
 	DISTRIB_POVERMASSO1->Write();
 	DISTRIB_POVERMASSO2->Write();
+
+	DISTRIB_P1_P2->Write();
+	DISTRIB_P1_P2_CHN->Write();
+	DISTRIB_P1_P2_CHCH->Write();
 	
 	distrib->Close();
 	cout << "Program terminated without any logic call out of bound" << endl;
@@ -749,7 +824,32 @@ void AnaEff::AssoGenId(int indexcandidate){
 	//cout << "nb neutral : " << candidatesneutral.size() << " , nb charged : " << candidatesrh.size() << " ,nb tot = " << candidatesneutral.size() + candidatesrh.size() <<endl;
 	if(candidatesdoublech.size() >= 1 ){
 		nbtch+=1;
-		cout << " There is " << candidatesdoublech.size() << " doubly charged R-hadron" << endl;
+		double deltatranfrdch = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesdoublech[candidatesdoublech.size()-1]], gen_phi[candidatesdoublech[candidatesdoublech.size()-1]]);
+		double finaldeltadch = deltaR(deltatranfrdch);	
+
+		if(finaldeltadch < 0.3 ){
+	
+			DISTRIB_IHDCH->Fill(track_ih_ampl[hscp_track_idx[indexcandidate]]);
+			DISTRIB_IASDCH->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
+			
+		}
+
+		
+
+
+		if(candidatesrh.size() >= 1){
+			//cout << " There is " << candidatesdoublech.size() << " double charged and " << candidatesrh.size() <<" single charged " << endl;
+		}
+		else if(candidatesneutral.size() >= 1){
+			//cout << " There is 1 double charged and 1 neutral" << endl;
+
+		}
+
+		else{
+
+			//cout << " There is 1 double charged and nothing else" << endl;
+		}
+
 	}
 
 
@@ -762,16 +862,59 @@ void AnaEff::AssoGenId(int indexcandidate){
 	if( candidatesrh.size() >= 1 && candidatesneutral.size() >= 1 ){
 		nbchn+=1;
 		cout << " charged + neutral " << endl;
+		double p1 = gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]);
+		double p2 = gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]);
+
+		double deltatranfr1chn = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
+		double finaldeltachn1 = deltaR(deltatranfr1chn);
+
+		double deltatranfr2chn = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesneutral[candidatesneutral.size()-1]], gen_phi[candidatesneutral[candidatesneutral.size()-1]]);
+		double finaldeltachn2 = deltaR(deltatranfr2chn);
+		
+		DISTRIB_P1MP2CHN->Fill((2*(p1-p2))/(p1+p2));
+
+		if(finaldeltachn1 < 0.3 || finaldeltachn2 < 0.3){
+			alo=true;
+			//if(finaldelta1chn < finaldelta2chn ){
+				DISTRIB_IHCHN->Fill(track_ih_ampl[hscp_track_idx[indexcandidate]]);
+				DISTRIB_IASCHN->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
+				DISTRIB_P1_P2_CHN->Fill(p1,p2);
+			//}
+			//else{
+				
+			
+			//}
+
+		}
+		/*else if ( finaldelta1chn < 0.3 && finaldelta2chn > 0.3){
+			
+		}
+		else if( finaldelta1chn > 0.3 && finaldelta2chn < 0.3){
+			
+		}
+		else if( finaldelta1chn > 0.3 && finaldelta2chn > 0.3){
+			
+		}*/
+
+
 		DISTRIB_PT1_PT2->Fill(gen_pt[candidatesrh[candidatesrh.size()-1]],gen_pt[candidatesrh[candidatesneutral.size()-1]]);
-		DISTRIB_P1_P2->Fill((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]])),(gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]])));
+		
+		
+
 	}
 
 
-	if(candidatesrh.size() >= 2 && candidatesneutral.size() == 0){
+	else if(candidatesrh.size() >= 2 && candidatesneutral.size() == 0){
 		cout << "charged + charged " << endl;
-		DISTRIB_PT1_PT2->Fill(gen_pt[candidatesrh[candidatesrh.size()-1]],gen_pt[candidatesrh[candidatesrh.size()-2]]);
-		DISTRIB_P1_P2->Fill((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]])),(gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]])));
+		double p1chch = (gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]));
+		double p2chch = (gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]));
 
+		DISTRIB_P1MP2CHCH->Fill((2*(p1chch-p2chch))/(p1chch+p2chch));
+
+		DISTRIB_PT1_PT2->Fill(gen_pt[candidatesrh[candidatesrh.size()-1]],gen_pt[candidatesrh[candidatesrh.size()-2]]);
+		DISTRIB_P1_P2_CHCH->Fill(p1chch,p2chch);
+		
+		
 		nbchch+=1;
 		double deltatranfr1 = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 		double finaldelta1 = deltaR(deltatranfr1);
@@ -782,19 +925,22 @@ void AnaEff::AssoGenId(int indexcandidate){
 		poverm1 = ((gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]))/TheorMass);
 		poverm2 = ((gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]))/TheorMass);
 
-		if(finaldelta1 < 0.3 && finaldelta2 < 0.3){
+		if(finaldelta1 < 0.3 || finaldelta2 < 0.3){
 			alo=true;
-			if(finaldelta1 < finaldelta2 ){
+			DISTRIB_IHCHCH->Fill(track_ih_ampl[hscp_track_idx[indexcandidate]]);
+			DISTRIB_IASCHCH->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
+			DISTRIB_P1_P2_CHCH->Fill(p1chch,p2chch);
+
+
+			/*if(finaldelta1 < finaldelta2 ){
 				Psurm1 = poverm1;
-				
-				//DISTRIB_POVERMASSO1->Fill(poverm1);
 			}
 			else{
 				Psurm1 = poverm2;
-			}
+			}*/
 
 		}
-		else if ( finaldelta1 < 0.3 && finaldelta2 > 0.3){
+		/*else if ( finaldelta1 < 0.3 && finaldelta2 > 0.3){
 			Psurm1 = poverm1;
 		}
 		else if( finaldelta1 > 0.3 && finaldelta2 < 0.3){
@@ -802,7 +948,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 		}
 		else if( finaldelta1 > 0.3 && finaldelta2 > 0.3){
 			Psurm1 = 0;
-		}
+		}*/
 
 	}
 	
