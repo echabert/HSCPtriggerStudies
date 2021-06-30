@@ -206,17 +206,17 @@ void AnaEff::Loop()
 
 	//DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 
-	DISTRIB_MET_pt = new TH2D("DISTRIB_MET_pt", "Met vs pt", 600,0,4000,600,0,4000);
-	DISTRIB_MET_pt->GetXaxis()->SetTitle("Reco MET [GeV]");
-	DISTRIB_MET_pt->GetYaxis()->SetTitle("Pt [GeV]");
+	DISTRIB_MET_pt = new TH2D("DISTRIB_MET_pt", "Met vs pt", 600, 0, 4000, 600, 0, 4000);
+	DISTRIB_MET_pt->GetYaxis()->SetTitle("Reco MET [GeV]");
+	DISTRIB_MET_pt->GetXaxis()->SetTitle("Pt [GeV]");
 
-	DISTRIB_MET_eta = new TH2D("DISTRIB_MET_eta", "Met vs eta", 100,-2.1,2.1,600,0,4000);
-	DISTRIB_MET_eta->GetXaxis()->SetTitle("Reco MET [GeV]");
-	DISTRIB_MET_eta->GetYaxis()->SetTitle("Eta");
+	DISTRIB_MET_eta = new TH2D("DISTRIB_MET_eta", "Met vs eta", 100, -2.1, 2.1, 600, 0, 4000);
+	DISTRIB_MET_eta->GetYaxis()->SetTitle("Reco MET [GeV]");
+	DISTRIB_MET_eta->GetXaxis()->SetTitle("Eta");
 
-	DISTRIB_MET_iso = new TH2D("DISTRIB_MET_iso", "Met vs iso", 100,0,8,600,0,4000);
-	DISTRIB_MET_iso->GetXaxis()->SetTitle("Reco MET [GeV]");
-	DISTRIB_MET_iso->GetYaxis()->SetTitle("iso");
+	DISTRIB_MET_iso = new TH2D("DISTRIB_MET_iso", "Met vs iso", 100, 0, 8, 600, 0, 4000);
+	DISTRIB_MET_iso->GetYaxis()->SetTitle("Reco MET [GeV]");
+	DISTRIB_MET_iso->GetXaxis()->SetTitle("iso");
 
 	DISTRIB_P1_P2 = new TH2D("DISTRIB_P1_P2", "P1_P2", 600 , 0 , 4000 , 600, 0 , 4000 );
 	DISTRIB_P1_P2->GetXaxis()->SetTitle("P candidate 1");
@@ -334,11 +334,12 @@ void AnaEff::Loop()
 			if(indexcandidatesel != 64){
 				
 
-				DISTRIB_MET_iso->Fill(pfmet_pt[0],hscp_iso2_tk[indexcandidatesel]);
-				DISTRIB_MET_eta->Fill(pfmet_pt[0],track_eta[hscp_track_idx[indexcandidatesel]]);
-				DISTRIB_MET_pt->Fill(pfmet_pt[0], track_pt[hscp_track_idx[indexcandidatesel]]);
+				DISTRIB_MET_iso->Fill(hscp_iso2_tk[indexcandidatesel],pfmet_pt[0]);
+				DISTRIB_MET_eta->Fill(track_eta[hscp_track_idx[indexcandidatesel]],pfmet_pt[0]);
+				DISTRIB_MET_pt->Fill(track_pt[hscp_track_idx[indexcandidatesel]],pfmet_pt[0]);
 
 				DISTRIB_METSEL->Fill(pfmet_pt[0]);
+
  				AssoGenId(indexcandidatesel);
 		
 				DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidatesel]]);
@@ -396,7 +397,7 @@ void AnaEff::Loop()
 
 	InfosData << "Number of muons pairs found " << nbofpairs << "\n" << endl;
 	cout << "Number of pairs found " << nbofpairs << "\n" << endl;
-
+	
 	double ratio = passedevent*1.0/counter;
 	cout << " Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << "\n" << endl;
 
