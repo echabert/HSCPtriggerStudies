@@ -628,8 +628,8 @@ void TrigEff::WritePlots(string NameVar,string NameOfFile){ //TFile* OutputHisto
 	//OutputHisto->cd("MET");
 	//OutputHisto->mkdir(NameVar.c_str());
 	//OutputHisto->cd(NameVar.c_str());
-	int nbname = 3;
-	const char *trigger[nbname] = {"HLT_Mu50","HLT_PFMET120_PFMHT120","HLT_PFHT500_PFMET100_PFMHT100"};
+	int nbname = 5;
+	const char *trigger[nbname] = {"HLT_Mu50","HLT_PFHT500_PFMET100_PFMHT100","HLT_PFMET120_PFMHT120","HLT_PFMETNoMu120_PFMHTNoMu120_IDTight_PFHT60_v5","HLT_MET105_IsoTrk50_v6"};
 
 	for(int i=0;i < TestNoMap.size();i++){
 		EffvsObs[i]->Write();
