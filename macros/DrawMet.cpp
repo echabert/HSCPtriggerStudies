@@ -100,8 +100,8 @@ void DrawMet::FitSignalMet(){
 	EffMetSel->GetYaxis()->SetTitle(" Efficiency");
 
 
-	for(int i = 0; i < 400 ; i++){
-		xeffprevsno[i] = i*10;
+	for(int i = 0; i < 100 ; i++){
+		xeffprevsno[i] = i*40;
 		double s = TempTrMet->GetBinContent(i);
 		cout << " no sel bin " << i << " : " << s << endl;
 		double t = TempTr2Met->GetBinContent(i);
@@ -109,19 +109,43 @@ void DrawMet::FitSignalMet(){
 		double k = TempTr3Met->GetBinContent(i);
 		if(s!=0){
 			effprevsno[i] = t*1.0/s;
-		}
-		
-		cout << "presel vs nosel " << effprevsno[i] << endl;
-		if(s!=0){
 			effselvsno[i] = k*1.0/s;
 		}
-			
+		else if(s == 0 && i != 0){
+			effprevsno[i] = effprevsno[i-1];
+			effselvsno[i] = effselvsno[i-1];
+		}
+
+		cout << "presel vs nosel " << effprevsno[i] << endl;	
 		cout << "sel vs no sel " << effselvsno[i] << endl;
 
 		
 		EffMetPre->SetBinContent(i,effprevsno[i]);
 		EffMetSel->SetBinContent(i,effselvsno[i]);
 	}
+
+	Double_t scalenosel = (1.0/TempTrMet->Integral());
+	Double_t scalepresel = (1.0/TempTr2Met->Integral());
+	Double_t scalesel = (1.0/TempTr3Met->Integral());
+
+	TempTrMet->Scale(scalenosel);
+	TempTr2Met->Scale(scalepresel);
+	TempTr3Met->Scale(scalesel);
+
+	double intnosel = TempTrMet->Integral(3,99);
+	double intpresel = TempTr2Met->Integral(3,99);
+	double intsel = TempTr3Met->Integral(3,99);
+
+	cout << " Integrals between 120 - 4000 GeV : " << endl; 
+	cout << "Integral nosel : " << intnosel << " , integral presel : " << intpresel << " , integral sel : " << intsel << endl;
+
+	double intnosel2 = TempTrMet->Integral(3,15);
+	double intpresel2 = TempTr2Met->Integral(3,15);
+	double intsel2 = TempTr3Met->Integral(3,15);
+
+	cout << " Integrals between 120 - 600 GeV : " << endl; 
+	cout << "Integral nosel : " << intnosel2 << " , integral presel : " << intpresel2 << " , integral sel : " << intsel2 << endl;
+
 
 	auto c = new TCanvas("c","Efficiency MET vs selections",1300,700);
 	c->SetTitle("Efficiency MET vs selections");
@@ -138,7 +162,7 @@ void DrawMet::FitSignalMet(){
 	//Test[0]->Fit(MyTf1[0],"q");
 	TestMet->SetMarkerColor(8);
    	TestMet->SetMarkerStyle(49);
-	TestMet->SetMarkerSize(1);
+	TestMet->SetMarkerSize(2);
 	
 	leg->AddEntry(TestMet,"# presel / # no sel, mass = 1800 GeV/c^{2}");
 	mg->Add(TestMet,"p");
@@ -152,7 +176,7 @@ void DrawMet::FitSignalMet(){
 	//Test[0]->Fit(MyTf1[0],"q");
 	Test2Met->SetMarkerColor(7);
    	Test2Met->SetMarkerStyle(49);
-	Test2Met->SetMarkerSize(1);
+	Test2Met->SetMarkerSize(2);
 	
 	leg->AddEntry(Test2Met,"# sel / # no sel, mass = 1800 GeV/c^{2}");
 	mg->Add(Test2Met,"p");
@@ -171,7 +195,7 @@ void DrawMet::FitSignalMet(){
 	c->cd();
 	c->GetFrame()->SetBorderSize(12);
 	leg->SetBorderSize(0);
-	leg->Draw();
+	leg->Draw("p");
 	
 	OutputHistoMet->cd();
 	c->Write();
