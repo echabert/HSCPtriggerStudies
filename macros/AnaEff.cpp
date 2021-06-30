@@ -410,7 +410,7 @@ void AnaEff::Loop()
 
 	InfosData << "Number of muons pairs found " << nbofpairs << "\n" << endl;
 	cout << "Number of pairs found " << nbofpairs << "\n" << endl;
-
+	
 	double ratio = passedevent*1.0/counter;
 	cout << " Number of candidates that passed the selection : " << passedevent << " , total number : " << counter << "\n" << endl;
 
