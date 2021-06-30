@@ -174,12 +174,9 @@ void AnaEff::Loop()
 	DISTRIB_IHDCH->GetXaxis()->SetTitle("Ih");
 	DISTRIB_IHDCH->GetYaxis()->SetTitle("# HSCP");
 
-
-
 	DISTRIB_POVERM = new TH1D ("DISTRIB_POVERM", "( P/ M )", 80,0,2.5);
 	DISTRIB_POVERM->GetXaxis()->SetTitle("p/m = βγ");
 	DISTRIB_POVERM->GetYaxis()->SetTitle("# HSCP");
-
 
 
 	DISTRIB_POVERMASSO1 = new TH1D ("DISTRIB_POVERMASSO1", "( P/ M )", 80,0,2.5);
@@ -201,7 +198,6 @@ void AnaEff::Loop()
 	DISTRIB_P1MP2CHCH = new TH1D ("DISTRIB_P1MP2CHCH", "P1MP2CHCH", 100, -5, 5);
 	DISTRIB_P1MP2CHCH->GetXaxis()->SetTitle("2*(p1 - p2) / (p1 + p2)");
 	DISTRIB_P1MP2CHCH->GetYaxis()->SetTitle("# HSCP");
-
 
 
 	DISTRIB_MET = new TH1D ("DISTRIB_MET", " ( MET ) " , 100,0,500);
@@ -236,10 +232,6 @@ void AnaEff::Loop()
 	DISTRIB_P1_P2_CHCH->GetYaxis()->SetTitle("P candidate 2");
 
 
-
-
-
-
 	DISTRIB_PT->Sumw2();
 	DISTRIB_IAS->Sumw2();
 	DISTRIB_POVERM->Sumw2();
@@ -258,8 +250,7 @@ void AnaEff::Loop()
 	DISTRIB_MET_eta->Sumw2();
 	DISTRIB_MET_iso->Sumw2();
 	DISTRIB_P->Sumw2();
-	//DISTRIB_ETA->Sumw2();
-	//DISTRIB_IH->Sumw2();
+
 	DISTRIB_IHCHN->Sumw2();
 	DISTRIB_IHDCH->Sumw2();
 	DISTRIB_IHCHCH->Sumw2();
@@ -268,7 +259,7 @@ void AnaEff::Loop()
 	DISTRIB_IASDCH->Sumw2();
 	DISTRIB_IASCHCH->Sumw2();
 	
-	//DISTRIB_IH_IAS->Sumw2();
+	
 	DISTRIB_P1_P2_CHCH->Sumw2();
 	DISTRIB_P1_P2_CHN->Sumw2();
 	DISTRIB_P1_P2->Sumw2();
@@ -277,9 +268,6 @@ void AnaEff::Loop()
 	ISOR03_DISTRIB = new TH1D("ISOR03 close to Z", "ISOR03 close to z peak", 50,0,100);
 
 	trigEff_selection_obs.LoadNoMap(triggerNames,triggerNames,1,DataType,NameOfFile); 
-	//trigEff_presel.LoadNoMap(triggerNames,SubListMET,1,DataType2,NameOfFile);
-	//a
-	
 	
 	SubListMET.clear();
 	SubListPT.clear();
@@ -288,7 +276,6 @@ void AnaEff::Loop()
 	int indexcandidate,indexcandidatesel;
 	double InvMass;
 	double MissingW;
-	//nentries=30;
 	ofstream InfosZ;
 	InfosZ.open (EntriesFromZ);
 
