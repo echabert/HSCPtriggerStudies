@@ -34,7 +34,7 @@ const double uncertaintyMu = 0.0000000024;
 const double massW = 80.379;
 const double uncertaintyW = 0.012;
 
-const float TheorMass = 2600;
+const float TheorMass = 1800;
 
 void AnaEff::Loop()
 {
@@ -60,7 +60,7 @@ void AnaEff::Loop()
 
 	string TransferDistribZ = "DistribZpeak";
 	string TransferDistribW = "DistribWpeak";
-	string DataType = "Gluino2600";
+	string DataType = "Gluino1800";
 	
 	string NameCompleteListTest = "ListeInteretTriggers";
 	string ListAllTriggers = ListAll + DataType + ExtTxt;
