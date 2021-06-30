@@ -552,7 +552,7 @@ int AnaEff::Preselection(){
 int AnaEff::Selection(int indexcandidate){
 	bool yoy = false;
 	
-	if(track_ias_ampl[hscp_track_idx[indexcandidate]] > 0.2){ 
+	if(track_ias_ampl[hscp_track_idx[indexcandidate]] > 0.1){ 
 			yoy = true;
 			return indexcandidate;
 		}
