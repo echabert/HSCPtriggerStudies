@@ -210,15 +210,15 @@ void AnaEff::Loop()
 
 	//DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 
-	DISTRIB_MET_pt = new TH2D("DISTRIB_MET_pt", "Met vs pt", 600,0,4000,600,0,4000);
+	DISTRIB_MET_pt = new TH2D("DISTRIB_MET_pt", "Met vs pt", 600, 0, 4000, 600, 0, 4000);
 	DISTRIB_MET_pt->GetXaxis()->SetTitle("Reco MET [GeV]");
 	DISTRIB_MET_pt->GetYaxis()->SetTitle("Pt [GeV]");
 
-	DISTRIB_MET_eta = new TH2D("DISTRIB_MET_eta", "Met vs eta", 100,-2.1,2.1,600,0,4000);
+	DISTRIB_MET_eta = new TH2D("DISTRIB_MET_eta", "Met vs eta", 100, -2.1, 2.1, 600, 0, 4000);
 	DISTRIB_MET_eta->GetXaxis()->SetTitle("Reco MET [GeV]");
 	DISTRIB_MET_eta->GetYaxis()->SetTitle("Eta");
 
-	DISTRIB_MET_iso = new TH2D("DISTRIB_MET_iso", "Met vs iso", 100,0,8,600,0,4000);
+	DISTRIB_MET_iso = new TH2D("DISTRIB_MET_iso", "Met vs iso", 100, 0, 8, 600, 0, 4000);
 	DISTRIB_MET_iso->GetXaxis()->SetTitle("Reco MET [GeV]");
 	DISTRIB_MET_iso->GetYaxis()->SetTitle("iso");
 
@@ -352,6 +352,7 @@ void AnaEff::Loop()
 				DISTRIB_MET_pt->Fill(pfmet_pt[0], track_pt[hscp_track_idx[indexcandidatesel]]);
 
 				DISTRIB_METSEL->Fill(pfmet_pt[0]);
+
  				AssoGenId(indexcandidatesel);
 		
 				DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidatesel]]);
