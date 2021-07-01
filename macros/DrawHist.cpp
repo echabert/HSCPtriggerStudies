@@ -63,8 +63,8 @@ void DrawHist::FitSignalBg(){
 	string ErrorEff = "Error";
 	string LogOr = "LogicalOrall";
 	string DistribZ = "DistribZpeak";
-	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Preselec/Eff/"; // /PreselAndSel/Selec/Loose/Eff//
-	string PathPoverM = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Preselec/" ;
+	string Path = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Selec/Loose/Eff/"; // /PreselAndSel/Selec/Loose/Eff//
+	string PathPoverM = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/" + DataType + "/PreselAndSel/Selec/Loose/Eff/" ;
 	
 	string OutPutName = Path + Purity + DataType + Date + SubNum + ExtTxt;
 
