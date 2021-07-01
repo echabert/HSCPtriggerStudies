@@ -204,6 +204,15 @@ void AnaEff::Loop()
 	DISTRIB_MET->GetXaxis()->SetTitle("MET (GeV)");
 	DISTRIB_MET->GetYaxis()->SetTitle("# HSCP");
 
+
+	DISTRIB_MET_CHCH = new TH1D ("DISTRIB_MET_CHCH", " ( MET CHCH) " , 100,0,4000);
+	DISTRIB_MET_CHCH->GetXaxis()->SetTitle("MET (GeV)");
+	DISTRIB_MET_CHCH->GetYaxis()->SetTitle("# HSCP");
+
+	DISTRIB_MET_CHN = new TH1D ("DISTRIB_MET_CHN", " ( MET CHN) " , 100,0,4000);
+	DISTRIB_MET_CHN->GetXaxis()->SetTitle("MET (GeV)");
+	DISTRIB_MET_CHN->GetYaxis()->SetTitle("# HSCP");
+
 	//DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 
 	DISTRIB_MET_pt = new TH2D("DISTRIB_MET_pt", "Met vs pt", 600, 0, 4000, 600, 0, 4000);
@@ -244,6 +253,8 @@ void AnaEff::Loop()
 	DISTRIB_METSEL->Sumw2();
 	DISTRIB_PT1_PT2->Sumw2();
 
+	DISTRIB_MET_CHN->Sumw2();
+	DISTRIB_MET_CHCH->Sumw2();
 
 	DISTRIB_MET->Sumw2();
 	DISTRIB_MET_pt->Sumw2();
@@ -460,7 +471,9 @@ void AnaEff::Loop()
 	DISTRIB_METNOSEL->Write();
 	DISTRIB_METPRESEL->Write();
 	DISTRIB_METSEL->Write();
-	
+	DISTRIB_MET_CHCH->Write();
+	DISTRIB_MET_CHN->Write();
+
 	DISTRIB_POVERMASSO1->Write();
 	DISTRIB_POVERMASSO2->Write();
 
@@ -857,7 +870,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 		//cout << " charged + neutral " << endl;
 		double p1 = gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]);
 		double p2 = gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]);
-
+		DISTRIB_MET_CHN->Fill(pfmet_pt[0]);
 		//cout << " p1 = " << p1 << " , p2 = " << p2 << endl;
 		double deltatranfr1chn = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 		double finaldeltachn1 = deltaR(deltatranfr1chn);
@@ -902,7 +915,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 		//cout << "charged + charged " << endl;
 		double p1chch = (gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]));
 		double p2chch = (gen_pt[candidatesrh[candidatesrh.size()-2]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-2]]));
-
+		DISTRIB_MET_CHCH->Fill(pfmet_pt[0]);
 		DISTRIB_P1MP2CHCH->Fill((2*(p1chch-p2chch))/(p1chch+p2chch));
 
 		DISTRIB_PT1_PT2->Fill(gen_pt[candidatesrh[candidatesrh.size()-1]],gen_pt[candidatesrh[candidatesrh.size()-2]]);
