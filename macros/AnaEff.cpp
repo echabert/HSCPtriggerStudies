@@ -369,7 +369,7 @@ void AnaEff::Loop()
 
 				DISTRIB_METSEL->Fill(pfmet_pt[0]);
 
- 				AssoGenId(indexcandidatesel);
+ 				AssoGenId(indexcandidate);
 		
 				DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
 				DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
