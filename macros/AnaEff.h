@@ -198,6 +198,7 @@ private :
 
    TH1D* DISTRIB_PT;
    TH1D* DISTRIB_ETA;
+   TH1D* DISTRIB_ETA_DCH;
 
    TH1D* DISTRIB_IH;
    TH1D* DISTRIB_IHCHN;
@@ -268,6 +269,7 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	DISTRIB_METNOSEL=0;
 	DISTRIB_PT=0;
 	DISTRIB_ETA=0;
+	DISTRIB_ETA_DCH=0;
 
 	DISTRIB_IH=0;
 	DISTRIB_IHCHN=0;
@@ -345,6 +347,9 @@ AnaEff::~AnaEff() //deconstructeur
    	delete DISTRIB_POVERMASSO2;
    }
 
+   if(!DISTRIB_ETA_DCH){
+   	delete DISTRIB_ETA_DCH;
+   }
    if(!DISTRIB_MET_iso){
    	delete DISTRIB_MET_iso;
    }

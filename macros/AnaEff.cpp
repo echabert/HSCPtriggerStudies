@@ -119,6 +119,10 @@ void AnaEff::Loop()
 	DISTRIB_PT->GetXaxis()->SetTitle("PT [GeV/c*c]");
 	DISTRIB_PT->GetYaxis()->SetTitle("# HSCP");
  
+	DISTRIB_ETA_DCH = new TH1D("DISTRIB_ETA_DCH", "( ETA dch )", 100, -3, 3);
+	DISTRIB_ETA_DCH->GetXaxis()->SetTitle(" #eta ");
+	DISTRIB_ETA_DCH->GetYaxis()->SetTitle("# HSCP");
+
 	DISTRIB_P = new TH1D("DISTRIB_P", "( P )", 110,0,2550);
 	DISTRIB_P->GetXaxis()->SetTitle("Reco pf_MET[GeV/c*c]");
 	DISTRIB_P->GetYaxis()->SetTitle("# HSCP");
@@ -253,6 +257,7 @@ void AnaEff::Loop()
 	DISTRIB_METSEL->Sumw2();
 	DISTRIB_PT1_PT2->Sumw2();
 
+	DISTRIB_ETA_DCH->Sumw2();
 	DISTRIB_MET_CHN->Sumw2();
 	DISTRIB_MET_CHCH->Sumw2();
 
@@ -446,7 +451,7 @@ void AnaEff::Loop()
 	DISTRIB_P->Write();
 	DISTRIB_MET->Write();
 	DISTRIB_PT->Write();
-
+	DISTRIB_ETA_DCH->Write();
 	DISTRIB_IH->Write();
 	DISTRIB_IHCHN->Write();
 	DISTRIB_IHCHCH->Write();
@@ -839,7 +844,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 	
 			DISTRIB_IHDCH->Fill(track_ih_ampl[hscp_track_idx[indexcandidate]]);
 			DISTRIB_IASDCH->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
-			
+			DISTRIB_ETA_DCH->Fill(track_eta[hscp_track_idx[indexcandidate]]);
 		}
 
 		
