@@ -60,6 +60,8 @@ class DrawMet
    TGraphErrors* Test2Met;
    TGraphErrors* Test3Met;
 
+   TGraphErrors* MET_chch;
+   TGraphErrors* MET_chn;
 
    TF1* TotalMet;
 };

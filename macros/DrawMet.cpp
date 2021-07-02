@@ -102,7 +102,8 @@ void DrawMet::FitSignalMet(){
 	TempTr3Met = (TH1D*)gROOT->FindObject("DISTRIB_METSEL");
 	METCHCH = (TH1D*)gROOT->FindObject("DISTRIB_MET_CHCH");
 	METCHN = (TH1D*)gROOT->FindObject("DISTRIB_MET_CHN");
-
+	
+	double x0chch[100]={0}, y0chch[100]={0}, x0chn[100]={0}, y0chn[100]={0};
 
 	EffMetPre = new TH1D("EffMetPre", "( Eff Presel) ", 100,0,4000);
 
@@ -117,9 +118,9 @@ void DrawMet::FitSignalMet(){
 	for(int i = 0; i < 100 ; i++){
 		xeffprevsno[i] = i*40;
 		double s = TempTrMet->GetBinContent(i);
-		cout << " no sel bin " << i << " : " << s << endl;
+		//cout << " no sel bin " << i << " : " << s << endl;
 		double t = TempTr2Met->GetBinContent(i);
-		cout << " presel bin " << i << " : " << t << endl;
+		//cout << " presel bin " << i << " : " << t << endl;
 		double k = TempTr3Met->GetBinContent(i);
 		if(s!=0){
 			effprevsno[i] = t*1.0/s;
@@ -130,13 +131,82 @@ void DrawMet::FitSignalMet(){
 			effselvsno[i] = effselvsno[i-1];
 		}
 
-		cout << "presel vs nosel " << effprevsno[i] << endl;	
-		cout << "sel vs no sel " << effselvsno[i] << endl;
+		//cout << "presel vs nosel " << effprevsno[i] << endl;	
+		//cout << "sel vs no sel " << effselvsno[i] << endl;
 
 		
 		EffMetPre->SetBinContent(i,effprevsno[i]);
 		EffMetSel->SetBinContent(i,effselvsno[i]);
 	}
+	
+
+	Double_t scalemetchn = (1.0/METCHN->Integral());
+	Double_t scalemetchch = (1.0/METCHCH->Integral());
+	cout << "scale ch n : " << scalemetchn << " and ch ch : " << scalemetchch << endl;
+	METCHN->Scale(scalemetchn);
+	METCHCH->Scale(scalemetchch);
+
+	int s=0;
+	for(int i=0; i<100;i++){
+		s=i*40;
+		y0chch[i] = METCHCH->GetBinContent(i);
+
+		x0chch[i] = s;
+
+		y0chn[i] = METCHN->GetBinContent(i);
+
+		x0chn[i] = s;
+	
+	}
+	auto c2 = new TCanvas("c2","Distrib MET different scenarios",1300,700);
+	c2->SetTitle("Efficiency MET vs selections");
+	TLegend* leg2 = new TLegend(0.7, 0.8, .5, .6);
+
+	TMultiGraph *mg2 = new TMultiGraph();
+	
+
+	MET_chch = new TGraphErrors(100, x0chch, y0chch);
+	MET_chch->SetLineColor(8);
+	MET_chch->SetLineStyle(1);
+	MET_chch->SetLineWidth(1);
+	//Test[0]->Fit(MyTf1[0],"q");
+	MET_chch->SetMarkerColor(8);
+   	MET_chch->SetMarkerStyle(49);
+	MET_chch->SetMarkerSize(2);
+	
+	leg2->AddEntry(MET_chch,"charged-charged Reco pf MET");
+	mg2->Add(MET_chch,"p");
+	c2->Modified();
+	c2->Update();
+
+	MET_chn = new TGraphErrors(100, x0chn, y0chn);
+	MET_chn->SetLineColor(7);
+	MET_chn->SetLineStyle(1);
+	MET_chn->SetLineWidth(1);
+	//Test[0]->Fit(MyTf1[0],"q");
+	MET_chn->SetMarkerColor(7);
+   	MET_chn->SetMarkerStyle(49);
+	MET_chn->SetMarkerSize(2);
+	
+	leg2->AddEntry(MET_chn,"charged-neutral Reco pf MET");
+	mg2->Add(MET_chn,"p");
+	c2->Modified();
+	c2->Update();
+
+
+	mg2->Draw("a");
+	c2->Update();
+	c2->Modified();
+	mg2->GetXaxis()->SetTitle("Reco MET [GeV]");
+	mg2->GetYaxis()->SetTitle("Efficiency");
+	//mg2->GetYaxis()->SetRange(0,1.1);
+	mg2->GetHistogram()->SetTitle("Efficiency of various selections");
+	
+	c2->cd();
+	c2->GetFrame()->SetBorderSize(12);
+	leg2->SetBorderSize(0);
+	leg2->Draw("p");
+
 
 	Double_t scalenosel = (1.0/TempTrMet->Integral());
 	Double_t scalepresel = (1.0/TempTr2Met->Integral());
@@ -213,6 +283,7 @@ void DrawMet::FitSignalMet(){
 	
 	OutputHistoMet->cd();
 	c->Write();
+	c2->Write();
 	EffMetPre->Write();
 	EffMetSel->Write();
 	OutputHistoMet->Close();
