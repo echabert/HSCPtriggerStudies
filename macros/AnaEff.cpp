@@ -360,29 +360,29 @@ void AnaEff::Loop()
 
 			DISTRIB_METPRESEL->Fill(pfmet_pt[0]);
 			indexcandidatesel = Selection(indexcandidate);
-			if(indexcandidatesel != 64){
+			//if(indexcandidatesel != 64){
 				
 
-				DISTRIB_MET_iso->Fill(hscp_iso2_tk[indexcandidatesel],pfmet_pt[0]);
-				DISTRIB_MET_eta->Fill(track_eta[hscp_track_idx[indexcandidatesel]],pfmet_pt[0]);
-				DISTRIB_MET_pt->Fill(track_pt[hscp_track_idx[indexcandidatesel]],pfmet_pt[0]);
+				DISTRIB_MET_iso->Fill(hscp_iso2_tk[indexcandidate],pfmet_pt[0]);
+				DISTRIB_MET_eta->Fill(track_eta[hscp_track_idx[indexcandidate]],pfmet_pt[0]);
+				DISTRIB_MET_pt->Fill(track_pt[hscp_track_idx[indexcandidate]],pfmet_pt[0]);
 
 				DISTRIB_METSEL->Fill(pfmet_pt[0]);
 
  				AssoGenId(indexcandidatesel);
 		
-				DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidatesel]]);
-				DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidatesel]]);
+				DISTRIB_PT->Fill(track_pt[hscp_track_idx[indexcandidate]]);
+				DISTRIB_IAS->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
 			
-				HighestPT = track_pt[hscp_track_idx[indexcandidatesel]];
+				HighestPT = track_pt[hscp_track_idx[indexcandidate]];
 				HighestMET = pfmet_pt[0];
 
 					
 
 				//cout << " MET : " << HighestMET << endl;
 
-				HighestP = track_p[hscp_track_idx[indexcandidatesel]];
-				POVERMBG = (track_p[hscp_track_idx[indexcandidatesel]] *1.0/ TheorMass);
+				HighestP = track_p[hscp_track_idx[indexcandidate]];
+				POVERMBG = (track_p[hscp_track_idx[indexcandidate]] *1.0/ TheorMass);
 				DISTRIB_P->Fill(HighestP);
 				DISTRIB_POVERM->Fill(POVERMBG);
 				if(HighestMET > 5 ){
@@ -415,7 +415,7 @@ void AnaEff::Loop()
 				}
 				passedevent+=1;
 				trigEff_selection_obs.FillNoMap2(PosPass,HighestMET,1);
-			}					
+			//}					
 		}
 	}
 	cout << "After loop nentries" << endl;
