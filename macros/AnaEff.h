@@ -205,6 +205,8 @@ private :
    TH1D* DISTRIB_IHCHCH;
    TH1D* DISTRIB_IHDCH;
 
+   TH1D* DISTRIB_NB_RHADRONS;
+
    TH1D* DISTRIB_P;
 
    TH1D* DISTRIB_IAS;
@@ -270,6 +272,8 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	DISTRIB_PT=0;
 	DISTRIB_ETA=0;
 	DISTRIB_ETA_DCH=0;
+
+	DISTRIB_NB_RHADRONS=0;
 
 	DISTRIB_IH=0;
 	DISTRIB_IHCHN=0;
@@ -457,7 +461,9 @@ AnaEff::~AnaEff() //deconstructeur
    	delete DISTRIB_IH_IAS;
    }
 
-
+   if(!DISTRIB_NB_RHADRONS){
+   	delete DISTRIB_NB_RHADRONS;
+   }
    //delete[] passTrigger;
 }
 

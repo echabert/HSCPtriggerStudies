@@ -217,13 +217,17 @@ void AnaEff::Loop()
 	DISTRIB_MET_CHN->GetXaxis()->SetTitle("MET (GeV)");
 	DISTRIB_MET_CHN->GetYaxis()->SetTitle("# HSCP");
 
+	DISTRIB_NB_RHADRONS = new TH1D ("DISTRIB_NB_RHADRONS" , " ( nb r hadrons (all scenarios) )", 6,0,4);
+	DISTRIB_NB_RHADRONS->GetXaxis()->SetTitle("# R-hadrons");
+	DISTRIB_NB_RHADRONS->GetYaxis()->SetTitle("# events");
+
 	//DISTRIB_IH_IAS = new TH2D("DISTRIB_IH_IAS", "IH ( IAS ) ", 100 , 0 , 1.2 , 100, 0 , 8 );
 
 	DISTRIB_MET_pt = new TH2D("DISTRIB_MET_pt", "Met vs pt", 600, 0, 4000, 600, 0, 4000);
 	DISTRIB_MET_pt->GetYaxis()->SetTitle("Reco MET [GeV]");
 	DISTRIB_MET_pt->GetXaxis()->SetTitle("Pt [GeV]");
 
-
+	
 
 	DISTRIB_MET_pt_CHCH = new TH2D("DISTRIB_MET_pt_CHCH", "Met vs pt chch", 600, 0, 4000, 600, 0, 4000);
 	DISTRIB_MET_pt_CHCH->GetYaxis()->SetTitle("Reco MET [GeV]");
@@ -261,6 +265,8 @@ void AnaEff::Loop()
 
 	DISTRIB_POVERMASSO1->Sumw2();
 	DISTRIB_POVERMASSO2->Sumw2();
+
+	DISTRIB_NB_RHADRONS->Sumw2();
 
 	DISTRIB_METNOSEL->Sumw2();
 	DISTRIB_METPRESEL->Sumw2();
@@ -470,6 +476,7 @@ void AnaEff::Loop()
 	DISTRIB_IHCHCH->Write();
 	DISTRIB_IHDCH->Write();
 
+	DISTRIB_NB_RHADRONS->Write();
 	DISTRIB_IAS->Write();
 	DISTRIB_IASCHN->Write();
 	DISTRIB_IASCHCH->Write();
@@ -843,8 +850,8 @@ void AnaEff::AssoGenId(int indexcandidate){
 			}
 		}
 	}
-
-	
+	DISTRIB_NB_RHADRONS->Fill(candidatesrh.size() + candidatesneutral.size() + candidatesdoublech.size());
+	cout << " Number of HSCP (charged + neutral + double charged) " << candidatesrh.size() + candidatesneutral.size() + candidatesdoublech.size() << endl;
 	bool alo = false,alo2=false;
 
 
