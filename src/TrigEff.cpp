@@ -216,7 +216,7 @@ void TrigEff::LoadNoMap(const vector<string> &triggerNames, const vector<string>
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Reco pf_MET [GeV];#epsilon",100,0,600);
 			}
 			else if(NameVar=="Gluino1800"){
-				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Reco pf_MET [GeV];#epsilon",100,0,600);
+				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Reco pf_MET [GeV];#epsilon",100,0,2000);
 			}
 			else if(NameVar=="Gluino2000"){
 				EffvsObs[j] = new TEfficiency("Eff","Efficiency;Reco pf_MET [GeV];#epsilon",100,0,600);

@@ -223,6 +223,16 @@ void AnaEff::Loop()
 	DISTRIB_MET_pt->GetYaxis()->SetTitle("Reco MET [GeV]");
 	DISTRIB_MET_pt->GetXaxis()->SetTitle("Pt [GeV]");
 
+
+
+	DISTRIB_MET_pt_CHCH = new TH2D("DISTRIB_MET_pt_CHCH", "Met vs pt chch", 600, 0, 4000, 600, 0, 4000);
+	DISTRIB_MET_pt_CHCH->GetYaxis()->SetTitle("Reco MET [GeV]");
+	DISTRIB_MET_pt_CHCH->GetXaxis()->SetTitle("Pt [GeV]");
+
+	DISTRIB_MET_pt_CHN = new TH2D("DISTRIB_MET_pt_CHN", "Met vs pt chn", 600, 0, 4000, 600, 0, 4000);
+	DISTRIB_MET_pt_CHN->GetYaxis()->SetTitle("Reco MET [GeV]");
+	DISTRIB_MET_pt_CHN->GetXaxis()->SetTitle("Pt [GeV]");
+
 	DISTRIB_MET_eta = new TH2D("DISTRIB_MET_eta", "Met vs eta", 100, -2.1, 2.1, 600, 0, 4000);
 	DISTRIB_MET_eta->GetYaxis()->SetTitle("Reco MET [GeV]");
 	DISTRIB_MET_eta->GetXaxis()->SetTitle("Eta");
@@ -263,6 +273,9 @@ void AnaEff::Loop()
 
 	DISTRIB_MET->Sumw2();
 	DISTRIB_MET_pt->Sumw2();
+	DISTRIB_MET_pt_CHCH->Sumw2();
+	DISTRIB_MET_pt_CHN->Sumw2();
+
 	DISTRIB_MET_eta->Sumw2();
 	DISTRIB_MET_iso->Sumw2();
 	DISTRIB_P->Sumw2();
@@ -470,6 +483,8 @@ void AnaEff::Loop()
 	DISTRIB_MET_iso->Write();
 	DISTRIB_MET_eta->Write();
 	DISTRIB_MET_pt->Write();
+	DISTRIB_MET_pt_CHCH->Write();
+	DISTRIB_MET_pt_CHN->Write();
 
 	DISTRIB_POVERM->Write();
 	DISTRIB_PT1_PT2->Write();
@@ -530,9 +545,9 @@ int AnaEff::Preselection(){
 		if( track_qual[hscp_track_idx[ihs]] < 2 ){//?
 			yon=false;
 		}
-		if(track_ias_ampl[hscp_track_idx[ihs]] < 0.8){ 
+		/*if(track_ias_ampl[hscp_track_idx[ihs]] < 0.8){ 
 			yon = false;
-		}
+		}*/
 		
 		if(yon){
 			positions.push_back(ihs); 
@@ -878,6 +893,7 @@ void AnaEff::AssoGenId(int indexcandidate){
 		double p1 = gen_pt[candidatesrh[candidatesrh.size()-1]] * cosh(gen_eta[candidatesrh[candidatesrh.size()-1]]);
 		double p2 = gen_pt[candidatesneutral[candidatesneutral.size()-1]] * cosh(gen_eta[candidatesneutral[candidatesneutral.size()-1]]);
 		DISTRIB_MET_CHN->Fill(pfmet_pt[0]);
+		
 		//cout << " p1 = " << p1 << " , p2 = " << p2 << endl;
 		double deltatranfr1chn = deltaR2(track_eta[hscp_track_idx[indexcandidate]], track_phi[hscp_track_idx[indexcandidate]], gen_eta[candidatesrh[candidatesrh.size()-1]], gen_phi[candidatesrh[candidatesrh.size()-1]]);
 		double finaldeltachn1 = deltaR(deltatranfr1chn);
@@ -889,15 +905,16 @@ void AnaEff::AssoGenId(int indexcandidate){
 
 		if(finaldeltachn1 < 0.3 || finaldeltachn2 < 0.3){
 			alo=true;
-			//if(finaldelta1chn < finaldelta2chn ){
+			if(finaldeltachn1 < finaldeltachn2 ){
 				DISTRIB_IHCHN->Fill(track_ih_ampl[hscp_track_idx[indexcandidate]]);
 				DISTRIB_IASCHN->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
 				DISTRIB_P1_P2_CHN->Fill(p1,p2);
-			//}
-			//else{
-				
+				DISTRIB_MET_pt_CHN->Fill(pfmet_pt[0], gen_pt[candidatesrh[candidatesrh.size()-1]]);
+			}
+			else{
+				DISTRIB_MET_pt_CHN->Fill(pfmet_pt[0], gen_pt[candidatesrh[candidatesneutral.size()-1]]);
 			
-			//}
+			}
 
 		}
 		/*else if ( finaldelta1chn < 0.3 && finaldelta2chn > 0.3){
@@ -945,13 +962,14 @@ void AnaEff::AssoGenId(int indexcandidate){
 			DISTRIB_IASCHCH->Fill(track_ias_ampl[hscp_track_idx[indexcandidate]]);
 			DISTRIB_P1_P2_CHCH->Fill(p1chch,p2chch);
 
+			
 
-			/*if(finaldelta1 < finaldelta2 ){
-				Psurm1 = poverm1;
+			if(finaldelta1 < finaldelta2 ){
+				DISTRIB_MET_pt_CHCH->Fill(pfmet_pt[0], gen_pt[candidatesrh[candidatesrh.size()-1]]);
 			}
 			else{
-				Psurm1 = poverm2;
-			}*/
+				DISTRIB_MET_pt_CHCH->Fill(pfmet_pt[0], gen_pt[candidatesrh[candidatesrh.size()-2]]);
+			}
 
 		}
 		/*else if ( finaldelta1 < 0.3 && finaldelta2 > 0.3){

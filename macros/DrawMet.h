@@ -40,6 +40,11 @@ class DrawMet
    TH1D* TempTr2Met;
    TH1D* TempTr3Met;
 
+
+   TH1D* METCHCH;
+   TH1D* METCHN;
+
+
    TH1D* EffMetPre;
    TH1D* EffMetSel;
 

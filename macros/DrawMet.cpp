@@ -33,6 +33,8 @@ DrawMet::DrawMet(){
 	TempTr3Met=0;
 	EffMetPre=0;
 	EffMetSel=0;
+	METCHCH=0;
+	METCHN=0;
 	/*for(int i=0; i < ListTriggers.size() ; i++){
 		EffvsObs[i]=0;
 	}*/
@@ -63,6 +65,15 @@ DrawMet::~DrawMet(){
 	if(!EffMetSel){
 		delete EffMetSel;
 	}
+	if(!METCHN){
+		delete METCHN;
+	}
+	if(!METCHCH){
+		delete METCHCH;
+	}
+
+
+
 }
 
 
@@ -71,14 +82,14 @@ void DrawMet::FitSignalMet(){
 	double effprevsno[400]= {0}, effselvsno[400]= {0};
 	double xeffprevsno[400] = {0}, xeffselvsno[400] = {0};
 
-	string filepathmet = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/New/Sel_Ias0.2/";
+	string filepathmet = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Ias0.20207/";
 	//string filepathmetpresel = "/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/New/;
 
 	string pointofmass,pointofmasssel,DataType="Gluino",Date = "1105", All = "all", ExtRoot = ".root",Distribz = "DistribZpeak";
 	
 	string PathPomMet = filepathmet + Distribz  + DataType + "1800" + Date + All + ExtRoot;
 
-	TString outputfilenamemet="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/New/Sel_Ias0.2/MetRatio.root";
+	TString outputfilenamemet="/home/raph/CMS/HSCPtriggerStudies/data/MergedMET/RENDU_5/Gluino/Ias0.20207/MetRatio.root";
 
 	OutputHistoMet = new TFile(outputfilenamemet,"RECREATE");
 
@@ -89,6 +100,9 @@ void DrawMet::FitSignalMet(){
 	TempTrMet = (TH1D*)gROOT->FindObject("DISTRIB_METNOSEL");
 	TempTr2Met = (TH1D*)gROOT->FindObject("DISTRIB_METPRESEL");
 	TempTr3Met = (TH1D*)gROOT->FindObject("DISTRIB_METSEL");
+	METCHCH = (TH1D*)gROOT->FindObject("DISTRIB_MET_CHCH");
+	METCHN = (TH1D*)gROOT->FindObject("DISTRIB_MET_CHN");
+
 
 	EffMetPre = new TH1D("EffMetPre", "( Eff Presel) ", 100,0,4000);
 

@@ -279,6 +279,8 @@ AnaEff::AnaEff(TTree *tree) : fChain(0) //constructeur
 	DISTRIB_MET_iso=0;
 	DISTRIB_MET_eta=0;
 	DISTRIB_MET_pt=0;
+	DISTRIB_MET_pt_CHCH=0;
+	DISTRIB_MET_pt_CHN=0;
 
 	DISTRIB_P=0;
 
@@ -360,6 +362,12 @@ AnaEff::~AnaEff() //deconstructeur
    	delete DISTRIB_MET_pt;
    }
 
+   if(!DISTRIB_MET_pt_CHCH){
+   	delete DISTRIB_MET_pt_CHCH;
+   }
+   if(!DISTRIB_MET_pt_CHN){
+   	delete DISTRIB_MET_pt_CHN;
+   }
    if(!DISTRIB_P1_P2){
    	delete DISTRIB_P1_P2;
    }
