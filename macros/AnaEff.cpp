@@ -525,7 +525,7 @@ int AnaEff::Preselection(){
 		if( track_qual[hscp_track_idx[ihs]] < 2 ){//?
 			yon=false;
 		}
-		if(track_ias_ampl[hscp_track_idx[indexcandidate]] < 0.8){ 
+		if(track_ias_ampl[hscp_track_idx[ihs]] < 0.8){ 
 			yon = false;
 		}
 		
